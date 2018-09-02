@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 
-final class ValidationErrorResponse implements Response
+namespace Api\ApiV1Bundle;
+
+final class BadRequestResponse implements JsonResponse
 {
     private $errors;
 

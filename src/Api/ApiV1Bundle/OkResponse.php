@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 
-final class OkResponse implements Response
+namespace Api\ApiV1Bundle;
+
+final class OkResponse implements JsonResponse
 {
     private $data;
 
