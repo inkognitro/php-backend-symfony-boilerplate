@@ -2,7 +2,7 @@
 
 namespace Api\ApiV1Bundle;
 
-interface JsonResponse
+interface JsonResponse extends Response
 {
     public function toJson(): string;
 }

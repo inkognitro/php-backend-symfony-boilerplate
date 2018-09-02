@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4feb0b2-f45e-4646-a696-581fc6ee09de" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/api/ApiV1Bundle/OkResponse.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/api/ApiV1Bundle/Response.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/api/ApiV1Bundle/ValidationErrorResponse.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/api/ApiV1Bundle/services.yml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Controller/.gitignore" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/api/ApiV1Bundle/OkResponse.php" afterPath="$PROJECT_DIR$/src/Api/ApiV1Bundle/OkResponse.php" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/api/ApiV1Bundle/ValidationErrorResponse.php" afterPath="$PROJECT_DIR$/src/Api/ApiV1Bundle/BadRequestResponse.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Api/ApiV1Bundle/ApiV1Controller.php" afterPath="$PROJECT_DIR$/src/Api/ApiV1Bundle/ApiV1Controller.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,14 +13,44 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ApiV1Controller.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Api/ApiV1Bundle/ApiV1Controller.php">
+      <file leaf-file-name="AuthController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Api/ApiV1Bundle/Auth/AuthController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="23" column="5" lean-forward="true" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
+            <state relative-caret-position="170">
+              <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AbstractController.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Api/ApiV1Bundle/AbstractController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
               <folding>
                 <element signature="e#60#105#0#PHP" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Response.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Api/ApiV1Bundle/Response.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JsonResponse.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Api/ApiV1Bundle/JsonResponse.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="7" column="1" lean-forward="true" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -100,8 +123,14 @@
         <option value="$PROJECT_DIR$/src/ApiV1Bundle/NotFoundResponse.php" />
         <option value="$PROJECT_DIR$/src/ApiV1Bundle/Controller.php" />
         <option value="$PROJECT_DIR$/src/Api/routes.yml" />
-        <option value="$PROJECT_DIR$/src/Api/ApiV1Bundle/Controller.php" />
         <option value="$PROJECT_DIR$/src/Api/ApiV1Bundle/ApiV1Controller.php" />
+        <option value="$PROJECT_DIR$/src/Api/ApiV1Bundle/Response.php" />
+        <option value="$PROJECT_DIR$/src/Api/ApiV1Bundle/JsonResponse.php" />
+        <option value="$PROJECT_DIR$/src/Api/ApiV1Bundle/BadRequestResponse.php" />
+        <option value="$PROJECT_DIR$/src/Api/ApiV1Bundle/Controller.php" />
+        <option value="$PROJECT_DIR$/src/Api/ApiV1Bundle/Auth/AuthController.php" />
+        <option value="$PROJECT_DIR$/src/Api/ApiV1Bundle/ResponseNotSupportedException.php" />
+        <option value="$PROJECT_DIR$/src/Api/ApiV1Bundle/AbstractController.php" />
       </list>
     </option>
   </component>
@@ -181,6 +210,8 @@
       <recent name="O:\XAMPP\htdocs\symfonyApi\src\ApiV1Bundle" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="O:\XAMPP\htdocs\symfonyApi\src\Api\ApiV1Bundle" />
+      <recent name="O:\XAMPP\htdocs\symfonyApi\src\Api\ApiV1Bundle\Auth" />
       <recent name="O:\XAMPP\htdocs\symfonyApi\src\ApiV1Bundle" />
       <recent name="O:\XAMPP\htdocs\symfonyApi\src\Controller" />
       <recent name="O:\XAMPP\htdocs\symfonyApi\api\ApiV1Bundle" />
@@ -211,18 +242,17 @@
       <workItem from="1535572437522" duration="2159000" />
       <workItem from="1535577630484" duration="1052000" />
       <workItem from="1535907987506" duration="20000" />
-      <workItem from="1535908158205" duration="7937000" />
+      <workItem from="1535908158205" duration="10197000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11168000" />
+    <option name="totallyTimeSpent" value="13428000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2857143" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -428,14 +458,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Api/ApiV1Bundle/BadRequestResponse.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="10" lean-forward="false" selection-start-line="2" selection-start-column="10" selection-end-line="2" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Api/routing.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
@@ -460,18 +482,58 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Api/ApiV1Bundle/JsonResponse.php">
+    <entry file="file://$PROJECT_DIR$/src/Api/ApiV1Bundle/AbstractController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="26" lean-forward="false" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="26" />
+        <state relative-caret-position="153">
+          <caret line="9" column="4" lean-forward="true" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Api/ApiV1Bundle/ApiV1Controller.php">
+    <entry file="file://$PROJECT_DIR$/src/Api/ApiV1Bundle/Response.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="5" lean-forward="true" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
+        <state relative-caret-position="102">
+          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Api/ApiV1Bundle/JsonResponse.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="1" lean-forward="true" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Api/ApiV1Bundle/BadRequestResponse.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="34" lean-forward="true" selection-start-line="10" selection-start-column="34" selection-end-line="10" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Api/ApiV1Bundle/Auth/AuthController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Api/ApiV1Bundle/ResponseNotSupportedException.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="14" lean-forward="false" selection-start-line="4" selection-start-column="14" selection-end-line="4" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Api/ApiV1Bundle/AbstractController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
           <folding>
             <element signature="e#60#105#0#PHP" expanded="true" />
           </folding>

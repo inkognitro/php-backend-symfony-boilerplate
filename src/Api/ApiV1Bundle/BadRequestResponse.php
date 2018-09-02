@@ -4,20 +4,20 @@ namespace Api\ApiV1Bundle;
 
 final class BadRequestResponse implements JsonResponse
 {
-    private $errors;
+    private $message;
 
-    private function __construct(array $errors)
+    private function __construct(string $message)
     {
-        $this->errors = $errors;
+        $this->message = $message;
     }
 
-    public static function createFromErrors(array $errors): self
+    public static function createFromMessage(string $message): self
     {
-        return new self($errors);
+        return new self($message);
     }
 
     public function toJson(): string
     {
-        return json_encode($this->errors);
+        return json_encode($this->message);
     }
 }
