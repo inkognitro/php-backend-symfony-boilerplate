@@ -1,18 +1,20 @@
 <?php declare(strict_types=1);
 
-namespace Api\ApiV1Bundle;
+namespace App\Api\ApiV1Bundle\Auth;
 
+use App\Api\ApiV1Bundle\AbstractController;
+use App\Api\ApiV1Bundle\Response;
 use Symfony\Component\HttpFoundation\Request;
 
-abstract class Controller extends AbstractController
+final class AuthController extends AbstractController
 {
-    protected function handleGet(Request $request): Response
+    protected function get(Request $request): Response
     {
-
+        return $this->getBadRequestResponse();
     }
 
-    protected function handlePost(Request $request): Response
+    protected function post(Request $request): Response
     {
-
+        return $this->getBadRequestResponse();
     }
 }

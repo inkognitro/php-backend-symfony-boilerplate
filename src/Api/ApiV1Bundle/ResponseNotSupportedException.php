@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Api\ApiV1Bundle;
+namespace App\Api\ApiV1Bundle;
 
 use Exception;
 
