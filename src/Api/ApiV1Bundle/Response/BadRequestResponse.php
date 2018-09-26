@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Api\ApiV1Bundle;
+namespace App\Api\ApiV1Bundle\Response;
 
 final class BadRequestResponse implements JsonResponse
 {
@@ -18,6 +18,6 @@ final class BadRequestResponse implements JsonResponse
 
     public function toJson(): string
     {
-        return json_encode($this->message);
+        return json_encode(['message' => $this->message]);
     }
 }

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Api\ApiV1Bundle;
+namespace App\Api\ApiV1Bundle\Response;
 
 final class OkResponse implements JsonResponse
 {
@@ -18,6 +18,6 @@ final class OkResponse implements JsonResponse
 
     public function toJson(): string
     {
-        return json_encode($this->data);
+        return json_encode(['data' => $this->data]);
     }
 }

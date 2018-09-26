@@ -1,4 +1,0 @@
-# config/routes.yaml
-api_v1:
-    path: /api/v1/{path}
-    controller: ApiV1Bundle\Controller::handle

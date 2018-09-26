@@ -1,3 +1,5 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+ApiV1Bundle:
+    path: /api/v1/{path}
+    controller: App\Api\ApiV1Bundle\Controller::handle
+    defaults:
+      path: ''
