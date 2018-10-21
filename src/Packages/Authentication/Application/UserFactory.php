@@ -29,4 +29,10 @@ final class UserFactory
         }
         return new User($user['id'], $user['role']);
     }
+
+    public function createFromJsonWebToken(string $jsonWebToken): User
+    {
+        //todo: validate JWT and use createFromUserId
+        return $this->createGuestUser();
+    }
 }
