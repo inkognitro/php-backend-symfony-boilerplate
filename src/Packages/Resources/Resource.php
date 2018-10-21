@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace App\Resources;
+namespace App\Packages\Resources;
 
 use \App\Packages\Authentication\Application\User;
-use App\Resources\Property\Properties;
+use App\Packages\Resources\Property\Properties;
 
 interface Resource
 {

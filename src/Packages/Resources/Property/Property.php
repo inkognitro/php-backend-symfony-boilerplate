@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Resources\Property;
-
-use App\Resources\Validation\ValidationRules;
+namespace App\Packages\Resources\Property;
 
 final class Property
 {
@@ -18,7 +16,7 @@ final class Property
     private $defaultValue;
 
     /** @param $defaultValue mixed */
-    private function __construct(string $name, string $type, ValidationRules $validationRules, $defaultValue = null)
+    public function __construct(string $name, string $type, array $validationRules, $defaultValue = null)
     {
         $this->name = $name;
         $this->type = $type;
@@ -36,7 +34,7 @@ final class Property
         return $this->type;
     }
 
-    public function getValidationRules(): ValidationRules
+    public function getValidationRules(): array
     {
         return $this->validationRules;
     }

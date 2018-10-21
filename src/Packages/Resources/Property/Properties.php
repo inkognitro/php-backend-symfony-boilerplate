@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Resources\Property;
+namespace App\Packages\Resources\Property;
 
 final class Properties
 {
