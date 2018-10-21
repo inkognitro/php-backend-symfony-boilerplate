@@ -1,0 +1,5 @@
+ApiV1Bundle:
+    path: /blubb
+    controller: App\Api\ApiV1Bundle\Controller::handle
+    defaults:
+      path: ''

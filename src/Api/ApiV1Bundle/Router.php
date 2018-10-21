@@ -4,6 +4,7 @@ namespace App\Api\ApiV1Bundle;
 
 use App\Api\ApiV1Bundle\Response\BadRequestResponse;
 use App\Api\ApiV1Bundle\Response\JsonResponse;
+use App\Api\ApiV1Bundle\Response\NotAuthorizedResponse;
 use App\Api\ApiV1Bundle\Response\NotFoundResponse;
 use App\Api\ApiV1Bundle\Response\OkResponse;
 use App\Api\ApiV1Bundle\Response\Response;
@@ -15,7 +16,7 @@ final class Router
 {
     public function handle(string $path, Request $request): HttpResponse
     {
-        die($path);
+        die('path = ' . $path);
 
         //todo: generate api response and return it
 
@@ -28,6 +29,7 @@ final class Router
             OkResponse::class => HttpResponse::HTTP_OK,
             BadRequestResponse::class => HttpResponse::HTTP_BAD_REQUEST,
             NotFoundResponse::class => HttpResponse::HTTP_NOT_FOUND,
+            NotAuthorizedResponse::class => HttpResponse::HTTP_UNAUTHORIZED,
         ];
 
         $response = new HttpResponse();

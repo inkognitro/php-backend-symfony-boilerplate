@@ -1,5 +1,3 @@
 ApiV1Bundle:
-    path: /api/v1/{path}
-    controller: App\Api\ApiV1Bundle\Controller::handle
-    defaults:
-      path: ''
+    prefix: /api/v1
+    resource: '../src/Api/ApiV1Bundle/routes.yaml'
