@@ -2,7 +2,7 @@
 
 namespace App\Packages\Resources;
 
-use \App\Packages\Authentication\Application\User;
+use App\Packages\Authentication\Application\User;
 use App\Packages\Resources\Property\Properties;
 
 interface Resource
