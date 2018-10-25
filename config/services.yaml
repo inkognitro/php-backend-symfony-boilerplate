@@ -30,4 +30,4 @@ services:
     # please note that last definitions always *replace* previous ones
 
 imports:
-    - { resource: ../src/Packages/Authentication/services.yaml }
+    - { resource: ../src/Packages/services.yaml }

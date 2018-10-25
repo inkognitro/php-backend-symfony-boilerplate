@@ -2,43 +2,13 @@
 
 namespace App\Packages\Resources;
 
-use App\Packages\Authentication\Application\User as AuthUser;
-use App\Packages\Resources\Property\Properties;
 use App\Packages\Resources\Property\Property;
-use App\Packages\Resources\Validation\NotEmptyRule;
 
-final class User implements Resource
+final class User extends AbstractResource
 {
-    use ResourceTrait;
-
-    private const PROPERTIES = [
-        'uuid' => [
-            'type' => Property::UUID,
-            'validationRules' => [
-                NotEmptyRule::class
-            ]
-        ],
-        'username' => [
-            'type' => Property::TEXT,
-            'validationRules' => [
-                NotEmptyRule::class
-            ]
-        ],
-        'emailAddress' => [
-            'type' => Property::TEXT,
-            'validationRules' => [
-                NotEmptyRule::class
-            ]
-        ],
+    const PROPERTIES = [
+        'uuid' => Property::UUID,
+        'username' => Property::TEXT,
+        'emailAddress' => Property::EMAIL,
     ];
-
-    public function getReadablePropertiesByUser(AuthUser $user): Properties
-    {
-        return $this->getProperties();
-    }
-
-    public function getWritablePropertiesByUser(AuthUser $user): Properties
-    {
-        return $this->getProperties();
-    }
 }

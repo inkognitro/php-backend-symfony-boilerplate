@@ -3,4 +3,4 @@ services:
     autowire: true
 
   App\Packages\Application\UserByIdQuery:
-    resource: App\Packages\Authentication\DbalUserByIdQuery
+    class: App\Packages\Authentication\DbalUserByIdQuery

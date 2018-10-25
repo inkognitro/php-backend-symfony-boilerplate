@@ -5,8 +5,10 @@ namespace App\Packages\Resources;
 use App\Packages\Resources\Property\Properties;
 use App\Packages\Resources\Property\Property;
 
-trait ResourceTrait
+abstract class AbstractResource implements Resource
 {
+    private const PROPERTIES = [];
+
     public function getProperties(): Properties
     {
         $properties = [];
