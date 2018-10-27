@@ -2,6 +2,8 @@
 
 namespace App\Packages\Resources\Property;
 
+use App\Packages\Resources\Validation\Rules;
+
 final class Property
 {
     const UUID = 'uuid';
@@ -16,7 +18,7 @@ final class Property
     private $defaultValue;
 
     /** @param $defaultValue mixed */
-    public function __construct(string $name, string $type, array $validationRules, $defaultValue = null)
+    public function __construct(string $name, string $type, Rules $validationRules, $defaultValue = null)
     {
         $this->name = $name;
         $this->type = $type;
@@ -34,7 +36,7 @@ final class Property
         return $this->type;
     }
 
-    public function getValidationRules(): array
+    public function getValidationRules(): Rules
     {
         return $this->validationRules;
     }

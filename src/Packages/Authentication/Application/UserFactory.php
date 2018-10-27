@@ -2,6 +2,8 @@
 
 namespace App\Packages\Authentication\Application;
 
+use App\Packages\Common\Application\Authorization\User;
+
 final class UserFactory
 {
     private $userByIdQuery;

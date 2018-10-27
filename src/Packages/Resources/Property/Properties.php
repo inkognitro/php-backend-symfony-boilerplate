@@ -4,12 +4,19 @@ namespace App\Packages\Resources\Property;
 
 final class Properties
 {
+    private $resourceClassName;
     private $properties;
 
     /** @param $properties Property[] */
-    public function __construct(array $properties)
+    public function __construct(string $resourceClassName, array $properties)
     {
+        $this->resourceClassName = $resourceClassName;
         $this->properties = $properties;
+    }
+
+    public function getResourceClassName(): string
+    {
+        return $this->resourceClassName;
     }
 
     /** @return Property[] */

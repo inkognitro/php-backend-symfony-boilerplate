@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Resources\Validation\Rules;
+namespace App\Packages\Resources\Validation;
 
 final class Rules
 {
