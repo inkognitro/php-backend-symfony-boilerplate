@@ -2,19 +2,21 @@
 
 namespace App\Resources\Application\User;
 
-final class User
+use App\Resources\Application\Resource;
+
+final class User implements Resource
 {
-    private $savedRow;
+    private $persistedRow;
     private $id;
     private $username;
     private $emailAddress;
 
-    private function __construct(string $id, string $username, string $emailAddress, ?$savedRow)
+    private function __construct(string $id, string $username, string $emailAddress, ?array $persistedRow)
     {
         $this->id = $id;
         $this->username = $username;
         $this->emailAddress = $emailAddress;
-        $this->savedRow = $savedRow;
+        $this->persistedRow = $persistedRow;
     }
 
     public static function createFromArray(array $array): self
@@ -26,6 +28,14 @@ final class User
             $array['emailAddress'],
             $savedRow
         );
+    }
+
+    public function getLastPersisted(): ?self
+    {
+        if ($this->persistedRow === null) {
+            return null;
+        }
+        return self::createFromRow($this->persistedRow);
     }
 
     public static function createFromRow(array $row): self

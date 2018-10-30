@@ -6,6 +6,8 @@ final class User
 {
     public const GUEST_USER_ROLE = 'guest';
     public const SYSTEM_USER_ROLE = 'system';
+    public const ADMIN_USER_ROLE = 'admin';
+
     private $userId;
     private $role;
 
