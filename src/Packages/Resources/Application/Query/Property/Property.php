@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Resources\Property;
+namespace App\Packages\Resources\Application\Query\Property;
 
-use App\Packages\Resources\Validation\Rules;
+use App\Packages\Common\Application\Validation\Rules;
 
 final class Property
 {

@@ -1,0 +1,6 @@
+services:
+  _defaults:
+    autowire: true
+
+  App\Resources\Application\UserRepository:
+    class: App\Packages\Authentication\DbalUserRepository

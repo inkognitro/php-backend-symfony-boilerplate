@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Resources\Property;
+namespace App\Packages\Resources\Application\Query\Property;
 
 final class Properties
 {
@@ -23,5 +23,15 @@ final class Properties
     public function toCollection(): array
     {
         return $this->properties;
+    }
+
+    /** @return string[] */
+    public function getNames(): array
+    {
+        $names = [];
+        foreach($this->properties as $property) {
+            $names[] = $property->getName();
+        }
+        return $names;
     }
 }

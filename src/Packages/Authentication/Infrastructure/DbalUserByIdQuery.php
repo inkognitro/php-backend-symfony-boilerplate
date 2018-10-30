@@ -6,7 +6,7 @@ use App\Packages\Authentication\Application\UserByIdQuery;
 
 final class DbalUserByIdQuery implements UserByIdQuery
 {
-    public function execute(string $userId): ?array
+    public function execute(string $userId): ?array //todo: implement database query
     {
         return [
             'id' => $userId,

@@ -31,3 +31,4 @@ services:
 
 imports:
     - { resource: ../src/Packages/services.yaml }
+    - { resource: ../src/Resources/services.yaml }

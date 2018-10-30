@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Resources\Validation\Rule;
+namespace App\Packages\Common\Application\Validation\Rule;
 
-use App\Packages\Resources\Validation\Messages\Message;
-use App\Packages\Resources\Validation\Messages\MustNotBeEmptyMessage;
-use App\Packages\Resources\Validation\Rule;
+use App\Packages\Common\Application\Validation\Messages\Message;
+use App\Packages\Common\Application\Validation\Messages\MustNotBeEmptyMessage;
+use App\Packages\Common\Application\Validation\Rule;
 
 final class NotEmptyRule implements Rule
 {

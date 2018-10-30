@@ -1,25 +1,24 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Resources\Application\SaveResource;
+namespace App\Packages\Resources\Application\Command\SaveResources;
 
 use App\Packages\Common\Application\Authorization\User as AuthUser;
 use App\Packages\Common\Application\CommandHandling\HandlerResponse;
 use App\Packages\Common\Application\CommandHandling\HandlerResponse\SuccessResponse;
-use App\Packages\Resources\Application\PolicyEnforcementPoint;
 
-final class SaveResourceHandler
+final class SaveResourcesHandler
 {
-    private $pep;
+    private $validator;
 
-    public function __construct(PolicyEnforcementPoint $pep)
+    public function __construct(SaveResourcesValidator $validator)
     {
-        $this->pep = $pep;
+        $this->validator = $validator;
     }
 
-    public function handle(SaveResource $command, AuthUser $authUser): HandlerResponse
+    public function handle(SaveResources $command, AuthUser $authUser): HandlerResponse
     {
         if($this->pep->isUserAuthorizedToWriteProperties($command, $authUser)) {
-            
+
         }
         return new SuccessResponse();
     }

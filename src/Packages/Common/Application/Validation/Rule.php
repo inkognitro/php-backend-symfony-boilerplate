@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Resources\Validation;
+namespace App\Packages\Common\Application\Validation;
 
-use App\Packages\Resources\Validation\Messages\Message;
+use App\Packages\Common\Application\Validation\Messages\Message;
 
 interface Rule
 {
