@@ -6,4 +6,5 @@ interface Resource
 {
     public static function createFromRow(array $row);
     public function getLastPersisted();
+    public function toCommandData(): array;
 }

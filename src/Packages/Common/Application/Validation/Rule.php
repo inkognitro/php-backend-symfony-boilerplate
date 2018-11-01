@@ -2,10 +2,10 @@
 
 namespace App\Packages\Common\Application\Validation;
 
-use App\Packages\Common\Application\Validation\Messages\Message;
+use App\Packages\Common\Application\Validation\Message;
 
 interface Rule
 {
     /** @param $data mixed */
-    public function getValidationError($data): ?Message;
+    public function getMessageFromValidation($data): ?Message;
 }

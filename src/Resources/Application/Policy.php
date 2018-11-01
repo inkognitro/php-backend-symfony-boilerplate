@@ -6,5 +6,5 @@ use App\Packages\Common\Application\Authorization\User as AuthUser;
 
 interface Policy
 {
-    public function canEdit(AuthUser $authUser, Resource $resource, array $attributeNames);
+    public function canEdit(AuthUser $authUser, Resource $resource, array $attributeNames): bool;
 }

@@ -30,6 +30,30 @@ final class User implements Resource
         );
     }
 
+    public function change(array $data): void
+    {
+        if (isset($data['emailAddress'])) {
+            $this->emailAddress = $data['emailAddress'];
+        }
+        if (isset($data['username'])) {
+            $this->username = $data['username'];
+        }
+    }
+
+    public function isEqual(self $user): bool
+    {
+        if (strcasecmp($this->id, $user->id) !== 0) {
+            return false;
+        }
+        if ($this->username !== $user->username) {
+            return false;
+        }
+        if ($this->emailAddress !== $user->emailAddress) {
+            return false;
+        }
+        return true;
+    }
+
     public function getLastPersisted(): ?self
     {
         if ($this->persistedRow === null) {
@@ -61,5 +85,14 @@ final class User implements Resource
     public function getEmailAddress(): string
     {
         return $this->emailAddress;
+    }
+
+    public function toCommandData(): array
+    {
+        return [
+            'id' => $this->id,
+            'username' => $this->username,
+            'emailAddress' => $this->emailAddress
+        ];
     }
 }

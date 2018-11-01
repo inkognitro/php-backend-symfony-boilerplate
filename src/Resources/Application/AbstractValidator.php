@@ -2,28 +2,32 @@
 
 namespace App\Resources\Application;
 
-use App\Packages\Common\Application\Validation\Messages\Messages;
+use App\Packages\Common\Application\Validation\Messages\MessageBag;
 
 abstract class AbstractValidator
 {
     protected $errors;
     protected $warnings;
 
+    public function __construct()
+    {
+        $this->warnings = new MessageBag();
+        $this->errors = new MessageBag();
+    }
+
     public function validate(array $data): void
     {
-        $this->warnings = [];
-        $this->errors = [];
         $this->validateData($data);
     }
 
     protected abstract function validateData(array $data): void;
 
-    public function getWarnings(): Messages
+    public function getWarnings(): MessageBag
     {
         return $this->warnings;
     }
 
-    public function getErrors(): Messages
+    public function getErrors(): MessageBag
     {
         return $this->errors;
     }

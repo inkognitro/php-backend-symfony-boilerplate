@@ -2,12 +2,27 @@
 
 namespace App\Packages\Common\Application\Validation;
 
-use App\Packages\Common\Application\Validation\Messages\Message;
+use Symfony\Component\DependencyInjection\Container;
 
 final class Validator
 {
-    public function getMessageFromValidation(array $data, Rules $rules): ?Message
+    private $container;
+
+    public function __construct(Container $container)
     {
-        return null; //todo
+        $this->container = $container;
+    }
+
+    public function getMessageFromValidation(array $data, array $ruleClassNames): ?Message
+    {
+        foreach ($ruleClassNames as $ruleClassName) {
+            /** @var $rule Rule */
+            $rule = $this->container->get($ruleClassName);
+            $message = $rule->getMessageFromValidation($data);
+            if($message !== null) {
+                return $message;
+            }
+        }
+        return null;
     }
 }

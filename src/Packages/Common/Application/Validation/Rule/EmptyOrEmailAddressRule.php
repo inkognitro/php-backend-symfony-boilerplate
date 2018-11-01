@@ -2,14 +2,14 @@
 
 namespace App\Packages\Common\Application\Validation\Rule;
 
-use App\Packages\Common\Application\Validation\Messages\Message;
+use App\Packages\Common\Application\Validation\Message;
 use App\Packages\Common\Application\Validation\Messages\MustBeAnEmailAddressMessage;
 use App\Packages\Common\Application\Validation\Messages\MustBeAStringMessage;
 use App\Packages\Common\Application\Validation\Rule;
 
 final class EmptyOrEmailAddressRule implements Rule
 {
-    public function getValidationError($data): ?Message
+    public function getMessageFromValidation($data): ?Message
     {
         if(!is_string($data)) {
             return new MustBeAStringMessage();

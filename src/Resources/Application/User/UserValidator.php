@@ -11,10 +11,13 @@ use App\Resources\Application\AbstractValidator;
 final class UserValidator extends AbstractValidator
 {
     private $validator;
+    private $userRepository;
 
-    public function __construct(Validator $validator)
+    public function __construct(Validator $validator, UserRepository $userRepository)
     {
+        parent::__construct();
         $this->validator = $validator;
+        $this->userRepository = $userRepository;
     }
 
     protected function validateData(array $data): void
@@ -33,11 +36,11 @@ final class UserValidator extends AbstractValidator
                 EmptyOrEmailAddressRule::class,
             ],
         ];
-
-        foreach ($attributeToRulesMapping as $attributeName => $rules) {
+        
+        foreach ($attributeToRulesMapping as $errorKey => $rules) {
             $message = $this->validator->getMessageFromValidation($data, $rules);
             if ($message !== null) {
-                $this->errors[$attributeName] = $message;
+                $this->errors->addMessage($errorKey, $message);
             }
         }
     }

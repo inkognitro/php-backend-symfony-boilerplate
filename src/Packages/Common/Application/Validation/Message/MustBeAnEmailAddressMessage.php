@@ -2,6 +2,8 @@
 
 namespace App\Packages\Common\Application\Validation\Messages;
 
+use App\Packages\Common\Application\Validation\Message;
+
 final class MustBeAnEmailAddressMessage implements Message
 {
     public function getMessage(): string
