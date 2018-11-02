@@ -20,7 +20,7 @@ abstract class AbstractValidator
         $this->validateData($data);
     }
 
-    protected abstract function validateData(array $data): void;
+    protected abstract function validateData(array $dataToValidate): void;
 
     public function getWarnings(): MessageBag
     {

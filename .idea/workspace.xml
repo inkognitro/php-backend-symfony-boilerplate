@@ -2,10 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4feb0b2-f45e-4646-a696-581fc6ee09de" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Packages/Resources/Application/SaveResource/SaveResource.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Packages/Resources/Application/SaveResource/SaveResourceHandler.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Packages/Resources/Application/SaveResource/SaveResourcePep.php" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Packages/Common/Application/Validation/Message/Messages.php" afterPath="$PROJECT_DIR$/src/Packages/Common/Application/Validation/Message/Messages.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Resources/Application/Policy.php" afterPath="$PROJECT_DIR$/src/Resources/Application/Policy.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Resources/Application/AbstractValidator.php" afterPath="$PROJECT_DIR$/src/Resources/Application/AbstractValidator.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Resources/Application/User/User.php" afterPath="$PROJECT_DIR$/src/Resources/Application/User/User.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Resources/Application/User/UserPolicy.php" afterPath="$PROJECT_DIR$/src/Resources/Application/User/UserPolicy.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Resources/Application/User/UserRepository.php" afterPath="$PROJECT_DIR$/src/Resources/Application/User/UserRepository.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Resources/Application/User/UserValidator.php" afterPath="$PROJECT_DIR$/src/Resources/Application/User/UserValidator.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,8 +24,8 @@
       <file leaf-file-name="UserPolicy.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Resources/Application/User/UserPolicy.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="20" lean-forward="false" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
+            <state relative-caret-position="255">
+              <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
               <folding>
                 <element signature="e#75#142#0#PHP" expanded="true" />
               </folding>
@@ -31,18 +36,18 @@
       <file leaf-file-name="UserRepository.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Resources/Application/User/UserRepository.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="1" lean-forward="false" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
+            <state relative-caret-position="68">
+              <caret line="4" column="24" lean-forward="true" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UserValidator.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="UserValidator.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Resources/Application/User/UserValidator.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="646">
-              <caret line="38" column="8" lean-forward="true" selection-start-line="38" selection-start-column="8" selection-end-line="38" selection-end-column="8" />
+            <state relative-caret-position="560">
+              <caret line="35" column="10" lean-forward="true" selection-start-line="35" selection-start-column="10" selection-end-line="35" selection-end-column="10" />
               <folding>
                 <element signature="e#75#151#0#PHP" expanded="true" />
               </folding>
@@ -50,21 +55,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Message.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Packages/Common/Application/Validation/Message.php">
+      <file leaf-file-name="SaveResourceHandler.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Packages/Resources/Application/SaveResource/SaveResourceHandler.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="10" lean-forward="false" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MessageBag.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Packages/Common/Application/Validation/Message/MessageBag.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="186">
-              <caret line="11" column="5" lean-forward="false" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
+            <state relative-caret-position="306">
+              <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -81,6 +76,7 @@
       <find>routing.yml</find>
       <find>resourceType</find>
       <find>getMessageFromValidation</find>
+      <find>userRepository</find>
     </findStrings>
     <dirStrings>
       <dir>O:\XAMPP\htdocs\symfonyApi\src\Packages</dir>
@@ -92,7 +88,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Packages/Resources/Application/Query/Authorization/CanUserWriteResourcePropertiesQuery.php" />
         <option value="$PROJECT_DIR$/src/Packages/Common/Application/Validation/Message/Message.php" />
         <option value="$PROJECT_DIR$/src/Packages/Common/Application/Validation/Message/MustNotBeEmptyMessage.php" />
         <option value="$PROJECT_DIR$/src/Packages/Common/Application/Validation/Message/MustBeAUuidMessage.php" />
@@ -110,7 +105,6 @@
         <option value="$PROJECT_DIR$/src/Resources/User/UserPermission.php" />
         <option value="$PROJECT_DIR$/config/services.yaml" />
         <option value="$PROJECT_DIR$/src/Resources/services.yaml" />
-        <option value="$PROJECT_DIR$/src/Resources/Application/User/UserRepository.php" />
         <option value="$PROJECT_DIR$/src/Resources/Infrastructure/User/UserRepository.php" />
         <option value="$PROJECT_DIR$/src/Resources/Infrastructure/User/DbalUserRepository.php" />
         <option value="$PROJECT_DIR$/src/Resources/Application/Validator.php" />
@@ -127,22 +121,24 @@
         <option value="$PROJECT_DIR$/src/Packages/Resources/Application/SaveResource/SaveResource.php" />
         <option value="$PROJECT_DIR$/src/Resources/Application/Permission.php" />
         <option value="$PROJECT_DIR$/src/Resources/Application/WrongResourceTypeException.php" />
-        <option value="$PROJECT_DIR$/src/Resources/Application/WrongResourceException.php" />
         <option value="$PROJECT_DIR$/src/Resources/Application/User/UserPermission.php" />
-        <option value="$PROJECT_DIR$/src/Resources/Application/User/UserPolicy.php" />
         <option value="$PROJECT_DIR$/src/Packages/Resources/Application/SaveResource/SaveResourceAuthorizer.php" />
         <option value="$PROJECT_DIR$/src/Packages/Resources/Application/SaveResource/SaveResourcePep.php" />
-        <option value="$PROJECT_DIR$/src/Packages/Resources/Application/SaveResource/SaveResourceHandler.php" />
         <option value="$PROJECT_DIR$/src/Resources/Application/Policy.php" />
         <option value="$PROJECT_DIR$/src/Packages/Common/Application/Validation/Message/Messages.php" />
-        <option value="$PROJECT_DIR$/src/Resources/Application/AbstractValidator.php" />
         <option value="$PROJECT_DIR$/src/Packages/Common/Application/Validation/Message/MessageBag.php" />
         <option value="$PROJECT_DIR$/src/Packages/Common/Application/Validation/Rule.php" />
         <option value="$PROJECT_DIR$/src/Resources/Application/Resource.php" />
-        <option value="$PROJECT_DIR$/src/Resources/Application/User/User.php" />
-        <option value="$PROJECT_DIR$/src/Resources/Application/User/UserValidator.php" />
         <option value="$PROJECT_DIR$/src/Packages/Common/Application/Validation/Message.php" />
         <option value="$PROJECT_DIR$/src/Packages/Common/Application/Validation/Validator.php" />
+        <option value="$PROJECT_DIR$/src/Resources/Application/WrongResourceException.php" />
+        <option value="$PROJECT_DIR$/src/Resources/Application/User/UserRepository.php" />
+        <option value="$PROJECT_DIR$/src/Resources/Application/User/UserPolicy.php" />
+        <option value="$PROJECT_DIR$/src/Resources/Application/AbstractValidator.php" />
+        <option value="$PROJECT_DIR$/src/Resources/Application/User/UserValidator.php" />
+        <option value="$PROJECT_DIR$/src/Resources/Application/Repository.php" />
+        <option value="$PROJECT_DIR$/src/Packages/Resources/Application/SaveResource/SaveResourceHandler.php" />
+        <option value="$PROJECT_DIR$/src/Resources/Application/User/User.php" />
       </list>
     </option>
   </component>
@@ -154,8 +150,8 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="81" />
-    <option name="y" value="119" />
+    <option name="x" value="82" />
+    <option name="y" value="85" />
     <option name="width" value="1500" />
     <option name="height" value="925" />
   </component>
@@ -200,14 +196,14 @@
               <item name="symfonyApi" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="Packages" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Common" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="symfonyApi" type="b2602c69:ProjectViewProjectNode" />
               <item name="symfonyApi" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="Packages" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Common" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="Application" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
@@ -215,9 +211,9 @@
               <item name="symfonyApi" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="Packages" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Common" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="Application" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Validation" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="SaveResource" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="symfonyApi" type="b2602c69:ProjectViewProjectNode" />
@@ -231,6 +227,14 @@
               <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="Application" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="symfonyApi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="symfonyApi" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Application" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="User" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
           </expand>
           <select />
@@ -246,19 +250,19 @@
     <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="O:\XAMPP\htdocs\symfonyApi\src\Resources\Application\User" />
-      <recent name="O:\XAMPP\htdocs\symfonyApi\src\Packages\Resources\Application\SaveResource" />
-      <recent name="O:\XAMPP\htdocs\symfonyApi\src\Resources\Application" />
-      <recent name="O:\XAMPP\htdocs\symfonyApi\src\Resources" />
-      <recent name="O:\XAMPP\htdocs\symfonyApi\src\Resources\Application\User\Attributes" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="O:\XAMPP\htdocs\symfonyApi\src\Resources\Application" />
-      <recent name="O:\XAMPP\htdocs\symfonyApi\src\Resources" />
-      <recent name="O:\XAMPP\htdocs\symfonyApi\src\Packages\Resources\Application" />
       <recent name="O:\XAMPP\htdocs\symfonyApi\src\Packages" />
+      <recent name="O:\XAMPP\htdocs\symfonyApi\src\Packages\Commands\Resources" />
+      <recent name="O:\XAMPP\htdocs\symfonyApi\src\Packages\Commands" />
+      <recent name="O:\XAMPP\htdocs\symfonyApi\src\Packages\Commands\Resources\Application" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
       <recent name="O:\XAMPP\htdocs\symfonyApi\src\Resources\Application\User" />
+      <recent name="O:\XAMPP\htdocs\symfonyApi\src\Resources\Application" />
+      <recent name="O:\XAMPP\htdocs\symfonyApi\src\Packages\Resources\Application\SaveResource" />
+      <recent name="O:\XAMPP\htdocs\symfonyApi\src\Resources" />
+      <recent name="O:\XAMPP\htdocs\symfonyApi\src\Resources\Application\User\Attributes" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -308,12 +312,13 @@
       <workItem from="1540925480181" duration="4057000" />
       <workItem from="1540929925236" duration="6724000" />
       <workItem from="1541014942802" duration="5046000" />
-      <workItem from="1541105373955" duration="4303000" />
+      <workItem from="1541105373955" duration="4477000" />
+      <workItem from="1541184657768" duration="2905000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="98306000" />
+    <option name="totallyTimeSpent" value="101385000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
@@ -323,7 +328,6 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4438386" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -335,6 +339,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4438386" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -351,7 +356,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Packages/Resources/Validation/ResourceValidator.php" />
     <entry file="file://$PROJECT_DIR$/src/Packages/Resources/Application/Authorization/PolicyEnforcementPoint.php" />
     <entry file="file://$PROJECT_DIR$/src/Packages/Authentication/Infrastructure/DbalUserByIdQuery.php">
       <provider selected="true" editor-type-id="text-editor">
@@ -422,7 +426,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Resources/Application/WrongResourceException.php" />
     <entry file="file://$PROJECT_DIR$/src/Resources/Application/Permission.php" />
     <entry file="file://$PROJECT_DIR$/src/Packages/services.yaml">
       <provider selected="true" editor-type-id="text-editor">
@@ -495,40 +498,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Packages/Resources/Application/SaveResource/SaveResourceHandler.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" column="1" lean-forward="true" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
-          <folding>
-            <element signature="e#93#160#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Resources/Application/Policy.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="96" lean-forward="false" selection-start-line="8" selection-start-column="96" selection-end-line="8" selection-end-column="96" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Resources/Application/AbstractValidator.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="15" lean-forward="false" selection-start-line="6" selection-start-column="15" selection-end-line="6" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Resources/Application/User/UserRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="1" lean-forward="false" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Packages/Common/Application/Validation/Message/MustBeAnEmailAddressMessage.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
@@ -585,48 +554,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Packages/Common/Application/Validation/Rules.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="14" lean-forward="true" selection-start-line="4" selection-start-column="14" selection-end-line="4" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Resources/Application/Resource.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="42" lean-forward="false" selection-start-line="8" selection-start-column="42" selection-end-line="8" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Resources/Application/User/User.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1649">
-          <caret line="97" column="1" lean-forward="true" selection-start-line="97" selection-start-column="1" selection-end-line="97" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Resources/Application/User/UserPolicy.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="20" lean-forward="false" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
-          <folding>
-            <element signature="e#75#142#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Packages/Common/Application/Validation/Message.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="10" lean-forward="false" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Packages/Common/Application/Validation/Rules.php" />
     <entry file="file://$PROJECT_DIR$/src/Packages/Common/Application/Validation/Rule/EmptyOrEmailAddressRule.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -643,21 +571,103 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Resources/Application/WrongResourceException.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="4" lean-forward="false" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Resources/Application/Resource.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="42" lean-forward="false" selection-start-line="8" selection-start-column="42" selection-end-line="8" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Packages/Common/Application/Validation/Message/MessageBag.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="11" column="5" lean-forward="false" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
+        <state relative-caret-position="170">
+          <caret line="10" column="20" lean-forward="false" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Packages/Common/Application/Validation/Message.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="10" lean-forward="false" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Resources/Application/Policy.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="96" lean-forward="false" selection-start-line="8" selection-start-column="96" selection-end-line="8" selection-end-column="96" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Resources/Application/User/UserPolicy.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding>
+            <element signature="e#75#142#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Resources/Application/AbstractValidator.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" column="44" lean-forward="false" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="44" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Resources/Application/User/UserValidator.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="38" column="8" lean-forward="true" selection-start-line="38" selection-start-column="8" selection-end-line="38" selection-end-column="8" />
+        <state relative-caret-position="560">
+          <caret line="35" column="10" lean-forward="true" selection-start-line="35" selection-start-column="10" selection-end-line="35" selection-end-column="10" />
           <folding>
             <element signature="e#75#151#0#PHP" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Resources/Application/Repository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="35" lean-forward="false" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Resources/Application/User/User.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-358">
+          <caret line="31" column="4" lean-forward="false" selection-start-line="31" selection-start-column="4" selection-end-line="31" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Resources/Application/User/UserRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="24" lean-forward="true" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Packages/Resources/Application/SaveResource/SaveResourceHandler.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

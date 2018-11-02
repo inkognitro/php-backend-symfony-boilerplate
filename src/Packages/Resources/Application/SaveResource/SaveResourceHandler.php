@@ -17,6 +17,10 @@ final class SaveResourceHandler
 
     public function handle(SaveResource $command, AuthUser $authUser): HandlerResponse
     {
+        $repository = $command->getResourceClassName() . 'Repository';
+
         return new SuccessResponse(); //todo
     }
+
+    public function getRepositoryByResourceClassName(): Respository
 }

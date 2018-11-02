@@ -21,12 +21,12 @@ final class User implements Resource
 
     public static function createFromArray(array $array): self
     {
-        $savedRow = null;
+        $persistedRow = null;
         return new self(
             $array['id'],
             $array['username'],
             $array['emailAddress'],
-            $savedRow
+            $persistedRow
         );
     }
 
