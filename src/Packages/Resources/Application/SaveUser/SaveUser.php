@@ -1,24 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Resources\Application\SaveResources;
+namespace App\Packages\Resources\Application\SaveUser;
 
 use App\Packages\Common\Application\Authorization\Permission;
 use App\Packages\Common\Application\CommandHandling\Command;
 
-final class SaveResource implements Command
+final class SaveUser implements Command
 {
-    private $resourceClassName;
     private $attributeValues;
 
-    public function __construct(string $resourceClassName, array $attributeValues)
+    public function __construct(array $attributeValues)
     {
-        $this->resourceClassName = $resourceClassName;
         $this->attributeValues = $attributeValues;
-    }
-
-    public function getResourceClassName(): string
-    {
-        return $this->resourceClassName;
     }
 
     public function getAttributeValues(): array
