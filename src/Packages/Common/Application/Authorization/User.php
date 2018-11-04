@@ -4,9 +4,10 @@ namespace App\Packages\Common\Application\Authorization;
 
 final class User
 {
-    public const GUEST_USER_ROLE = 'guest';
     public const SYSTEM_USER_ROLE = 'system';
     public const ADMIN_USER_ROLE = 'admin';
+    public const GUEST_USER_ROLE = 'guest';
+    public const DEFAULT_USER_ROLE = 'user';
 
     private $userId;
     private $role;

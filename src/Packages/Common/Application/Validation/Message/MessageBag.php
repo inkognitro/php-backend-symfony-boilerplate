@@ -23,6 +23,11 @@ final class MessageBag
         return isset($this->messages[$key]);
     }
 
+    public function getCount(): int
+    {
+        return count($this->messages);
+    }
+
     public function toArray(): array
     {
         $array = [];

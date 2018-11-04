@@ -4,7 +4,7 @@ namespace App\Resources\Application;
 
 use App\Packages\Common\Application\Validation\Messages\MessageBag;
 
-abstract class AbstractValidator
+abstract class ResourceDataValidator
 {
     protected $errors;
     protected $warnings;
@@ -17,10 +17,12 @@ abstract class AbstractValidator
 
     public function validate(array $data): void
     {
+        $this->warnings = new MessageBag();
+        $this->errors = new MessageBag();
         $this->validateData($data);
     }
 
-    protected abstract function validateData(array $dataToValidate): void;
+    protected abstract function validateData(array $resourceData): void;
 
     public function getWarnings(): MessageBag
     {
@@ -30,5 +32,10 @@ abstract class AbstractValidator
     public function getErrors(): MessageBag
     {
         return $this->errors;
+    }
+
+    public function hasErrors(): bool
+    {
+        return ($this->errors->getCount() !== 0);
     }
 }

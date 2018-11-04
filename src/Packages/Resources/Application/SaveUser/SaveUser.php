@@ -7,16 +7,16 @@ use App\Packages\Common\Application\CommandHandling\Command;
 
 final class SaveUser implements Command
 {
-    private $attributeValues;
+    private $userData;
 
-    public function __construct(array $attributeValues)
+    public function __construct(array $userData)
     {
-        $this->attributeValues = $attributeValues;
+        $this->userData = $userData;
     }
 
-    public function getAttributeValues(): array
+    public function getUserData(): array
     {
-        return $this->attributeValues;
+        return $this->userData;
     }
 
     public function getPermission(): ?Permission

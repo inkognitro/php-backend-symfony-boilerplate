@@ -6,9 +6,9 @@ use App\Packages\Common\Application\Validation\Rule\EmptyOrEmailAddressRule;
 use App\Packages\Common\Application\Validation\Rule\EmptyOrUuidRule;
 use App\Packages\Common\Application\Validation\Rule\NotEmptyRule;
 use App\Packages\Common\Application\Validation\Validator;
-use App\Resources\Application\AbstractValidator;
+use App\Resources\Application\ResourceDataValidator;
 
-final class UserValidator extends AbstractValidator
+final class UserDataDataValidator extends ResourceDataValidator
 {
     private $validator;
 
@@ -18,7 +18,7 @@ final class UserValidator extends AbstractValidator
         $this->validator = $validator;
     }
 
-    protected function validateData(array $dataToValidate): void
+    protected function validateData(array $userData): void
     {
         $attributeToRulesMapping = [
             'id' => [
@@ -36,10 +36,10 @@ final class UserValidator extends AbstractValidator
         ];
 
         foreach ($attributeToRulesMapping as $attributeName => $rules) {
-            if(!isset($dataToValidate[$attributeName])) {
+            if(!isset($userData[$attributeName])) {
                 continue;
             }
-            $message = $this->validator->getMessageFromValidation($dataToValidate, $rules);
+            $message = $this->validator->getMessageFromValidation($userData, $rules);
             if ($message !== null) {
                 $this->errors->addMessage($attributeName, $message);
             }

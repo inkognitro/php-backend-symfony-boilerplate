@@ -5,24 +5,24 @@ namespace App\Packages\Common\Application\CommandHandling\HandlerResponse;
 use App\Packages\Common\Application\CommandHandling\HandlerResponse;
 use App\Packages\Common\Application\Validation\Messages\MessageBag;
 
-final class SuccessResponse implements HandlerResponse
+final class ValidationErrorResponse implements HandlerResponse
 {
-    private $events;
+    private $errors;
     private $warnings;
 
-    public function __construct(array $events, MessageBag $warnings)
+    public function __construct(MessageBag $errors, MessageBag $warnings)
     {
-        $this->events = $events;
+        $this->errors = $errors;
         $this->warnings = $warnings;
-    }
-
-    public function getEvents(): array
-    {
-        return $this->events;
     }
 
     public function getWarnings(): MessageBag
     {
         return $this->warnings;
+    }
+
+    public function getErrors(): MessageBag
+    {
+        return $this->errors;
     }
 }

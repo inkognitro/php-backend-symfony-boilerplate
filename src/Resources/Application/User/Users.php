@@ -18,11 +18,11 @@ final class Users
         return $this->users;
     }
 
-    public function toCommandData(): array
+    public function toArray(): array
     {
         $data = [];
         foreach($this->users as $user) {
-            $data[] = $user->toCommandData();
+            $data[] = $user->toArray();
         }
         return $data;
     }
