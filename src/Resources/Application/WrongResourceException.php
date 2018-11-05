@@ -4,7 +4,7 @@ namespace App\Resources\Application;
 
 use Exception;
 
-final class WrongResourceException extends Exception
+class WrongResourceException extends Exception
 {
 
 }

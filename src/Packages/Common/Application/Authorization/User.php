@@ -11,11 +11,13 @@ final class User
 
     private $userId;
     private $role;
+    private $languageId;
 
-    public function __construct(?string $userId, string $role)
+    public function __construct(?string $userId, string $role, string $languageId)
     {
         $this->userId = $userId;
         $this->role = $role;
+        $this->languageId = $languageId;
     }
 
     public function getUserId(): ?string
@@ -26,5 +28,10 @@ final class User
     public function getRole(): string
     {
         return $this->role;
+    }
+
+    public function getLanguageId(): string
+    {
+        return $this->languageId;
     }
 }

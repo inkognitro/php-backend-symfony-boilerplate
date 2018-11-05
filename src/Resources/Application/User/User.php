@@ -3,37 +3,48 @@
 namespace App\Resources\Application\User;
 
 use App\Packages\Common\Application\Authorization\User as AuthUser;
+use App\Packages\Common\Application\CommandHandling\Event\Event;
+use App\Packages\Common\Application\CommandHandling\Event\EventStream;
 use App\Packages\Common\Application\CommandHandling\Event\Payload;
+use App\Resources\Application\AbstractResource;
 use App\Resources\Application\Application\User\Event\UserWasChanged;
-use App\Resources\Application\Resource;
+use App\Resources\Application\Application\User\Event\UserWasCreated;
+use App\Resources\Application\User\Property\EmailAddress;
+use App\Resources\Application\User\Property\UserId;
+use App\Resources\Application\User\Property\Username;
 use Ramsey\Uuid\Uuid;
 
-final class User implements Resource
+final class User extends AbstractResource
 {
-    private $futureEvents;
-    private $persistedRow;
     private $id;
     private $username;
     private $emailAddress;
 
-    private function __construct(string $id, string $username, string $emailAddress, ?array $persistedRow)
+    protected function __construct(
+        EventStream $recordedEvents,
+        ?array $persistedData,
+        string $id,
+        string $username,
+        string $emailAddress
+    )
     {
+        parent::__construct($recordedEvents, $persistedData);
         $this->id = $id;
         $this->username = $username;
         $this->emailAddress = $emailAddress;
-        $this->persistedRow = $persistedRow;
-        $this->futureEvents = [];
     }
 
-    public static function createFromArray(array $array): self
+    public static function create(array $userData, AuthUser $authUser): self
     {
-        $persistedRow = null;
-        $id = (isset($array['id']) ? $array['id'] : Uuid::uuid4()->toString());
+        $persistedData = null;
         return new self(
-            $id,
+            new EventStream([
+                UserWasCreated::occur(Payload::fromData($userData), $authUser)
+            ]),
+            $persistedData,
+            (isset($userData['id']) ? $userData['id'] : Uuid::uuid4()->toString()),
             ($array['username'] ?? ''),
-            ($array['emailAddress'] ?? ''),
-            $persistedRow
+            ($array['emailAddress'] ?? '')
         );
     }
 
@@ -43,8 +54,8 @@ final class User implements Resource
             return;
         }
 
-        $changedData = array_merge($this->toArray(), $data);
-        if (!$this->isEqual(self::createFromArray($changedData))) {
+        $userData = array_merge($this->toArray(), $data);
+        if (!$this->isEqual(self::createFromArray($userData))) {
             return;
         }
 
@@ -59,19 +70,19 @@ final class User implements Resource
         }
 
         $payload = Payload::fromData($this->toArray());
-        
-        $this->futureEvents[] = UserWasChanged::occur($payload, $previousPayload, $authUser);
+
+        $this->recordedEvents[] = UserWasChanged::occur($payload, $previousPayload, $authUser);
     }
 
     private function isEqual(self $user): bool
     {
-        if (strcasecmp($this->id, $user->id) !== 0) {
+        if (!$this->getId()->equals($user->getId())) {
             return false;
         }
-        if ($this->username !== $user->username) {
+        if (!$this->getUsername()->equals($user->getUsername())) {
             return false;
         }
-        if ($this->emailAddress !== $user->emailAddress) {
+        if (!$this->getEmailAddress()->equals($user->getEmailAddress())) {
             return false;
         }
         return true;
@@ -79,35 +90,36 @@ final class User implements Resource
 
     public function getLastPersisted(): ?self
     {
-        if ($this->persistedRow === null) {
+        if ($this->persistedData === null) {
             return null;
         }
-        return self::createFromRow($this->persistedRow);
+        return self::createFromArray($this->persistedData);
     }
 
-    public static function createFromRow(array $row): self
+    public static function createFromArray(array $userData): self
     {
         return new self(
-            $row['id'],
-            $row['username'],
-            $row['emailAddress'],
-            $row
+            new EventStream([]),
+            $userData,
+            $userData['id'],
+            $userData['username'],
+            $userData['emailAddress']
         );
     }
 
-    public function getId(): string
+    public function getId(): UserId
     {
-        return $this->id;
+        return UserId::fromString($this->id);
     }
 
-    public function getUsername(): string
+    public function getUsername(): Username
     {
-        return $this->username;
+        return Username::fromString($this->username);
     }
 
-    public function getEmailAddress(): string
+    public function getEmailAddress(): EmailAddress
     {
-        return $this->emailAddress;
+        return EmailAddress::fromString($this->emailAddress);
     }
 
     public function toArray(): array

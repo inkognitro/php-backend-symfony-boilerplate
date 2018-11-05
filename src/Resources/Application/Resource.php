@@ -6,9 +6,8 @@ use App\Packages\Common\Application\CommandHandling\Event\EventStream;
 
 interface Resource
 {
-    public static function createFromArray(array $array);
-    public static function createFromRow(array $row);
+    public static function createFromArray(array $row);
     public function getLastPersisted();
     public function toArray(): array;
-    public function getFutureEvents(): EventStream;
+    public function getRecordedEvents(): EventStream;
 }

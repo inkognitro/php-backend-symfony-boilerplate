@@ -8,14 +8,14 @@ use App\Packages\Common\Application\CommandHandling\HandlerResponse\SuccessRespo
 use App\Packages\Common\Application\CommandHandling\HandlerResponse\ValidationErrorResponse;
 use App\Resources\Application\User\User;
 use App\Resources\Application\User\UserRepository;
-use App\Resources\Application\User\UserDataDataValidator;
+use App\Resources\Application\User\UserDataValidator;
 
 final class SaveUserHandler
 {
     private $validator;
     private $userRepository;
 
-    public function __construct(UserDataDataValidator $validator, UserRepository $userRepository)
+    public function __construct(UserDataValidator $validator, UserRepository $userRepository)
     {
         $this->validator = $validator;
         $this->userRepository = $userRepository;

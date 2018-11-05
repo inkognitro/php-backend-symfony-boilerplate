@@ -9,7 +9,7 @@ abstract class ResourceDataValidator
     protected $errors;
     protected $warnings;
 
-    public function __construct()
+    protected function __construct()
     {
         $this->warnings = new MessageBag();
         $this->errors = new MessageBag();

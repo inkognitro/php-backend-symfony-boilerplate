@@ -8,17 +8,25 @@ use App\Packages\Common\Application\Validation\Rule\NotEmptyRule;
 use App\Packages\Common\Application\Validation\Validator;
 use App\Resources\Application\ResourceDataValidator;
 
-final class UserDataDataValidator extends ResourceDataValidator
+final class UserDataValidator extends ResourceDataValidator
 {
     private $validator;
+    private $userRepository;
 
-    public function __construct(Validator $validator)
+    public function __construct(Validator $validator, UserRepository $userRepository)
     {
         parent::__construct();
         $this->validator = $validator;
+        $this->userRepository = $userRepository;
     }
 
     protected function validateData(array $userData): void
+    {
+        $this->validateFormat($userData);
+        $this->validateUniqueEmailAddress($userData);
+    }
+
+    private function validateFormat(array $userData): void
     {
         $attributeToRulesMapping = [
             'id' => [
@@ -34,9 +42,8 @@ final class UserDataDataValidator extends ResourceDataValidator
                 EmptyOrEmailAddressRule::class,
             ],
         ];
-
         foreach ($attributeToRulesMapping as $attributeName => $rules) {
-            if(!isset($userData[$attributeName])) {
+            if (!isset($userData[$attributeName])) {
                 continue;
             }
             $message = $this->validator->getMessageFromValidation($userData, $rules);
@@ -44,5 +51,17 @@ final class UserDataDataValidator extends ResourceDataValidator
                 $this->errors->addMessage($attributeName, $message);
             }
         }
+    }
+
+    private function validateUniqueEmailAddress(array $userData): void
+    {
+        if(!isset($userData['emailAddress'])) {
+            return;
+        }
+        if($this->errors->doesMessageKeyExist('emailAddress')) {
+            return;
+        }
+        $user = $this->userRepository->findByEmailAddress($userData['emailAddress']);
+
     }
 }
