@@ -3,7 +3,7 @@
 namespace App\Packages\Common\Application\CommandHandling\HandlerResponse;
 
 use App\Packages\Common\Application\CommandHandling\HandlerResponse;
-use App\Packages\Common\Application\Validation\Messages\MessageBag;
+use App\Packages\Common\Application\Validation\MessageBag;
 
 final class ValidationErrorResponse implements HandlerResponse
 {

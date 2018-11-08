@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Application\Validation\Messages;
-
-use App\Packages\Common\Application\Validation\Message;
+namespace App\Packages\Common\Application\Validation;
 
 final class MessageBag
 {
@@ -41,7 +39,7 @@ final class MessageBag
             }
             if ($value instanceof Message) {
                 $array[$key] = [
-                    'code' => get_class($value),
+                    'code' => $value->getCode(),
                     'message' => $value->getMessage()
                 ];
             }

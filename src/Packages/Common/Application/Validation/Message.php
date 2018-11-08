@@ -4,5 +4,6 @@ namespace App\Packages\Common\Application\Validation;
 
 interface Message
 {
+    public function getCode(): string;
     public function getMessage(): string;
 }

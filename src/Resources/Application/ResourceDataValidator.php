@@ -2,7 +2,7 @@
 
 namespace App\Resources\Application;
 
-use App\Packages\Common\Application\Validation\Messages\MessageBag;
+use App\Packages\Common\Application\Validation\MessageBag;
 
 abstract class ResourceDataValidator
 {
