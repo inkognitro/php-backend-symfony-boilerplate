@@ -3,12 +3,14 @@
 namespace App\Packages\Resources\Application\SaveUser;
 
 use App\Packages\Common\Application\Authorization\User as AuthUser;
+use App\Packages\Common\Application\CommandHandling\Event\EventStream;
 use App\Packages\Common\Application\CommandHandling\HandlerResponse;
 use App\Packages\Common\Application\CommandHandling\HandlerResponse\SuccessResponse;
 use App\Packages\Common\Application\CommandHandling\HandlerResponse\ValidationErrorResponse;
-use App\Resources\Application\User\User;
-use App\Resources\Application\User\UserRepository;
-use App\Resources\Application\User\UserDataValidator;
+use App\Resources\User\Application\Command\CommandUser;
+use App\Resources\User\Application\Command\UserDataValidator;
+use App\Resources\User\Application\Property\UserId;
+use App\Resources\User\Application\UserRepository;
 
 final class SaveUserHandler
 {
@@ -23,9 +25,12 @@ final class SaveUserHandler
 
     public function handle(SaveUser $command, AuthUser $authUser): HandlerResponse
     {
-        $user = $this->getCurrentUserByData($command->getUserData());
+        $this->validator->validate();
+
+
+        $user = $this->getCurrentUserByData($command->getUserData(), $authUser);
         if($user === null) {
-            $user = User::createFromArray([]);
+            $user = CommandUser::create([]);
         }
 
         $userData = array_merge($user->toArray(), $command->getUserData());
@@ -38,14 +43,18 @@ final class SaveUserHandler
             );
         }
 
-        return new SuccessResponse([], $this->validator->getWarnings());
+        return new SuccessResponse(new EventStream([]), $this->validator->getWarnings());
     }
 
-    private function getCurrentUserByData(array $userData): ?User
+    private function getCurrentUserByData(array $userData, AuthUser $authUser): CommandUser
     {
-        if(!isset($userData['id'])) {
-            return null;
+        $user = null;
+        if(isset($userData['id'])) {
+            $user = $this->userRepository->findById(UserId::fromString($userData['id']));
         }
-        return $this->userRepository->findById($userData['id']);
+        if($user === null) {
+            return CommandUser::create($userData, $authUser);
+        }
+        return CommandUser::fromUser($user);
     }
 }

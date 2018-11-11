@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Resources\Application;
+namespace App\Resources\Common\Application\Command;
 
 use App\Packages\Common\Application\Validation\MessageBag;
 

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Resources\Application\User\Property;
+namespace App\Resources\User\Application\Property;
 
 final class EmailAddress
 {

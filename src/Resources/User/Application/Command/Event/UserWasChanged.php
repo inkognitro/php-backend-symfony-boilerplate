@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Resources\Application\Application\User\Event;
+namespace App\Resources\User\Application\Application\User\Command\Event;
 
 use App\Packages\Common\Application\Authorization\User as AuthUser;
 use App\Packages\Common\Application\CommandHandling\Event\AbstractEvent;

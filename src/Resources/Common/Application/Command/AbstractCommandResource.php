@@ -1,19 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace App\Resources\Application;
+namespace App\Resources\Common\Application\Command;
 
 use App\Packages\Common\Application\CommandHandling\Event\Event;
 use App\Packages\Common\Application\CommandHandling\Event\EventStream;
 
-abstract class AbstractResource implements Resource
+abstract class AbstractCommandResource implements CommandResource
 {
     protected $recordedEvents;
-    protected $persistedData;
 
-    protected function __construct(EventStream $recordedEvents, ?array $persistedData)
+    protected function __construct(EventStream $recordedEvents)
     {
         $this->recordedEvents = new EventStream([]);
-        $this->persistedData = $persistedData;
     }
 
     protected function recordEvent(Event $event): void
