@@ -44,4 +44,6 @@ abstract class AbstractEvent implements Event
     {
         return $this->previousPayload;
     }
+
+    public abstract function getResourceClass(): string;
 }

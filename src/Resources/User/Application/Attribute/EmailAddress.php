@@ -1,9 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace App\Resources\User\Application\Property;
+namespace App\Resources\User\Application\Attribute;
 
 final class EmailAddress
 {
+    public const NAME = 'emailAddress';
     private $emailAddress;
 
     private function __construct(string $emailAddress)
@@ -23,6 +24,6 @@ final class EmailAddress
 
     public function equals(self $emailAddress): bool
     {
-        return ($emailAddress->toString() === $this->toString());
+        return (strcasecmp($emailAddress->toString(), $this->toString()) === 0);
     }
 }

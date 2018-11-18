@@ -8,9 +8,9 @@ use App\Packages\Common\Application\Validation\Rule\EmptyOrUuidRule;
 use App\Packages\Common\Application\Validation\Rule\NotEmptyRule;
 use App\Packages\Common\Application\Validation\Validator;
 use App\Resources\Common\Application\Command\ResourceDataValidator;
-use App\Resources\User\Application\Property\EmailAddress;
-use App\Resources\User\Application\Property\UserId;
-use App\Resources\User\Application\Property\Username;
+use App\Resources\User\Application\Attribute\EmailAddress;
+use App\Resources\User\Application\Attribute\UserId;
+use App\Resources\User\Application\Attribute\Username;
 use App\Resources\User\Application\UserRepository;
 
 final class UserDataValidator extends ResourceDataValidator
@@ -35,15 +35,15 @@ final class UserDataValidator extends ResourceDataValidator
     private function validateFormat(array $userData): void
     {
         $attributeToRulesMapping = [
-            'id' => [
+            UserId::NAME => [
                 NotEmptyRule::class,
                 EmptyOrUuidRule::class,
             ],
-            'username' => [
+            Username::NAME => [
                 NotEmptyRule::class,
                 EmptyOrEmailAddressRule::class,
             ],
-            'emailAddress' => [
+            EmailAddress::NAME => [
                 NotEmptyRule::class,
                 EmptyOrEmailAddressRule::class,
             ],
@@ -58,18 +58,18 @@ final class UserDataValidator extends ResourceDataValidator
 
     private function validateUniqueUsername(array $userData): void
     {
-        if ($this->isValidUniqueUserDataByKey($userData, 'username')) {
+        if ($this->isValidUniqueUserDataByKey($userData, Username::NAME)) {
             return;
         }
-        $this->errors->addMessage('emailAddress', new DoesAlreadyExistMessage());
+        $this->errors->addMessage(Username::NAME, new DoesAlreadyExistMessage());
     }
 
     private function validateUniqueEmailAddress(array $userData): void
     {
-        if ($this->isValidUniqueUserDataByKey($userData, 'emailAddress')) {
+        if ($this->isValidUniqueUserDataByKey($userData, EmailAddress::NAME)) {
             return;
         }
-        $this->errors->addMessage('emailAddress', new DoesAlreadyExistMessage());
+        $this->errors->addMessage(EmailAddress::NAME, new DoesAlreadyExistMessage());
     }
 
     private function isValidUniqueUserDataByKey(array $userData, string $key): bool
@@ -83,11 +83,11 @@ final class UserDataValidator extends ResourceDataValidator
         }
 
         $user = null;
-        if ($key === 'emailAddress') {
+        if ($key === EmailAddress::NAME) {
             $user = $this->userRepository->findByEmailAddress(
                 EmailAddress::fromString((string)$userData[$key])
             );
-        } else if ($key === 'username') {
+        } else if ($key === Username::NAME) {
             $user = $this->userRepository->findByUsername(
                 Username::fromString((string)$userData[$key])
             );

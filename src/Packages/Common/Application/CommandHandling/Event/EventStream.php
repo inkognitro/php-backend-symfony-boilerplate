@@ -17,4 +17,17 @@ final class EventStream
     {
         return $this->events;
     }
+
+    public function getMerged(self $eventStream): self
+    {
+        $events = array_merge($this->events, $eventStream->toCollection());
+        usort($events, function (Event $a, Event $b) {
+            $comparisonFormat = 'YmdHis';
+            if ($a->getOccurredOn()->format($comparisonFormat) === $b->getOccurredOn()->format($comparisonFormat)) {
+                return 0;
+            }
+            return ($a->getOccurredOn() < $b->getOccurredOn() ? -1 : 1);
+        });
+        return new self($events);
+    }
 }

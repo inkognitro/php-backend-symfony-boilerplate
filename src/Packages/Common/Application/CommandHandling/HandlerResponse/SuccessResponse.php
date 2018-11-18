@@ -2,24 +2,28 @@
 
 namespace App\Packages\Common\Application\CommandHandling\HandlerResponse;
 
-use App\Packages\Common\Application\CommandHandling\Event\EventStream;
 use App\Packages\Common\Application\CommandHandling\HandlerResponse;
 use App\Packages\Common\Application\Validation\MessageBag;
 
 final class SuccessResponse implements HandlerResponse
 {
-    private $events;
+    private $data;
     private $warnings;
 
-    public function __construct(EventStream $events, MessageBag $warnings)
+    public function __construct(array $data, MessageBag $warnings)
     {
-        $this->events = $events;
+        $this->data = $data;
         $this->warnings = $warnings;
     }
 
-    public function getEvents(): EventStream
+    public static function fromData(array $data): self
     {
-        return $this->events;
+        return new self($data, new MessageBag());
+    }
+
+    public function getData(): array
+    {
+        return $this->data;
     }
 
     public function getWarnings(): MessageBag

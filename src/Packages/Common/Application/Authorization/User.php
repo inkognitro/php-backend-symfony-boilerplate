@@ -29,7 +29,7 @@ final class User
     {
         return $this->role;
     }
-
+    
     public function getLanguageId(): string
     {
         return $this->languageId;

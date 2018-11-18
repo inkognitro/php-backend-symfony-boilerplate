@@ -8,10 +8,11 @@ use App\Packages\Common\Application\CommandHandling\Event\Payload;
 use App\Resources\User\Application\User;
 use DateTimeImmutable;
 
-final class UserWasChanged extends AbstractEvent
+final class UserWasRemoved extends AbstractEvent
 {
-    public static function occur(Payload $payload, Payload $previousPayload, AuthUser $authUser): self
+    public static function occur(Payload $payload, AuthUser $authUser): self
     {
+        $previousPayload = null;
         return new self(
             new DateTimeImmutable('now'), $authUser, $payload, $previousPayload
         );

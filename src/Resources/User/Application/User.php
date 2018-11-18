@@ -3,9 +3,9 @@
 namespace App\Resources\User\Application;
 
 use App\Resources\Common\Application\Resource;
-use App\Resources\User\Application\Property\EmailAddress;
-use App\Resources\User\Application\Property\UserId;
-use App\Resources\User\Application\Property\Username;
+use App\Resources\User\Application\Attribute\EmailAddress;
+use App\Resources\User\Application\Attribute\UserId;
+use App\Resources\User\Application\Attribute\Username;
 
 final class User implements Resource
 {
@@ -20,7 +20,7 @@ final class User implements Resource
         $this->emailAddress = $emailAddress;
     }
 
-    public function isEqual(self $user): bool
+    public function equals(self $user): bool
     {
         if (!$this->getId()->equals($user->getId())) {
             return false;
@@ -37,9 +37,9 @@ final class User implements Resource
     public static function fromArray(array $array): self
     {
         return new self(
-            $array['id'],
-            $array['username'],
-            $array['emailAddress']
+            $array[UserId::NAME],
+            $array[Username::NAME],
+            $array[EmailAddress::NAME]
         );
     }
 
@@ -61,9 +61,9 @@ final class User implements Resource
     public function toArray(): array
     {
         return [
-            'id' => $this->getId()->toString(),
-            'username' => $this->getUsername()->toString(),
-            'emailAddress' => $this->getEmailAddress()->toString()
+            UserId::NAME => $this->getId()->toString(),
+            Username::NAME => $this->getUsername()->toString(),
+            EmailAddress::NAME => $this->getEmailAddress()->toString()
         ];
     }
 }

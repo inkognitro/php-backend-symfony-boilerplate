@@ -1,9 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace App\Resources\User\Application\Property;
+namespace App\Resources\User\Application\Attribute;
 
 final class UserId
 {
+    public const NAME = 'id';
     private $id;
 
     private function __construct(string $id)

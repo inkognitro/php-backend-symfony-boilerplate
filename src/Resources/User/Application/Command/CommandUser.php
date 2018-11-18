@@ -6,6 +6,7 @@ use App\Packages\Common\Application\Authorization\User as AuthUser;
 use App\Packages\Common\Application\CommandHandling\Event\EventStream;
 use App\Packages\Common\Application\CommandHandling\Event\Payload;
 use App\Resources\Common\Application\Command\AbstractCommandResource;
+use App\Resources\Common\Application\Resource;
 use App\Resources\User\Application\Application\User\Command\Event\UserWasChanged;
 use App\Resources\User\Application\Application\User\Command\Event\UserWasCreated;
 use App\Resources\User\Application\User;
@@ -16,11 +17,7 @@ final class CommandUser extends AbstractCommandResource
     private $persistedUser;
     private $currentUser;
 
-    protected function __construct(
-        EventStream $recordedEvents,
-        ?User $persistedUser,
-        User $currentUser
-    )
+    protected function __construct(EventStream $recordedEvents, ?User $persistedUser, User $currentUser)
     {
         parent::__construct($recordedEvents);
         $this->persistedUser = $persistedUser;
@@ -30,6 +27,11 @@ final class CommandUser extends AbstractCommandResource
     public static function fromUser(User $user): self
     {
         return new self(new EventStream([]), $user, $user);
+    }
+
+    public function toUser(): User
+    {
+        return $this->currentUser;
     }
 
     public static function create(array $userData, AuthUser $authUser): self
@@ -58,7 +60,7 @@ final class CommandUser extends AbstractCommandResource
         $changedUserData = array_merge($this->getUserDataByUser($this->currentUser), $userData);
         $changedUser = $this->getUserByUserData($changedUserData);
 
-        if ($this->currentUser->isEqual($changedUser)) {
+        if ($this->currentUser->equals($changedUser)) {
             return;
         }
 

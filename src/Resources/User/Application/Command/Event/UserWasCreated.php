@@ -5,6 +5,7 @@ namespace App\Resources\User\Application\Application\User\Command\Event;
 use App\Packages\Common\Application\Authorization\User as AuthUser;
 use App\Packages\Common\Application\CommandHandling\Event\AbstractEvent;
 use App\Packages\Common\Application\CommandHandling\Event\Payload;
+use App\Resources\User\Application\User;
 use DateTimeImmutable;
 
 final class UserWasCreated extends AbstractEvent
@@ -20,5 +21,10 @@ final class UserWasCreated extends AbstractEvent
     public function mustBeLogged(): bool
     {
         return true;
+    }
+
+    public  function getResourceClass(): string
+    {
+        return User::class;
     }
 }

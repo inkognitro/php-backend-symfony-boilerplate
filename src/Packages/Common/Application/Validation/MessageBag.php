@@ -6,6 +6,11 @@ final class MessageBag
 {
     private $messages;
 
+    public function __construct()
+    {
+        $this->messages = [];
+    }
+
     public function addMessage(string $key, Message $message): void
     {
         $this->messages[$key] = $message;
