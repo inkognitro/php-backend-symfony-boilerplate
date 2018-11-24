@@ -6,11 +6,13 @@ use App\Packages\Authentication\Application\UserByIdQuery;
 
 final class DbalUserByIdQuery implements UserByIdQuery
 {
-    public function execute(string $userId): ?array //todo: implement database query
+    public function execute(string $userId): ?array
     {
+        //todo: implement database query
         return [
             'id' => $userId,
-            'role' => 'user'
+            'role' => 'user',
+            'languageId' => 'en'
         ];
     }
 }

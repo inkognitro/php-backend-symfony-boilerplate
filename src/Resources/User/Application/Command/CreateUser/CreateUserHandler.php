@@ -3,31 +3,32 @@
 namespace App\Resources\User\Application\Command\CreateUser;
 
 use App\Packages\Common\Application\Authorization\User as AuthUser;
-use App\Packages\Common\Application\CommandHandling\HandlerResponse;
-use App\Packages\Common\Application\CommandHandling\HandlerResponse\SuccessResponse;
-use App\Packages\Common\Application\CommandHandling\HandlerResponse\ValidationErrorResponse;
-use App\Packages\Common\Application\CommandHandling\HandlerResponse\UnauthorizedResponse;
+use App\Packages\Common\Application\HandlerResponse\HandlerResponse;
+use App\Packages\Common\Application\HandlerResponse\SuccessResponse;
+use App\Packages\Common\Application\HandlerResponse\ValidationErrorResponse;
+use App\Packages\Common\Application\HandlerResponse\UnauthorizedResponse;
 use App\Resources\User\Application\Command\CommandUser;
-use App\Resources\User\Application\Command\UserCommandPolicy;
 use App\Resources\User\Application\Command\UserDataValidator;
 use App\Resources\User\Application\Attribute\UserId;
-use App\Resources\User\Application\UserRepository;
+use App\Resources\User\Application\Command\UserRepository;
+use App\Resources\User\Application\Domain\Policy\CreateUserPolicy;
+use App\Resources\User\Application\Domain\User;
 
 final class CreateUserHandler
 {
     private $validator;
     private $userRepository;
-    private $userCommandPolicy;
+    private $createUserPolicy;
 
     public function __construct(
         UserDataValidator $validator,
         UserRepository $userRepository,
-        UserCommandPolicy $userCommandPolicy
+        CreateUserPolicy $userCommandPolicy
     )
     {
         $this->validator = $validator;
         $this->userRepository = $userRepository;
-        $this->userCommandPolicy = $userCommandPolicy;
+        $this->createUserPolicy = $userCommandPolicy;
     }
 
     public function handle(CreateUser $command, AuthUser $authUser): HandlerResponse
@@ -37,7 +38,7 @@ final class CreateUserHandler
             return new UnauthorizedResponse();
         }
 
-        if (!$this->userCommandPolicy->create($authUser)) {
+        if (!$this->createUserPolicy->create($authUser)) {
             return new UnauthorizedResponse();
         }
 
@@ -51,7 +52,7 @@ final class CreateUserHandler
             );
         }
 
-        $userToSave = CommandUser::create($userData, $authUser);
+        $userToSave = User::create($userData, $authUser);
         $this->userRepository->save($userToSave);
 
         return new SuccessResponse($userToSave->toUser()->toArray(), $this->validator->getWarnings());

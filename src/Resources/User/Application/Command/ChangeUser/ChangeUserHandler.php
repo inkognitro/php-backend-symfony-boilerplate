@@ -3,16 +3,16 @@
 namespace App\Resources\User\Application\Command\ChangeUser;
 
 use App\Packages\Common\Application\Authorization\User as AuthUser;
-use App\Packages\Common\Application\CommandHandling\HandlerResponse;
-use App\Packages\Common\Application\CommandHandling\HandlerResponse\SuccessResponse;
-use App\Packages\Common\Application\CommandHandling\HandlerResponse\ValidationErrorResponse;
-use App\Packages\Common\Application\CommandHandling\HandlerResponse\NotFoundResponse;
-use App\Packages\Common\Application\CommandHandling\HandlerResponse\UnauthorizedResponse;
+use App\Packages\Common\Application\HandlerResponse\HandlerResponse;
+use App\Packages\Common\Application\HandlerResponse\SuccessResponse;
+use App\Packages\Common\Application\HandlerResponse\ValidationErrorResponse;
+use App\Packages\Common\Application\HandlerResponse\NotFoundResponse;
+use App\Packages\Common\Application\HandlerResponse\UnauthorizedResponse;
 use App\Resources\User\Application\Command\CommandUser;
 use App\Resources\User\Application\Command\UserCommandPolicy;
 use App\Resources\User\Application\Command\UserDataValidator;
 use App\Resources\User\Application\Attribute\UserId;
-use App\Resources\User\Application\UserRepository;
+use App\Resources\User\Application\Command\UserRepository;
 
 final class ChangeUserHandler
 {
@@ -38,7 +38,7 @@ final class ChangeUserHandler
             return new NotFoundResponse();
         }
 
-        if (!$this->userCommandPolicy->write($authUser, $user)) {
+        if (!$this->userCommandPolicy->change($authUser, $user)) {
             return new UnauthorizedResponse();
         }
 

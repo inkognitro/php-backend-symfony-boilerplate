@@ -22,7 +22,7 @@ final class Username
         return $this->username;
     }
 
-    public function equals(self $username): bool
+    public function isEqualTo(self $username): bool
     {
         return ($username->toString() === $this->toString());
     }

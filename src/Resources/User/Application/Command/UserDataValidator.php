@@ -2,23 +2,23 @@
 
 namespace App\Resources\User\Application\Command;
 
-use App\Packages\Common\Application\Validation\Messages\DoesAlreadyExistMessage;
-use App\Packages\Common\Application\Validation\Rule\EmptyOrEmailAddressRule;
-use App\Packages\Common\Application\Validation\Rule\EmptyOrUuidRule;
-use App\Packages\Common\Application\Validation\Rule\NotEmptyRule;
-use App\Packages\Common\Application\Validation\Validator;
-use App\Resources\Common\Application\Command\ResourceDataValidator;
+use App\Packages\Common\Application\Command\Validation\Messages\DoesAlreadyExistMessage;
+use App\Packages\Common\Application\Command\Validation\Rule\EmptyOrEmailAddressRule;
+use App\Packages\Common\Application\Command\Validation\Rule\EmptyOrUuidRule;
+use App\Packages\Common\Application\Command\Validation\Rule\NotEmptyRule;
+use App\Packages\Common\Application\Command\Validation\Validator;
+use App\Resources\Common\Application\Command\DataValidator;
 use App\Resources\User\Application\Attribute\EmailAddress;
 use App\Resources\User\Application\Attribute\UserId;
 use App\Resources\User\Application\Attribute\Username;
-use App\Resources\User\Application\UserRepository;
+use App\Resources\User\Application\Domain\UserRepository;
 
-final class UserDataValidator extends ResourceDataValidator
+final class UserDataValidator extends DataValidator
 {
     private $validator;
     private $userRepository;
 
-    public function __construct(Validator $validator, UserRepository $userRepository)
+    public function __construct(DataValidator $validator, UserRepository $userRepository)
     {
         parent::__construct();
         $this->validator = $validator;
@@ -102,7 +102,7 @@ final class UserDataValidator extends ResourceDataValidator
         }
 
         $userId = UserId::fromString((isset($userData['id']) ? (string)$userData['id'] : ''));
-        if ($user->getId()->equals($userId)) {
+        if ($user->getId()->isEqualTo($userId)) {
             return true;
         }
 

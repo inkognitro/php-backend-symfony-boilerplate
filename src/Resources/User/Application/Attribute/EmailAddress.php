@@ -22,7 +22,7 @@ final class EmailAddress
         return $this->emailAddress;
     }
 
-    public function equals(self $emailAddress): bool
+    public function isEqualTo(self $emailAddress): bool
     {
         return (strcasecmp($emailAddress->toString(), $this->toString()) === 0);
     }

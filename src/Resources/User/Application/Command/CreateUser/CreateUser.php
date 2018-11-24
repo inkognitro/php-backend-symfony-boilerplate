@@ -2,15 +2,16 @@
 
 namespace App\Resources\User\Application\Command\CreateUser;
 
-use App\Packages\Common\Application\Authorization\Permission;
-use App\Packages\Common\Application\CommandHandling\Command;
+use App\Packages\Common\Application\Command\Command;
 
 final class CreateUser implements Command
 {
+    private $userId;
     private $userData;
 
     public function __construct(string $userId, array $userData)
     {
+        $this->userId = $userId;
         $this->userData = $userData;
     }
 
@@ -22,10 +23,5 @@ final class CreateUser implements Command
     public function getUserData(): array
     {
         return $this->userData;
-    }
-
-    public function getPermission(): ?Permission
-    {
-        return null;
     }
 }

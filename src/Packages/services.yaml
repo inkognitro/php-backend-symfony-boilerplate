@@ -1,2 +1,6 @@
-imports:
-    - { resource: Authentication/services.yaml }
+services:
+  _defaults:
+    autowire: true
+
+  App\Packages\Common\Application\StateManager:
+    class: App\Packages\Common\Infrastructure\DbalStateManager

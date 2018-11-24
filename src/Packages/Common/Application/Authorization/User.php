@@ -34,4 +34,9 @@ final class User
     {
         return $this->languageId;
     }
+
+    public function hasEveryRight(): bool
+    {
+        return ($this->role === self::SYSTEM_USER_ROLE || $this->role === self::ADMIN_USER_ROLE);
+    }
 }

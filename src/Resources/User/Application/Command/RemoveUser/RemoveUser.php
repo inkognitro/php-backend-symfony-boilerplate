@@ -2,8 +2,7 @@
 
 namespace App\Resources\User\Application\Command\RemoveUser;
 
-use App\Packages\Common\Application\Authorization\Permission;
-use App\Packages\Common\Application\CommandHandling\Command;
+use App\Packages\Common\Application\Command\Command;
 
 final class RemoveUser implements Command
 {
@@ -17,10 +16,5 @@ final class RemoveUser implements Command
     public function getUserId(): string
     {
         return $this->userId;
-    }
-
-    public function getPermission(): ?Permission
-    {
-        return null;
     }
 }

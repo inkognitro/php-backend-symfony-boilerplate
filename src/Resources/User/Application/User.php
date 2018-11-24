@@ -20,15 +20,15 @@ final class User implements Resource
         $this->emailAddress = $emailAddress;
     }
 
-    public function equals(self $user): bool
+    public function isEqualTo(self $user): bool
     {
-        if (!$this->getId()->equals($user->getId())) {
+        if (!$this->getId()->isEqualTo($user->getId())) {
             return false;
         }
-        if (!$this->getUsername()->equals($user->getUsername())) {
+        if (!$this->getUsername()->isEqualTo($user->getUsername())) {
             return false;
         }
-        if (!$this->getEmailAddress()->equals($user->getEmailAddress())) {
+        if (!$this->getEmailAddress()->isEqualTo($user->getEmailAddress())) {
             return false;
         }
         return true;

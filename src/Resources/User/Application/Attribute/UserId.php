@@ -22,7 +22,7 @@ final class UserId
         return $this->id;
     }
 
-    public function equals(self $userId): bool
+    public function isEqualTo(self $userId): bool
     {
         return (strcasecmp($userId->toString(), $this->toString()) === 0);
     }

@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-use App\Packages\Common\Application\CommandHandling\CommandBus;
+use App\Packages\Common\Application\Command\CommandBus;
 
 final class Controller extends AbstractController
 {
