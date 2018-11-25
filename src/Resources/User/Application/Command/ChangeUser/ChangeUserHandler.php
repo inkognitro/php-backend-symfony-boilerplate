@@ -4,31 +4,31 @@ namespace App\Resources\User\Application\Command\ChangeUser;
 
 use App\Packages\Common\Application\Authorization\User as AuthUser;
 use App\Packages\Common\Application\HandlerResponse\HandlerResponse;
-use App\Packages\Common\Application\HandlerResponse\SuccessResponse;
 use App\Packages\Common\Application\HandlerResponse\ValidationErrorResponse;
 use App\Packages\Common\Application\HandlerResponse\NotFoundResponse;
 use App\Packages\Common\Application\HandlerResponse\UnauthorizedResponse;
-use App\Resources\User\Application\Command\CommandUser;
-use App\Resources\User\Application\Command\UserCommandPolicy;
+use App\Resources\Common\Application\HandlerResponse\ChangeSuccessResponse;
 use App\Resources\User\Application\Command\UserDataValidator;
 use App\Resources\User\Application\Attribute\UserId;
-use App\Resources\User\Application\Command\UserRepository;
+use App\Resources\User\Application\Domain\Policy\ChangeUserPolicy;
+use App\Resources\User\Application\Domain\User;
+use App\Resources\User\Application\Domain\UserRepository;
 
 final class ChangeUserHandler
 {
     private $validator;
     private $userRepository;
-    private $userCommandPolicy;
+    private $changeUserPolicy;
 
     public function __construct(
         UserDataValidator $validator,
         UserRepository $userRepository,
-        UserCommandPolicy $userCommandPolicy
+        ChangeUserPolicy $changeUserPolicy
     )
     {
         $this->validator = $validator;
         $this->userRepository = $userRepository;
-        $this->userCommandPolicy = $userCommandPolicy;
+        $this->changeUserPolicy = $changeUserPolicy;
     }
 
     public function handle(ChangeUser $command, AuthUser $authUser): HandlerResponse
@@ -38,7 +38,7 @@ final class ChangeUserHandler
             return new NotFoundResponse();
         }
 
-        if (!$this->userCommandPolicy->change($authUser, $user)) {
+        if (!$this->changeUserPolicy->isAuthorized($authUser, $user)) {
             return new UnauthorizedResponse();
         }
 
@@ -52,10 +52,10 @@ final class ChangeUserHandler
             );
         }
 
-        $userToSave = CommandUser::fromUser($user);
+        $userToSave = User::fromUser($user);
         $userToSave->change($userData, $authUser);
         $this->userRepository->save($userToSave);
 
-        return new SuccessResponse($userToSave->toUser()->toArray(), $this->validator->getWarnings());
+        return new ChangeSuccessResponse($userToSave->toQueryUser(), $this->validator->getWarnings());
     }
 }

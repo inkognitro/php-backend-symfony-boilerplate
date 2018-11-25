@@ -3,6 +3,7 @@
 namespace App\Resources\User\Application\Command\RemoveUser;
 
 use App\Packages\Common\Application\Authorization\User as AuthUser;
+use App\Packages\Common\Application\Command\Validation\MessageBag;
 use App\Packages\Common\Application\HandlerResponse\HandlerResponse;
 use App\Packages\Common\Application\HandlerResponse\NotFoundResponse;
 use App\Packages\Common\Application\HandlerResponse\UnauthorizedResponse;
@@ -34,6 +35,6 @@ final class RemoveUserHandler
         }
 
         $this->userRepository->remove($user, $authUser);
-        return RemovalSuccessResponse::fromResource($user);
+        return new RemovalSuccessResponse($user, new MessageBag());
     }
 }

@@ -9,7 +9,7 @@ use App\Resources\User\Application\Attribute\EmailAddress;
 use App\Resources\User\Application\Attribute\UserId;
 use App\Resources\User\Application\Attribute\Username;
 use App\Packages\Common\Application\Authorization\User as AuthUser;
-use App\Resources\User\Application\User;
+use App\Resources\User\Application\User as QueryUser;
 
 final class UserRepository
 {
@@ -20,12 +20,12 @@ final class UserRepository
         $this->recordedEvents = new EventStream([]);
     }
 
-    public function findById(UserId $id): ?User
+    public function findById(UserId $id): ?QueryUser
     {
         return null; //todo with query class from injection
     }
 
-    public function findByEmailAddress(EmailAddress $emailAddress): ?User
+    public function findByEmailAddress(EmailAddress $emailAddress): ?QueryUser
     {
         return null; //todo with query class from injection
     }
@@ -35,12 +35,12 @@ final class UserRepository
         $this->recordedEvents = $this->recordedEvents->getMerged($user->getRecordedEvents());
     }
 
-    public function findByUsername(Username $username): ?User
+    public function findByUsername(Username $username): ?QueryUser
     {
         return null; //todo with query class from injection
     }
 
-    public function remove(User $user, AuthUser $authUser): void
+    public function remove(QueryUser $user, AuthUser $authUser): void
     {
         $payload = Payload::fromData($user->toArray());
         $this->recordedEvents->getMerged(new EventStream([
