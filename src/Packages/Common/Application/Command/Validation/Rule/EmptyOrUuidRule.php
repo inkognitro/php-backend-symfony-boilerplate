@@ -3,8 +3,8 @@
 namespace App\Packages\Common\Application\Command\Validation\Rule;
 
 use App\Packages\Common\Application\Command\Validation\Message;
-use App\Packages\Common\Application\Command\Validation\Messages\MustBeAStringMessage;
-use App\Packages\Common\Application\Command\Validation\Messages\MustBeAUuidMessage;
+use App\Packages\Common\Application\Command\Validation\Message\MustBeAStringMessage;
+use App\Packages\Common\Application\Command\Validation\Message\MustBeAUuidMessage;
 use App\Packages\Common\Application\Command\Validation\Rule;
 use Ramsey\Uuid\Uuid;
 

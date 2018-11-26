@@ -3,7 +3,7 @@
 namespace App\Packages\Common\Application\Command\Validation\Rule;
 
 use App\Packages\Common\Application\Command\Validation\Message;
-use App\Packages\Common\Application\Command\Validation\Messages\MustNotBeEmptyMessage;
+use App\Packages\Common\Application\Command\Validation\Message\MustNotBeEmptyMessage;
 use App\Packages\Common\Application\Command\Validation\Rule;
 
 final class NotEmptyRule implements Rule

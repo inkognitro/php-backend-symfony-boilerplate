@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Application\Command\Validation\Messages;
+namespace App\Packages\Common\Application\Command\Validation\Message;
 
 use App\Packages\Common\Application\Command\Validation\Message;
 

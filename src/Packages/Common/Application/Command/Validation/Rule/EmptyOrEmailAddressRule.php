@@ -2,9 +2,9 @@
 
 namespace App\Packages\Common\Application\Command\Validation\Rule;
 
+use App\Packages\Common\Application\Command\Validation\Message\MustBeAStringMessage;
+use App\Packages\Common\Application\Command\Validation\Message\MustBeAnEmailAddressMessage;
 use App\Packages\Common\Application\Command\Validation\Message;
-use App\Packages\Common\Application\Command\Validation\Messages\MustBeAnEmailAddressMessage;
-use App\Packages\Common\Application\Command\Validation\Messages\MustBeAStringMessage;
 use App\Packages\Common\Application\Command\Validation\Rule;
 
 final class EmptyOrEmailAddressRule implements Rule

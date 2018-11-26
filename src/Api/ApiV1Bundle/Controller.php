@@ -2,17 +2,17 @@
 
 namespace App\Api\ApiV1Bundle;
 
-use App\Packages\Resources\Application\SaveResource;
+use App\Resources\User\Application\Command\CreateUser\CreateUser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-use App\Packages\Common\Application\Command\CommandBus;
+use App\Packages\Common\Application\CommandBus;
 
 final class Controller extends AbstractController
 {
     private $router;
-    private $commandBus; //todo: remove
+    private $commandBus;
 
     public function __construct(Router $router, CommandBus $commandBus)
     {
@@ -22,10 +22,7 @@ final class Controller extends AbstractController
 
     public function handle(string $path): Response
     {
-        $command = new SaveResource('user', ['id' => 'blablabla']);
-        $handlerResponse = $this->commandBus->handle($command);
-        die(print_r($handlerResponse, true));
-
+        //$handlerResponse = $this->commandBus->handle();
         $request = Request::createFromGlobals();
         $response = $this->router->handle($path, $request);
         return $response;
