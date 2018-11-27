@@ -7,14 +7,14 @@ use App\Packages\Common\Application\Command\Command;
 use App\Packages\Common\Application\Command\StateManager;
 use App\Packages\Common\Application\HandlerResponse\HandlerResponse;
 use App\Packages\Common\Application\HandlerResponse\Success;
-use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 final class CommandBus
 {
     private $stateManager;
     private $serviceContainer;
 
-    public function __construct(StateManager $stateManager, Container $serviceContainer)
+    public function __construct(StateManager $stateManager, ContainerInterface $serviceContainer)
     {
         $this->stateManager = $stateManager;
         $this->serviceContainer = $serviceContainer;

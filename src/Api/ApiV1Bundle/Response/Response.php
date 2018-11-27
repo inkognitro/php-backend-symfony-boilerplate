@@ -4,5 +4,5 @@ namespace App\Api\ApiV1Bundle\Response;
 
 interface Response
 {
-
+    public function getStatusCode(): int;
 }

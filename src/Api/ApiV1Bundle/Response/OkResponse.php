@@ -2,6 +2,8 @@
 
 namespace App\Api\ApiV1Bundle\Response;
 
+use Symfony\Component\HttpFoundation\Response;
+
 final class OkResponse implements JsonResponse
 {
     private $data;
@@ -11,9 +13,9 @@ final class OkResponse implements JsonResponse
         $this->data = $data;
     }
 
-    public static function createFromData(array $data): self
+    public function getStatusCode(): int
     {
-        return new self($data);
+        return Response::HTTP_UNAUTHORIZED;
     }
 
     public function toJson(): string

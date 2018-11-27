@@ -2,7 +2,7 @@
 
 namespace App\Packages\Common\Infrastructure\Command;
 
-use App\Packages\Common\Application\StateManager;
+use App\Packages\Common\Application\Command\StateManager;
 
 final class DbalStateManager implements StateManager
 {

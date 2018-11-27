@@ -4,7 +4,7 @@ namespace App\Api\ApiV1Bundle\Response;
 
 use Exception;
 
-final class ResponseNotSupportedException extends Exception
+class ResponseNotSupportedException extends Exception
 {
 
 }

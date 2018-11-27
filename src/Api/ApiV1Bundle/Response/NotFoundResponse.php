@@ -2,6 +2,8 @@
 
 namespace App\Api\ApiV1Bundle\Response;
 
+use Symfony\Component\HttpFoundation\Response;
+
 final class NotFoundResponse implements JsonResponse
 {
     private $message;
@@ -11,9 +13,9 @@ final class NotFoundResponse implements JsonResponse
         $this->message = $message;
     }
 
-    public static function createFromMessage(array $message): self
+    public function getStatusCode(): int
     {
-        return new self($message);
+        return Response::HTTP_UNAUTHORIZED;
     }
 
     public function toJson(): string

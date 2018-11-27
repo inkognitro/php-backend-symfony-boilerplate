@@ -16,7 +16,7 @@ final class Router
 {
     public function handle(string $path, Request $request): HttpResponse
     {
-        die('path = ' . $path);
+        //die('path = ' . $path);
 
         //todo: generate api response and return it
 

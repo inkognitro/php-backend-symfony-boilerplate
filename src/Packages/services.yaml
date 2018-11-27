@@ -2,5 +2,5 @@ services:
   _defaults:
     autowire: true
 
-  App\Packages\Common\Application\StateManager:
-    class: App\Packages\Common\Infrastructure\DbalStateManager
+  App\Packages\Common\Application\Command\StateManager:
+    class: App\Packages\Common\Infrastructure\Command\DbalStateManager

@@ -2,7 +2,6 @@
 
 namespace App\Api\ApiV1Bundle;
 
-use App\Resources\User\Application\Command\CreateUser\CreateUser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
