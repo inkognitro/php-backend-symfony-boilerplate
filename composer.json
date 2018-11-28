@@ -1,6 +1,14 @@
 {
     "type": "project",
     "license": "proprietary",
+    "authors": [
+        {
+            "name": "Marcel Fischer",
+            "email": "contact@maecefischer.ch",
+            "homepage": "http://maecefischer.ch",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "php": "^7.1.3",
         "ext-ctype": "*",
