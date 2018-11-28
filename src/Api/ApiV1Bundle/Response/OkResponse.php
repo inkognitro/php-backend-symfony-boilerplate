@@ -7,10 +7,12 @@ use Symfony\Component\HttpFoundation\Response;
 final class OkResponse implements JsonResponse
 {
     private $data;
+    private $warnings;
 
-    private function __construct(array $data)
+    public function __construct(array $data, array $warnings)
     {
         $this->data = $data;
+        $this->warnings = $warnings;
     }
 
     public function getStatusCode(): int
@@ -20,6 +22,16 @@ final class OkResponse implements JsonResponse
 
     public function toJson(): string
     {
-        return json_encode(['data' => $this->data]);
+        $responseData = [];
+
+        if(count($this->data) !== 0) {
+            $responseData['data'] = $this->data;
+        }
+
+        if(count($this->warnings) !== 0) {
+            $responseData['warnings'] = $this->warnings;
+        }
+
+        return json_encode($responseData);
     }
 }

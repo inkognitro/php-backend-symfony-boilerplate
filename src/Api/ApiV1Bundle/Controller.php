@@ -13,7 +13,7 @@ final class Controller extends AbstractController
     private $router;
     private $commandBus;
 
-    public function __construct(Router $router, CommandBus $commandBus)
+    public function __construct(ResponseFactory $router, CommandBus $commandBus)
     {
         $this->router = $router;
         $this->commandBus = $commandBus;

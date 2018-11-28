@@ -4,7 +4,7 @@ namespace App\Api\ApiV1Bundle\Response;
 
 use Symfony\Component\HttpFoundation\Response;
 
-final class NotAuthorizedResponse implements JsonResponse
+final class UnauthorizedResponse implements JsonResponse
 {
     public function getStatusCode(): int
     {
@@ -13,6 +13,6 @@ final class NotAuthorizedResponse implements JsonResponse
 
     public function toJson(): string
     {
-        return json_encode(['message' => 'Not authorized.']);
+        return json_encode(['message' => 'Unauthorized.']);
     }
 }

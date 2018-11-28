@@ -2,48 +2,62 @@
 
 namespace App\Api\ApiV1Bundle\Response;
 
-use App\Api\ApiV1Bundle\Response\Response as ApiResponse;
+use App\Api\ApiV1Bundle\Transformer\Transformer;
 use App\Packages\Common\Application\HandlerResponse\HandlerResponse;
-use App\Packages\Common\Application\HandlerResponse\UnauthorizedResponse;
+use App\Packages\Common\Application\HandlerResponse\UnauthorizedResponse as UnauthorizedHandlerResponse;
 use App\Packages\Common\Application\HandlerResponse\ValidationErrorResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response as HttpResponse;
+use App\Resources\Common\Application\HandlerResponse\ChangeSuccessResponse;
+use App\Resources\Common\Application\HandlerResponse\CreationSuccessResponse;
+use App\Resources\Common\Application\HandlerResponse\NotFoundResponse as ResourceNotFoundResponse;
+use App\Resources\Common\Application\HandlerResponse\RemovalSuccessResponse;
 
 final class ResponseFactory
 {
-    public function createFromHandlerResponse(Request $request, HandlerResponse $handlerResponse): HttpResponse
-    {
-        $apiResponse = $this->getApiResponseFromHandlerResponse($handlerResponse);
-        return $this->getHttpResponseFromApiResponse($request, $apiResponse);
+    private $transformer;
 
+    public function __construct(Transformer $transformer)
+    {
+        $this->transformer = $transformer;
     }
 
-    private function getApiResponseFromHandlerResponse(HandlerResponse $handlerResponse): ApiResponse
+    public function createFromHandlerResponse(HandlerResponse $handlerResponse): Response
     {
-        if($handlerResponse instanceof UnauthorizedResponse) {
-            return new NotAuthorizedResponse();
+        if($handlerResponse instanceof UnauthorizedHandlerResponse) {
+            return new UnauthorizedResponse();
+        }
+
+        if($handlerResponse instanceof ResourceNotFoundResponse) {
+            return new NotFoundResponse();
         }
 
         if($handlerResponse instanceof ValidationErrorResponse) {
-            return new BadRequestResponse()
+            return new BadRequestResponse(
+                $handlerResponse->getErrors()->toArray(),
+                $handlerResponse->getWarnings()->toArray()
+            );
+        }
+
+        if($handlerResponse instanceof CreationSuccessResponse) {
+            return new OkResponse(
+                $this->transformer->transform($handlerResponse->getResource()),
+                $handlerResponse->getWarnings()->toArray()
+            );
+        }
+
+        if($handlerResponse instanceof ChangeSuccessResponse) {
+            return new OkResponse(
+                $this->transformer->transform($handlerResponse->getResource()),
+                $handlerResponse->getWarnings()->toArray()
+            );
+        }
+
+        if($handlerResponse instanceof RemovalSuccessResponse) {
+            return new OkResponse(
+                $this->transformer->transform($handlerResponse->getResource()),
+                $handlerResponse->getWarnings()->toArray()
+            );
         }
 
         throw new ResponseNotSupportedException('HandlerResponse "' . get_class($handlerResponse) . '" is not supported!');
-    }
-
-    private function getHttpResponseFromApiResponse(Request $request, ApiResponse $apiResponse): HttpResponse
-    {
-        $response = new HttpResponse();
-        $response->prepare($request);
-        $response->setStatusCode($apiResponse->getStatusCode());
-        $response->setCharset('UTF-8');
-
-        if ($apiResponse instanceof JsonResponse) {
-            $response->setContent($apiResponse->toJson());
-            $response->headers->set('Content-Type', 'application/json');
-            return $response;
-        }
-
-        throw new ResponseNotSupportedException('ApiResponse "' . get_class($apiResponse) . '" is not supported!');
     }
 }
