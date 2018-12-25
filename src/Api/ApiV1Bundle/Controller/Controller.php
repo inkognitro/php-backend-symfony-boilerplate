@@ -2,23 +2,26 @@
 
 namespace App\Api\ApiV1Bundle\Controller;
 
-use App\Api\ApiV1Bundle\ResponseFactory;
+use App\Api\ApiV1Bundle\HttpResponseFactory;
+use App\Packages\Authentication\Application\UserFactory;
 use App\Packages\Common\Application\CommandBus;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
 abstract class Controller extends AbstractController
 {
+    protected $authUserFactory;
     protected $commandBus;
-    protected $responseFactory;
+    protected $httpResponseFactory;
 
-    public function __construct(CommandBus $commandBus, ResponseFactory $responseFactory)
+    public function __construct(UserFactory $authUserFactory, CommandBus $commandBus, HttpResponseFactory $httpResponseFactory)
     {
+        $this->authUserFactory = $authUserFactory;
         $this->commandBus = $commandBus;
-        $this->responseFactory = $responseFactory;
+        $this->httpResponseFactory = $httpResponseFactory;
     }
 
-    protected function getRequest(): Request
+    protected function createRequest(): Request
     {
         return Request::createFromGlobals();
     }

@@ -1,0 +1,10 @@
+doctrine:
+    dbal:
+        connections:
+            default:
+                wrapper_class: App\Packages\Common\Infrastructure\DbalConnection
+                dbname: symfonyApi
+                user: root
+                password:
+                host: localhost
+                driver: pdo_mysql

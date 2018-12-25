@@ -10,7 +10,7 @@ use App\Packages\Common\Application\HandlerResponse\HandlerResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
-final class ResponseFactory
+final class HttpResponseFactory
 {
     private $apiResponseFactory;
 

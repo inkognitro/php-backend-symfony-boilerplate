@@ -5,21 +5,18 @@ namespace App\Api\ApiV1Bundle\Controller;
 use App\Resources\User\Application\Command\CreateUser\CreateUser;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\Response;
-use App\Packages\Common\Application\Authorization\User as AuthUser;
 
 final class UserController extends Controller
 {
     public function create(): Response
     {
-        $request = $this->getRequest();
+        $request = $this->createRequest();
         $command = new CreateUser(Uuid::uuid4()->toString(), [
             'username' => 'test',
             'emailAddress' => 'test@example.com'
         ]);
-        $response = $this->commandBus->handle(
-            $command,
-            new AuthUser('userId', AuthUser::ADMIN_USER_ROLE, 'en')
-        );
-        return $this->responseFactory->createFromHandlerResponse($request, $response);
+        $authUser = $this->authUserFactory->createFromUserId('287d6446-af61-4451-bc60-85ea545e53b6');
+        $response = $this->commandBus->handle($command, $authUser);
+        return $this->httpResponseFactory->createFromHandlerResponse($request, $response);
     }
 }
