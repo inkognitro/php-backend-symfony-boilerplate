@@ -3,8 +3,8 @@ doctrine:
         connections:
             default:
                 wrapper_class: App\Packages\Common\Infrastructure\DbalConnection
-                dbname: symfonyApi
-                user: root
-                password:
-                host: localhost
-                driver: pdo_mysql
+                dbname: '%env(DATABASE_DEFAULT_DBNAME)%'
+                user: '%env(DATABASE_DEFAULT_USER)%'
+                password: '%env(DATABASE_DEFAULT_PASSWORD)%'
+                host: '%env(DATABASE_DEFAULT_HOST)%'
+                driver: '%env(DATABASE_DEFAULT_DRIVER)%'
