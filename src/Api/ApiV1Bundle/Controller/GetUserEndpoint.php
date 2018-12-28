@@ -6,10 +6,12 @@ use App\Resources\User\Application\Command\CreateUser\CreateUser;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\Response;
 
-final class UserController extends Controller
+final class GetUserEndpoint extends Controller
 {
-    public function create(): Response
+    public function handle(): Response
     {
+        die('test ok');
+
         $request = $this->createRequest();
         $command = new CreateUser(Uuid::uuid4()->toString(), [
             'username' => 'test',
@@ -17,6 +19,6 @@ final class UserController extends Controller
         ]);
         $authUser = $this->authUserFactory->createFromUserId('287d6446-af61-4451-bc60-85ea545e53b6');
         $response = $this->commandBus->handle($command, $authUser);
-        return $this->httpResponseFactory->createFromHandlerResponse($request, $response);
+        return $this->httpResponseFactory->createFromHandlerResponse($response, $request);
     }
 }

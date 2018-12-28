@@ -14,8 +14,11 @@ abstract class Controller extends AbstractController
     protected $commandBus;
     protected $httpResponseFactory;
 
-    public function __construct(UserFactory $authUserFactory, CommandBus $commandBus, HttpResponseFactory $httpResponseFactory)
-    {
+    public function __construct(
+        UserFactory $authUserFactory,
+        CommandBus $commandBus,
+        HttpResponseFactory $httpResponseFactory
+    ) {
         $this->authUserFactory = $authUserFactory;
         $this->commandBus = $commandBus;
         $this->httpResponseFactory = $httpResponseFactory;

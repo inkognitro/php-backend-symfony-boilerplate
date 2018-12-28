@@ -32,7 +32,7 @@ final class Controller extends AbstractController
         $handlerResponse = new ValidationErrorResponse(new MessageBag(), new MessageBag());
         //$handlerResponse = $this->commandBus->handle();
         $request = Request::createFromGlobals();
-        $response = $this->responseFactory->createFromHandlerResponse($request, $handlerResponse);
+        $response = $this->responseFactory->createFromHandlerResponse($handlerResponse, $request);
         return $response;
     }
 }

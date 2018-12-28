@@ -1,0 +1,7 @@
+services:
+    _defaults:
+        public: true
+
+    App\Api\ApiV1Bundle\RoutesLoader:
+
+    App\Api\ApiV1Bundle\Endpoint\User\CreateUserEndpoint:

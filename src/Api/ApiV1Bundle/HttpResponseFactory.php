@@ -19,16 +19,18 @@ final class HttpResponseFactory
         $this->apiResponseFactory = $apiResponseFactory;
     }
 
-    public function createFromHandlerResponse(Request $request, HandlerResponse $handlerResponse): HttpResponse
+    public function createFromHandlerResponse(HandlerResponse $handlerResponse, ?Request $request = null): HttpResponse
     {
         $apiResponse = $this->apiResponseFactory->createFromHandlerResponse($handlerResponse);
-        return $this->createFromApiResponse($request, $apiResponse);
+        return $this->createFromApiResponse($apiResponse, $request);
     }
 
-    public function createFromApiResponse(Request $request, ApiResponse $apiResponse): HttpResponse
+    public function createFromApiResponse(ApiResponse $apiResponse, ?Request $request = null): HttpResponse
     {
         $response = new HttpResponse();
-        $response->prepare($request);
+        if($request !== null) {
+            $response->prepare($request);
+        }
         $response->setStatusCode($apiResponse->getStatusCode());
         $response->setCharset('UTF-8');
 
