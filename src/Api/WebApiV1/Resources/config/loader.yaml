@@ -1,0 +1,9 @@
+services:
+    App\Api\ApiV1Bundle\Endpoints:
+        arguments: [!tagged 'api_v1.endpoint']
+
+    App\Api\ApiV1Bundle\RoutingLoader:
+        class: App\Api\ApiV1Bundle\RoutingLoader
+        tags: ['routing.loader']
+        public: true
+        autowire: true

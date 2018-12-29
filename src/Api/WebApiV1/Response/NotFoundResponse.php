@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace App\Api\ApiV1Bundle\Response;
+namespace App\Api\WebApiV1\Response;
 
 use Symfony\Component\HttpFoundation\Response;
 
-final class UnauthorizedResponse implements JsonResponse
+final class NotFoundResponse implements JsonResponse
 {
     public function getStatusCode(): int
     {
@@ -13,6 +13,6 @@ final class UnauthorizedResponse implements JsonResponse
 
     public function toJson(): string
     {
-        return json_encode(['message' => 'Unauthorized.']);
+        return json_encode(['message' => 'Resource not found.']);
     }
 }

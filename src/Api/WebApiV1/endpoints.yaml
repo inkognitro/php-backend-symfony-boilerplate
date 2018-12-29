@@ -1,0 +1,7 @@
+services:
+    _defaults:
+        public: true
+        autowire: true
+        tags: ['api_v1.endpoint', 'controller.service_arguments']
+
+    App\Api\WebApiV1\Endpoint\User\CreateUserEndpoint: ~

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Api\ApiV1Bundle\Endpoint;
+namespace App\Api\WebApiV1\Endpoint;
 
 final class EndpointSchema
 {

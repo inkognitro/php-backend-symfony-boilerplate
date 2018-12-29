@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Api\ApiV1Bundle\Response;
+namespace App\Api\WebApiV1\Response;
 
 use Exception;
 

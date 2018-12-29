@@ -1,4 +1,4 @@
-ApiV1Bundle:
+WebApiV1:
     prefix: /api/v1
-    resource: 'App\Api\ApiV1Bundle\RoutesLoader::load'
-    type: service
+    resource: .
+    type: WebApiV1Routes
