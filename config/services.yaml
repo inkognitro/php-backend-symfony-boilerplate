@@ -18,7 +18,7 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php,Api/WebApiV1Bundle}'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
@@ -26,4 +26,3 @@ services:
 imports:
     - { resource: '../src/Packages/services.yaml' }
     - { resource: '../src/Resources/services.yaml' }
-    - { resource: '../src/Api/WebApiV1/services.yaml' }

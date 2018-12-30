@@ -1,33 +1,25 @@
 <?php declare(strict_types=1);
 
-namespace App\Api\WebApiV1;
+namespace App\Api\WebApiV1Bundle;
 
-use App\Api\WebApiV1\Endpoint\Endpoints;
-use App\Api\WebApiV1\Endpoint\EndpointSchema;
-use App\Api\WebApiV1\Endpoint\User\CreateUserEndpoint;
+use App\Api\WebApiV1Bundle\Endpoint\Endpoint;
+use App\Api\WebApiV1Bundle\Endpoint\Endpoints;
+use App\Api\WebApiV1Bundle\Endpoint\EndpointSchema;
+use App\Api\WebApiV1Bundle\Endpoint\User\CreateUserEndpoint;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
 class RoutingLoader extends Loader
 {
+    private const TYPE = 'webApiV1Routes';
     private $isLoaded;
-    private $endpointSchemas;
     private $endpoints;
 
     public function __construct(Endpoints $endpoints)
     {
         $this->isLoaded = false;
-        $this->endpointSchemas = $this->getEndpointSchemas();
         $this->endpoints = $endpoints;
-    }
-
-    /** @return EndpointSchema[] */
-    private function getEndpointSchemas(): array
-    {
-        return [
-            CreateUserEndpoint::class => CreateUserEndpoint::getSchema(),
-        ];
     }
 
     public function load($resource, $type = null)
@@ -37,20 +29,34 @@ class RoutingLoader extends Loader
         }
 
         $routes = new RouteCollection();
-        foreach($this->getEndpointSchemas() as $endpointClassName => $endpointSchema) {
-            $routes->add($endpointClassName, $this->createRoute($endpointClassName, $endpointSchema));
+
+        if(count($this->endpoints->toCollection()) === 0) {
+            die('FUCK SYMFONY!!!!!!!');
+        }
+
+        die('FUCK SYMFONY ANYWAY!!!!!!!');
+
+        foreach($this->endpoints->toCollection() as $endpoint) {
+            /** @var $endpoint Endpoint */
+            $endpointClassName = get_class($endpoint);
+            $routes->add($endpointClassName, $this->createRoute($endpoint));
         }
 
         $this->isLoaded = true;
         return $routes;
     }
 
-    private function createRoute(string $endpointClassName, EndpointSchema $endpointSchema): Route
+    private function createRoute(Endpoint $endpoint): Route
     {
+        $endpointSchema = $endpoint->getSchema();
+        $endpointClassName = get_class($endpoint);
+
+        die('endpoint className = ' . $endpointClassName);
+
         $url = $endpointSchema->getUrlPart();
         $defaults = [
-            '_controller' => 'api_v1.endpoints.users.create_user::handle',
-            //'_controller' => [$endpointClassName, 'handle'],
+            //'_controller' => 'api_v1.endpoints.users.create_user::handle',
+            '_controller' => [$endpointClassName, 'handle'],
         ];
         $requirements = [];
         $options = [];
@@ -62,6 +68,6 @@ class RoutingLoader extends Loader
 
     public function supports($resource, $type = null)
     {
-        return ($type === 'WebApiV1Routes');
+        return ($type === self::TYPE);
     }
 }

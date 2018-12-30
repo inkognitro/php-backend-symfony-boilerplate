@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace App\Api\WebApiV1\Endpoint\User;
+namespace App\Api\WebApiV1Bundle\Endpoint\User;
 
-use App\Api\WebApiV1\Endpoint\Endpoint;
-use App\Api\WebApiV1\Endpoint\EndpointSchema;
-use App\Api\WebApiV1\Response\Response;
-use App\Api\WebApiV1\Response\ResponseFactory;
+use App\Api\WebApiV1Bundle\Endpoint\Endpoint;
+use App\Api\WebApiV1Bundle\Endpoint\EndpointSchema;
+use App\Api\WebApiV1Bundle\Response\Response;
+use App\Api\WebApiV1Bundle\Response\ResponseFactory;
 use App\Packages\Common\Application\CommandBus;
 use App\Resources\User\Application\Command\CreateUser\CreateUser;
 use Ramsey\Uuid\Uuid;
@@ -32,7 +32,7 @@ final class CreateUserEndpoint implements Endpoint
         return $this->responseFactory->createFromHandlerResponse($handlerResponse);
     }
 
-    public static function getSchema(): EndpointSchema
+    public function getSchema(): EndpointSchema
     {
         return EndpointSchema::fromJsonFile(__DIR__ . '/CreateUserEndpointSchema.json');
     }

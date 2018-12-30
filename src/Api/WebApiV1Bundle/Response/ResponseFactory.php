@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Api\WebApiV1\Response;
+namespace App\Api\WebApiV1Bundle\Response;
 
-use App\Api\WebApiV1\Transformer\Transformer;
+use App\Api\WebApiV1Bundle\Transformer\Transformer;
 use App\Packages\Common\Application\HandlerResponse\HandlerResponse;
 use App\Packages\Common\Application\HandlerResponse\UnauthorizedResponse as UnauthorizedHandlerResponse;
 use App\Packages\Common\Application\HandlerResponse\ValidationErrorResponse;

@@ -1,3 +1,0 @@
-api_v1.routes:
-    resource: .
-    type: ApiV1Routes

@@ -1,0 +1,15 @@
+imports:
+    - { resource: './Endpoint/endpoints.yaml' }
+
+services:
+    _defaults:
+        autowire: true
+
+    App\Api\WebApiV1Bundle\:
+        resource: './*'
+        exclude: './{DependencyInjection}'
+
+    web_api_v1.routing_loader:
+        class: App\Api\WebApiV1Bundle\RoutingLoader
+        tags: ['routing.loader']
+        public: true

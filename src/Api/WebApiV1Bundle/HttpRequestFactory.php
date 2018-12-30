@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Api\WebApiV1;
+namespace App\Api\WebApiV1Bundle;
 
 use Symfony\Component\HttpFoundation\Request;
 

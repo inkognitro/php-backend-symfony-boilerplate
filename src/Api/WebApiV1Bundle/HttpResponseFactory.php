@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace App\Api\WebApiV1;
+namespace App\Api\WebApiV1Bundle;
 
-use App\Api\WebApiV1\Response\JsonResponse;
-use App\Api\WebApiV1\Response\ResponseFactory as ApiResponseFactory;
-use App\Api\WebApiV1\Response\Response as ApiResponse;
-use App\Api\WebApiV1\Response\ResponseNotSupportedException;
+use App\Api\WebApiV1Bundle\Response\JsonResponse;
+use App\Api\WebApiV1Bundle\Response\ResponseFactory as ApiResponseFactory;
+use App\Api\WebApiV1Bundle\Response\Response as ApiResponse;
+use App\Api\WebApiV1Bundle\Response\ResponseNotSupportedException;
 use App\Packages\Common\Application\HandlerResponse\HandlerResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;

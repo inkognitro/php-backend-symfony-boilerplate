@@ -1,0 +1,17 @@
+services:
+    _defaults:
+        public: true
+
+    App\Api\WebApiV1Bundle\Endpoint\Endpoints:
+        arguments: [!tagged 'web_api_v1.endpoint']
+
+    _instanceof:
+        App\Api\WebApiV1Bundle\Endpoint\Endpoint:
+            autowire: true
+            tags: ['web_api_v1.endpoint', 'controller.service_arguments']
+
+        App\Api\WebApiV1Bundle\Endpoint\User\CreateUserEndpoint:
+            autowire: true
+            tags: ['web_api_v1.endpoint', 'controller.service_arguments']
+
+    App\Api\WebApiV1Bundle\Endpoint\User\CreateUserEndpoint: ~

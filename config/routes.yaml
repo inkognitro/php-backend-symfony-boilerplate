@@ -1,4 +1,4 @@
 WebApiV1:
     prefix: /api/v1
-    resource: .
-    type: WebApiV1Routes
+    resource: web_api_v1.routing_loader
+    type: webApiV1Routes

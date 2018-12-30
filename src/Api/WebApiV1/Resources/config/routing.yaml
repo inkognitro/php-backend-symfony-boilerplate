@@ -1,3 +1,0 @@
-api_v1.endpoint.users.create_user:
-    path: /users
-    controller: App\Api\ApiV1Bundle\Endpoint\User\CreateUserEndpoint::handle
