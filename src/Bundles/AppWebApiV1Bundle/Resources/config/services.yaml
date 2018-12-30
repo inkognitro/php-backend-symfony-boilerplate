@@ -1,0 +1,4 @@
+services:
+
+imports:
+    - { resource: '../../Endpoint/endpoints.yaml' }

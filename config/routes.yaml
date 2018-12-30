@@ -1,3 +1,4 @@
-ApiV1Bundle:
+AppWebApiV1Routes:
     prefix: /api/v1
-    resource: '@ApiV1Bundle/Resources/config/routing.yaml'
+    resource: .
+    type: app_web_api_v1_routes

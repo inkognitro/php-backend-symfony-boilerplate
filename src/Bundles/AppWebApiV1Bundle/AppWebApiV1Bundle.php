@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace App\Api\ApiV1Bundle;
+namespace AppWebApiV1Bundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-final class ApiV1Bundle extends Bundle
+final class AppWebApiV1Bundle extends Bundle
 {
 
 }
