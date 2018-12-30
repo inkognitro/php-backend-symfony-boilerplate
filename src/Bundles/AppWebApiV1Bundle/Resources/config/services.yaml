@@ -1,0 +1,8 @@
+services:
+    AppWebApiV1Bundle/Resources/EndpointConsumer:
+        public: true
+        autowire: false
+        tags: ['controller.service_arguments']
+
+imports:
+    - { resource: '../../Endpoint/endpoints.yaml' }

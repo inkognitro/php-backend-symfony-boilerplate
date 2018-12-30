@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "CreateUserSchema",
+  "endpoint": {
+    "urlPart": "/users/{userId}",
+    "method": "GET"
+  },
+  "title": "Create User",
+  "description": "With this endpoint a new user can be created.",
+  "type": "object",
+  "properties": {
+    "username": {
+      "description": "The unique username of the new user.",
+      "type": "string"
+    },
+    "emailAddress": {
+      "description": "The unique email address of the new user.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "username",
+    "emailAddress"
+  ]
+}

@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Api\WebApiV1Bundle\Response;
+namespace AppWebApiV1Bundle\Response;
 
-use App\Api\WebApiV1Bundle\Transformer\Transformer;
+use AppWebApiV1Bundle\Transformer\Transformer;
 use App\Packages\Common\Application\HandlerResponse\HandlerResponse;
 use App\Packages\Common\Application\HandlerResponse\UnauthorizedResponse as UnauthorizedHandlerResponse;
 use App\Packages\Common\Application\HandlerResponse\ValidationErrorResponse;
@@ -20,7 +20,7 @@ final class ResponseFactory
         $this->transformer = $transformer;
     }
 
-    public function createFromHandlerResponse(HandlerResponse $handlerResponse): Response
+    public function create(HandlerResponse $handlerResponse): Response
     {
         if($handlerResponse instanceof UnauthorizedHandlerResponse) {
             return new UnauthorizedResponse();

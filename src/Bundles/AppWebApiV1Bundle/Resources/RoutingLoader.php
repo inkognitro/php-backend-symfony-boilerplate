@@ -1,18 +1,18 @@
 <?php declare(strict_types=1);
 
-namespace App\Api\WebApiV1Bundle;
+namespace AppWebApiV1Bundle\Resources;
 
-use App\Api\WebApiV1Bundle\Endpoint\Endpoint;
-use App\Api\WebApiV1Bundle\Endpoint\Endpoints;
-use App\Api\WebApiV1Bundle\Endpoint\EndpointSchema;
-use App\Api\WebApiV1Bundle\Endpoint\User\CreateUserEndpoint;
+use AppWebApiV1Bundle\Endpoint\Endpoint;
+use AppWebApiV1Bundle\Endpoint\Endpoints;
+use AppWebApiV1Bundle\Endpoint\User\ChangeUserEndpoint;
+use AppWebApiV1Bundle\Endpoint\User\CreateUserEndpoint;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
 class RoutingLoader extends Loader
 {
-    private const TYPE = 'webApiV1Routes';
+    private const TYPE = 'app_web_api_v1_routes';
     private $isLoaded;
     private $endpoints;
 
@@ -30,11 +30,7 @@ class RoutingLoader extends Loader
 
         $routes = new RouteCollection();
 
-        if(count($this->endpoints->toCollection()) === 0) {
-            die('FUCK SYMFONY!!!!!!!');
-        }
-
-        die('FUCK SYMFONY ANYWAY!!!!!!!');
+        $routes->add('pseudo', $this->createPseudoRoute());
 
         foreach($this->endpoints->toCollection() as $endpoint) {
             /** @var $endpoint Endpoint */
@@ -51,18 +47,32 @@ class RoutingLoader extends Loader
         $endpointSchema = $endpoint->getSchema();
         $endpointClassName = get_class($endpoint);
 
-        die('endpoint className = ' . $endpointClassName);
+        //die('endpoint className = ' . $endpointClassName);
 
         $url = $endpointSchema->getUrlPart();
         $defaults = [
-            //'_controller' => 'api_v1.endpoints.users.create_user::handle',
-            '_controller' => [$endpointClassName, 'handle'],
+            '_controller' => 'api_v1.endpoints.users.create_user::handle',
+            //'_controller' => [$endpointClassName, 'handle'],
         ];
         $requirements = [];
         $options = [];
         $host = '';
         $schemes = [];
         $methods = [$endpointSchema->getMethod()];
+        return new Route($url, $defaults, $requirements, $options, $host, $schemes, $methods);
+    }
+
+    private function createPseudoRoute(): Route
+    {
+        $url = 'pseudo/{userId}';
+        $defaults = [
+            '_controller' => [ChangeUserEndpoint::class, 'handle'],
+        ];
+        $requirements = [];
+        $options = [];
+        $host = '';
+        $schemes = [];
+        $methods = ['GET'];
         return new Route($url, $defaults, $requirements, $options, $host, $schemes, $methods);
     }
 
