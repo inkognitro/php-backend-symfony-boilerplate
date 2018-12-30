@@ -1,25 +1,22 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "CreateUserSchema",
+  "$id": "ChangeUserSchema",
   "endpoint": {
     "urlPart": "/users/{userId}",
-    "method": "GET"
+    "method": "PATCH"
   },
-  "title": "Create User",
-  "description": "With this endpoint a new user can be created.",
+  "title": "Change User",
+  "description": "With this endpoint a user can be changed.",
   "type": "object",
   "properties": {
     "username": {
-      "description": "The unique username of the new user.",
+      "description": "A unique username for the user.",
       "type": "string"
     },
     "emailAddress": {
-      "description": "The unique email address of the new user.",
+      "description": "A unique email address for the user.",
       "type": "string"
     }
   },
-  "required": [
-    "username",
-    "emailAddress"
-  ]
+  "required": []
 }

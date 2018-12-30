@@ -3,7 +3,7 @@
   "$id": "CreateUserSchema",
   "endpoint": {
     "urlPart": "/users",
-    "method": "GET"
+    "method": "POST"
   },
   "title": "Create User",
   "description": "With this endpoint a new user can be created.",
