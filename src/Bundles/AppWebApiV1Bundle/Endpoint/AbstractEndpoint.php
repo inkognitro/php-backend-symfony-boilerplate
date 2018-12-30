@@ -1,25 +1,16 @@
 <?php declare(strict_types=1);
 
-namespace AppWebApiV1Bundle\Resources;
+namespace AppWebApiV1Bundle\Endpoint;
 
-use AppWebApiV1Bundle\Endpoint\Endpoint;
 use AppWebApiV1Bundle\Response\JsonResponse;
 use AppWebApiV1Bundle\Response\ResponseNotSupportedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
-use AppWebApiV1Bundle\Response\Response as EndpointResponse;
+use AppWebApiV1Bundle\Response\Response as Response;
 
-final class EndpointConsumer
+abstract class AbstractEndpoint implements Endpoint
 {
-    public function consume(Endpoint $endpoint, ...$urlParams): HttpResponse
-    {
-        $request = Request::createFromGlobals();
-        $urlParamsAsArray = array_merge(...$urlParams);
-        $response = $endpoint->handle($request, $urlParamsAsArray);
-        return $this->createHttpResponse($response, $request);
-    }
-
-    private function createHttpResponse(EndpointResponse $response, Request $request): HttpResponse
+    protected function createHttpResponse(Response $response, Request $request): HttpResponse
     {
         $httpResponse = new HttpResponse();
         $httpResponse->prepare($request);

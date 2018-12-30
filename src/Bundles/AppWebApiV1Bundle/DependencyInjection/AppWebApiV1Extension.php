@@ -24,10 +24,6 @@ final class AppWebApiV1Extension extends Extension
         );
         $loader->load('services.yaml');
 
-        $container->registerForAutoconfiguration(Endpoint::class)
-            ->addTag(self::ENDPOINT_TAG)
-            ->setAutowired(true);
-
         $container->register(Endpoints::class)
             ->addArgument(new TaggedIteratorArgument(self::ENDPOINT_TAG));
 

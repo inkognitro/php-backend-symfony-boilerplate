@@ -6,6 +6,6 @@ final class Transformer
 {
     public function transform($resource): array
     {
-        return ['transformed resource'];
+        return ['transformed resource']; //todo: create transformers!
     }
 }

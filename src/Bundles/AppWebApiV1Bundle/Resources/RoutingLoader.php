@@ -4,8 +4,6 @@ namespace AppWebApiV1Bundle\Resources;
 
 use AppWebApiV1Bundle\Endpoint\Endpoint;
 use AppWebApiV1Bundle\Endpoint\Endpoints;
-use AppWebApiV1Bundle\Endpoint\User\ChangeUserEndpoint;
-use AppWebApiV1Bundle\Endpoint\User\CreateUserEndpoint;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
@@ -28,10 +26,8 @@ class RoutingLoader extends Loader
             throw new \RuntimeException('Class "' . self::class . '" loaded twice!');
         }
 
+        //die('endpoint count = ' . count($this->endpoints->toCollection()));
         $routes = new RouteCollection();
-
-        $routes->add('pseudo', $this->createPseudoRoute());
-
         foreach($this->endpoints->toCollection() as $endpoint) {
             /** @var $endpoint Endpoint */
             $endpointClassName = get_class($endpoint);
@@ -44,35 +40,17 @@ class RoutingLoader extends Loader
 
     private function createRoute(Endpoint $endpoint): Route
     {
+        $endpointServiceName = get_class($endpoint);
         $endpointSchema = $endpoint->getSchema();
-        $endpointClassName = get_class($endpoint);
-
-        //die('endpoint className = ' . $endpointClassName);
-
         $url = $endpointSchema->getUrlPart();
         $defaults = [
-            '_controller' => 'api_v1.endpoints.users.create_user::handle',
-            //'_controller' => [$endpointClassName, 'handle'],
+            '_controller' => [$endpointServiceName, 'handle']
         ];
         $requirements = [];
         $options = [];
         $host = '';
         $schemes = [];
         $methods = [$endpointSchema->getMethod()];
-        return new Route($url, $defaults, $requirements, $options, $host, $schemes, $methods);
-    }
-
-    private function createPseudoRoute(): Route
-    {
-        $url = 'pseudo/{userId}';
-        $defaults = [
-            '_controller' => [ChangeUserEndpoint::class, 'handle'],
-        ];
-        $requirements = [];
-        $options = [];
-        $host = '';
-        $schemes = [];
-        $methods = ['GET'];
         return new Route($url, $defaults, $requirements, $options, $host, $schemes, $methods);
     }
 

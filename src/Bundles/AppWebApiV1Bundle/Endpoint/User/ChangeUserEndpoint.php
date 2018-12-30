@@ -2,16 +2,21 @@
 
 namespace AppWebApiV1Bundle\Endpoint\User;
 
-use AppWebApiV1Bundle\Endpoint\Endpoint;
+use AppWebApiV1Bundle\Endpoint\AbstractEndpoint;
 use AppWebApiV1Bundle\Endpoint\EndpointSchema;
-use AppWebApiV1Bundle\Response\Response;
+use AppWebApiV1Bundle\Response\OkResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
-final class ChangeUserEndpoint implements Endpoint
+final class ChangeUserEndpoint extends AbstractEndpoint
 {
-    public function handle(Request $request, array $params): Response
+    public function handle(string $userId): HttpResponse
     {
-        die('ChangeUserEndpoint ok! params = ' . print_r($params, true));
+        $request = Request::createFromGlobals();
+        $response = new OkResponse([
+            'endpoint' => 'ChangeUserEndpoint', 'userId' => $userId
+        ], []);
+        return $this->createHttpResponse($response, $request);
     }
 
     public function getSchema(): EndpointSchema
