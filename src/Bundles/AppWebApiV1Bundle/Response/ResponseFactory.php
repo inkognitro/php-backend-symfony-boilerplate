@@ -3,13 +3,13 @@
 namespace AppWebApiV1Bundle\Response;
 
 use AppWebApiV1Bundle\Transformer\Transformer;
-use App\Packages\Common\Application\HandlerResponse\HandlerResponse;
+use App\Packages\Common\Application\HandlerResponse\Response;
 use App\Packages\Common\Application\HandlerResponse\UnauthorizedResponse as UnauthorizedHandlerResponse;
 use App\Packages\Common\Application\HandlerResponse\ValidationErrorResponse;
-use App\Resources\Common\Application\HandlerResponse\ChangeSuccessResponse;
-use App\Resources\Common\Application\HandlerResponse\CreationSuccessResponse;
-use App\Resources\Common\Application\HandlerResponse\NotFoundResponse as ResourceNotFoundResponse;
-use App\Resources\Common\Application\HandlerResponse\RemovalSuccessResponse;
+use App\Packages\Common\Application\HandlerResponse\ResourceChangedResponse;
+use App\Packages\Common\Application\HandlerResponse\ResourceCreatedResponse;
+use App\Packages\Common\Application\HandlerResponse\ResourceNotFoundResponse as ResourceNotFoundResponse;
+use App\Packages\Common\Application\HandlerResponse\ResourceRemovedResponse;
 
 final class ResponseFactory
 {
@@ -20,7 +20,7 @@ final class ResponseFactory
         $this->transformer = $transformer;
     }
 
-    public function create(HandlerResponse $handlerResponse): Response
+    public function create(Response $handlerResponse): Response
     {
         if($handlerResponse instanceof UnauthorizedHandlerResponse) {
             return new UnauthorizedResponse();
@@ -37,21 +37,21 @@ final class ResponseFactory
             );
         }
 
-        if($handlerResponse instanceof CreationSuccessResponse) {
+        if($handlerResponse instanceof ResourceCreatedResponse) {
             return new OkResponse(
                 $this->transformer->transform($handlerResponse->getResource()),
                 $handlerResponse->getWarnings()->toArray()
             );
         }
 
-        if($handlerResponse instanceof ChangeSuccessResponse) {
+        if($handlerResponse instanceof ResourceChangedResponse) {
             return new OkResponse(
                 $this->transformer->transform($handlerResponse->getResource()),
                 $handlerResponse->getWarnings()->toArray()
             );
         }
 
-        if($handlerResponse instanceof RemovalSuccessResponse) {
+        if($handlerResponse instanceof ResourceRemovedResponse) {
             return new OkResponse(
                 $this->transformer->transform($handlerResponse->getResource()),
                 $handlerResponse->getWarnings()->toArray()
