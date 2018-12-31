@@ -1,8 +1,0 @@
-services:
-  _defaults:
-    autowire: true
-
-  App\Packages\Common\Application\Command\StateManager:
-    class: App\Packages\Common\Infrastructure\Command\DbalStateManager
-
-  App\Packages\Common\Infrastructure\DbalConnection: '@doctrine.dbal.default_connection'

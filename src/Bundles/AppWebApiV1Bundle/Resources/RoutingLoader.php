@@ -26,7 +26,6 @@ class RoutingLoader extends Loader
             throw new \RuntimeException('Class "' . self::class . '" loaded twice!');
         }
 
-        //die('endpoint count = ' . count($this->endpoints->toCollection()));
         $routes = new RouteCollection();
         foreach($this->endpoints->toCollection() as $endpoint) {
             /** @var $endpoint Endpoint */
