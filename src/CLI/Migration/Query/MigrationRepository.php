@@ -38,7 +38,7 @@ final class MigrationRepository
         }
 
         $queryBuilder = $this->connection->createQueryBuilder();
-        $queryBuilder->select('className');
+        $queryBuilder->select('class_name as className');
         $rows = $queryBuilder->execute()->fetchAll();
 
         $migrations = [];

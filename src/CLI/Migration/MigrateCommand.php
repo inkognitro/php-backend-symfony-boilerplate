@@ -2,6 +2,7 @@
 
 namespace App\CLI\Migration;
 
+use App\CLI\ColoredTextFactory;
 use App\CLI\Migration\Query\MigrationRepository;
 use App\Packages\Common\Infrastructure\DbalConnection;
 use DateTimeImmutable;
@@ -40,16 +41,33 @@ class MigrateCommand extends Command
         $repository = new MigrationRepository($this->connection);
         $executedMigrations = $repository->getAllExecuted();
         $version = ($executedMigrations->getLatestVersion() + 1);
+
         foreach($repository->getAllRegistered()->toCollection() as $migration) {
             if($executedMigrations->has($migration)) {
                 continue;
             }
+
             if($migration->getVersion() > $version) {
                 continue;
             }
-            $migration->up();
+
+            $databasePlatform = $this->connection->getDatabasePlatform();
+            $schemaManager = $this->connection->getSchemaManager();
+            $schema = $schemaManager->createSchema();
+
+            $migration->up($schema);
+
+            $statements = $schema->toSql($databasePlatform);
+            foreach($statements as $statement) {
+                $this->connection->exec($statement);
+            }
+
             $this->addMigrationExecutedEntry(get_class($migration), $version);
         }
+
+        echo ColoredTextFactory::createColoredText(
+            "Migrated successful to version {$version}", ColoredTextFactory::COLOR_GREEN
+        );
     }
 
     private function addMigrationExecutedEntry(string $className, int $version): void
@@ -58,21 +76,30 @@ class MigrateCommand extends Command
         $executedAt = (new DateTimeImmutable())->setTimezone($utc)->format('Y-m-d H:i:s');
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder->insert('migrations');
-        $queryBuilder->setValue('className', $queryBuilder->createNamedParameter($className));
-        $queryBuilder->setValue('executedAt', $queryBuilder->createNamedParameter($executedAt));
+        $queryBuilder->setValue('class_name', $queryBuilder->createNamedParameter($className));
+        $queryBuilder->setValue('executed_at', $queryBuilder->createNamedParameter($executedAt));
         $queryBuilder->setValue('version', $queryBuilder->createNamedParameter($version));
     }
 
     private function createMigrationsTable(): void
     {
-        $schema = $this->connection->getSchemaManager()->createSchema();
+        $databasePlatform = $this->connection->getDatabasePlatform();
+        $schemaManager = $this->connection->getSchemaManager();
+        $schema = $schemaManager->createSchema();
+
         try {
             $schema->getTable('migrations');
         } catch (SchemaException $e) {
             $table = $schema->createTable('migrations');
-            $table->addColumn('className', Type::STRING);
-            $table->addColumn('executedAt', Type::DATETIME);
+            $table->addColumn('class_name', Type::STRING);
+            $table->addColumn('executed_at', Type::DATETIME);
             $table->addColumn('version', Type::DATETIME);
+            $table->setPrimaryKey(['class_name']);
+
+            $statements = $schema->toSql($databasePlatform);
+            foreach($statements as $statement) {
+                $this->connection->exec($statement);
+            }
         }
     }
 }

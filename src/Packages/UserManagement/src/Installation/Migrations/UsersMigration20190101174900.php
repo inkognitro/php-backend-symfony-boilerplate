@@ -3,6 +3,7 @@
 namespace App\Packages\UserManagement\Installation\Migration;
 
 use App\Packages\Common\Installation\Migration\AbstractMigration;
+use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\Type;
 
 final class UsersMigration20190101174900 extends AbstractMigration
@@ -12,9 +13,8 @@ final class UsersMigration20190101174900 extends AbstractMigration
         return 1;
     }
 
-    public function up(): void
+    public function up(Schema $schema): void
     {
-        $schema = $this->connection->getSchemaManager()->createSchema();
         $table = $schema->createTable('users');
         $table->addColumn('id', Type::GUID);
         $table->addColumn('username', Type::STRING, ['length' => 32]);
@@ -24,9 +24,8 @@ final class UsersMigration20190101174900 extends AbstractMigration
         $table->addUniqueIndex(['emailAddress']);
     }
 
-    public function down(): void
+    public function down(Schema $schema): void
     {
-        $schema = $this->connection->getSchemaManager()->createSchema();
         $schema->dropTable('users');
     }
 }
