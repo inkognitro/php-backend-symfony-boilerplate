@@ -1,0 +1,8 @@
+services:
+    _defaults:
+        public: true
+        autowire: true
+        tags: ['web_api_v1.endpoint', 'controller.service_arguments']
+
+    App\Bundles\WebApiV1Bundle\Endpoint\User\CreateUserEndpoint: ~
+    App\Bundles\WebApiV1Bundle\Endpoint\User\ChangeUserEndpoint: ~

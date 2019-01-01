@@ -1,0 +1,6 @@
+services:
+    _defaults:
+        autowire: true
+        tags: ['console.command']
+
+    App\CLI\Migration\MigrateCommand: ~

@@ -1,4 +1,4 @@
 AppWebApiV1Routes:
     prefix: /api/v1
     resource: .
-    type: app_web_api_v1_routes
+    type: web_api_v1_routes

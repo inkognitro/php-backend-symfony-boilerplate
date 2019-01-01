@@ -3,25 +3,26 @@
 namespace App\Packages\UserManagement\Application\Command\CreateUser;
 
 use App\Packages\Common\Application\Command\Command;
+use App\Packages\UserManagement\Application\Resources\User\User;
 
 final class CreateUser implements Command
 {
-    private $userId;
-    private $userData;
+    private $user;
+    private $sendInvitation;
 
-    public function __construct(string $userId, array $userData)
+    public function __construct(User $user, bool $sendInvitation)
     {
-        $this->userId = $userId;
-        $this->userData = $userData;
+        $this->user = $user;
+        $this->sendInvitation = $sendInvitation;
     }
 
-    public function getUserId(): string
+    public function getUser(): User
     {
-        return $this->userId;
+        return $this->user;
     }
 
-    public function getUserData(): array
+    public function sendInvitation(): bool
     {
-        return $this->userData;
+        return $this->sendInvitation;
     }
 }

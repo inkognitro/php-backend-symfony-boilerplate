@@ -4,7 +4,6 @@ namespace App\Packages\UserManagement\Application\Resources\User;
 
 final class UserId
 {
-    public const NAME = 'id';
     private $id;
 
     private function __construct(string $id)
