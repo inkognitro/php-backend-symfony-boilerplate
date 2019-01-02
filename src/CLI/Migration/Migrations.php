@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\CLI\Migration\Query;
+namespace App\CLI\Migration;
 
-use App\Packages\Common\Installation\Migration\AbstractMigration;
+use App\Packages\Common\Installation\Migrations\AbstractMigration;
 
 final class Migrations
 {

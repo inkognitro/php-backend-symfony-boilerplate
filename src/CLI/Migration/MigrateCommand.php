@@ -3,10 +3,10 @@
 namespace App\CLI\Migration;
 
 use App\CLI\ColoredTextFactory;
-use App\CLI\Migration\Query\MigrationRepository;
 use App\Packages\Common\Infrastructure\DbalConnection;
 use DateTimeImmutable;
 use DateTimeZone;
+use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Types\Type;
 use Symfony\Component\Console\Command\Command;
@@ -38,6 +38,9 @@ class MigrateCommand extends Command
 
     private function executeMigrations(): void
     {
+        $schemaManager = $this->connection->getSchemaManager();
+        $fromSchema = $schemaManager->createSchema();
+
         $repository = new MigrationRepository($this->connection);
         $executedMigrations = $repository->getAllExecuted();
         $version = ($executedMigrations->getLatestVersion() + 1);
@@ -51,18 +54,11 @@ class MigrateCommand extends Command
                 continue;
             }
 
-            $databasePlatform = $this->connection->getDatabasePlatform();
-            $schemaManager = $this->connection->getSchemaManager();
-            $schema = $schemaManager->createSchema();
-
-            $migration->up($schema);
-
-            $statements = $schema->toSql($databasePlatform);
-            foreach($statements as $statement) {
-                $this->connection->exec($statement);
-            }
-
+            $toSchema = clone $fromSchema;
+            $migration->up($toSchema);
+            $this->executeSchemaUpdate($fromSchema, $toSchema);
             $this->addMigrationExecutedEntry(get_class($migration), $version);
+            $fromSchema = $toSchema;
         }
 
         echo ColoredTextFactory::createColoredText(
@@ -79,27 +75,32 @@ class MigrateCommand extends Command
         $queryBuilder->setValue('class_name', $queryBuilder->createNamedParameter($className));
         $queryBuilder->setValue('executed_at', $queryBuilder->createNamedParameter($executedAt));
         $queryBuilder->setValue('version', $queryBuilder->createNamedParameter($version));
+        $queryBuilder->execute();
     }
 
     private function createMigrationsTable(): void
     {
-        $databasePlatform = $this->connection->getDatabasePlatform();
         $schemaManager = $this->connection->getSchemaManager();
-        $schema = $schemaManager->createSchema();
+        $fromSchema = $schemaManager->createSchema();
 
         try {
-            $schema->getTable('migrations');
+            $fromSchema->getTable('migrations');
         } catch (SchemaException $e) {
-            $table = $schema->createTable('migrations');
+            $toSchema = clone $fromSchema;
+            $table = $toSchema->createTable('migrations');
             $table->addColumn('class_name', Type::STRING);
             $table->addColumn('executed_at', Type::DATETIME);
-            $table->addColumn('version', Type::DATETIME);
+            $table->addColumn('version', Type::INTEGER);
             $table->setPrimaryKey(['class_name']);
+            $this->executeSchemaUpdate($fromSchema, $toSchema);
+        }
+    }
 
-            $statements = $schema->toSql($databasePlatform);
-            foreach($statements as $statement) {
-                $this->connection->exec($statement);
-            }
+    private function executeSchemaUpdate(Schema $fromSchema, Schema $toSchema): void
+    {
+        $migrationSqls = $fromSchema->getMigrateToSql($toSchema, $this->connection->getDatabasePlatform());
+        foreach($migrationSqls as $sql) {
+            $this->connection->exec($sql);
         }
     }
 }

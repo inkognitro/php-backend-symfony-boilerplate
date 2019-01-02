@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace App\CLI\Migration\Query;
+namespace App\CLI\Migration;
 
 use App\Packages\Common\Infrastructure\DbalConnection;
-use App\Packages\UserManagement\Installation\Migration\UsersMigration20190101174900;
+use App\Packages\UserManagement\Installation\Migrations\UsersMigration20190101174900;
 use Doctrine\DBAL\Schema\SchemaException;
 
 final class MigrationRepository
@@ -39,6 +39,7 @@ final class MigrationRepository
 
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder->select('class_name as className');
+        $queryBuilder->from('migrations');
         $rows = $queryBuilder->execute()->fetchAll();
 
         $migrations = [];

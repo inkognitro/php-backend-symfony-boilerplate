@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Installation\Migration;
+namespace App\Packages\Common\Installation\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 
