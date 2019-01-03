@@ -2,7 +2,6 @@
 
 namespace App\CLI\Migration;
 
-use App\CLI\ColoredTextFactory;
 use App\Packages\Common\Infrastructure\DbalConnection;
 use App\Packages\Common\Installation\Migrations\AbstractMigration;
 use DateTimeImmutable;
@@ -41,9 +40,7 @@ class MigrateCommand extends Command
         $migrations = $this->getMigrationsToMigrate();
 
         if(count($migrations->toCollection()) === 0) {
-            echo ColoredTextFactory::createColoredText(
-                "Nothing to migrate.", ColoredTextFactory::COLOR_RED
-            );
+            echo "Nothing to migrate!";
             return;
         }
 
@@ -59,8 +56,7 @@ class MigrateCommand extends Command
         }
 
         $batchNumber = $migrations->toCollection()[0]->getBatchNumber();
-        $feedback = "Migrated successfully to batch {$batchNumber}.";
-        echo ColoredTextFactory::createColoredText($feedback, ColoredTextFactory::COLOR_GREEN);
+        echo "Migrated successfully to batch {$batchNumber}.";
     }
 
     private function getMigrationsToMigrate(): Migrations

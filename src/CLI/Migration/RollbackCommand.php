@@ -2,7 +2,6 @@
 
 namespace App\CLI\Migration;
 
-use App\CLI\ColoredTextFactory;
 use App\Packages\Common\Infrastructure\DbalConnection;
 use App\Packages\Common\Installation\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
@@ -40,9 +39,7 @@ class RollbackCommand extends Command
         $migrationsToRollback = $this->getMigrationsToRollback($executedMigrations);
 
         if(count($migrationsToRollback->toCollection()) === 0) {
-            echo ColoredTextFactory::createColoredText(
-                "Nothing to rollback.", ColoredTextFactory::COLOR_RED
-            );
+            echo "Nothing to rollback!";
             return;
         }
 
@@ -60,14 +57,12 @@ class RollbackCommand extends Command
 
         if(count($executedMigrations->toCollection()) === 0) {
             $this->removeMigrationsTable();
-            $feedback = 'Rolled successfully back to point zero.';
-            echo ColoredTextFactory::createColoredText($feedback, ColoredTextFactory::COLOR_GREEN);
+            echo 'Rolled successfully back to point zero.';
             return;
         }
 
         $batchNumber = $executedMigrations->getHighestBatchNumber();
-        $feedback = "Rolled successfully back to batch {$batchNumber}.";
-        echo ColoredTextFactory::createColoredText($feedback, ColoredTextFactory::COLOR_GREEN);
+        echo "Rolled successfully back to batch {$batchNumber}.";
     }
 
     private function getMigrationsToRollback(Migrations $executedMigrations): Migrations
