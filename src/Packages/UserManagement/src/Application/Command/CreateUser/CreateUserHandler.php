@@ -7,20 +7,25 @@ use App\Packages\Common\Application\HandlerResponse\Response;
 use App\Packages\Common\Application\HandlerResponse\ValidationErrorResponse;
 use App\Packages\Common\Application\HandlerResponse\UnauthorizedResponse;
 use App\Packages\Common\Application\HandlerResponse\ResourceCreatedResponse;
+use App\Packages\UserManagement\Application\Resources\User\UserRepository;
 use App\Packages\UserManagement\Domain\User\UserValidator;
 use App\Packages\UserManagement\Application\Resources\User\UserId;
 use App\Packages\UserManagement\Domain\User\UserAggregate;
-use App\Packages\UserManagement\Domain\User\UserRepository;
 
 final class CreateUserHandler
 {
     private $validator;
     private $userRepository;
+    private $userFactory;
 
-    public function __construct(UserValidator $validator, UserRepository $userRepository)
-    {
+    public function __construct(
+        UserValidator $validator,
+        UserRepository $userRepository,
+        UserFactory $userFactory
+    ) {
         $this->validator = $validator;
         $this->userRepository = $userRepository;
+        $this->userFactory = $userFactory;
     }
 
     public function handle(CreateUser $command, AuthUser $authUser): Response

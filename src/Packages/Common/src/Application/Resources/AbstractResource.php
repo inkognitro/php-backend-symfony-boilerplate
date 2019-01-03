@@ -2,7 +2,7 @@
 
 namespace App\Packages\Common\Application\Resources;
 
-interface Resource
+abstract class AbstractResource
 {
 
 }

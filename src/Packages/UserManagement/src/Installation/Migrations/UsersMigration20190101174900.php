@@ -18,10 +18,12 @@ final class UsersMigration20190101174900 extends AbstractMigration
         $table = $schema->createTable('users');
         $table->addColumn('id', Type::GUID);
         $table->addColumn('username', Type::STRING, ['length' => 32]);
-        $table->addColumn('emailAddress', Type::STRING, ['length' => 254]);
+        $table->addColumn('email_address', Type::STRING, ['length' => 254]);
+        $table->addColumn('password', Type::BINARY, ['length' => 60]);
+        $table->addColumn('role', Type::STRING, ['length' => 32]);
         $table->setPrimaryKey(['id']);
         $table->addUniqueIndex(['username']);
-        $table->addUniqueIndex(['emailAddress']);
+        $table->addUniqueIndex(['email_address']);
     }
 
     public function schemaDown(Schema $schema): void

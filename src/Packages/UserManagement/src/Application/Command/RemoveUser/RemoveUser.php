@@ -3,18 +3,17 @@
 namespace App\Packages\UserManagement\Application\Command\RemoveUser;
 
 use App\Packages\Common\Application\Command\Command;
-use App\Packages\UserManagement\Application\Resources\User\UserId;
 
 final class RemoveUser implements Command
 {
     private $userId;
 
-    public function __construct(UserId $userId)
+    public function __construct(string $userId)
     {
         $this->userId = $userId;
     }
 
-    public function getUserId(): UserId
+    public function getUserId(): string
     {
         return $this->userId;
     }

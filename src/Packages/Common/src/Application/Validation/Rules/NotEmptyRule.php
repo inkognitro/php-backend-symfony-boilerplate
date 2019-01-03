@@ -8,7 +8,7 @@ use App\Packages\Common\Application\Validation\Rules\Rule;
 
 final class NotEmptyRule implements Rule
 {
-    public function getMessageFromValidation($data): ?Message
+    public static function getMessageFromValidation($data): ?Message
     {
         $data = (string)$data;
         if(strlen(trim($data)) === 0) {

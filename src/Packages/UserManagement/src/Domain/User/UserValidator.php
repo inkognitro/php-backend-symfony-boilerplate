@@ -2,16 +2,21 @@
 
 namespace App\Packages\UserManagement\Domain\User;
 
+use App\Packages\Common\Application\Resources\AbstractResource;
 use App\Packages\Common\Application\Validation\Messages\DoesAlreadyExistMessage;
+use App\Packages\Common\Application\Validation\Messages\MessageBag;
 use App\Packages\Common\Application\Validation\Messages\Rules\EmptyOrEmailAddressRule;
 use App\Packages\Common\Application\Validation\Messages\Rules\EmptyOrUuidRule;
 use App\Packages\Common\Application\Validation\Messages\Rules\NotEmptyRule;
-use App\Packages\Common\Domain\AggregateValidator;
+use App\Packages\Common\Domain\ResourceValidator;
 use App\Packages\UserManagement\Application\Resources\User\EmailAddress;
+use App\Packages\UserManagement\Application\Resources\User\User;
 use App\Packages\UserManagement\Application\Resources\User\UserId;
 use App\Packages\UserManagement\Application\Resources\User\Username;
+use App\Packages\UserManagement\Application\Resources\User\UserRepository;
+use InvalidArgumentException;
 
-final class UserValidator extends AggregateValidator
+final class UserValidator extends ResourceValidator
 {
     private $userRepository;
 
@@ -21,17 +26,23 @@ final class UserValidator extends AggregateValidator
         $this->userRepository = $userRepository;
     }
 
-    protected function validateData(array $userData): void
+    public function validate(AbstractResource $user): void
     {
-        $this->validateFormat($userData);
-        $this->validateUniqueUsername($userData);
-        $this->validateUniqueEmailAddress($userData);
+        if(!$user instanceof User) {
+            throw new InvalidArgumentException('Variable $resource must be an instance of ' . User::class . '!');
+        }
+        $this->warnings = new MessageBag();
+        $this->errors = new MessageBag();
+        $this->validateUserId($user);
+        $this->validateUsername($user);
     }
 
     private function validateFormat(array $userData): void
     {
+        $this->validateUserId()
+
         $attributeToRulesMapping = [
-            UserId::NAME => [
+            UserId => [
                 NotEmptyRule::class,
                 EmptyOrUuidRule::class,
             ],
@@ -52,12 +63,34 @@ final class UserValidator extends AggregateValidator
         }
     }
 
-    private function validateUniqueUsername(array $userData): void
+    private function validateUserId(User $user): void
     {
+        $errorMessage = NotEmptyRule::getMessageFromValidation($user->getId());
+        if($errorMessage !== null) {
+            $this->errors->addMessage('id', $errorMessage);
+            return;
+        }
+
+        $errorMessage = EmptyOrUuidRule::getMessageFromValidation($user->getId());
+        if($errorMessage !== null) {
+            $this->errors->addMessage('id', $errorMessage);
+        }
+    }
+
+    private function validateUsername(User $user): void
+    {
+        $errorKey = 'username';
+
+        $errorMessage = NotEmptyRule::getMessageFromValidation($user->getId());
+        if($errorMessage !== null) {
+            $this->errors->addMessage($errorKey, $errorMessage);
+            return;
+        }
+
         if ($this->isValidUniqueUserDataByKey($userData, Username::NAME)) {
             return;
         }
-        $this->errors->addMessage(Username::NAME, new DoesAlreadyExistMessage());
+        $this->errors->addMessage($errorKey, new DoesAlreadyExistMessage());
     }
 
     private function validateUniqueEmailAddress(array $userData): void
@@ -66,42 +99,5 @@ final class UserValidator extends AggregateValidator
             return;
         }
         $this->errors->addMessage(EmailAddress::NAME, new DoesAlreadyExistMessage());
-    }
-
-    private function isValidUniqueUserDataByKey(array $userData, string $key): bool
-    {
-        if (!isset($userData[$key])) {
-            return true;
-        }
-
-        if ($this->errors->doesMessageKeyExist($key)) {
-            return true;
-        }
-
-        $user = null;
-        if ($key === EmailAddress::NAME) {
-            $user = $this->userRepository->findByEmailAddress(
-                EmailAddress::fromString((string)$userData[$key])
-            );
-        } else if ($key === Username::NAME) {
-            $user = $this->userRepository->findByUsername(
-                Username::fromString((string)$userData[$key])
-            );
-        }
-
-        if ($user === null) {
-            return true;
-        }
-
-        if(!isset($userData['id']) || strlen((string)$userData['id']) === 0) {
-            return false;
-        }
-
-        $userId = UserId::fromString((isset($userData['id']) ? (string)$userData['id'] : ''));
-        if ($user->getId()->isEqualTo($userId)) {
-            return true;
-        }
-
-        return false;
     }
 }

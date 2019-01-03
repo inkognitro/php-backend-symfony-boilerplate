@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\UserManagement\Domain\User\Policy;
+namespace App\Packages\UserManagement\Domain\User\Policies;
 
 use App\Packages\Common\Application\Authorization\User as AuthUser;
 use App\Packages\UserManagement\Application\Resources\User\UserId;

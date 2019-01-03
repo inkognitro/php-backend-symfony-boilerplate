@@ -1,9 +1,10 @@
 services:
     _defaults:
         autowire: true
+
+    App\CLI\Fixtures\ExecuteCommand:
         tags: ['console.command']
 
-    App\CLI\Migration\MigrateCommand: ~
-    App\CLI\Migration\RollbackCommand: ~
-
+    App\CLI\Fixtures\FixtureRepository:
+        arguments: [!tagged 'app.fixture']
 

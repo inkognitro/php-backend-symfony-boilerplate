@@ -2,6 +2,9 @@ services:
     _defaults:
         autowire: true
 
+    App\Packages\Common\Application\CommandBus: ~
+    App\Packages\Common\Application\Authorization\UserFactory: ~
+
     App\Packages\Common\Application\StateManager:
         class: App\Packages\Common\Infrastructure\DbalStateManager
 

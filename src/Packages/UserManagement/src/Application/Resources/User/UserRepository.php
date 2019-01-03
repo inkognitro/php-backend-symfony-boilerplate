@@ -4,5 +4,5 @@ namespace App\Packages\UserManagement\Application\Resources\User;
 
 interface UserRepository
 {
-
+    public function findById(UserId $userId): ?User;
 }

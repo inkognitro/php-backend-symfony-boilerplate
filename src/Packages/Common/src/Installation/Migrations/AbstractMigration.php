@@ -11,22 +11,22 @@ abstract class AbstractMigration
     public abstract function schemaUp(Schema $schema): void;
     public abstract function schemaDown(Schema $schema): void;
 
-    public function dataUpBefore(Connection $schema): void
+    public function dataMigration(Connection $schema): void
     {
 
     }
 
-    public function dataUpAfter(Connection $schema): void
+    public function dataRollback(Connection $schema): void
     {
 
     }
 
-    public function dataDownBefore(Connection $schema): void
+    public function schemaUpAfterDataMigration(Schema $schema): void
     {
 
     }
 
-    public function dataDownAfter(Connection $schema): void
+    public function schemaDownBeforeDataRollback(Schema $schema): void
     {
 
     }

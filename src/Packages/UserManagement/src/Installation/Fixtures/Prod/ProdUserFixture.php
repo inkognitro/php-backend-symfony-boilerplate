@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\UserManagement\Installation\Migrations;
+namespace App\Packages\UserManagement\Installation\Fixtures\Prod;
 
 use App\Packages\Common\Application\Authorization\User as AuthUser;
 use App\Packages\Common\Application\Authorization\UserFactory as AuthUserFactory;
@@ -8,7 +8,7 @@ use App\Packages\Common\Application\CommandBus;
 use App\Packages\Common\Installation\Fixtures\Fixture;
 use App\Packages\UserManagement\Application\Command\CreateUser\CreateUser;
 
-final class UserFixture implements Fixture
+final class ProdUserFixture implements Fixture
 {
     private $commandBus;
     private $authUserFactory;

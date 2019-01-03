@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Application\Command;
+namespace App\Packages\Common\Application;
 
 interface StateManager
 {

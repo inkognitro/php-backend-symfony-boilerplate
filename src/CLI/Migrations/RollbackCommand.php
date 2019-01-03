@@ -13,10 +13,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 class RollbackCommand extends Command
 {
     private $connection;
+    private $repository;
 
-    public function __construct(DbalConnection $connection)
+    public function __construct(DbalConnection $connection, MigrationRepository $repository)
     {
         $this->connection = $connection;
+        $this->repository = $repository;
         parent::__construct();
     }
 
@@ -34,8 +36,7 @@ class RollbackCommand extends Command
 
     private function executeRollbacks(): void
     {
-        $repository = new MigrationRepository($this->connection);
-        $executedMigrations = $repository->findAllExecuted();
+        $executedMigrations = $this->repository->findAllExecuted();
         $migrationsToRollback = $this->getMigrationsToRollback($executedMigrations);
 
         if(count($migrationsToRollback->toCollection()) === 0) {
@@ -45,15 +46,23 @@ class RollbackCommand extends Command
 
         $schemaManager = $this->connection->getSchemaManager();
         $fromSchema = $schemaManager->createSchema();
+
         foreach($migrationsToRollback->toCollection() as $migration) {
             $toSchema = clone $fromSchema;
+
+            $migration->schemaDownBeforeDataRollback($toSchema);
+            $this->executeSchemaUpdate($fromSchema, $toSchema);
+
+            $migration->dataRollback($this->connection);
+
+            $fromSchema = clone $toSchema;
             $migration->schemaDown($toSchema);
             $this->executeSchemaUpdate($fromSchema, $toSchema);
+
             $this->removeMigrationExecutedEntry($migration);
-            $fromSchema = $toSchema;
         }
 
-        $executedMigrations = $repository->findAllExecuted();
+        $executedMigrations = $this->repository->findAllExecuted();
 
         if(count($executedMigrations->toCollection()) === 0) {
             $this->removeMigrationsTable();

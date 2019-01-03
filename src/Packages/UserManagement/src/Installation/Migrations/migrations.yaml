@@ -1,0 +1,6 @@
+services:
+    _defaults:
+        autowire: true
+        tags: ['app.migration']
+
+    App\Packages\UserManagement\Installation\Migrations\UsersMigration20190101174900: ~

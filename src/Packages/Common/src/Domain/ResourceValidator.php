@@ -2,9 +2,10 @@
 
 namespace App\Packages\Common\Domain;
 
+use App\Packages\Common\Application\Resources\AbstractResource;
 use App\Packages\Common\Application\Validation\Messages\MessageBag;
 
-abstract class AggregateValidator
+abstract class ResourceValidator
 {
     protected $errors;
     protected $warnings;
@@ -15,14 +16,7 @@ abstract class AggregateValidator
         $this->errors = new MessageBag();
     }
 
-    public function validate(array $data): void
-    {
-        $this->warnings = new MessageBag();
-        $this->errors = new MessageBag();
-        $this->validateData($data);
-    }
-
-    protected abstract function validateData(array $resourceData): void;
+    public abstract function validate(AbstractResource $resource): void;
 
     public function getWarnings(): MessageBag
     {

@@ -2,9 +2,9 @@
 
 namespace App\Packages\UserManagement\Application\Resources\User;
 
-use App\Packages\Common\Application\Resources\Resource;
+use App\Packages\Common\Application\Resources\AbstractResource;
 
-final class User implements Resource
+final class User extends AbstractResource
 {
     private $id;
     private $username;

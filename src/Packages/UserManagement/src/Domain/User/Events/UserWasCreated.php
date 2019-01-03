@@ -1,10 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\UserManagement\Domain\User\Event;
+namespace App\Packages\UserManagement\Domain\User\Events;
 
 use App\Packages\Common\Application\Authorization\User as AuthUser;
 use App\Packages\Common\Domain\Event\AbstractEvent;
 use App\Packages\UserManagement\Application\Resources\User\User;
+use App\Packages\UserManagement\Domain\User\UserPayloadConverter;
 use DateTimeImmutable;
 
 final class UserWasCreated extends AbstractEvent

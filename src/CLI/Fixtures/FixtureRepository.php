@@ -2,23 +2,19 @@
 
 namespace App\CLI\Fixtures;
 
-use App\Packages\UserManagement\Installation\Migrations\UserFixture;
+use App\IterableConverter;
 
 final class FixtureRepository
 {
-    private const ORDERED_FIXTURES = [
-        UserFixture::class,
-    ];
+    private $fixtures;
+
+    public function __construct(iterable $fixtures)
+    {
+        $this->fixtures = IterableConverter::convertToArray($fixtures);
+    }
 
     public function findAll(): Fixtures
     {
-        $fixtures = [];
-        foreach($fixtures as $fixtureClassName) {
-            if(!in_array($fixtureClassName, self::ORDERED_FIXTURES)) {
-                continue;
-            }
-            $fixtures[] = new $fixtureClassName();
-        }
-        return new Fixtures($fixtures);
+        return new Fixtures($this->fixtures);
     }
 }

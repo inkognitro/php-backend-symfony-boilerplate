@@ -3,20 +3,37 @@
 namespace App\CLI\Migrations;
 
 use App\Packages\Common\Infrastructure\DbalConnection;
-use App\Packages\UserManagement\Installation\Migrations\UsersMigration20190101174900;
+use App\Packages\Common\Installation\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\SchemaException;
 
 final class MigrationRepository
 {
+    private $migrations;
     private $connection;
 
-    private const ORDERED_MIGRATIONS = [
-        UsersMigration20190101174900::class,
-    ];
-
-    public function __construct(DbalConnection $connection)
+    public function __construct(iterable $migrations, DbalConnection $connection)
     {
+        $this->migrations = self::getIterableAsArray($migrations);
         $this->connection = $connection;
+    }
+
+    private static function getIterableAsArray(iterable $migrations): array
+    {
+        $migrationsAsArray = [];
+        foreach($migrations as $migration) {
+            $migrationsAsArray[] = $migration;
+        }
+        return $migrationsAsArray;
+    }
+
+    private function findMigrationByClassName(string $className): ?AbstractMigration
+    {
+        foreach($this->migrations as $migration) {
+            if(get_class($migration) === $className) {
+                return $migration;
+            }
+        }
+        return null;
     }
 
     public function findAllExecuted(): Migrations
@@ -36,10 +53,10 @@ final class MigrationRepository
         $migrations = [];
         foreach($rows as $row) {
             $migrationClassName = $row['className'];
-            if(!in_array($migrationClassName, self::ORDERED_MIGRATIONS)) {
-                continue;
+            $migration = $this->findMigrationByClassName($row['className']);
+            if($migration !== null) {
+                $migrations[] = new $migrationClassName($this->connection);
             }
-            $migrations[] = new $migrationClassName($this->connection);
         }
 
         return new Migrations($migrations);
@@ -49,8 +66,7 @@ final class MigrationRepository
     {
         $executedMigrations = $this->findAllExecuted();
         $migrations = [];
-        foreach(self::ORDERED_MIGRATIONS as $migrationClassName) {
-            $migration = new $migrationClassName();
+        foreach($this->migrations as $migration) {
             if(!$executedMigrations->has($migration)) {
                 $migrations[] = $migration;
             }

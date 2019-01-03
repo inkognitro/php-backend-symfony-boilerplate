@@ -15,10 +15,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 class MigrateCommand extends Command
 {
     private $connection;
+    private $repository;
 
-    public function __construct(DbalConnection $connection)
+    public function __construct(DbalConnection $connection, MigrationRepository $repository)
     {
         $this->connection = $connection;
+        $this->repository = $repository;
         parent::__construct();
     }
 
@@ -49,10 +51,17 @@ class MigrateCommand extends Command
 
         foreach($migrations->toCollection() as $migration) {
             $toSchema = clone $fromSchema;
+
             $migration->schemaUp($toSchema);
             $this->executeSchemaUpdate($fromSchema, $toSchema);
+
+            $migration->dataMigration($this->connection);
+
+            $fromSchema = clone $toSchema;
+            $migration->schemaUpAfterDataMigration($toSchema);
+            $this->executeSchemaUpdate($fromSchema, $toSchema);
+
             $this->addMigrationExecutedEntry($migration);
-            $fromSchema = $toSchema;
         }
 
         $batchNumber = $migrations->toCollection()[0]->getBatchNumber();
@@ -61,14 +70,13 @@ class MigrateCommand extends Command
 
     private function getMigrationsToMigrate(): Migrations
     {
-        $repository = new MigrationRepository($this->connection);
-        $notExecutedMigrations = $repository->findAllNotExecuted();
+        $notExecutedMigrations = $this->repository->findAllNotExecuted();
 
         if(count($notExecutedMigrations->toCollection()) === 0) {
             return new Migrations([]);
         }
 
-        $executedMigrations = $repository->findAllExecuted();
+        $executedMigrations = $this->repository->findAllExecuted();
         $latestBatchNumber = ($executedMigrations->getHighestBatchNumber());
 
         $nextBatchesMigrations = $notExecutedMigrations->findAllWithHigherBatchNumber($latestBatchNumber);

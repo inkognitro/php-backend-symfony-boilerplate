@@ -7,5 +7,5 @@ use App\Packages\Common\Application\Validation\Messages\Message;
 interface Rule
 {
     /** @param $data mixed */
-    public function getMessageFromValidation($data): ?Message;
+    public static function getMessageFromValidation($data): ?Message;
 }
