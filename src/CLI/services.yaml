@@ -4,5 +4,6 @@ services:
         tags: ['console.command']
 
     App\CLI\Migration\MigrateCommand: ~
+    App\CLI\Migration\RollbackCommand: ~
 
 

@@ -19,16 +19,7 @@ final class MigrationRepository
         $this->connection = $connection;
     }
 
-    public function getAllRegistered(): Migrations
-    {
-        $migrations = [];
-        foreach(self::ORDERED_MIGRATIONS as $migrationClassName) {
-            $migrations[] = new $migrationClassName($this->connection);
-        }
-        return new Migrations($migrations);
-    }
-
-    public function getAllExecuted(): Migrations
+    public function findAllExecuted(): Migrations
     {
         $schema = $this->connection->getSchemaManager()->createSchema();
         try {
@@ -45,9 +36,25 @@ final class MigrationRepository
         $migrations = [];
         foreach($rows as $row) {
             $migrationClassName = $row['className'];
+            if(!in_array($migrationClassName, self::ORDERED_MIGRATIONS)) {
+                continue;
+            }
             $migrations[] = new $migrationClassName($this->connection);
         }
 
+        return new Migrations($migrations);
+    }
+
+    public function findAllNotExecuted(): Migrations
+    {
+        $executedMigrations = $this->findAllExecuted();
+        $migrations = [];
+        foreach(self::ORDERED_MIGRATIONS as $migrationClassName) {
+            $migration = new $migrationClassName();
+            if(!$executedMigrations->has($migration)) {
+                $migrations[] = $migration;
+            }
+        }
         return new Migrations($migrations);
     }
 }

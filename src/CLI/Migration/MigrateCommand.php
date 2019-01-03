@@ -4,11 +4,11 @@ namespace App\CLI\Migration;
 
 use App\CLI\ColoredTextFactory;
 use App\Packages\Common\Infrastructure\DbalConnection;
+use App\Packages\Common\Installation\Migrations\AbstractMigration;
 use DateTimeImmutable;
 use DateTimeZone;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaException;
-use Doctrine\DBAL\Types\Type;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -26,8 +26,8 @@ class MigrateCommand extends Command
     protected function configure()
     {
         $this->setName('app:migration:migrate');
-        $this->setDescription('Migrates the database tables.');
-        $this->setHelp('This command allows you to migrate the tables of the installed packages to the next version.');
+        $this->setDescription('Migrates the migrations of the next installation batch.');
+        $this->setHelp('This command allows you to migrate the next migration batch of the installed packages.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -38,43 +38,72 @@ class MigrateCommand extends Command
 
     private function executeMigrations(): void
     {
+        $migrations = $this->getMigrationsToMigrate();
+
+        if(count($migrations->toCollection()) === 0) {
+            echo ColoredTextFactory::createColoredText(
+                "Nothing to migrate.", ColoredTextFactory::COLOR_RED
+            );
+            return;
+        }
+
         $schemaManager = $this->connection->getSchemaManager();
         $fromSchema = $schemaManager->createSchema();
 
-        $repository = new MigrationRepository($this->connection);
-        $executedMigrations = $repository->getAllExecuted();
-        $version = ($executedMigrations->getLatestVersion() + 1);
-
-        foreach($repository->getAllRegistered()->toCollection() as $migration) {
-            if($executedMigrations->has($migration)) {
-                continue;
-            }
-
-            if($migration->getVersion() > $version) {
-                continue;
-            }
-
+        foreach($migrations->toCollection() as $migration) {
             $toSchema = clone $fromSchema;
             $migration->up($toSchema);
             $this->executeSchemaUpdate($fromSchema, $toSchema);
-            $this->addMigrationExecutedEntry(get_class($migration), $version);
+            $this->addMigrationExecutedEntry($migration);
             $fromSchema = $toSchema;
         }
 
-        echo ColoredTextFactory::createColoredText(
-            "Migrated successful to version {$version}", ColoredTextFactory::COLOR_GREEN
-        );
+        $batchNumber = $migrations->toCollection()[0]->getBatchNumber();
+        $feedback = "Migrated successfully to batch {$batchNumber}.";
+        echo ColoredTextFactory::createColoredText($feedback, ColoredTextFactory::COLOR_GREEN);
     }
 
-    private function addMigrationExecutedEntry(string $className, int $version): void
+    private function getMigrationsToMigrate(): Migrations
     {
+        $repository = new MigrationRepository($this->connection);
+        $notExecutedMigrations = $repository->findAllNotExecuted();
+
+        if(count($notExecutedMigrations->toCollection()) === 0) {
+            return new Migrations([]);
+        }
+
+        $executedMigrations = $repository->findAllExecuted();
+        $latestBatchNumber = ($executedMigrations->getHighestBatchNumber());
+
+        $nextBatchesMigrations = $notExecutedMigrations->findAllWithHigherBatchNumber($latestBatchNumber);
+        if(count($nextBatchesMigrations->toCollection()) === 0) {
+            return new Migrations([]);
+        }
+
+        $batchNumber = $nextBatchesMigrations->getLowestBatchNumber();
+
+        $migrations = [];
+        foreach($nextBatchesMigrations->toCollection() as $migration) {
+            if($migration->getBatchNumber() !== $batchNumber) {
+                continue;
+            }
+            $migrations[] = $migration;
+        }
+
+        return new Migrations($migrations);
+    }
+
+    private function addMigrationExecutedEntry(AbstractMigration $migration): void
+    {
+        $className = get_class($migration);
+        $batchNumber = $migration->getBatchNumber();
         $utc = new DateTimeZone('UTC');
         $executedAt = (new DateTimeImmutable())->setTimezone($utc)->format('Y-m-d H:i:s');
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder->insert('migrations');
         $queryBuilder->setValue('class_name', $queryBuilder->createNamedParameter($className));
+        $queryBuilder->setValue('batch_number', $queryBuilder->createNamedParameter($batchNumber));
         $queryBuilder->setValue('executed_at', $queryBuilder->createNamedParameter($executedAt));
-        $queryBuilder->setValue('version', $queryBuilder->createNamedParameter($version));
         $queryBuilder->execute();
     }
 
@@ -82,16 +111,12 @@ class MigrateCommand extends Command
     {
         $schemaManager = $this->connection->getSchemaManager();
         $fromSchema = $schemaManager->createSchema();
-
         try {
             $fromSchema->getTable('migrations');
         } catch (SchemaException $e) {
             $toSchema = clone $fromSchema;
-            $table = $toSchema->createTable('migrations');
-            $table->addColumn('class_name', Type::STRING);
-            $table->addColumn('executed_at', Type::DATETIME);
-            $table->addColumn('version', Type::INTEGER);
-            $table->setPrimaryKey(['class_name']);
+            $migration = new MigrationsMigration();
+            $migration->up($toSchema);
             $this->executeSchemaUpdate($fromSchema, $toSchema);
         }
     }

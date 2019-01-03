@@ -8,7 +8,7 @@ use Doctrine\DBAL\Types\Type;
 
 final class UsersMigration20190101174900 extends AbstractMigration
 {
-    public function getVersion(): int
+    public function getBatchNumber(): int
     {
         return 1;
     }

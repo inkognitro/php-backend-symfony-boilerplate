@@ -20,27 +20,37 @@ final class Migrations
         return $this->migrations;
     }
 
-    /** @return AbstractMigration[] */
-    public function getAllByVersion(int $version): array
+    public function findAllWithHigherBatchNumber(int $batchNumber): self
     {
         $migrations = [];
         foreach($this->migrations as $migration) {
-            if($migration->getVersion() === $version) {
+            if($migration->getBatchNumber() > $batchNumber) {
                 $migrations[] = $migration;
             }
         }
-        return $migrations;
+        return new self($migrations);
     }
 
-    public function getLatestVersion(): int
+    public function getHighestBatchNumber(): int
     {
-        $version = 0;
+        $batchNumber = (count($this->migrations) === 0 ? 0 : $this->migrations[0]->getBatchNumber());
         foreach($this->migrations as $migration) {
-            if($migration->getVersion() > $version) {
-                $version = $migration->getVersion();
+            if($migration->getBatchNumber() > $batchNumber) {
+                $batchNumber = $migration->getBatchNumber();
             }
         }
-        return $version;
+        return $batchNumber;
+    }
+
+    public function getLowestBatchNumber(): int
+    {
+        $batchNumber = (count($this->migrations) === 0 ? 0 : $this->migrations[0]->getBatchNumber());
+        foreach($this->migrations as $migration) {
+            if($migration->getBatchNumber() < $batchNumber) {
+                $batchNumber = $migration->getBatchNumber();
+            }
+        }
+        return $batchNumber;
     }
 
     public function has(AbstractMigration $migrationToFind): bool
