@@ -1,7 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\CLI\Migration;
+namespace App\CLI\Fixtures;
 
+use App\CLI\Migrations\MigrationRepository;
 use App\Packages\Common\Infrastructure\DbalConnection;
 use App\Packages\Common\Installation\Migrations\AbstractMigration;
 use DateTimeImmutable;
@@ -12,7 +13,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class MigrateCommand extends Command
+class FixtureCommand extends Command
 {
     private $connection;
 
@@ -24,33 +25,18 @@ class MigrateCommand extends Command
 
     protected function configure()
     {
-        $this->setName('app:migration:migrate');
-        $this->setDescription('Migrates the migrations of the next installation batch.');
-        $this->setHelp('This command allows you to migrate the next migration batch of the installed packages.');
+        $this->setName('app:fixtures:execute');
+        $this->setDescription('Executes the package fixtures.');
+        $this->setHelp('This command allows you to execute all fixtures in every package.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->createMigrationsTable();
-        $this->executeMigrations();
-    }
+        $repository = new FixtureRepository();
+        $fixtures = $repository->findAll();
 
-    private function executeMigrations(): void
-    {
-        $migrations = $this->getMigrationsToMigrate();
-
-        if(count($migrations->toCollection()) === 0) {
-            echo "Nothing to migrate!";
-            return;
-        }
-
-        $schemaManager = $this->connection->getSchemaManager();
-        $fromSchema = $schemaManager->createSchema();
-
-        foreach($migrations->toCollection() as $migration) {
-            $toSchema = clone $fromSchema;
-            $migration->up($toSchema);
-            $this->executeSchemaUpdate($fromSchema, $toSchema);
+        foreach($fixtures->toCollection() as $fixture) {
+            $fixture->execute($fromSchema, $toSchema);
             $this->addMigrationExecutedEntry($migration);
             $fromSchema = $toSchema;
         }
@@ -111,8 +97,8 @@ class MigrateCommand extends Command
             $fromSchema->getTable('migrations');
         } catch (SchemaException $e) {
             $toSchema = clone $fromSchema;
-            $migration = new MigrationsMigration();
-            $migration->up($toSchema);
+            $migration = new MigrationsAbstractMigration();
+            $migration->schemaUp($toSchema);
             $this->executeSchemaUpdate($fromSchema, $toSchema);
         }
     }

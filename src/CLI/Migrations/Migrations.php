@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\CLI\Migration;
+namespace App\CLI\Migrations;
 
 use App\Packages\Common\Installation\Migrations\AbstractMigration;
 

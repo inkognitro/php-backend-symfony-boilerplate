@@ -13,7 +13,7 @@ final class UsersMigration20190101174900 extends AbstractMigration
         return 1;
     }
 
-    public function up(Schema $schema): void
+    public function schemaUp(Schema $schema): void
     {
         $table = $schema->createTable('users');
         $table->addColumn('id', Type::GUID);
@@ -24,7 +24,7 @@ final class UsersMigration20190101174900 extends AbstractMigration
         $table->addUniqueIndex(['emailAddress']);
     }
 
-    public function down(Schema $schema): void
+    public function schemaDown(Schema $schema): void
     {
         $schema->dropTable('users');
     }

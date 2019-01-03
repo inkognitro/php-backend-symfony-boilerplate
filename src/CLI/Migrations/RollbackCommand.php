@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\CLI\Migration;
+namespace App\CLI\Migrations;
 
 use App\Packages\Common\Infrastructure\DbalConnection;
 use App\Packages\Common\Installation\Migrations\AbstractMigration;
@@ -22,7 +22,7 @@ class RollbackCommand extends Command
 
     protected function configure()
     {
-        $this->setName('app:migration:rollback');
+        $this->setName('app:migrations:rollback');
         $this->setDescription('Rollbacks the migrations of the previous installation batch.');
         $this->setHelp('This command allows you to rollback the previous migration batch of the installed packages.');
     }
@@ -47,7 +47,7 @@ class RollbackCommand extends Command
         $fromSchema = $schemaManager->createSchema();
         foreach($migrationsToRollback->toCollection() as $migration) {
             $toSchema = clone $fromSchema;
-            $migration->down($toSchema);
+            $migration->schemaDown($toSchema);
             $this->executeSchemaUpdate($fromSchema, $toSchema);
             $this->removeMigrationExecutedEntry($migration);
             $fromSchema = $toSchema;
@@ -101,7 +101,7 @@ class RollbackCommand extends Command
             $fromSchema->getTable('migrations');
             $toSchema = clone $fromSchema;
             $migration = new MigrationsMigration();
-            $migration->down($toSchema);
+            $migration->schemaDown($toSchema);
             $this->executeSchemaUpdate($fromSchema, $toSchema);
         } catch (SchemaException $e) {}
     }

@@ -9,26 +9,45 @@ final class User implements Resource
     private $id;
     private $username;
     private $emailAddress;
+    private $password;
+    private $role;
 
-    public function __construct(string $id, string $username, string $emailAddress)
-    {
+    public function __construct(
+        UserId $id,
+        Username $username,
+        EmailAddress $emailAddress,
+        Password $password,
+        Role $role
+    ) {
         $this->id = $id;
         $this->username = $username;
         $this->emailAddress = $emailAddress;
+        $this->password = $password;
+        $this->role = $role;
     }
 
     public function getId(): UserId
     {
-        return UserId::fromString($this->id);
+        return $this->id;
     }
 
     public function getUsername(): Username
     {
-        return Username::fromString($this->username);
+        return $this->username;
     }
 
     public function getEmailAddress(): EmailAddress
     {
-        return EmailAddress::fromString($this->emailAddress);
+        return $this->emailAddress;
+    }
+
+    public function getRole(): Role
+    {
+        return $this->role;
+    }
+
+    public function getPassword(): Password
+    {
+        return $this->password;
     }
 }

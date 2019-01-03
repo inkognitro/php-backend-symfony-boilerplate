@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\CLI\Migration;
+namespace App\CLI\Migrations;
 
 use App\Packages\Common\Installation\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
@@ -13,7 +13,7 @@ final class MigrationsMigration extends AbstractMigration
         return 1;
     }
 
-    public function up(Schema $schema): void
+    public function schemaUp(Schema $schema): void
     {
         $table = $schema->createTable('migrations');
         $table->addColumn('class_name', Type::STRING);
@@ -22,7 +22,7 @@ final class MigrationsMigration extends AbstractMigration
         $table->setPrimaryKey(['class_name']);
     }
 
-    public function down(Schema $schema): void
+    public function schemaDown(Schema $schema): void
     {
         $schema->dropTable('migrations');
     }

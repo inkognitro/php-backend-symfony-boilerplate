@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\CLI\Migration;
+namespace App\CLI\Migrations;
 
 use App\Packages\Common\Infrastructure\DbalConnection;
 use App\Packages\UserManagement\Installation\Migrations\UsersMigration20190101174900;

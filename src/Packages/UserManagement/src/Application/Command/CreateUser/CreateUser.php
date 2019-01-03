@@ -3,22 +3,68 @@
 namespace App\Packages\UserManagement\Application\Command\CreateUser;
 
 use App\Packages\Common\Application\Command\Command;
-use App\Packages\UserManagement\Application\Resources\User\User;
 
 final class CreateUser implements Command
 {
-    private $user;
+    private $userId;
+    private $username;
+    private $emailAddress;
+    private $password;
+    private $role;
     private $sendInvitation;
 
-    public function __construct(User $user, bool $sendInvitation)
+    private function __construct(
+        string $userId,
+        string $username,
+        string $emailAddress,
+        string $password,
+        ?string $role,
+        bool $sendInvitation
+    )
     {
-        $this->user = $user;
+        $this->userId = $userId;
+        $this->username = $username;
+        $this->emailAddress = $emailAddress;
+        $this->password = $password;
+        $this->role = $role;
         $this->sendInvitation = $sendInvitation;
     }
 
-    public function getUser(): User
+    public static function fromArray(array $array): self
     {
-        return $this->user;
+        return new self(
+            $array['id'],
+            $array['username'],
+            $array['emailAddress'],
+            $array['password'],
+            ($array['role'] ?? null),
+            $array['sendInvitation']
+        );
+    }
+
+    public function getUserId(): string
+    {
+        return $this->userId;
+    }
+
+    public function getUsername(): string
+    {
+        return $this->username;
+    }
+
+    public function getEmailAddress(): string
+    {
+        return $this->emailAddress;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function getRole(): ?string
+    {
+        return $this->role;
     }
 
     public function sendInvitation(): bool
