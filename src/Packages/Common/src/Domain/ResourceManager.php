@@ -5,8 +5,9 @@ namespace App\Packages\Common\Domain;
 use App\Packages\Common\Domain\Event\Event;
 use App\Packages\Common\Domain\Event\EventStream;
 
-abstract class Aggregate
+abstract class ResourceManager
 {
+    protected $eventManager;
     protected $recordedEvents;
 
     protected function __construct(EventStream $recordedEvents)

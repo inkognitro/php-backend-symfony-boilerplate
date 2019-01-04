@@ -26,7 +26,29 @@ final class DbalUserRepository implements UserRepository
         $queryBuilder = $this->createQueryBuilder();
         $queryBuilder->andWhere("id = {$queryBuilder->createNamedParameter($id->toString())}");
         $row = $queryBuilder->execute()->fetch();
-        if(!$row) {
+        if (!$row) {
+            return null;
+        }
+        return $this->createUser($row);
+    }
+
+    public function findByUsername(Username $username): ?User
+    {
+        $queryBuilder = $this->createQueryBuilder();
+        $queryBuilder->andWhere("username = {$queryBuilder->createNamedParameter($username->toString())}");
+        $row = $queryBuilder->execute()->fetch();
+        if (!$row) {
+            return null;
+        }
+        return $this->createUser($row);
+    }
+
+    public function findByEmailAddress(EmailAddress $emailAddress): ?User
+    {
+        $queryBuilder = $this->createQueryBuilder();
+        $queryBuilder->andWhere("email_address = {$queryBuilder->createNamedParameter($emailAddress->toString())}");
+        $row = $queryBuilder->execute()->fetch();
+        if (!$row) {
             return null;
         }
         return $this->createUser($row);

@@ -5,7 +5,7 @@ namespace App\Packages\Common\Domain;
 use App\Packages\Common\Application\Resources\AbstractResource;
 use App\Packages\Common\Application\Validation\Messages\MessageBag;
 
-abstract class ResourceValidator
+abstract class AbstractResourceValidator
 {
     protected $errors;
     protected $warnings;
