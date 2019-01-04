@@ -33,8 +33,8 @@ final class ProdUserFixture extends AbstractFixture
         return [
             [
                 'id' => '11111111-1111-1111-1111-111111111111',
-                'username' => 'protector',
-                'emailAddress' => 'protector@example.com',
+                'username' => 'sonGoku',
+                'emailAddress' => 'sonGoku@example.com',
                 'password' => getenv('ADMIN_FIXTURE_PASSWORD'),
                 'role' => AuthUser::ADMIN_USER_ROLE,
             ]
