@@ -1,6 +1,3 @@
-parameters:
-# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
-
 imports:
     - { resource: '../src/Packages/UserManagement/services_dev.yaml' }
     - { resource: '../src/CLI/services_dev.yaml' }
