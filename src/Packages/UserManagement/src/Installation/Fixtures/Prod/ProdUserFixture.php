@@ -32,19 +32,12 @@ final class ProdUserFixture extends AbstractFixture
     {
         return [
             [
-                'id' => '287d6446-af61-4451-bc60-85ea545e53b6',
-                'username' => 'admin',
-                'emailAddress' => 'admin@example.com',
-                'password' => 'test',
+                'id' => '11111111-1111-1111-1111-111111111111',
+                'username' => 'protector',
+                'emailAddress' => 'protector@example.com',
+                'password' => getenv('ADMIN_FIXTURE_PASSWORD'),
                 'role' => AuthUser::ADMIN_USER_ROLE,
-            ],
-            [
-                'id' => '4044de59-40fc-4f87-bf8c-df5554a35240',
-                'username' => 'user',
-                'emailAddress' => 'user@example.com',
-                'password' => 'test',
-                'role' => AuthUser::DEFAULT_USER_ROLE,
-            ],
+            ]
         ];
     }
 }
