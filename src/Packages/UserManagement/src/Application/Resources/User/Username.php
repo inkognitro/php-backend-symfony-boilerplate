@@ -4,7 +4,6 @@ namespace App\Packages\UserManagement\Application\Resources\User;
 
 final class Username
 {
-    public const NAME = 'username';
     private $username;
 
     private function __construct(string $username)

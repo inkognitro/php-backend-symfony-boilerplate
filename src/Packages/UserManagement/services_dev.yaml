@@ -1,0 +1,3 @@
+imports:
+    - { resource: './src/Installation/Migrations/migrations.yaml' }
+    - { resource: './src/Installation/Fixtures/fixtures_dev.yaml' }

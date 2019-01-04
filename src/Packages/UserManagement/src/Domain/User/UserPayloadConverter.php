@@ -1,9 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\UserManagement\Domain\User\Event;
+namespace App\Packages\UserManagement\Domain\User;
 
 use App\Packages\Common\Domain\Event\Payload;
+use App\Packages\UserManagement\Application\Resources\User\EmailAddress;
+use App\Packages\UserManagement\Application\Resources\User\Password;
+use App\Packages\UserManagement\Application\Resources\User\Role;
 use App\Packages\UserManagement\Application\Resources\User\User;
+use App\Packages\UserManagement\Application\Resources\User\UserId;
+use App\Packages\UserManagement\Application\Resources\User\Username;
 
 final class UserPayloadConverter
 {
@@ -12,7 +17,9 @@ final class UserPayloadConverter
         return Payload::fromArray([
             'id' => $user->getId()->toString(),
             'username' => $user->getUsername()->toString(),
-            'emailAddress' => $user->getEmailAddress()->toString()
+            'emailAddress' => $user->getEmailAddress()->toString(),
+            'role' => $user->getRole()->toString(),
+            'password' => $user->getPassword()->toHash(),
         ]);
     }
 
@@ -20,9 +27,11 @@ final class UserPayloadConverter
     {
         $data = $userPayload->toArray();
         return new User(
-            $data['id'],
-            $data['username'],
-            $data['emailAddress']
+            UserId::fromString($data['id']),
+            Username::fromString($data['username']),
+            EmailAddress::fromString($data['emailAddress']),
+            Password::fromHash($data['password']),
+            Role::fromString($data['role'])
         );
     }
 }

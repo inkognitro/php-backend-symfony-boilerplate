@@ -9,7 +9,7 @@ use App\Packages\Common\Application\Validation\Rules\Rule;
 
 final class EmptyOrEmailAddressRule implements Rule
 {
-    public function getMessageFromValidation($data): ?Message
+    public static function getMessageFromValidation($data): ?Message
     {
         if(!is_string($data)) {
             return new MustBeAStringMessage();

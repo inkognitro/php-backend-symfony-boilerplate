@@ -2,23 +2,21 @@
 
 namespace App\Packages\Common\Application\HandlerResponse;
 
+use App\Packages\Common\Application\Resources\AbstractResource;
 use App\Packages\Common\Application\Validation\Messages\MessageBag;
-use App\Packages\Common\Application\HandlerResponse\SuccessResponse;
 
 final class ResourceCreatedResponse implements SuccessResponse
 {
     private $resource;
     private $warnings;
 
-    /** @param $resource mixed */
-    public function __construct($resource, MessageBag $warnings)
+    public function __construct(AbstractResource $resource, MessageBag $warnings)
     {
         $this->resource = $resource;
         $this->warnings = $warnings;
     }
 
-    /** @return mixed */
-    public function getResource()
+    public function getResource(): AbstractResource
     {
         return $this->resource;
     }

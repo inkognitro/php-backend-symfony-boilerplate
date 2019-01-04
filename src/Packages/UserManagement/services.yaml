@@ -3,4 +3,8 @@ services:
         autowire: true
 
     App\Packages\UserMangement\Application\Resources\User\UserRepository:
-        class: App\Packages\UserMangement\Infrastructure\User\UserRepository
+        class: App\Packages\UserMangement\Infrastructure\User\DbalUserRepository
+
+imports:
+    - { resource: './src/Application/Command/services.yaml' }
+    - { resource: './src/Installation/Fixtures/fixtures.yaml' }

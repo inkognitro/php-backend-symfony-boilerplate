@@ -2,106 +2,111 @@
 
 namespace App\Packages\UserManagement\Domain\User;
 
+use App\Packages\Common\Application\Authorization\RolesRepository;
+use App\Packages\Common\Application\Resources\AbstractResource;
 use App\Packages\Common\Application\Validation\Messages\DoesAlreadyExistMessage;
+use App\Packages\Common\Application\Validation\Messages\DoesNotExistMessage;
+use App\Packages\Common\Application\Validation\Messages\MessageBag;
 use App\Packages\Common\Application\Validation\Messages\Rules\EmptyOrEmailAddressRule;
 use App\Packages\Common\Application\Validation\Messages\Rules\EmptyOrUuidRule;
 use App\Packages\Common\Application\Validation\Messages\Rules\NotEmptyRule;
-use App\Packages\Common\Domain\AggregateValidator;
-use App\Packages\UserManagement\Application\Resources\User\EmailAddress;
-use App\Packages\UserManagement\Application\Resources\User\UserId;
-use App\Packages\UserManagement\Application\Resources\User\Username;
+use App\Packages\Common\Domain\AbstractResourceValidator;
+use App\Packages\UserManagement\Application\Resources\User\User;
+use App\Packages\UserManagement\Application\Resources\User\UserRepository;
+use InvalidArgumentException;
 
-final class UserValidator extends AggregateValidator
+final class UserValidator extends AbstractResourceValidator
 {
     private $userRepository;
+    private $rolesRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, RolesRepository $rolesRepository)
     {
         parent::__construct();
         $this->userRepository = $userRepository;
+        $this->rolesRepository = $rolesRepository;
     }
 
-    protected function validateData(array $userData): void
+    public function validate(AbstractResource $user): void
     {
-        $this->validateFormat($userData);
-        $this->validateUniqueUsername($userData);
-        $this->validateUniqueEmailAddress($userData);
-    }
-
-    private function validateFormat(array $userData): void
-    {
-        $attributeToRulesMapping = [
-            UserId::NAME => [
-                NotEmptyRule::class,
-                EmptyOrUuidRule::class,
-            ],
-            Username::NAME => [
-                NotEmptyRule::class,
-                EmptyOrEmailAddressRule::class,
-            ],
-            EmailAddress::NAME => [
-                NotEmptyRule::class,
-                EmptyOrEmailAddressRule::class,
-            ],
-        ];
-        foreach ($attributeToRulesMapping as $attributeName => $rules) {
-            $message = $this->validator->getMessageFromValidation($userData, $rules);
-            if ($message !== null) {
-                $this->errors->addMessage($attributeName, $message);
-            }
+        if(!$user instanceof User) {
+            throw new InvalidArgumentException('Variable $resource must be an instance of ' . User::class . '!');
         }
+        $this->warnings = new MessageBag();
+        $this->errors = new MessageBag();
+        $this->validateUserId($user);
+        $this->validateUsername($user);
+        $this->validateEmailAddress($user);
+        $this->validateRole($user);
     }
 
-    private function validateUniqueUsername(array $userData): void
+    private function validateUserId(User $user): void
     {
-        if ($this->isValidUniqueUserDataByKey($userData, Username::NAME)) {
+        $errorKey = 'id';
+
+        $errorMessage = NotEmptyRule::getMessageFromValidation($user->getId());
+        if($errorMessage !== null) {
+            $this->errors->addMessage($errorKey, $errorMessage);
             return;
         }
-        $this->errors->addMessage(Username::NAME, new DoesAlreadyExistMessage());
+
+        $errorMessage = EmptyOrUuidRule::getMessageFromValidation($user->getId());
+        if($errorMessage !== null) {
+            $this->errors->addMessage($errorKey, $errorMessage);
+        }
     }
 
-    private function validateUniqueEmailAddress(array $userData): void
+    private function validateUsername(User $user): void
     {
-        if ($this->isValidUniqueUserDataByKey($userData, EmailAddress::NAME)) {
+        $errorKey = 'username';
+
+        $errorMessage = NotEmptyRule::getMessageFromValidation($user->getId());
+        if($errorMessage !== null) {
+            $this->errors->addMessage($errorKey, $errorMessage);
             return;
         }
-        $this->errors->addMessage(EmailAddress::NAME, new DoesAlreadyExistMessage());
+
+        $foundUser = $this->userRepository->findByUsername($user->getUsername());
+        if($foundUser !== null && !$foundUser->getId()->isEqual($user->getId())) {
+            $this->errors->addMessage($errorKey, new DoesAlreadyExistMessage());
+        }
     }
 
-    private function isValidUniqueUserDataByKey(array $userData, string $key): bool
+    private function validateEmailAddress(User $user): void
     {
-        if (!isset($userData[$key])) {
-            return true;
+        $errorKey = 'emailAddress';
+
+        $errorMessage = NotEmptyRule::getMessageFromValidation($user->getId());
+        if($errorMessage !== null) {
+            $this->errors->addMessage($errorKey, $errorMessage);
+            return;
         }
 
-        if ($this->errors->doesMessageKeyExist($key)) {
-            return true;
+        $errorMessage = EmptyOrEmailAddressRule::getMessageFromValidation($user->getId());
+        if($errorMessage !== null) {
+            $this->errors->addMessage($errorKey, $errorMessage);
+            return;
         }
 
-        $user = null;
-        if ($key === EmailAddress::NAME) {
-            $user = $this->userRepository->findByEmailAddress(
-                EmailAddress::fromString((string)$userData[$key])
-            );
-        } else if ($key === Username::NAME) {
-            $user = $this->userRepository->findByUsername(
-                Username::fromString((string)$userData[$key])
-            );
+        $foundUser = $this->userRepository->findByEmailAddress($user->getEmailAddress());
+        if($foundUser !== null && !$foundUser->getId()->isEqual($user->getId())) {
+            $this->errors->addMessage($errorKey, new DoesAlreadyExistMessage());
+        }
+    }
+
+    private function validateRole(User $user): void
+    {
+        $errorKey = 'role';
+
+        $errorMessage = NotEmptyRule::getMessageFromValidation($user->getId());
+        if($errorMessage !== null) {
+            $this->errors->addMessage($errorKey, $errorMessage);
+            return;
         }
 
-        if ($user === null) {
-            return true;
+        if(!in_array($user->getRole()->toString(), $this->rolesRepository->findAll())) {
+            $this->errors->addMessage($errorKey, new DoesNotExistMessage());
+            return;
         }
-
-        if(!isset($userData['id']) || strlen((string)$userData['id']) === 0) {
-            return false;
-        }
-
-        $userId = UserId::fromString((isset($userData['id']) ? (string)$userData['id'] : ''));
-        if ($user->getId()->isEqualTo($userId)) {
-            return true;
-        }
-
-        return false;
     }
 }

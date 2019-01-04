@@ -10,7 +10,7 @@ use Ramsey\Uuid\Uuid;
 
 final class EmptyOrUuidRule implements Rule
 {
-    public function getMessageFromValidation($data): ?Message
+    public static function getMessageFromValidation($data): ?Message
     {
         if(!is_string($data)) {
             return new MustBeAStringMessage();
