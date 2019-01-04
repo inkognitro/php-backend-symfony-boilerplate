@@ -3,6 +3,7 @@
 namespace App\CLI\Fixtures;
 
 use App\IterableConverter;
+use App\Packages\Common\Installation\Fixtures\AbstractFixture;
 
 final class FixtureRepository
 {
@@ -11,6 +12,20 @@ final class FixtureRepository
     public function __construct(iterable $fixtures)
     {
         $this->fixtures = IterableConverter::convertToArray($fixtures);
+        usort($this->fixtures, [$this, 'compareFixtures']);
+    }
+
+    private function compareFixtures(AbstractFixture $a, AbstractFixture $b): int
+    {
+        if($a->getSequenceNumber() < $b->getSequenceNumber()) {
+            return -1;
+        }
+
+        if($a->getSequenceNumber() > $b->getSequenceNumber()) {
+            return 1;
+        }
+
+        return 0;
     }
 
     public function findAll(): Fixtures

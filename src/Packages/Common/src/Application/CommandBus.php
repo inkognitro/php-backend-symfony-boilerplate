@@ -32,7 +32,6 @@ final class CommandBus
                 return $handlerResponse;
             }
             $this->stateManager->commitTransaction();
-            $this->triggerEventSubscribers();
             return $handlerResponse;
         } catch (Exception $e) {
             $this->stateManager->rollbackTransaction($transactionSavePointName);
@@ -46,10 +45,5 @@ final class CommandBus
         $commandHandlerClassName = $commandClassName . 'Handler';
         $commandHandler = $this->serviceContainer->get($commandHandlerClassName);
         return $commandHandler->handle($command, $authUser);
-    }
-
-    private function triggerEventSubscribers(): void
-    {
-        //todo implement subscribers for e.g. filesystem changes, email jobs etc.
     }
 }

@@ -2,19 +2,19 @@
 
 namespace App\CLI\Fixtures;
 
-use App\Packages\Common\Installation\Fixtures\Fixture;
+use App\Packages\Common\Installation\Fixtures\AbstractFixture;
 
 final class Fixtures
 {
     private $fixtures;
 
-    /** @param $fixtures Fixture[] */
+    /** @param $fixtures AbstractFixture[] */
     public function __construct(array $fixtures)
     {
         $this->fixtures = $fixtures;
     }
 
-    /** @return Fixture[] */
+    /** @return AbstractFixture[] */
     public function toCollection(): array
     {
         return $this->fixtures;

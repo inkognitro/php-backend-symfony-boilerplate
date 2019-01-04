@@ -5,10 +5,10 @@ namespace App\Packages\UserManagement\Installation\Fixtures\Prod;
 use App\Packages\Common\Application\Authorization\User as AuthUser;
 use App\Packages\Common\Application\Authorization\UserFactory as AuthUserFactory;
 use App\Packages\Common\Application\CommandBus;
-use App\Packages\Common\Installation\Fixtures\Fixture;
+use App\Packages\Common\Installation\Fixtures\AbstractFixture;
 use App\Packages\UserManagement\Application\Command\CreateUser\CreateUser;
 
-final class ProdUserFixture implements Fixture
+final class ProdUserFixture extends AbstractFixture
 {
     private $commandBus;
     private $authUserFactory;

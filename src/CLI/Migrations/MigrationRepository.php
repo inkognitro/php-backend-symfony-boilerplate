@@ -14,7 +14,29 @@ final class MigrationRepository
     public function __construct(iterable $migrations, DbalConnection $connection)
     {
         $this->migrations = self::getIterableAsArray($migrations);
+        usort($this->migrations, [$this, 'compareMigrations']);
         $this->connection = $connection;
+    }
+
+    private function compareMigrations(AbstractMigration $a, AbstractMigration $b): int
+    {
+        if($a->getBatchNumber() < $b->getBatchNumber()) {
+            return -1;
+        }
+
+        if($a->getBatchNumber() > $b->getBatchNumber()) {
+            return 1;
+        }
+
+        if($a->getBatchSequenceNumber() < $b->getBatchSequenceNumber()) {
+            return -1;
+        }
+
+        if($a->getBatchSequenceNumber() > $b->getBatchSequenceNumber()) {
+            return 1;
+        }
+
+        return 0;
     }
 
     private static function getIterableAsArray(iterable $migrations): array
