@@ -5,6 +5,8 @@ namespace App\Packages\UserManagement\Infrastructure\User;
 use App\Packages\Common\Domain\Event\Event;
 use App\Packages\Common\Domain\Event\Projection;
 use App\Packages\Common\Infrastructure\DbalConnection;
+use App\Packages\UserManagement\Domain\User\Events\UserWasCreated;
+use App\Packages\UserManagement\Domain\User\UserPayloadConverter;
 
 final class DbalUserProjection implements Projection
 {
@@ -17,6 +19,32 @@ final class DbalUserProjection implements Projection
 
     public function project(Event $event): void
     {
+        if($event instanceof UserWasCreated) {
+            $this->projectUserWasCreated($event);
+        }
+    }
 
+    private function projectUserWasCreated(UserWasCreated $event): void
+    {
+        $user = UserPayloadConverter::convertToUser($event->getPayload());
+
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $queryBuilder->insert('users');
+        $queryBuilder->setValue(
+            'id', $queryBuilder->createNamedParameter($user->getId()->toString())
+        );
+        $queryBuilder->setValue(
+            'username', $queryBuilder->createNamedParameter($user->getUsername()->toString())
+        );
+        $queryBuilder->setValue(
+            'email_address', $queryBuilder->createNamedParameter($user->getEmailAddress()->toString())
+        );
+        $queryBuilder->setValue(
+            'password', $queryBuilder->createNamedParameter($user->getPassword()->toHash())
+        );
+        $queryBuilder->setValue(
+            'role', $queryBuilder->createNamedParameter($user->getRole()->toString())
+        );
+        $queryBuilder->execute();
     }
 }

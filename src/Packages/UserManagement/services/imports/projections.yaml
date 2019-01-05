@@ -3,5 +3,4 @@ services:
         autowire: true
         tags: ['app.event_projection']
 
-    App\Packages\UserMangement\Domain\User\UserProjection:
-        class: App\Packages\UserMangement\Infrastructure\User\DbalUserProjection
+    App\Packages\UserManagement\Infrastructure\User\DbalUserProjection: ~

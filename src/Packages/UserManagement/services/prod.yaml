@@ -2,15 +2,20 @@ services:
     _defaults:
         autowire: true
 
-    App\Packages\UserMangement\Application\Command\CreateUser\UserFactory: ~
-    App\Packages\UserMangement\Application\Command\CreateUser\CreateUserHandler:
+    App\Packages\UserManagement\Application\Command\CreateUser\UserFactory: ~
+
+    App\Packages\UserManagement\Application\Command\CreateUser\CreateUserHandler:
+        public: true
         tags: ['app.command_handler']
 
-    App\Packages\UserMangement\Application\Command\CreateUser\RemoveUserHandler:
+    App\Packages\UserManagement\Application\Command\CreateUser\RemoveUserHandler:
+        public: true
         tags: ['app.command_handler']
 
-    App\Packages\UserMangement\Application\Resources\User\UserRepository:
-        class: App\Packages\UserMangement\Infrastructure\User\DbalUserRepository
+    App\Packages\UserManagement\Application\Resources\User\UserRepository:
+        class: App\Packages\UserManagement\Infrastructure\User\DbalUserRepository
+
+    App\Packages\UserManagement\Domain\User\UserValidator: ~
 
 imports:
     - { resource: './imports/projections.yaml' }

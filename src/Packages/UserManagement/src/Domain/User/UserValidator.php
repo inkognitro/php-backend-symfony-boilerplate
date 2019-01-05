@@ -7,9 +7,9 @@ use App\Packages\Common\Application\Resources\AbstractResource;
 use App\Packages\Common\Application\Validation\Messages\DoesAlreadyExistMessage;
 use App\Packages\Common\Application\Validation\Messages\DoesNotExistMessage;
 use App\Packages\Common\Application\Validation\Messages\MessageBag;
-use App\Packages\Common\Application\Validation\Messages\Rules\EmptyOrEmailAddressRule;
-use App\Packages\Common\Application\Validation\Messages\Rules\EmptyOrUuidRule;
-use App\Packages\Common\Application\Validation\Messages\Rules\NotEmptyRule;
+use App\Packages\Common\Application\Validation\Rules\EmptyOrEmailAddressRule;
+use App\Packages\Common\Application\Validation\Rules\EmptyOrUuidRule;
+use App\Packages\Common\Application\Validation\Rules\NotEmptyRule;
 use App\Packages\Common\Domain\AbstractResourceValidator;
 use App\Packages\UserManagement\Application\Resources\User\User;
 use App\Packages\UserManagement\Application\Resources\User\UserRepository;
@@ -44,13 +44,13 @@ final class UserValidator extends AbstractResourceValidator
     {
         $errorKey = 'id';
 
-        $errorMessage = NotEmptyRule::getMessageFromValidation($user->getId());
+        $errorMessage = NotEmptyRule::getMessageFromValidation($user->getId()->toString());
         if($errorMessage !== null) {
             $this->errors->addMessage($errorKey, $errorMessage);
             return;
         }
 
-        $errorMessage = EmptyOrUuidRule::getMessageFromValidation($user->getId());
+        $errorMessage = EmptyOrUuidRule::getMessageFromValidation($user->getId()->toString());
         if($errorMessage !== null) {
             $this->errors->addMessage($errorKey, $errorMessage);
         }
@@ -60,7 +60,7 @@ final class UserValidator extends AbstractResourceValidator
     {
         $errorKey = 'username';
 
-        $errorMessage = NotEmptyRule::getMessageFromValidation($user->getId());
+        $errorMessage = NotEmptyRule::getMessageFromValidation($user->getUsername()->toString());
         if($errorMessage !== null) {
             $this->errors->addMessage($errorKey, $errorMessage);
             return;
@@ -76,13 +76,13 @@ final class UserValidator extends AbstractResourceValidator
     {
         $errorKey = 'emailAddress';
 
-        $errorMessage = NotEmptyRule::getMessageFromValidation($user->getId());
+        $errorMessage = NotEmptyRule::getMessageFromValidation($user->getEmailAddress()->toString());
         if($errorMessage !== null) {
             $this->errors->addMessage($errorKey, $errorMessage);
             return;
         }
 
-        $errorMessage = EmptyOrEmailAddressRule::getMessageFromValidation($user->getId());
+        $errorMessage = EmptyOrEmailAddressRule::getMessageFromValidation($user->getEmailAddress()->toString());
         if($errorMessage !== null) {
             $this->errors->addMessage($errorKey, $errorMessage);
             return;
@@ -98,7 +98,7 @@ final class UserValidator extends AbstractResourceValidator
     {
         $errorKey = 'role';
 
-        $errorMessage = NotEmptyRule::getMessageFromValidation($user->getId());
+        $errorMessage = NotEmptyRule::getMessageFromValidation($user->getRole()->toString());
         if($errorMessage !== null) {
             $this->errors->addMessage($errorKey, $errorMessage);
             return;

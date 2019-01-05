@@ -1,11 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Application\Validation\Messages\Rules;
+namespace App\Packages\Common\Application\Validation\Rules;
 
 use App\Packages\Common\Application\Validation\Messages\Message;
 use App\Packages\Common\Application\Validation\Messages\MustBeAStringMessage;
 use App\Packages\Common\Application\Validation\Messages\MustBeAUuidMessage;
-use App\Packages\Common\Application\Validation\Rules\Rule;
 use Ramsey\Uuid\Uuid;
 
 final class EmptyOrUuidRule implements Rule

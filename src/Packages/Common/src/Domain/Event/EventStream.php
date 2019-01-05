@@ -9,7 +9,7 @@ final class EventStream
     /** @param $events Event[] */
     public function __construct(array $events)
     {
-        $this->events;
+        $this->events = $events;
     }
 
     /** @return Event[] */

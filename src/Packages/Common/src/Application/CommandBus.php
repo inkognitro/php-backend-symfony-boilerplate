@@ -23,7 +23,7 @@ final class CommandBus
 
     public function handle(Command $command, AuthUser $authUser): Response
     {
-        $transactionSavePointName = Uuid::uuid4()->toString();
+        $transactionSavePointName = $this->createSavePointName();
         $this->stateManager->beginTransaction($transactionSavePointName);
         try {
             $handlerResponse = $this->getHandlerResponseFromCommandExecution($command, $authUser);
@@ -45,5 +45,10 @@ final class CommandBus
         $commandHandlerClassName = $commandClassName . 'Handler';
         $commandHandler = $this->serviceContainer->get($commandHandlerClassName);
         return $commandHandler->handle($command, $authUser);
+    }
+
+    private function createSavePointName(): string
+    {
+        return 'a' . str_replace('-', '', Uuid::uuid4()->toString());
     }
 }

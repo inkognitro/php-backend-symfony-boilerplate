@@ -40,6 +40,7 @@ final class CreateUserHandler
         }
 
         $user = $this->userFactory->create($command);
+
         $this->validator->validate($user);
         if ($this->validator->hasErrors()) {
             return new ValidationErrorResponse(

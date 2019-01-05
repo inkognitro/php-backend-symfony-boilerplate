@@ -6,7 +6,7 @@ services:
     App\Packages\Common\Application\Authorization\RolesRepository: ~
     App\Packages\Common\Application\Authorization\UserFactory: ~
 
-    App\Packages\Common\Domain\EventManager: ~
+    App\Packages\Common\Domain\EventDispatcher: ~
 
     App\Packages\Common\Application\StateManager:
         class: App\Packages\Common\Infrastructure\DbalStateManager

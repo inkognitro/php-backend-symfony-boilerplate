@@ -12,7 +12,7 @@ abstract class AbstractAggregate
 
     protected function __construct(EventStream $recordedEvents)
     {
-        $this->recordedEvents = new EventStream([]);
+        $this->recordedEvents = $recordedEvents;
     }
 
     protected function recordEvent(Event $event): void
@@ -24,6 +24,6 @@ abstract class AbstractAggregate
 
     public function getRecordedEvents(): EventStream
     {
-        return new $this->recordedEvents;
+        return $this->recordedEvents;
     }
 }

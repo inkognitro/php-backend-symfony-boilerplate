@@ -8,7 +8,7 @@ final class Payload
 
     private function __construct(array $data)
     {
-        $this->data;
+        $this->data = $data;
     }
 
     public static function fromArray(array $data): self
