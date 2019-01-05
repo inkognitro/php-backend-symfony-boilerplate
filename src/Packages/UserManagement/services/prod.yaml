@@ -1,0 +1,17 @@
+services:
+    _defaults:
+        autowire: true
+
+    App\Packages\UserMangement\Application\Command\CreateUser\UserFactory: ~
+    App\Packages\UserMangement\Application\Command\CreateUser\CreateUserHandler:
+        tags: ['app.command_handler']
+
+    App\Packages\UserMangement\Application\Command\CreateUser\RemoveUserHandler:
+        tags: ['app.command_handler']
+
+    App\Packages\UserMangement\Application\Resources\User\UserRepository:
+        class: App\Packages\UserMangement\Infrastructure\User\DbalUserRepository
+
+imports:
+    - { resource: './imports/projections.yaml' }
+    - { resource: './imports/fixtures.yaml' }

@@ -3,10 +3,10 @@
 namespace App\Packages\UserManagement\Infrastructure\User;
 
 use App\Packages\Common\Domain\Event\Event;
+use App\Packages\Common\Domain\Event\Projection;
 use App\Packages\Common\Infrastructure\DbalConnection;
-use LogicException;
 
-final class UserEventProjector
+final class DbalUserProjection implements Projection
 {
     private $connection;
 
@@ -17,6 +17,6 @@ final class UserEventProjector
 
     public function project(Event $event): void
     {
-        throw new LogicException('Event "' . get_class($event) . '" not supported!');
+
     }
 }

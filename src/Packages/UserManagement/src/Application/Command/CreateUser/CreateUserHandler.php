@@ -7,28 +7,29 @@ use App\Packages\Common\Application\HandlerResponse\Response;
 use App\Packages\Common\Application\HandlerResponse\ValidationErrorResponse;
 use App\Packages\Common\Application\HandlerResponse\UnauthorizedResponse;
 use App\Packages\Common\Application\HandlerResponse\ResourceCreatedResponse;
+use App\Packages\Common\Domain\EventDispatcher;
 use App\Packages\UserManagement\Application\Resources\User\UserRepository;
 use App\Packages\UserManagement\Domain\User\UserValidator;
 use App\Packages\UserManagement\Application\Resources\User\UserId;
-use App\Packages\UserManagement\Domain\User\UserManager;
+use App\Packages\UserManagement\Domain\User\UserAggregate;
 
 final class CreateUserHandler
 {
     private $validator;
     private $userRepository;
     private $userFactory;
-    private $userManager;
+    private $eventDispatcher;
 
     public function __construct(
         UserValidator $validator,
         UserRepository $userRepository,
         UserFactory $userFactory,
-        UserManager $userManager
+        EventDispatcher $eventDispatcher
     ) {
         $this->validator = $validator;
         $this->userRepository = $userRepository;
         $this->userFactory = $userFactory;
-        $this->userManager = $userManager;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function handle(CreateUser $command, AuthUser $creator): Response
@@ -38,10 +39,8 @@ final class CreateUserHandler
             return new UnauthorizedResponse();
         }
 
-        $user = $this->userFactory->convert($command);
-
+        $user = $this->userFactory->create($command);
         $this->validator->validate($user);
-
         if ($this->validator->hasErrors()) {
             return new ValidationErrorResponse(
                 $this->validator->getErrors(),
@@ -49,9 +48,8 @@ final class CreateUserHandler
             );
         }
 
-        $userManager = UserManager::create($user, $creator);
-        $userManager->dispatch();
-
+        $userAggregate = UserAggregate::fromNewUser($user, $creator);
+        $this->eventDispatcher->dispatch($userAggregate->getRecordedEvents());
         return new ResourceCreatedResponse($user, $this->validator->getWarnings());
     }
 }

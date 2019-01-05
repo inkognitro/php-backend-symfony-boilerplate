@@ -1,7 +1,4 @@
-parameters:
-# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
-
 imports:
-    - { resource: '../src/Packages/Common/services.yaml' }
-    - { resource: '../src/Packages/UserManagement/services.yaml' }
-    - { resource: '../src/CLI/services.yaml' }
+    - { resource: '../src/Packages/Common/services/prod.yaml' }
+    - { resource: '../src/Packages/UserManagement/services/prod.yaml' }
+    - { resource: '../src/CLI/services/prod.yaml' }
