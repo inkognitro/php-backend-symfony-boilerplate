@@ -6,8 +6,17 @@ services:
     App\Packages\Common\Application\Authorization\RolesRepository: ~
     App\Packages\Common\Application\Authorization\UserFactory: ~
 
-    App\Packages\Common\Domain\EventManager: ~
+    App\Packages\Common\Domain\EventDispatcher: ~
+
     App\Packages\Common\Application\StateManager:
         class: App\Packages\Common\Infrastructure\DbalStateManager
+
+    App\Packages\Common\Domain\Event\EventDispatcher: ~
+
+    App\Packages\Common\Application\Command\CommandHandlerRepository:
+        arguments: [!tagged 'app.command_handler']
+
+    App\Packages\Common\Domain\Event\ProjectionRepository:
+        arguments: [!tagged 'app.event_projection']
 
     App\Packages\Common\Infrastructure\DbalConnection: '@doctrine.dbal.default_connection'

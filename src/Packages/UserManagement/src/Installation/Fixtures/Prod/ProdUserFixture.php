@@ -5,10 +5,12 @@ namespace App\Packages\UserManagement\Installation\Fixtures\Prod;
 use App\Packages\Common\Application\Authorization\User as AuthUser;
 use App\Packages\Common\Application\Authorization\UserFactory as AuthUserFactory;
 use App\Packages\Common\Application\CommandBus;
-use App\Packages\Common\Installation\Fixtures\Fixture;
+use App\Packages\Common\Application\HandlerResponse\SuccessResponse;
+use App\Packages\Common\Installation\Fixtures\AbstractFixture;
 use App\Packages\UserManagement\Application\Command\CreateUser\CreateUser;
+use LogicException;
 
-final class ProdUserFixture implements Fixture
+final class ProdUserFixture extends AbstractFixture
 {
     private $commandBus;
     private $authUserFactory;
@@ -24,7 +26,16 @@ final class ProdUserFixture implements Fixture
         $authUser = $this->authUserFactory->createSystemUser();
         foreach($this->getRows() as $row) {
             $data = array_merge(['sendInvitation' => false], $row);
-            $this->commandBus->handle(CreateUser::fromArray($data), $authUser);
+
+            $response = $this->commandBus->handle(CreateUser::fromArray($data), $authUser);
+
+            if(!$response instanceof SuccessResponse) {
+                throw new LogicException(
+                    'Error response from fixture.'
+                    . ' Data:' . print_r($data, true)
+                    . ' Response:' . print_r($response, true)
+                );
+            }
         }
     }
 
@@ -32,19 +43,12 @@ final class ProdUserFixture implements Fixture
     {
         return [
             [
-                'id' => '287d6446-af61-4451-bc60-85ea545e53b6',
-                'username' => 'admin',
-                'emailAddress' => 'admin@example.com',
-                'password' => 'test',
+                'id' => '11111111-1111-1111-1111-111111111111',
+                'username' => getenv('APP_ADMIN_USERNAME'),
+                'emailAddress' => getenv('APP_ADMIN_EMAIL'),
+                'password' => getenv('APP_ADMIN_PASSWORD'),
                 'role' => AuthUser::ADMIN_USER_ROLE,
-            ],
-            [
-                'id' => '4044de59-40fc-4f87-bf8c-df5554a35240',
-                'username' => 'user',
-                'emailAddress' => 'user@example.com',
-                'password' => 'test',
-                'role' => AuthUser::DEFAULT_USER_ROLE,
-            ],
+            ]
         ];
     }
 }

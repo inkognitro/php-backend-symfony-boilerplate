@@ -23,7 +23,7 @@ final class CommandBus
 
     public function handle(Command $command, AuthUser $authUser): Response
     {
-        $transactionSavePointName = Uuid::uuid4()->toString();
+        $transactionSavePointName = $this->createSavePointName();
         $this->stateManager->beginTransaction($transactionSavePointName);
         try {
             $handlerResponse = $this->getHandlerResponseFromCommandExecution($command, $authUser);
@@ -32,7 +32,6 @@ final class CommandBus
                 return $handlerResponse;
             }
             $this->stateManager->commitTransaction();
-            $this->triggerEventSubscribers();
             return $handlerResponse;
         } catch (Exception $e) {
             $this->stateManager->rollbackTransaction($transactionSavePointName);
@@ -48,8 +47,8 @@ final class CommandBus
         return $commandHandler->handle($command, $authUser);
     }
 
-    private function triggerEventSubscribers(): void
+    private function createSavePointName(): string
     {
-        //todo implement subscribers for e.g. filesystem changes, email jobs etc.
+        return 'a' . str_replace('-', '', Uuid::uuid4()->toString());
     }
 }

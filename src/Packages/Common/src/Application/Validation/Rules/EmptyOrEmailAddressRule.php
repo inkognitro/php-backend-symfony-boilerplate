@@ -1,11 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Application\Validation\Messages\Rules;
+namespace App\Packages\Common\Application\Validation\Rules;
 
 use App\Packages\Common\Application\Validation\Messages\Message;
 use App\Packages\Common\Application\Validation\Messages\MustBeAStringMessage;
 use App\Packages\Common\Application\Validation\Messages\MustBeAnEmailAddressMessage;
-use App\Packages\Common\Application\Validation\Rules\Rule;
 
 final class EmptyOrEmailAddressRule implements Rule
 {
@@ -19,7 +18,7 @@ final class EmptyOrEmailAddressRule implements Rule
             return null;
         }
 
-        if(filter_var($data, FILTER_VALIDATE_EMAIL)) {
+        if(!filter_var($data, FILTER_VALIDATE_EMAIL)) {
             return new MustBeAnEmailAddressMessage();
         }
 

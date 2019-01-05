@@ -5,14 +5,14 @@ namespace App\Packages\Common\Domain;
 use App\Packages\Common\Domain\Event\Event;
 use App\Packages\Common\Domain\Event\EventStream;
 
-abstract class ResourceManager
+abstract class AbstractAggregate
 {
     protected $eventManager;
     protected $recordedEvents;
 
     protected function __construct(EventStream $recordedEvents)
     {
-        $this->recordedEvents = new EventStream([]);
+        $this->recordedEvents = $recordedEvents;
     }
 
     protected function recordEvent(Event $event): void
@@ -24,6 +24,6 @@ abstract class ResourceManager
 
     public function getRecordedEvents(): EventStream
     {
-        return new $this->recordedEvents;
+        return $this->recordedEvents;
     }
 }

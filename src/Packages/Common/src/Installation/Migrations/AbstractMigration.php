@@ -8,6 +8,12 @@ use Doctrine\DBAL\Schema\Schema;
 abstract class AbstractMigration
 {
     public abstract function getBatchNumber(): int;
+
+    public function getBatchSequenceNumber(): int
+    {
+        return 1;
+    }
+
     public abstract function schemaUp(Schema $schema): void;
     public abstract function schemaDown(Schema $schema): void;
 

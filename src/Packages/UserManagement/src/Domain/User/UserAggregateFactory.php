@@ -4,18 +4,16 @@ namespace App\Packages\UserManagement\Domain\User;
 
 use App\Packages\Common\Application\Authorization\User as AuthUser;
 use App\Packages\Common\Domain\Event\EventStream;
-use App\Packages\Common\Domain\ResourceManager;
 use App\Packages\UserManagement\Domain\User\Events\UserWasCreated;
 use App\Packages\UserManagement\Application\Resources\User\User;
 
-final class UserManager extends ResourceManager
+final class UserAggregateFactory
 {
     private $persistedUser;
     private $currentUser;
 
     protected function __construct(EventStream $recordedEvents, User $currentUser, ?User $persistedUser)
     {
-        parent::__construct($recordedEvents);
         $this->currentUser = $currentUser;
         $this->persistedUser = $persistedUser;
     }

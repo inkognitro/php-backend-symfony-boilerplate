@@ -5,10 +5,12 @@ namespace App\Packages\UserManagement\Installation\Fixtures\Dev;
 use App\Packages\Common\Application\Authorization\User as AuthUser;
 use App\Packages\Common\Application\Authorization\UserFactory as AuthUserFactory;
 use App\Packages\Common\Application\CommandBus;
-use App\Packages\Common\Installation\Fixtures\Fixture;
+use App\Packages\Common\Application\HandlerResponse\SuccessResponse;
+use App\Packages\Common\Installation\Fixtures\AbstractFixture;
 use App\Packages\UserManagement\Application\Command\CreateUser\CreateUser;
+use LogicException;
 
-final class DevUserFixture implements Fixture
+final class DevUserFixture extends AbstractFixture
 {
     private $commandBus;
     private $authUserFactory;
@@ -29,7 +31,16 @@ final class DevUserFixture implements Fixture
                 'role' => AuthUser::DEFAULT_USER_ROLE,
                 'sendInvitation' => false,
             ], $row);
-            $this->commandBus->handle(CreateUser::fromArray($data), $authUser);
+
+            $response = $this->commandBus->handle(CreateUser::fromArray($data), $authUser);
+
+            if(!$response instanceof SuccessResponse) {
+                throw new LogicException(
+                    'Error response from fixture.'
+                    . ' Data:' . print_r($data, true)
+                    . ' Response:' . print_r($response, true)
+                );
+            }
         }
     }
 
@@ -42,31 +53,33 @@ final class DevUserFixture implements Fixture
             ],
             [
                 'id' => '550ec9bb-e733-44e7-afea-f63f3c6a8f1d',
-                'username' => 'carla93'
+                'username' => 'carla93',
             ],
             [
                 'id' => '55903a4d-a02d-4c1f-9a7e-40c2d20401c7',
-                'username' => 'monika'
+                'username' => 'monika',
             ],
             [
                 'id' => '77843bfa-3cf9-4e9a-9d9b-ad8371201ef4',
-                'username' => 'herbert77'
+                'username' => 'herbert77',
             ],
             [
                 'id' => '0d7dfeeb-afdc-4a31-a17e-6dacf4f4d2c2',
-                'username' => 'koebile1n'
+                'username' => 'koebile1n',
             ],
             [
                 'id' => '14e1350f-e576-4923-9c22-80ff9a80b5ba',
-                'username' => 'fränzi'
+                'username' => 'fränzi',
+                'emailAddress' => 'fraenzi@dev-fixture.com',
             ],
             [
                 'id' => '90bb58da-0a90-43bb-8152-50c4ed53fb33',
-                'username' => 'alexa'
+                'username' => 'alexa',
             ],
             [
-                'id' => '90bb58da-0a90-43bb-8152-50c4ed53fb33',
-                'username' => 'äääööüüüüééùu'
+                'id' => '1c5b035f-2a91-4b47-a2a2-3b899b356f60',
+                'username' => 'äääööüüüüééùu',
+                'emailAddress' => 'aeaeaeoeueueueue@dev-fixture.com',
             ],
         ];
     }
