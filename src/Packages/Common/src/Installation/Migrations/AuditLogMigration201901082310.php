@@ -19,8 +19,9 @@ final class AuditLogMigration201901082310 extends AbstractMigration
         $table->addColumn('event_class', Type::STRING, ['length' => 32]);
         $table->addColumn('previous_payload', Type::TEXT, ['notnull' => false]);
         $table->addColumn('payload', Type::TEXT);
-        $table->addColumn('triggered_by_auth_user_role', Type::DATETIME);
-        $table->addColumn('triggered_by_auth_user_id', Type::GUID, ['notnull' => false]);
+        $table->addColumn('auth_user_role', Type::DATETIME);
+        $table->addColumn('auth_user_id', Type::GUID, ['notnull' => false]);
+        $table->addColumn('auth_user_language_id', Type::STRING, ['length' => 8]);
         $table->addColumn('occurred_on', Type::DATETIME);
         $table->setPrimaryKey(['id']);
     }
