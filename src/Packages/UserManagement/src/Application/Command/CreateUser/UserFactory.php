@@ -15,12 +15,16 @@ final class UserFactory
     public function create(CreateUser $command): User
     {
         $role = ($command->getRole() !== null ? $command->getRole() : AuthUser::DEFAULT_USER_ROLE);
+        $createdAt = null;
+        $updatedAt = null;
         return new User(
             UserId::fromString($command->getUserId()),
             Username::fromString($command->getUsername()),
             EmailAddress::fromString($command->getEmailAddress()),
             Password::fromString($command->getEmailAddress()),
-            Role::fromString($role)
+            Role::fromString($role),
+            $createdAt,
+            $updatedAt
         );
     }
 }

@@ -28,7 +28,9 @@ final class UserAggregate extends AbstractAggregate
     public static function fromNewUser(User $user, AuthUser $creator): self
     {
         $persistedUser = null;
-        return new self(new EventStream([UserWasCreated::occur($user, $creator)]), $persistedUser, $user);
+        $event = UserWasCreated::occur($user, $creator);
+        $createdUser = $event->getUser();
+        return new self(new EventStream([$event]), $persistedUser, $createdUser);
     }
 
     public static function fromExistingUser(User $user): self
@@ -36,4 +38,6 @@ final class UserAggregate extends AbstractAggregate
         $persistedUser = null;
         return new self(new EventStream([]), $persistedUser, $user);
     }
+
+    //todo getRecoredEvents(): compare persisted and current user, maybe no event should be triggered!
 }

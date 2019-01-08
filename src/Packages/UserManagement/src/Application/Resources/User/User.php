@@ -3,6 +3,8 @@
 namespace App\Packages\UserManagement\Application\Resources\User;
 
 use App\Packages\Common\Application\Resources\AbstractResource;
+use App\Packages\Common\Application\Resources\ValueObjects\CreatedAt;
+use App\Packages\Common\Application\Resources\ValueObjects\UpdatedAt;
 
 final class User extends AbstractResource
 {
@@ -11,19 +13,25 @@ final class User extends AbstractResource
     private $emailAddress;
     private $password;
     private $role;
+    private $createdAt;
+    private $updatedAt;
 
     public function __construct(
         UserId $id,
         Username $username,
         EmailAddress $emailAddress,
         Password $password,
-        Role $role
+        Role $role,
+        ?CreatedAt $createdAt,
+        ?UpdatedAt $updatedAt
     ) {
         $this->id = $id;
         $this->username = $username;
         $this->emailAddress = $emailAddress;
         $this->password = $password;
         $this->role = $role;
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
     }
 
     public function getId(): UserId
@@ -49,5 +57,15 @@ final class User extends AbstractResource
     public function getPassword(): Password
     {
         return $this->password;
+    }
+
+    public function getCreatedAt(): ?CreatedAt
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): ?UpdatedAt
+    {
+        return $this->updatedAt;
     }
 }

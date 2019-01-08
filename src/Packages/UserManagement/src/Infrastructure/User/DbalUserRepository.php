@@ -2,6 +2,8 @@
 
 namespace App\Packages\UserManagement\Infrastructure\User;
 
+use App\Packages\Common\Application\Resources\ValueObjects\CreatedAt;
+use App\Packages\Common\Application\Resources\ValueObjects\UpdatedAt;
 use App\Packages\Common\Infrastructure\DbalConnection;
 use App\Packages\UserManagement\Application\Resources\User\EmailAddress;
 use App\Packages\UserManagement\Application\Resources\User\Password;
@@ -62,18 +64,23 @@ final class DbalUserRepository implements UserRepository
         $queryBuilder->addSelect('email_address as emailAddress');
         $queryBuilder->addSelect('password');
         $queryBuilder->addSelect('role');
+        $queryBuilder->addSelect('created_at as createdAt');
+        $queryBuilder->addSelect('updated_at as updatedAt');
         $queryBuilder->from('users');
         return $queryBuilder;
     }
 
     private function createUser(array $data): User
     {
+        $updatedAt = ($data['updatedAt'] === null ? null : UpdatedAt::fromString($data['updatedAt']));
         return new User(
             UserId::fromString($data['id']),
             Username::fromString($data['username']),
             EmailAddress::fromString($data['emailAddress']),
             Password::fromHash($data['password']),
-            Role::fromString($data['role'])
+            Role::fromString($data['role']),
+            CreatedAt::fromString($data['createdAt']),
+            $updatedAt
         );
     }
 }

@@ -7,7 +7,6 @@ use App\Packages\Common\Domain\Event\EventStream;
 
 abstract class AbstractAggregate
 {
-    protected $eventManager;
     protected $recordedEvents;
 
     protected function __construct(EventStream $recordedEvents)

@@ -16,7 +16,7 @@ final class MigrationsMigration extends AbstractMigration
     public function schemaUp(Schema $schema): void
     {
         $table = $schema->createTable('migrations');
-        $table->addColumn('class_name', Type::STRING);
+        $table->addColumn('class_name', Type::STRING, ['length' => 191]);
         $table->addColumn('batch_number', Type::INTEGER);
         $table->addColumn('executed_at', Type::DATETIME);
         $table->setPrimaryKey(['class_name']);

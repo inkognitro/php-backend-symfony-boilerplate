@@ -3,18 +3,26 @@
 namespace App\Packages\UserManagement\Domain\User\Events;
 
 use App\Packages\Common\Application\Authorization\User as AuthUser;
+use App\Packages\Common\Application\DateTimeFactory;
 use App\Packages\Common\Domain\Event\AbstractEvent;
 use App\Packages\UserManagement\Application\Resources\User\User;
 use App\Packages\UserManagement\Domain\User\UserPayloadConverter;
-use DateTimeImmutable;
 
 final class UserWasCreated extends AbstractEvent
 {
     public static function occur(User $user, AuthUser $authUser): self
     {
         $previousPayload = null;
-        $payload = UserPayloadConverter::convertToPayload($user);
-        return new self(new DateTimeImmutable('now'), $authUser, $payload, $previousPayload);
+        $occurredOn = DateTimeFactory::create();
+        $payload = UserPayloadConverter::convertToPayload($user, [
+            'createdAt' => DateTimeFactory::createString($occurredOn)
+        ]);
+        return new self($occurredOn, $authUser, $payload, $previousPayload);
+    }
+
+    public function getUser(): User
+    {
+        return UserPayloadConverter::convertToUser($this->getPayload());
     }
 
     public function mustBeLogged(): bool
