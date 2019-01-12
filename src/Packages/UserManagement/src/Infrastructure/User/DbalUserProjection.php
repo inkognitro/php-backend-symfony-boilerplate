@@ -2,11 +2,10 @@
 
 namespace App\Packages\UserManagement\Infrastructure\User;
 
-use App\Packages\Common\Application\Resources\Events\Event;
+use App\Packages\Common\Application\Resources\Events\AbstractEvent;
 use App\Packages\Common\Domain\Event\Projection;
 use App\Packages\Common\Infrastructure\DbalConnection;
-use App\Packages\UserManagement\Domain\User\Events\UserWasCreated;
-use App\Packages\UserManagement\Domain\User\UserPayloadConverter;
+use App\Packages\UserManagement\Application\Resources\User\Events\UserWasCreated;
 
 final class DbalUserProjection implements Projection
 {
@@ -17,7 +16,7 @@ final class DbalUserProjection implements Projection
         $this->connection = $connection;
     }
 
-    public function project(Event $event): void
+    public function project(AbstractEvent $event): void
     {
         if ($event instanceof UserWasCreated) {
             $this->projectUserWasCreated($event);
@@ -26,7 +25,7 @@ final class DbalUserProjection implements Projection
 
     private function projectUserWasCreated(UserWasCreated $event): void
     {
-        $user = UserPayloadConverter::convertToUser($event->getPayload());
+        $user = $event->getUser();
 
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder->insert('users');

@@ -1,12 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\UserManagement\Domain\User\Events;
+namespace App\Packages\UserManagement\Application\Resources\User\Events;
 
 use App\Packages\Common\Application\Authorization\User\User as AuthUser;
+use App\Packages\Common\Application\Resources\AbstractResource;
 use App\Packages\Common\Application\Resources\Events\AbstractEvent;
+use App\Packages\Common\Application\Resources\Events\EventId;
 use App\Packages\Common\Application\Resources\Events\OccurredOn;
 use App\Packages\UserManagement\Application\Resources\User\User;
-use App\Packages\UserManagement\Domain\User\UserPayloadConverter;
 
 final class UserWasCreated extends AbstractEvent
 {
@@ -14,15 +15,22 @@ final class UserWasCreated extends AbstractEvent
     {
         $previousPayload = null;
         $occurredOn = OccurredOn::fromNow();
-        $payload = UserPayloadConverter::convertToPayload($user, [
+        $payload = UserPayload::fromUser($user, [
             'createdAt' => $occurredOn->toString()
         ]);
-        return new self($occurredOn, $authUser, $payload, $previousPayload);
+        return new self(EventId::create(), $occurredOn, $authUser, $payload, $previousPayload);
     }
 
     public function getUser(): User
     {
-        return UserPayloadConverter::convertToUser($this->getPayload());
+        /** @var $payload UserPayload */
+        $payload = $this->getPayload();
+        return $payload->toUser();
+    }
+
+    public function getResource(): AbstractResource
+    {
+        return $this->getUser();
     }
 
     public function mustBeLogged(): bool

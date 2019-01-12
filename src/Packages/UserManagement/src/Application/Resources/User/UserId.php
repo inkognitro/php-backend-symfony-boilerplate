@@ -2,7 +2,9 @@
 
 namespace App\Packages\UserManagement\Application\Resources\User;
 
-final class UserId
+use App\Packages\Common\Application\Resources\ResourceId;
+
+final class UserId implements ResourceId
 {
     private $id;
 

@@ -3,25 +3,37 @@
 namespace App\Packages\Common\Application\Resources\Events;
 
 use App\Packages\Common\Application\Authorization\User\User as AuthUser;
+use App\Packages\Common\Application\Resources\AbstractResource;
 
-abstract class AbstractEvent implements Event
+abstract class AbstractEvent
 {
+    private $id;
     private $occurredOn;
     private $triggeredFrom;
     private $payload;
     private $previousPayload;
 
     protected function __construct(
+        EventId $id,
         OccurredOn $occurredOn,
         AuthUser $triggeredFrom,
-        Payload $payload,
-        ?Payload $previousPayload
+        AbstractPayload $payload,
+        ?AbstractPayload $previousPayload
     )
     {
+        $this->id = $id;
         $this->occurredOn = $occurredOn;
         $this->triggeredFrom = $triggeredFrom;
         $this->payload = $payload;
         $this->previousPayload = $previousPayload;
+    }
+
+    public abstract function mustBeLogged(): bool;
+    public abstract function getResource(): ?AbstractResource;
+
+    public function getId(): EventId
+    {
+        return $this->id;
     }
 
     public function getOccurredOn(): OccurredOn
@@ -34,12 +46,12 @@ abstract class AbstractEvent implements Event
         return $this->triggeredFrom;
     }
 
-    public function getPayload(): Payload
+    public function getPayload(): AbstractPayload
     {
         return $this->payload;
     }
 
-    public function getPreviousPayload(): ?Payload
+    public function getPreviousPayload(): ?AbstractPayload
     {
         return $this->previousPayload;
     }

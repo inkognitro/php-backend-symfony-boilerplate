@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\UserManagement\Domain\User;
+namespace App\Packages\UserManagement\Application\Resources\User\Events;
 
 use App\Packages\Common\Application\Resources\CreatedAt;
 use App\Packages\Common\Application\Resources\UpdatedAt;
-use App\Packages\Common\Application\Resources\Events\Payload;
+use App\Packages\Common\Application\Resources\Events\AbstractPayload;
 use App\Packages\UserManagement\Application\Resources\User\EmailAddress;
 use App\Packages\UserManagement\Application\Resources\User\Password;
 use App\Packages\UserManagement\Application\Resources\User\Role;
@@ -12,9 +12,9 @@ use App\Packages\UserManagement\Application\Resources\User\User;
 use App\Packages\UserManagement\Application\Resources\User\UserId;
 use App\Packages\UserManagement\Application\Resources\User\Username;
 
-final class UserPayloadConverter
+final class UserPayload extends AbstractPayload
 {
-    public static function convertToPayload(User $user, array $additionalPayloadData = []): Payload
+    public static function fromUser(User $user, array $additionalPayloadData = []): self
     {
         $updatedAt = ($user->getUpdatedAt() === null ? null : $user->getUpdatedAt()->toString());
         $createdAt = ($user->getCreatedAt() === null ? null : $user->getCreatedAt()->toString());
@@ -27,12 +27,12 @@ final class UserPayloadConverter
             'createdAt' => $createdAt,
             'updatedAt' => $updatedAt,
         ], $additionalPayloadData);
-        return Payload::fromArray($payloadData);
+        return new self($payloadData);
     }
 
-    public static function convertToUser(Payload $userPayload): User
+    public function toUser(): User
     {
-        $payloadData = $userPayload->toArray();
+        $payloadData = $this->data;
         $createdAt = ($payloadData['createdAt'] === null ? null : CreatedAt::fromString($payloadData['createdAt']));
         $updatedAt = ($payloadData['updatedAt'] === null ? null : UpdatedAt::fromString($payloadData['updatedAt']));
         return new User(

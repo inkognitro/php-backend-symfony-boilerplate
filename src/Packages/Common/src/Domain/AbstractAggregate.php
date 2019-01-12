@@ -2,7 +2,7 @@
 
 namespace App\Packages\Common\Domain;
 
-use App\Packages\Common\Application\Resources\Events\Event;
+use App\Packages\Common\Application\Resources\Events\AbstractEvent;
 use App\Packages\Common\Application\Resources\Events\EventStream;
 
 abstract class AbstractAggregate
@@ -14,7 +14,7 @@ abstract class AbstractAggregate
         $this->recordedEvents = $recordedEvents;
     }
 
-    protected function recordEvent(Event $event): void
+    protected function recordEvent(AbstractEvent $event): void
     {
         $this->recordedEvents = new EventStream(
             array_merge($this->recordedEvents->toCollection(), $event)

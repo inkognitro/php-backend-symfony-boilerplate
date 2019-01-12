@@ -2,6 +2,7 @@
 
 namespace App\CLI\Migrations;
 
+use App\Packages\Common\Application\DateTimeFactory;
 use App\Packages\Common\Infrastructure\DbalConnection;
 use App\Packages\Common\Installation\Migrations\AbstractMigration;
 use App\Packages\Common\Installation\Migrations\MigrationRepository;
@@ -98,14 +99,13 @@ class MigrateCommand extends Command
         $className = get_class($migration);
         $batchNumber = $migration->getBatchNumber();
         $batchSequenceNumber = $migration->getBatchSequenceNumber();
-        $utc = new DateTimeZone('UTC');
-        $executedAt = (new DateTimeImmutable())->setTimezone($utc)->format('Y-m-d H:i:s');
+        $executedAt = DateTimeFactory::create();
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder->insert('migrations');
         $queryBuilder->setValue('class_name', $queryBuilder->createNamedParameter($className));
         $queryBuilder->setValue('batch_number', $queryBuilder->createNamedParameter($batchNumber));
         $queryBuilder->setValue('batch_sequence_number', $queryBuilder->createNamedParameter($batchSequenceNumber));
-        $queryBuilder->setValue('executed_at', $queryBuilder->createNamedParameter($executedAt));
+        $queryBuilder->setValue('executed_at', $queryBuilder->createNamedParameter($executedAt, 'datetime'));
         $queryBuilder->execute();
     }
 

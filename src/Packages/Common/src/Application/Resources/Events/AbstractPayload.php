@@ -2,18 +2,13 @@
 
 namespace App\Packages\Common\Application\Resources\Events;
 
-final class Payload
+abstract class AbstractPayload
 {
-    private $data;
+    protected $data;
 
-    private function __construct(array $data)
+    protected function __construct(array $data)
     {
         $this->data = $data;
-    }
-
-    public static function fromArray(array $data): self
-    {
-        return new self($data);
     }
 
     public function toArray(): array
