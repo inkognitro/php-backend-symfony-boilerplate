@@ -30,7 +30,7 @@ final class AuditLogMigration201901082310 extends AbstractMigration
         $table->addColumn('auth_user_role', Type::STRING, ['length' => 16]);
         $table->addColumn('auth_user_id', Type::GUID, ['notnull' => false]);
         $table->addColumn('auth_user_language_id', Type::STRING, ['length' => 8]);
-        $table->addColumn('occurred_on', Type::DATETIME);
+        $table->addColumn('occurred_at', Type::DATETIME);
         $table->setPrimaryKey(['sequence_number']);
         $table->addUniqueIndex(['id']);
     }

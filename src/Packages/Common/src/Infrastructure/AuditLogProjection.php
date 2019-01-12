@@ -46,8 +46,8 @@ final class AuditLogProjection implements Projection
             $queryBuilder->createNamedParameter($event->getTriggeredFrom()->getLanguageId())
         );
         $queryBuilder->setValue(
-            'occurred_on',
-            $queryBuilder->createNamedParameter($event->getOccurredOn()->toDateTime(), 'datetime')
+            'occurred_at',
+            $queryBuilder->createNamedParameter($event->getOccurredAt()->toDateTime(), 'datetime')
         );
         $queryBuilder->execute();
     }

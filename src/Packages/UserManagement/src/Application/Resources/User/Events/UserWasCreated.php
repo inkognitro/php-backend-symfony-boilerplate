@@ -6,7 +6,7 @@ use App\Packages\Common\Application\Authorization\User\User as AuthUser;
 use App\Packages\Common\Application\Resources\AbstractResource;
 use App\Packages\Common\Application\Resources\Events\AbstractEvent;
 use App\Packages\Common\Application\Resources\Events\EventId;
-use App\Packages\Common\Application\Resources\Events\OccurredOn;
+use App\Packages\Common\Application\Resources\Events\OccurredAt;
 use App\Packages\UserManagement\Application\Resources\User\User;
 
 final class UserWasCreated extends AbstractEvent
@@ -14,11 +14,11 @@ final class UserWasCreated extends AbstractEvent
     public static function occur(User $user, AuthUser $authUser): self
     {
         $previousPayload = null;
-        $occurredOn = OccurredOn::fromNow();
+        $occurredAt = OccurredAt::fromNow();
         $payload = UserPayload::fromUser($user, [
-            'createdAt' => $occurredOn->toString()
+            'createdAt' => $occurredAt->toString()
         ]);
-        return new self(EventId::create(), $occurredOn, $authUser, $payload, $previousPayload);
+        return new self(EventId::create(), $occurredAt, $authUser, $payload, $previousPayload);
     }
 
     public function getUser(): User

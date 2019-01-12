@@ -8,21 +8,21 @@ use App\Packages\Common\Application\Resources\AbstractResource;
 abstract class AbstractEvent
 {
     private $id;
-    private $occurredOn;
+    private $occurredAt;
     private $triggeredFrom;
     private $payload;
     private $previousPayload;
 
     protected function __construct(
         EventId $id,
-        OccurredOn $occurredOn,
+        OccurredAt $occurredAt,
         AuthUser $triggeredFrom,
         AbstractPayload $payload,
         ?AbstractPayload $previousPayload
     )
     {
         $this->id = $id;
-        $this->occurredOn = $occurredOn;
+        $this->occurredAt = $occurredAt;
         $this->triggeredFrom = $triggeredFrom;
         $this->payload = $payload;
         $this->previousPayload = $previousPayload;
@@ -36,9 +36,9 @@ abstract class AbstractEvent
         return $this->id;
     }
 
-    public function getOccurredOn(): OccurredOn
+    public function getOccurredAt(): OccurredAt
     {
-        return $this->occurredOn;
+        return $this->occurredAt;
     }
 
     public function getTriggeredFrom(): AuthUser
