@@ -2,7 +2,7 @@
 
 namespace App\Packages\UserManagement\Infrastructure\User;
 
-use App\Packages\Common\Domain\Event\Event;
+use App\Packages\Common\Application\Resources\Events\Event;
 use App\Packages\Common\Domain\Event\Projection;
 use App\Packages\Common\Infrastructure\DbalConnection;
 use App\Packages\UserManagement\Domain\User\Events\UserWasCreated;

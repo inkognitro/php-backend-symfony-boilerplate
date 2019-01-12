@@ -2,6 +2,8 @@
 
 namespace App\Packages\Common\Domain\Event;
 
+use App\Packages\Common\Application\Resources\Events\Event;
+
 interface Projection
 {
     public function project(Event $event): void;

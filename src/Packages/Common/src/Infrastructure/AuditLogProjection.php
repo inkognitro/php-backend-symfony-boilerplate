@@ -2,7 +2,7 @@
 
 namespace App\Packages\Common\Infrastructure;
 
-use App\Packages\Common\Domain\Event\Event;
+use App\Packages\Common\Application\Resources\Events\Event;
 use App\Packages\Common\Domain\Event\Projection;
 
 final class AuditLogProjection implements Projection
@@ -20,6 +20,31 @@ final class AuditLogProjection implements Projection
             return;
         }
 
-        //todo: project event in audit log table!
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $queryBuilder->insert('event_class');
+        $queryBuilder->setValue(
+            'previous_payload',
+            $queryBuilder->createNamedParameter($event->getPreviousPayload()->toJson())
+        );
+        $queryBuilder->setValue(
+            'payload',
+            $queryBuilder->createNamedParameter($event->getPayload()->toJson())
+        );
+        $queryBuilder->setValue(
+            'auth_user_role',
+            $queryBuilder->createNamedParameter($event->getTriggeredFrom()->getRole())
+        );
+        $queryBuilder->setValue(
+            'auth_user_id',
+            $queryBuilder->createNamedParameter($event->getTriggeredFrom()->getUserId())
+        );
+        $queryBuilder->setValue(
+            'auth_user_language_id',
+            $queryBuilder->createNamedParameter($event->getTriggeredFrom()->getLanguageId())
+        );
+        $queryBuilder->setValue(
+            'auth_user_language_id',
+            $queryBuilder->createNamedParameter($event->getOccurredOn(), 'datetime')
+        );
     }
 }

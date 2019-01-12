@@ -1,9 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\CLI\Fixtures;
+namespace App\Packages\Common\Installation\Fixtures;
 
 use App\IterableConverter;
-use App\Packages\Common\Installation\Fixtures\AbstractFixture;
 
 final class FixtureRepository
 {

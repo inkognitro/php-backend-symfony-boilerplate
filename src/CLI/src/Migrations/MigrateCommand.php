@@ -4,10 +4,11 @@ namespace App\CLI\Migrations;
 
 use App\Packages\Common\Infrastructure\DbalConnection;
 use App\Packages\Common\Installation\Migrations\AbstractMigration;
+use App\Packages\Common\Installation\Migrations\MigrationRepository;
+use App\Packages\Common\Installation\Migrations\Migrations;
 use DateTimeImmutable;
 use DateTimeZone;
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\DBAL\Schema\SchemaException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -33,23 +34,17 @@ class MigrateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->createMigrationsTable();
-        $this->executeMigrations();
-    }
-
-    private function executeMigrations(): void
-    {
         $migrations = $this->getMigrationsToMigrate();
 
-        if(count($migrations->toCollection()) === 0) {
-            echo "Nothing to migrate!";
+        if (count($migrations->toCollection()) === 0) {
+            echo "Nothing to migrate!" . PHP_EOL;
             return;
         }
 
         $schemaManager = $this->connection->getSchemaManager();
         $fromSchema = $schemaManager->createSchema();
 
-        foreach($migrations->toCollection() as $migration) {
+        foreach ($migrations->toCollection() as $migration) {
             $toSchema = clone $fromSchema;
 
             $migration->schemaUp($toSchema);
@@ -62,17 +57,18 @@ class MigrateCommand extends Command
             $this->executeSchemaUpdate($fromSchema, $toSchema);
 
             $this->addMigrationExecutedEntry($migration);
+            echo 'Migrated: ' . get_class($migration) . PHP_EOL;
         }
 
         $batchNumber = $migrations->toCollection()[0]->getBatchNumber();
-        echo "Migrated successfully to batch {$batchNumber}.";
+        echo "Migrated successfully to batch {$batchNumber}." . PHP_EOL;
     }
 
     private function getMigrationsToMigrate(): Migrations
     {
         $notExecutedMigrations = $this->repository->findAllNotExecuted();
 
-        if(count($notExecutedMigrations->toCollection()) === 0) {
+        if (count($notExecutedMigrations->toCollection()) === 0) {
             return new Migrations([]);
         }
 
@@ -80,15 +76,15 @@ class MigrateCommand extends Command
         $latestBatchNumber = ($executedMigrations->getHighestBatchNumber());
 
         $nextBatchesMigrations = $notExecutedMigrations->findAllWithHigherBatchNumber($latestBatchNumber);
-        if(count($nextBatchesMigrations->toCollection()) === 0) {
+        if (count($nextBatchesMigrations->toCollection()) === 0) {
             return new Migrations([]);
         }
 
         $batchNumber = $nextBatchesMigrations->getLowestBatchNumber();
 
         $migrations = [];
-        foreach($nextBatchesMigrations->toCollection() as $migration) {
-            if($migration->getBatchNumber() !== $batchNumber) {
+        foreach ($nextBatchesMigrations->toCollection() as $migration) {
+            if ($migration->getBatchNumber() !== $batchNumber) {
                 continue;
             }
             $migrations[] = $migration;
@@ -101,34 +97,22 @@ class MigrateCommand extends Command
     {
         $className = get_class($migration);
         $batchNumber = $migration->getBatchNumber();
+        $batchSequenceNumber = $migration->getBatchSequenceNumber();
         $utc = new DateTimeZone('UTC');
         $executedAt = (new DateTimeImmutable())->setTimezone($utc)->format('Y-m-d H:i:s');
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder->insert('migrations');
         $queryBuilder->setValue('class_name', $queryBuilder->createNamedParameter($className));
         $queryBuilder->setValue('batch_number', $queryBuilder->createNamedParameter($batchNumber));
+        $queryBuilder->setValue('batch_sequence_number', $queryBuilder->createNamedParameter($batchSequenceNumber));
         $queryBuilder->setValue('executed_at', $queryBuilder->createNamedParameter($executedAt));
         $queryBuilder->execute();
-    }
-
-    private function createMigrationsTable(): void
-    {
-        $schemaManager = $this->connection->getSchemaManager();
-        $fromSchema = $schemaManager->createSchema();
-        try {
-            $fromSchema->getTable('migrations');
-        } catch (SchemaException $e) {
-            $toSchema = clone $fromSchema;
-            $migration = new MigrationsMigration();
-            $migration->schemaUp($toSchema);
-            $this->executeSchemaUpdate($fromSchema, $toSchema);
-        }
     }
 
     private function executeSchemaUpdate(Schema $fromSchema, Schema $toSchema): void
     {
         $migrationSqls = $fromSchema->getMigrateToSql($toSchema, $this->connection->getDatabasePlatform());
-        foreach($migrationSqls as $sql) {
+        foreach ($migrationSqls as $sql) {
             $this->connection->exec($sql);
         }
     }

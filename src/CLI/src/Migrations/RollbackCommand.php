@@ -4,8 +4,10 @@ namespace App\CLI\Migrations;
 
 use App\Packages\Common\Infrastructure\DbalConnection;
 use App\Packages\Common\Installation\Migrations\AbstractMigration;
+use App\Packages\Common\Installation\Migrations\MigrationRepository;
+use App\Packages\Common\Installation\Migrations\Migrations;
+use App\Packages\Common\Installation\Migrations\MigrationsMigration201901121802;
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\DBAL\Schema\SchemaException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -40,7 +42,7 @@ class RollbackCommand extends Command
         $migrationsToRollback = $this->getMigrationsToRollback($executedMigrations);
 
         if(count($migrationsToRollback->toCollection()) === 0) {
-            echo "Nothing to rollback!";
+            echo "Nothing to rollback!" . PHP_EOL;
             return;
         }
 
@@ -59,19 +61,22 @@ class RollbackCommand extends Command
             $migration->schemaDown($toSchema);
             $this->executeSchemaUpdate($fromSchema, $toSchema);
 
-            $this->removeMigrationExecutedEntry($migration);
+            if(!$migration instanceof MigrationsMigration201901121802) {
+                $this->removeMigrationExecutedEntry($migration);
+            }
+
+            echo 'Rolled back: ' . get_class($migration) . PHP_EOL;
         }
 
         $executedMigrations = $this->repository->findAllExecuted();
 
         if(count($executedMigrations->toCollection()) === 0) {
-            $this->removeMigrationsTable();
-            echo 'Rolled successfully back to point zero.';
+            echo 'Rolled successfully back to point zero.' . PHP_EOL;
             return;
         }
 
         $batchNumber = $executedMigrations->getHighestBatchNumber();
-        echo "Rolled successfully back to batch {$batchNumber}.";
+        echo "Rolled successfully back to batch {$batchNumber}." . PHP_EOL;
     }
 
     private function getMigrationsToRollback(Migrations $executedMigrations): Migrations
@@ -90,7 +95,7 @@ class RollbackCommand extends Command
             $migrations[] = $migration;
         }
 
-        return new Migrations($migrations);
+        return new Migrations(array_reverse($migrations));
     }
 
     private function removeMigrationExecutedEntry(AbstractMigration $migration): void
@@ -100,19 +105,6 @@ class RollbackCommand extends Command
         $queryBuilder->delete('migrations');
         $queryBuilder->andWhere("class_name = {$queryBuilder->createNamedParameter($className)}");
         $queryBuilder->execute();
-    }
-
-    private function removeMigrationsTable(): void
-    {
-        $schemaManager = $this->connection->getSchemaManager();
-        $fromSchema = $schemaManager->createSchema();
-        try {
-            $fromSchema->getTable('migrations');
-            $toSchema = clone $fromSchema;
-            $migration = new MigrationsMigration();
-            $migration->schemaDown($toSchema);
-            $this->executeSchemaUpdate($fromSchema, $toSchema);
-        } catch (SchemaException $e) {}
     }
 
     private function executeSchemaUpdate(Schema $fromSchema, Schema $toSchema): void

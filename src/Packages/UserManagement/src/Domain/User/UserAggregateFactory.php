@@ -2,8 +2,8 @@
 
 namespace App\Packages\UserManagement\Domain\User;
 
-use App\Packages\Common\Application\Authorization\User as AuthUser;
-use App\Packages\Common\Domain\Event\EventStream;
+use App\Packages\Common\Application\Authorization\User\User as AuthUser;
+use App\Packages\Common\Application\Resources\Events\EventStream;
 use App\Packages\UserManagement\Domain\User\Events\UserWasCreated;
 use App\Packages\UserManagement\Application\Resources\User\User;
 

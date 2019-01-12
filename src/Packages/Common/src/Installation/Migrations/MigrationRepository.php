@@ -1,9 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\CLI\Migrations;
+namespace App\Packages\Common\Installation\Migrations;
 
 use App\Packages\Common\Infrastructure\DbalConnection;
-use App\Packages\Common\Installation\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\SchemaException;
 
 final class MigrationRepository
@@ -70,6 +69,8 @@ final class MigrationRepository
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder->select('class_name as className');
         $queryBuilder->from('migrations');
+        $queryBuilder->addOrderBy('batch_number');
+        $queryBuilder->addOrderBy('batch_sequence_number');
         $rows = $queryBuilder->execute()->fetchAll();
 
         $migrations = [];

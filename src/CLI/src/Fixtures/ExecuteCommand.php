@@ -2,6 +2,7 @@
 
 namespace App\CLI\Fixtures;
 
+use App\Packages\Common\Installation\Fixtures\FixtureRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

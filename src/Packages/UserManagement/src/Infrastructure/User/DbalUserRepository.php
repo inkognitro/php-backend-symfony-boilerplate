@@ -2,8 +2,8 @@
 
 namespace App\Packages\UserManagement\Infrastructure\User;
 
-use App\Packages\Common\Application\Resources\ValueObjects\CreatedAt;
-use App\Packages\Common\Application\Resources\ValueObjects\UpdatedAt;
+use App\Packages\Common\Application\Resources\CreatedAt;
+use App\Packages\Common\Application\Resources\UpdatedAt;
 use App\Packages\Common\Infrastructure\DbalConnection;
 use App\Packages\UserManagement\Application\Resources\User\EmailAddress;
 use App\Packages\UserManagement\Application\Resources\User\Password;

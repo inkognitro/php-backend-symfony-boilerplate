@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\CLI\Fixtures;
-
-use App\Packages\Common\Installation\Fixtures\AbstractFixture;
+namespace App\Packages\Common\Installation\Fixtures;
 
 final class Fixtures
 {

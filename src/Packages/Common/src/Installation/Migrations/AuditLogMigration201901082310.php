@@ -12,6 +12,11 @@ final class AuditLogMigration201901082310 extends AbstractMigration
         return 1;
     }
 
+    public function getBatchSequenceNumber(): int
+    {
+        return 2;
+    }
+
     public function schemaUp(Schema $schema): void
     {
         $table = $schema->createTable('audit_log');

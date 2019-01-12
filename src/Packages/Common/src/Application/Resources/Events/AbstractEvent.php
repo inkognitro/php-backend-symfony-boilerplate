@@ -1,9 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Domain\Event;
+namespace App\Packages\Common\Application\Resources\Events;
 
-use App\Packages\Common\Application\Authorization\User as AuthUser;
-use DateTimeImmutable;
+use App\Packages\Common\Application\Authorization\User\User as AuthUser;
 
 abstract class AbstractEvent implements Event
 {
@@ -13,7 +12,7 @@ abstract class AbstractEvent implements Event
     private $previousPayload;
 
     protected function __construct(
-        DateTimeImmutable $occurredOn,
+        OccurredOn $occurredOn,
         AuthUser $triggeredFrom,
         Payload $payload,
         ?Payload $previousPayload
@@ -25,7 +24,7 @@ abstract class AbstractEvent implements Event
         $this->previousPayload = $previousPayload;
     }
 
-    public function getOccurredOn(): DateTimeImmutable
+    public function getOccurredOn(): OccurredOn
     {
         return $this->occurredOn;
     }
@@ -44,6 +43,4 @@ abstract class AbstractEvent implements Event
     {
         return $this->previousPayload;
     }
-
-    public abstract function getResourceClass(): ?string;
 }

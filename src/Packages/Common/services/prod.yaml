@@ -22,5 +22,8 @@ services:
 
     App\Packages\Common\Infrastructure\DbalConnection: '@doctrine.dbal.default_connection'
 
+    App\Packages\Common\Installation\Fixtures\FixtureRepository:
+        arguments: [!tagged 'app.fixture']
+
 imports:
     - { resource: './imports/projections.yaml' }

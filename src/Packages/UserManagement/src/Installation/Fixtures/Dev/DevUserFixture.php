@@ -2,7 +2,7 @@
 
 namespace App\Packages\UserManagement\Installation\Fixtures\Dev;
 
-use App\Packages\Common\Application\Authorization\User as AuthUser;
+use App\Packages\Common\Application\Authorization\User\User as AuthUser;
 use App\Packages\Common\Application\Authorization\UserFactory as AuthUserFactory;
 use App\Packages\Common\Application\CommandBus;
 use App\Packages\Common\Application\HandlerResponse\SuccessResponse;

@@ -2,9 +2,9 @@
 
 namespace App\Packages\UserManagement\Domain\User\Events;
 
-use App\Packages\Common\Application\Authorization\User as AuthUser;
-use App\Packages\Common\Application\DateTimeFactory;
-use App\Packages\Common\Domain\Event\AbstractEvent;
+use App\Packages\Common\Application\Authorization\User\User as AuthUser;
+use App\Packages\Common\Application\Resources\Events\AbstractEvent;
+use App\Packages\Common\Application\Resources\Events\OccurredOn;
 use App\Packages\UserManagement\Application\Resources\User\User;
 use App\Packages\UserManagement\Domain\User\UserPayloadConverter;
 
@@ -13,9 +13,9 @@ final class UserWasCreated extends AbstractEvent
     public static function occur(User $user, AuthUser $authUser): self
     {
         $previousPayload = null;
-        $occurredOn = DateTimeFactory::create();
+        $occurredOn = OccurredOn::fromNow();
         $payload = UserPayloadConverter::convertToPayload($user, [
-            'createdAt' => DateTimeFactory::createString($occurredOn)
+            'createdAt' => $occurredOn->toString()
         ]);
         return new self($occurredOn, $authUser, $payload, $previousPayload);
     }
@@ -28,10 +28,5 @@ final class UserWasCreated extends AbstractEvent
     public function mustBeLogged(): bool
     {
         return true;
-    }
-
-    public  function getResourceClass(): ?string
-    {
-        return User::class;
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Packages\UserManagement\Domain\User;
 
-use App\Packages\Common\Application\Resources\ValueObjects\CreatedAt;
-use App\Packages\Common\Application\Resources\ValueObjects\UpdatedAt;
-use App\Packages\Common\Domain\Event\Payload;
+use App\Packages\Common\Application\Resources\CreatedAt;
+use App\Packages\Common\Application\Resources\UpdatedAt;
+use App\Packages\Common\Application\Resources\Events\Payload;
 use App\Packages\UserManagement\Application\Resources\User\EmailAddress;
 use App\Packages\UserManagement\Application\Resources\User\Password;
 use App\Packages\UserManagement\Application\Resources\User\Role;

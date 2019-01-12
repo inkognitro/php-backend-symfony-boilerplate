@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Domain\Event;
+namespace App\Packages\Common\Application\Resources\Events;
+
+use App\Packages\Common\Application\Resources\Events\Event;
 
 final class EventStream
 {

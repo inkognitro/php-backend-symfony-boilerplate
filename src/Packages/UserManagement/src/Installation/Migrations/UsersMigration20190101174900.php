@@ -13,6 +13,11 @@ final class UsersMigration20190101174900 extends AbstractMigration
         return 1;
     }
 
+    public function getBatchSequenceNumber(): int
+    {
+        return 3;
+    }
+
     public function schemaUp(Schema $schema): void
     {
         $table = $schema->createTable('users');

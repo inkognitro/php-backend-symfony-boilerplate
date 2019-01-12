@@ -3,8 +3,8 @@
 namespace App\Packages\UserManagement\Application\Resources\User;
 
 use App\Packages\Common\Application\Resources\AbstractResource;
-use App\Packages\Common\Application\Resources\ValueObjects\CreatedAt;
-use App\Packages\Common\Application\Resources\ValueObjects\UpdatedAt;
+use App\Packages\Common\Application\Resources\CreatedAt;
+use App\Packages\Common\Application\Resources\UpdatedAt;
 
 final class User extends AbstractResource
 {

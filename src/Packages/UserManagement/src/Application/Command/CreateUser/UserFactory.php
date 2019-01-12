@@ -2,7 +2,7 @@
 
 namespace App\Packages\UserManagement\Application\Command\CreateUser;
 
-use App\Packages\Common\Application\Authorization\User as AuthUser;
+use App\Packages\Common\Application\Authorization\User\User as AuthUser;
 use App\Packages\UserManagement\Application\Resources\User\EmailAddress;
 use App\Packages\UserManagement\Application\Resources\User\Role;
 use App\Packages\UserManagement\Application\Resources\User\User;
