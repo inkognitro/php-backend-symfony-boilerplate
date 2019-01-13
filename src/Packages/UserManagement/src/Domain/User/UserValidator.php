@@ -27,17 +27,17 @@ final class UserValidator extends AbstractResourceValidator
         $this->rolesRepository = $rolesRepository;
     }
 
-    public function validate(AbstractResource $user): void
+    public function validate(AbstractResource $job): void
     {
-        if(!$user instanceof User) {
+        if(!$job instanceof User) {
             throw new InvalidArgumentException('Variable $resource must be an instance of ' . User::class . '!');
         }
         $this->warnings = new MessageBag();
         $this->errors = new MessageBag();
-        $this->validateUserId($user);
-        $this->validateUsername($user);
-        $this->validateEmailAddress($user);
-        $this->validateRole($user);
+        $this->validateUserId($job);
+        $this->validateUsername($job);
+        $this->validateEmailAddress($job);
+        $this->validateRole($job);
     }
 
     private function validateUserId(User $user): void

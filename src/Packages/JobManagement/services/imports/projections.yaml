@@ -1,0 +1,6 @@
+services:
+    _defaults:
+        autowire: true
+        tags: ['app.event_projection']
+
+    App\Packages\JobManagement\Infrastructure\Job\DbalJobProjection: ~

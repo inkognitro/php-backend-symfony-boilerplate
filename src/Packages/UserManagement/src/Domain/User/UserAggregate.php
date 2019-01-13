@@ -13,11 +13,11 @@ final class UserAggregate extends AbstractAggregate
     private $persistedUser;
     private $currentUser;
 
-    protected function __construct(EventStream $recordedEvents, ?User $persistedUser, User $currentUser)
+    protected function __construct(EventStream $recordedEvents, ?User $persistedJob, User $currentJob)
     {
         parent::__construct($recordedEvents);
-        $this->currentUser = $currentUser;
-        $this->persistedUser = $persistedUser;
+        $this->currentUser = $currentJob;
+        $this->persistedUser = $persistedJob;
     }
 
     public function getUser(): User

@@ -1,0 +1,17 @@
+services:
+    _defaults:
+        autowire: true
+
+    App\Packages\JobManagement\Application\Command\CreateJob\JobFactory: ~
+
+    App\Packages\JobManagement\Application\Command\CreateJob\CreateJobHandler:
+        public: true
+        tags: ['app.command_handler']
+
+    App\Packages\JobManagement\Application\Resources\Job\JobRepository:
+        class: App\Packages\JobManagement\Infrastructure\Job\DbalJobRepository
+
+    App\Packages\JobManagement\Domain\Job\JobValidator: ~
+
+imports:
+    - { resource: './imports/projections.yaml' }
