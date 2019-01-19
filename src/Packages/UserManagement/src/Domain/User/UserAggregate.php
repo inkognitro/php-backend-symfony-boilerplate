@@ -5,8 +5,8 @@ namespace App\Packages\UserManagement\Domain\User;
 use App\Packages\Common\Application\Authorization\User\User as AuthUser;
 use App\Packages\Common\Application\Resources\Events\EventStream;
 use App\Packages\Common\Domain\AbstractAggregate;
-use App\Packages\UserManagement\Application\Resources\User\Events\UserWasCreated;
-use App\Packages\UserManagement\Application\Resources\User\Events\VerificationCodeWasSentToUser;
+use App\Packages\UserManagement\Application\Resources\Events\UserWasCreated;
+use App\Packages\UserManagement\Application\Resources\Events\VerificationCodeWasSentToUser;
 use App\Packages\UserManagement\Application\Resources\User\User;
 use App\Packages\UserManagement\Application\Resources\User\VerificationCode;
 

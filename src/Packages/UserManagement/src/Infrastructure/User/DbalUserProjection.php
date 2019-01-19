@@ -7,7 +7,7 @@ use App\Packages\Common\Domain\Event\Projection;
 use App\Packages\Common\Infrastructure\DbalConnection;
 use App\Packages\Common\Infrastructure\DbalParameter;
 use App\Packages\Common\Infrastructure\DbalParameters;
-use App\Packages\UserManagement\Application\Resources\User\Events\UserWasCreated;
+use App\Packages\UserManagement\Application\Resources\Events\UserWasCreated;
 use App\Packages\UserManagement\Application\Resources\User\User;
 
 final class DbalUserProjection implements Projection
@@ -42,18 +42,32 @@ final class DbalUserProjection implements Projection
     /** @return DbalParameter[] */
     public function getFieldToParameterMapping(User $user): array
     {
+        $createdAtParam = ($user->getCreatedAt() !== null ?
+            DbalParameter::create($user->getCreatedAt()->toDateTime(), 'datetime')
+            : DbalParameter::create(null)
+        );
+        $verificationCodeSentParam = ($user->getVerificationCodeSentAt() !== null ?
+            DbalParameter::create($user->getVerificationCodeSentAt()->toDateTime(), 'datetime')
+            : DbalParameter::create(null)
+        );
+        $verifiedAtParam = ($user->getVerifiedAt() !== null ?
+            DbalParameter::create($user->getVerifiedAt()->toDateTime(), 'datetime')
+            : DbalParameter::create(null)
+        );
+        $updatedAtParam = ($user->getUpdatedAt() !== null ?
+            DbalParameter::create($user->getUpdatedAt()->toDateTime(), 'datetime')
+            : DbalParameter::create(null)
+        );
         return [
             'id' => DbalParameter::create($user->getId()->toString()),
             'username' => DbalParameter::create($user->getUsername()->toString()),
             'email_address' => DbalParameter::create($user->getEmailAddress()->toString()),
             'password' => DbalParameter::create($user->getPassword()->toHash()),
             'role' => DbalParameter::create($user->getRole()->toString()),
-            'verification_code_sent_at' => DbalParameter::create(
-                $user->getVerificationCodeSentAt()->toDateTime(), 'datetime'
-            ),
-            'verified_at' => DbalParameter::create($user->getVerifiedAt()->toDateTime(), 'datetime'),
-            'created_at' => DbalParameter::create($user->getCreatedAt()->toDateTime(), 'datetime'),
-            'updated_at' => DbalParameter::create($user->getUpdatedAt()->toDateTime(), 'datetime'),
+            'verification_code_sent_at' => $verificationCodeSentParam,
+            'verified_at' => $verifiedAtParam,
+            'created_at' => $createdAtParam,
+            'updated_at' => $updatedAtParam,
         ];
     }
 }

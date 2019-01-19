@@ -1,13 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\UserManagement\Application\Resources\User\Events;
+namespace App\Packages\UserManagement\Application\Resources\Events;
 
 use App\Packages\Common\Application\Authorization\User\User as AuthUser;
 use App\Packages\Common\Application\Resources\AbstractResource;
 use App\Packages\Common\Application\Resources\Events\AbstractEvent;
 use App\Packages\Common\Application\Resources\Events\EventId;
 use App\Packages\Common\Application\Resources\Events\OccurredAt;
-use App\Packages\Common\Application\Resources\Payload;
+use App\Packages\Common\Application\Resources\Events\Payload;
+use App\Packages\UserManagement\Application\Resources\Events\UserPayload;
 use App\Packages\UserManagement\Application\Resources\User\User;
 use App\Packages\UserManagement\Application\Resources\User\VerificationCode;
 

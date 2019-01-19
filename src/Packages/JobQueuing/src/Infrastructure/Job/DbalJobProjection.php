@@ -5,7 +5,7 @@ namespace App\Packages\JobQueuing\Infrastructure\Job;
 use App\Packages\Common\Application\Resources\Events\AbstractEvent;
 use App\Packages\Common\Domain\Event\Projection;
 use App\Packages\Common\Infrastructure\DbalConnection;
-use App\Packages\JobQueuing\Application\Resources\Job\Events\JobWasCreated;
+use App\Packages\JobQueuing\Application\Resources\Events\JobWasCreated;
 
 final class DbalJobProjection implements Projection
 {
@@ -26,14 +26,13 @@ final class DbalJobProjection implements Projection
     private function projectJobWasCreated(JobWasCreated $event): void
     {
         $job = $event->getJob();
-
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder->insert('jobs');
         $queryBuilder->setValue(
             'id', $queryBuilder->createNamedParameter($job->getId()->toString())
         );
         $queryBuilder->setValue(
-            'command', $queryBuilder->createNamedParameter(json_encode($job->getCommand()))
+            'command', $queryBuilder->createNamedParameter(serialize($job->getCommand()))
         );
         $queryBuilder->setValue(
             'created_at', $queryBuilder->createNamedParameter($job->getCreatedAt()->toDateTime(), 'datetime')

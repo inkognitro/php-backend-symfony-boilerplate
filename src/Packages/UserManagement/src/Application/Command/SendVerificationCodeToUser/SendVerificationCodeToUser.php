@@ -3,9 +3,10 @@
 namespace App\Packages\UserManagement\Application\Command\SendVerificationCodeToUser;
 
 use App\Packages\Common\Application\Command\Command;
+use App\Packages\JobQueuing\Application\Command\QueueableCommand;
 use Ramsey\Uuid\Uuid;
 
-final class SendVerificationCodeToUser implements Command
+final class SendVerificationCodeToUser implements Command, QueueableCommand
 {
     private $userId;
     private $verificationCode;
@@ -14,6 +15,14 @@ final class SendVerificationCodeToUser implements Command
     {
         $this->userId = $userId;
         $this->verificationCode = $verificationCode;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'userId' => $this->userId,
+            'verificationCode' => $this->verificationCode
+        ];
     }
 
     public static function create(string $userId): self

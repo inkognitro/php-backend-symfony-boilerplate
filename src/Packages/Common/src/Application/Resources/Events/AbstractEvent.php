@@ -3,7 +3,6 @@
 namespace App\Packages\Common\Application\Resources\Events;
 
 use App\Packages\Common\Application\Authorization\User\User as AuthUser;
-use App\Packages\Common\Application\Resources\AbstractPayload;
 use App\Packages\Common\Application\Resources\AbstractResource;
 
 abstract class AbstractEvent

@@ -25,7 +25,7 @@ final class ProdUserFixture extends AbstractFixture
     {
         $authUser = $this->authUserFactory->createSystemUser();
         foreach($this->getRows() as $row) {
-            $data = array_merge(['sendInvitation' => false], $row);
+            $data = array_merge(['sendInvitation' => true], $row);
 
             $response = $this->commandBus->handle(CreateUser::fromArray($data), $authUser);
 

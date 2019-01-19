@@ -60,7 +60,10 @@ final class CreateUserHandler
         $userAggregate = UserAggregate::fromNewUser($user, $creator);
         $this->eventDispatcher->dispatch($userAggregate->getRecordedEvents());
 
-        $this->queueSendVerificationCode($user);
+        if($command->sendInvitation()) {
+            $this->queueSendVerificationCode($user);
+        }
+
         return new ResourceCreatedResponse($user, $this->validator->getWarnings());
     }
 

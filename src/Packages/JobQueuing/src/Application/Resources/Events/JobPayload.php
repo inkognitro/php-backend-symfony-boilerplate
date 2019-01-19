@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\JobQueuing\Application\Resources\Job\Events;
+namespace App\Packages\JobQueuing\Application\Resources\Events;
 
 use App\Packages\Common\Application\Command\Command;
 use App\Packages\Common\Application\Resources\CreatedAt;
 use App\Packages\Common\Application\Resources\ExecutedAt;
-use App\Packages\Common\Application\Resources\AbstractPayload;
+use App\Packages\Common\Application\Resources\Events\AbstractPayload;
 use App\Packages\JobQueuing\Application\Resources\Job\Job;
 use App\Packages\JobQueuing\Application\Resources\Job\JobId;
 
@@ -17,7 +17,7 @@ final class JobPayload extends AbstractPayload
         $createdAt = ($job->getCreatedAt() === null ? null : $job->getCreatedAt()->toString());
         $payloadData = array_merge([
             'id' => $job->getId()->toString(),
-            'command' => json_encode($job->getCommand()),
+            'command' => serialize($job->getCommand()),
             'createdAt' => $createdAt,
             'executedAt' => $executedAt,
         ], $additionalPayloadData);
@@ -29,7 +29,7 @@ final class JobPayload extends AbstractPayload
         $payloadData = $this->data;
 
         /** @var $command Command */
-        $command = json_decode($payloadData['command']);
+        $command = unserialize($payloadData['command']);
         $createdAt = ($payloadData['createdAt'] === null ? null : CreatedAt::fromString($payloadData['createdAt']));
         $executedAt = ($payloadData['executedAt'] === null ? null : ExecutedAt::fromString($payloadData['executedAt']));
 

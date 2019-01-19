@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\UserManagement\Application\Resources\User\Events;
+namespace App\Packages\UserManagement\Application\Resources\Events;
 
 use App\Packages\Common\Application\Resources\CreatedAt;
 use App\Packages\Common\Application\Resources\UpdatedAt;
-use App\Packages\Common\Application\Resources\AbstractPayload;
+use App\Packages\Common\Application\Resources\Events\AbstractPayload;
 use App\Packages\UserManagement\Application\Resources\User\EmailAddress;
 use App\Packages\UserManagement\Application\Resources\User\Password;
 use App\Packages\UserManagement\Application\Resources\User\Role;

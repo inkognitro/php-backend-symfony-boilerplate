@@ -8,6 +8,7 @@ use App\Packages\Common\Application\HandlerResponse\Response;
 use App\Packages\Common\Application\HandlerResponse\SuccessResponse;
 use App\Packages\Common\Application\Validation\Messages\MessageBag;
 use App\Packages\Common\Domain\EventDispatcher;
+use App\Packages\UserManagement\Application\Resources\User\User;
 use App\Packages\UserManagement\Application\Resources\User\UserId;
 use App\Packages\UserManagement\Application\Resources\User\UserRepository;
 use App\Packages\UserManagement\Application\Resources\User\VerificationCode;
@@ -35,7 +36,14 @@ final class SendVerificationCodeToUserHandler
         $userAggregate->sendVerificationCode(VerificationCode::fromString($command->getVerificationCode()), $sender);
         $this->eventDispatcher->dispatch($userAggregate->getRecordedEvents());
 
+        $this->sendEmail($user, VerificationCode::fromString($command->getVerificationCode()));
+
         $warnings = new MessageBag();
         return new SuccessResponse($warnings);
+    }
+
+    private function sendEmail(User $user, VerificationCode $verificationCode): void
+    {
+        //todo: send email with verification code
     }
 }
