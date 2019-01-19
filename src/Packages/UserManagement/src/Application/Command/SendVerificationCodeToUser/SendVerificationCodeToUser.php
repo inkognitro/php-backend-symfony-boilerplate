@@ -3,10 +3,9 @@
 namespace App\Packages\UserManagement\Application\Command\SendVerificationCodeToUser;
 
 use App\Packages\Common\Application\Command\Command;
-use App\Packages\JobQueuing\Application\Command\QueueableCommand;
 use Ramsey\Uuid\Uuid;
 
-final class SendVerificationCodeToUser implements Command, QueueableCommand
+final class SendVerificationCodeToUser implements Command
 {
     private $userId;
     private $verificationCode;

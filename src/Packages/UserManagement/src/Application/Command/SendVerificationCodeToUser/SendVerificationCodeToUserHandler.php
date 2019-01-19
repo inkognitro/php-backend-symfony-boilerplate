@@ -13,16 +13,20 @@ use App\Packages\UserManagement\Application\Resources\User\UserId;
 use App\Packages\UserManagement\Application\Resources\User\UserRepository;
 use App\Packages\UserManagement\Application\Resources\User\VerificationCode;
 use App\Packages\UserManagement\Domain\User\UserAggregate;
+use Swift_Mailer;
+use Swift_Message;
 
 final class SendVerificationCodeToUserHandler
 {
     private $eventDispatcher;
     private $userRepository;
+    private $mailer;
 
-    public function __construct(EventDispatcher $eventDispatcher, UserRepository $userRepository)
+    public function __construct(EventDispatcher $eventDispatcher, UserRepository $userRepository, Swift_Mailer $mailer)
     {
         $this->eventDispatcher = $eventDispatcher;
         $this->userRepository = $userRepository;
+        $this->mailer = $mailer;
     }
 
     public function handle(SendVerificationCodeToUser $command, AuthUser $sender): Response
@@ -44,6 +48,13 @@ final class SendVerificationCodeToUserHandler
 
     private function sendEmail(User $user, VerificationCode $verificationCode): void
     {
-        //todo: send email with verification code
+        $link = str_replace('%verificationCode%', $verificationCode->toString(), getenv('APP_FRONTEND_VERIFICATION_URL'));
+        $body = str_replace('%link%', $link, file_get_contents('./template.html'));
+        $bodyContentType = 'text/html';
+        $message = new Swift_Message('Account Verification');
+        $message->setFrom(getenv('APP_EMAIL'));
+        $message->setTo($user->getEmailAddress()->toString());
+        $message->setBody($body, $bodyContentType);
+        $this->mailer->send($message);
     }
 }
