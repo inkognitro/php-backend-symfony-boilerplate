@@ -6,7 +6,9 @@ use App\Packages\Common\Application\Authorization\User\User as AuthUser;
 use App\Packages\Common\Application\Resources\Events\EventStream;
 use App\Packages\Common\Domain\AbstractAggregate;
 use App\Packages\UserManagement\Application\Resources\User\Events\UserWasCreated;
+use App\Packages\UserManagement\Application\Resources\User\Events\VerificationCodeWasSentToUser;
 use App\Packages\UserManagement\Application\Resources\User\User;
+use App\Packages\UserManagement\Application\Resources\User\VerificationCode;
 
 final class UserAggregate extends AbstractAggregate
 {
@@ -37,6 +39,13 @@ final class UserAggregate extends AbstractAggregate
     {
         $persistedUser = null;
         return new self(new EventStream([]), $persistedUser, $user);
+    }
+
+    public function sendVerificationCode(VerificationCode $verificationCode, AuthUser $sender): void
+    {
+        $this->recordedEvents->record(
+            VerificationCodeWasSentToUser::occur($verificationCode, $this->currentUser, $sender)
+        );
     }
 
     //todo getRecoredEvents(): compare persisted and current user, maybe no event should be triggered!

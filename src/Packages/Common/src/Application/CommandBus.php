@@ -5,7 +5,7 @@ namespace App\Packages\Common\Application;
 use App\Packages\Common\Application\Authorization\User\User as AuthUser;
 use App\Packages\Common\Application\Command\Command;
 use App\Packages\Common\Application\HandlerResponse\Response;
-use App\Packages\Common\Application\HandlerResponse\SuccessResponse;
+use App\Packages\Common\Application\HandlerResponse\Success;
 use Exception;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -27,7 +27,7 @@ final class CommandBus
         $this->stateManager->beginTransaction($transactionSavePointName);
         try {
             $handlerResponse = $this->getHandlerResponseFromCommandExecution($command, $authUser);
-            if (!$handlerResponse instanceof SuccessResponse) {
+            if (!$handlerResponse instanceof Success) {
                 $this->stateManager->rollbackTransaction($transactionSavePointName);
                 return $handlerResponse;
             }

@@ -3,9 +3,8 @@
 namespace App\Packages\Common\Application\HandlerResponse;
 
 use App\Packages\Common\Application\Validation\Messages\MessageBag;
-use App\Packages\Common\Application\HandlerResponse\SuccessResponse;
 
-final class ResourceChangedResponse implements SuccessResponse
+final class ResourceChangedResponse implements Success
 {
     private $resource;
     private $warnings;

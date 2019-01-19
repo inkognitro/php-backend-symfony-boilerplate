@@ -12,6 +12,8 @@ use App\Packages\UserManagement\Application\Resources\User\Username;
 use App\Packages\UserManagement\Application\Resources\User\UserRepository;
 use App\Packages\UserManagement\Application\Resources\User\UserId;
 use App\Packages\UserManagement\Application\Resources\User\User;
+use App\Packages\UserManagement\Application\Resources\User\VerificationCodeSentAt;
+use App\Packages\UserManagement\Application\Resources\User\VerifiedAt;
 use Doctrine\DBAL\Query\QueryBuilder;
 
 final class DbalUserRepository implements UserRepository
@@ -64,6 +66,8 @@ final class DbalUserRepository implements UserRepository
         $queryBuilder->addSelect('email_address as emailAddress');
         $queryBuilder->addSelect('password');
         $queryBuilder->addSelect('role');
+        $queryBuilder->addSelect('verification_code_sent_at as verificationCodeSentAt');
+        $queryBuilder->addSelect('verified_at as verifiedAt');
         $queryBuilder->addSelect('created_at as createdAt');
         $queryBuilder->addSelect('updated_at as updatedAt');
         $queryBuilder->from('users');
@@ -72,6 +76,10 @@ final class DbalUserRepository implements UserRepository
 
     private function createUser(array $data): User
     {
+        $verificationCodeSentAt = ($data['verificationCodeSentAt'] === null ?
+            null : VerificationCodeSentAt::fromString($data['verificationCodeSentAt'])
+        );
+        $verifiedAt = ($data['verifiedAt'] === null ? null : VerifiedAt::fromString($data['verifiedAt']));
         $updatedAt = ($data['updatedAt'] === null ? null : UpdatedAt::fromString($data['updatedAt']));
         return new User(
             UserId::fromString($data['id']),
@@ -79,6 +87,8 @@ final class DbalUserRepository implements UserRepository
             EmailAddress::fromString($data['emailAddress']),
             Password::fromHash($data['password']),
             Role::fromString($data['role']),
+            $verificationCodeSentAt,
+            $verifiedAt,
             CreatedAt::fromString($data['createdAt']),
             $updatedAt
         );

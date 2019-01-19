@@ -7,7 +7,7 @@ use App\Packages\Common\Application\Resources\DateTimeValueObject;
 
 final class OccurredAt extends DateTimeValueObject
 {
-    public static function fromNow(): self
+    public static function create(): self
     {
         return new self(DateTimeFactory::create());
     }

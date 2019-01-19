@@ -14,7 +14,7 @@ final class JobWasCreated extends AbstractEvent
     public static function occur(Job $job, AuthUser $authUser): self
     {
         $previousPayload = null;
-        $occurredAt = OccurredAt::fromNow();
+        $occurredAt = OccurredAt::create();
         $payload = JobPayload::fromJob($job, [
             'createdAt' => $occurredAt->toString()
         ]);

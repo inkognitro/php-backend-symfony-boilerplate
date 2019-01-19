@@ -17,4 +17,9 @@ final class EventStream
     {
         return $this->events;
     }
+
+    public function record(AbstractEvent $event):void
+    {
+        $this->events[] = $event;
+    }
 }

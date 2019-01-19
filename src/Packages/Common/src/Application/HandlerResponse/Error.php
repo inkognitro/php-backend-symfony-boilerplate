@@ -3,7 +3,7 @@
 namespace App\Packages\Common\Application\HandlerResponse;
 
 
-interface ErrorResponse extends Response
+interface Error extends Response
 {
 
 }

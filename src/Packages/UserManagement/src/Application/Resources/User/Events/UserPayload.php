@@ -11,11 +11,17 @@ use App\Packages\UserManagement\Application\Resources\User\Role;
 use App\Packages\UserManagement\Application\Resources\User\User;
 use App\Packages\UserManagement\Application\Resources\User\UserId;
 use App\Packages\UserManagement\Application\Resources\User\Username;
+use App\Packages\UserManagement\Application\Resources\User\VerificationCodeSentAt;
+use App\Packages\UserManagement\Application\Resources\User\VerifiedAt;
 
 final class UserPayload extends AbstractPayload
 {
     public static function fromUser(User $user, array $additionalPayloadData = []): self
     {
+        $verificationCodeSentAt = (
+            $user->getVerificationCodeSentAt() === null ? null : $user->getVerificationCodeSentAt()->toString()
+        );
+        $verifiedAt = ($user->getVerifiedAt() === null ? null : $user->getVerifiedAt()->toString());
         $updatedAt = ($user->getUpdatedAt() === null ? null : $user->getUpdatedAt()->toString());
         $createdAt = ($user->getCreatedAt() === null ? null : $user->getCreatedAt()->toString());
         $payloadData = array_merge([
@@ -24,6 +30,8 @@ final class UserPayload extends AbstractPayload
             'emailAddress' => $user->getEmailAddress()->toString(),
             'role' => $user->getRole()->toString(),
             'password' => $user->getPassword()->toHash(),
+            'verificationCodeSentAt' => $verificationCodeSentAt,
+            'verifiedAt' => $verifiedAt,
             'createdAt' => $createdAt,
             'updatedAt' => $updatedAt,
         ], $additionalPayloadData);
@@ -33,6 +41,10 @@ final class UserPayload extends AbstractPayload
     public function toUser(): User
     {
         $payloadData = $this->data;
+        $verificationCodeSentAt = ($payloadData['verificationCodeSentAt'] === null
+            ? null : VerificationCodeSentAt::fromString($payloadData['verificationCodeSentAt'])
+        );
+        $verifiedAt = ($payloadData['verifiedAt'] === null ? null : VerifiedAt::fromString($payloadData['verifiedAt']));
         $createdAt = ($payloadData['createdAt'] === null ? null : CreatedAt::fromString($payloadData['createdAt']));
         $updatedAt = ($payloadData['updatedAt'] === null ? null : UpdatedAt::fromString($payloadData['updatedAt']));
         return new User(
@@ -41,6 +53,8 @@ final class UserPayload extends AbstractPayload
             EmailAddress::fromString($payloadData['emailAddress']),
             Password::fromHash($payloadData['password']),
             Role::fromString($payloadData['role']),
+            $verificationCodeSentAt,
+            $verifiedAt,
             $createdAt,
             $updatedAt
         );

@@ -14,7 +14,7 @@ final class UserWasCreated extends AbstractEvent
     public static function occur(User $user, AuthUser $authUser): self
     {
         $previousPayload = null;
-        $occurredAt = OccurredAt::fromNow();
+        $occurredAt = OccurredAt::create();
         $payload = UserPayload::fromUser($user, [
             'createdAt' => $occurredAt->toString()
         ]);
