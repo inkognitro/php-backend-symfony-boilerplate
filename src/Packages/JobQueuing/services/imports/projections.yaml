@@ -3,4 +3,4 @@ services:
         autowire: true
         tags: ['app.event_projection']
 
-    App\Packages\JobManagement\Infrastructure\Job\DbalJobProjection: ~
+    App\Packages\JobQueuing\Infrastructure\Job\DbalJobProjection: ~

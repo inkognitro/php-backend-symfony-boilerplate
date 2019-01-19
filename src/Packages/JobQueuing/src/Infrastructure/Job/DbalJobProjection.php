@@ -33,6 +33,9 @@ final class DbalJobProjection implements Projection
             'id', $queryBuilder->createNamedParameter($job->getId()->toString())
         );
         $queryBuilder->setValue(
+            'command', $queryBuilder->createNamedParameter(json_encode($job->getCommand()))
+        );
+        $queryBuilder->setValue(
             'created_at', $queryBuilder->createNamedParameter($job->getCreatedAt()->toDateTime(), 'datetime')
         );
         $queryBuilder->execute();

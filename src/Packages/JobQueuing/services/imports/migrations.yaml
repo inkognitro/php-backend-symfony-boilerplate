@@ -3,4 +3,4 @@ services:
         autowire: true
         tags: ['app.migration']
 
-    App\Packages\JobManagement\Installation\Migrations\JobsMigration201901131125: ~
+    App\Packages\JobQueuing\Installation\Migrations\JobsMigration201901131125: ~

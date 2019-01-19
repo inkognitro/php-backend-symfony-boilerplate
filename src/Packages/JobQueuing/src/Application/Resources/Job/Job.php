@@ -7,7 +7,6 @@ use App\Packages\Common\Application\Resources\AbstractResource;
 use App\Packages\Common\Application\Resources\CreatedAt;
 use App\Packages\Common\Application\Resources\ExecutedAt;
 use App\Packages\Common\Application\Resources\ResourceId;
-use App\Packages\Common\Application\Resources\UpdatedAt;
 
 final class Job extends AbstractResource
 {

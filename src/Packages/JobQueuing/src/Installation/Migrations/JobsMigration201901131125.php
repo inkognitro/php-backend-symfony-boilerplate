@@ -22,8 +22,9 @@ final class JobsMigration201901131125 extends AbstractMigration
     {
         $table = $schema->createTable('jobs');
         $table->addColumn('id', Type::GUID);
+        $table->addColumn('command', Type::TEXT);
         $table->addColumn('created_at', Type::DATETIME);
-        $table->addColumn('updated_at', Type::DATETIME, ['notnull' => false]);
+        $table->addColumn('executed_at', Type::DATETIME, ['notnull' => false]);
         $table->setPrimaryKey(['id']);
     }
 
