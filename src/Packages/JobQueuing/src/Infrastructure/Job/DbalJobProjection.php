@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\JobManagement\Infrastructure\Job;
+namespace App\Packages\JobQueuing\Infrastructure\Job;
 
 use App\Packages\Common\Application\Resources\Events\AbstractEvent;
 use App\Packages\Common\Domain\Event\Projection;
 use App\Packages\Common\Infrastructure\DbalConnection;
-use App\Packages\JobManagement\Application\Resources\Job\Events\JobWasCreated;
+use App\Packages\JobQueuing\Application\Resources\Job\Events\JobWasCreated;
 
 final class DbalJobProjection implements Projection
 {

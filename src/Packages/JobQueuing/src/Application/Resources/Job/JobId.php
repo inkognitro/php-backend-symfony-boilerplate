@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\JobManagement\Application\Resources\Job;
+namespace App\Packages\JobQueuing\Application\Resources\Job;
 
 use App\Packages\Common\Application\Resources\ResourceId;
 

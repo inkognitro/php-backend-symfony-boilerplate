@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\JobManagement\Application\Command\CreateJob;
+namespace App\Packages\JobQueuing\Application\Command\CreateJob;
 
 use App\Packages\Common\Application\Authorization\User\User as AuthUser;
 use App\Packages\Common\Application\HandlerResponse\Response;
@@ -8,10 +8,10 @@ use App\Packages\Common\Application\HandlerResponse\ValidationErrorResponse;
 use App\Packages\Common\Application\HandlerResponse\UnauthorizedResponse;
 use App\Packages\Common\Application\HandlerResponse\ResourceCreatedResponse;
 use App\Packages\Common\Domain\EventDispatcher;
-use App\Packages\JobManagement\Application\Resources\Job\JobId;
-use App\Packages\JobManagement\Application\Resources\Job\JobRepository;
-use App\Packages\JobManagement\Domain\Job\JobAggregate;
-use App\Packages\JobManagement\Domain\Job\JobValidator;
+use App\Packages\JobQueuing\Application\Resources\Job\JobId;
+use App\Packages\JobQueuing\Application\Resources\Job\JobRepository;
+use App\Packages\JobQueuing\Domain\Job\JobAggregate;
+use App\Packages\JobQueuing\Domain\Job\JobValidator;
 
 final class CreateJobHandler
 {

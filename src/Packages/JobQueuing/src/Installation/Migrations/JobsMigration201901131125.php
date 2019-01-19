@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\JobManagement\Installation\Migrations;
+namespace App\Packages\JobQueuing\Installation\Migrations;
 
 use App\Packages\Common\Installation\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;

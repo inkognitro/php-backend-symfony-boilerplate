@@ -1,26 +1,31 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\JobManagement\Application\Resources\Job;
+namespace App\Packages\JobQueuing\Application\Resources\Job;
 
+use App\Packages\Common\Application\Command\Command;
 use App\Packages\Common\Application\Resources\AbstractResource;
 use App\Packages\Common\Application\Resources\CreatedAt;
+use App\Packages\Common\Application\Resources\ExecutedAt;
 use App\Packages\Common\Application\Resources\ResourceId;
 use App\Packages\Common\Application\Resources\UpdatedAt;
 
 final class Job extends AbstractResource
 {
     private $id;
+    private $command;
     private $createdAt;
-    private $updatedAt;
+    private $executedAt;
 
     public function __construct(
         JobId $id,
+        Command $command,
         ?CreatedAt $createdAt,
-        ?UpdatedAt $updatedAt
+        ?ExecutedAt $executedAt
     ) {
         $this->id = $id;
+        $this->command = $command;
         $this->createdAt = $createdAt;
-        $this->updatedAt = $updatedAt;
+        $this->executedAt = $executedAt;
     }
 
     public function getResourceId(): ResourceId
@@ -33,13 +38,18 @@ final class Job extends AbstractResource
         return $this->id;
     }
 
+    public function getCommand(): Command
+    {
+        return $this->command;
+    }
+
     public function getCreatedAt(): ?CreatedAt
     {
         return $this->createdAt;
     }
 
-    public function getUpdatedAt(): ?UpdatedAt
+    public function getExecutedAt(): ?ExecutedAt
     {
-        return $this->updatedAt;
+        return $this->executedAt;
     }
 }

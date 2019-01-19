@@ -33,7 +33,7 @@
             "App\\": "src/",
             "App\\CLI\\": "src/CLI/src/",
             "App\\Packages\\Common\\": "src/Packages/Common/src/",
-            "App\\Packages\\JobManagement\\": "src/Packages/JobManagement/src/",
+            "App\\Packages\\JobManagement\\": "src/Packages/JobQueuing/src/",
             "App\\Packages\\UserManagement\\": "src/Packages/UserManagement/src/"
         }
     },

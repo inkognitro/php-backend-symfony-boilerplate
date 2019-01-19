@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\JobManagement\Application\Command\CreateJob;
+namespace App\Packages\JobQueuing\Application\Command\CreateJob;
 
 use App\Packages\Common\Application\Command\Command;
 

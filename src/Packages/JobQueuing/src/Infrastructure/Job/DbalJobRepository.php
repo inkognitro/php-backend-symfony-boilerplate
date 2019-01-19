@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\JobManagement\Infrastructure\Job;
+namespace App\Packages\JobQueuing\Infrastructure\Job;
 
 use App\Packages\Common\Application\Resources\CreatedAt;
 use App\Packages\Common\Application\Resources\UpdatedAt;
 use App\Packages\Common\Infrastructure\DbalConnection;
-use App\Packages\JobManagement\Application\Resources\Job\Job;
-use App\Packages\JobManagement\Application\Resources\Job\JobId;
-use App\Packages\JobManagement\Application\Resources\Job\JobRepository;
+use App\Packages\JobQueuing\Application\Resources\Job\Job;
+use App\Packages\JobQueuing\Application\Resources\Job\JobId;
+use App\Packages\JobQueuing\Application\Resources\Job\JobRepository;
 use Doctrine\DBAL\Query\QueryBuilder;
 
 final class DbalJobRepository implements JobRepository

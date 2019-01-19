@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\JobManagement\Domain\Job;
+namespace App\Packages\JobQueuing\Domain\Job;
 
 use App\Packages\Common\Application\Authorization\User\User as AuthUser;
 use App\Packages\Common\Application\Resources\Events\EventStream;
 use App\Packages\Common\Domain\AbstractAggregate;
-use App\Packages\JobManagement\Application\Resources\Job\Events\JobWasCreated;
-use App\Packages\JobManagement\Application\Resources\Job\Job;
+use App\Packages\JobQueuing\Application\Resources\Job\Events\JobWasCreated;
+use App\Packages\JobQueuing\Application\Resources\Job\Job;
 
 final class JobAggregate extends AbstractAggregate
 {

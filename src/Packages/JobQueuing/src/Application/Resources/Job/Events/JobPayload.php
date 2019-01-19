@@ -1,23 +1,25 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\JobManagement\Application\Resources\Job\Events;
+namespace App\Packages\JobQueuing\Application\Resources\Job\Events;
 
+use App\Packages\Common\Application\Command\Command;
 use App\Packages\Common\Application\Resources\CreatedAt;
-use App\Packages\Common\Application\Resources\UpdatedAt;
-use App\Packages\Common\Application\Resources\Events\AbstractPayload;
-use App\Packages\JobManagement\Application\Resources\Job\Job;
-use App\Packages\JobManagement\Application\Resources\Job\JobId;
+use App\Packages\Common\Application\Resources\ExecutedAt;
+use App\Packages\Common\Application\Resources\AbstractPayload;
+use App\Packages\JobQueuing\Application\Resources\Job\Job;
+use App\Packages\JobQueuing\Application\Resources\Job\JobId;
 
 final class JobPayload extends AbstractPayload
 {
     public static function fromJob(Job $job, array $additionalPayloadData = []): self
     {
-        $updatedAt = ($job->getUpdatedAt() === null ? null : $job->getUpdatedAt()->toString());
+        $executedAt = ($job->getExecutedAt() === null ? null : $job->getExecutedAt()->toString());
         $createdAt = ($job->getCreatedAt() === null ? null : $job->getCreatedAt()->toString());
         $payloadData = array_merge([
             'id' => $job->getId()->toString(),
+            'command' => json_encode($job->getCommand()),
             'createdAt' => $createdAt,
-            'updatedAt' => $updatedAt,
+            'executedAt' => $executedAt,
         ], $additionalPayloadData);
         return new self($payloadData);
     }
@@ -25,12 +27,17 @@ final class JobPayload extends AbstractPayload
     public function toJob(): Job
     {
         $payloadData = $this->data;
+
+        /** @var $command Command */
+        $command = json_decode($payloadData['command']);
         $createdAt = ($payloadData['createdAt'] === null ? null : CreatedAt::fromString($payloadData['createdAt']));
-        $updatedAt = ($payloadData['updatedAt'] === null ? null : UpdatedAt::fromString($payloadData['updatedAt']));
+        $executedAt = ($payloadData['executedAt'] === null ? null : ExecutedAt::fromString($payloadData['executedAt']));
+
         return new Job(
             JobId::fromString($payloadData['id']),
+            $command,
             $createdAt,
-            $updatedAt
+            $executedAt
         );
     }
 }

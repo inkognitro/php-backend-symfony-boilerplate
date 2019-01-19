@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\JobManagement\Application\Resources\Job\Events;
+namespace App\Packages\JobQueuing\Application\Resources\Job\Events;
 
 use App\Packages\Common\Application\Authorization\User\User as AuthUser;
 use App\Packages\Common\Application\Resources\AbstractResource;
 use App\Packages\Common\Application\Resources\Events\AbstractEvent;
 use App\Packages\Common\Application\Resources\Events\EventId;
 use App\Packages\Common\Application\Resources\Events\OccurredAt;
-use App\Packages\JobManagement\Application\Resources\Job\Job;
+use App\Packages\JobQueuing\Application\Resources\Job\Job;
 
 final class JobWasCreated extends AbstractEvent
 {
@@ -35,6 +35,6 @@ final class JobWasCreated extends AbstractEvent
 
     public function mustBeLogged(): bool
     {
-        return true;
+        return false;
     }
 }
