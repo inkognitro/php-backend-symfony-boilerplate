@@ -5,6 +5,7 @@ services:
     App\Packages\Common\Application\CommandBus: ~
     App\Packages\Common\Application\Authorization\RolesRepository: ~
     App\Packages\Common\Application\Authorization\UserFactory: ~
+    App\Packages\Common\Application\DateTimeFactory: ~
 
     App\Packages\Common\Domain\EventDispatcher: ~
 
@@ -20,3 +21,12 @@ services:
         arguments: [!tagged 'app.event_projection']
 
     App\Packages\Common\Infrastructure\DbalConnection: '@doctrine.dbal.default_connection'
+
+    App\Packages\Common\Installation\Fixtures\FixtureRepository:
+        arguments: [!tagged 'app.fixture']
+
+    App\Packages\Common\Application\Mailing\Mailer:
+        class: App\Packages\Common\Infrastructure\DefaultMailer
+
+imports:
+    - { resource: './imports/projections.yaml' }

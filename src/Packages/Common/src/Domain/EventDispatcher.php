@@ -2,8 +2,8 @@
 
 namespace App\Packages\Common\Domain;
 
-use App\Packages\Common\Domain\Event\Event;
-use App\Packages\Common\Domain\Event\EventStream;
+use App\Packages\Common\Application\Resources\Events\AbstractEvent;
+use App\Packages\Common\Application\Resources\Events\EventStream;
 use App\Packages\Common\Domain\Event\ProjectionRepository;
 
 final class EventDispatcher
@@ -23,7 +23,7 @@ final class EventDispatcher
         }
     }
 
-    public function projectEvent(Event $event): void
+    public function projectEvent(AbstractEvent $event): void
     {
         $projections = $this->repository->findAll();
         foreach($projections->toCollection() as $projection) {

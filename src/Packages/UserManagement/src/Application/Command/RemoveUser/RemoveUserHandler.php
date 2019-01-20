@@ -2,7 +2,7 @@
 
 namespace App\Packages\UserManagement\Application\Command\RemoveUser;
 
-use App\Packages\Common\Application\Authorization\User as AuthUser;
+use App\Packages\Common\Application\Authorization\User\User as AuthUser;
 use App\Packages\Common\Application\HandlerResponse\ResourceNotFoundResponse;
 use App\Packages\Common\Application\Validation\Messages\MessageBag;
 use App\Packages\Common\Application\HandlerResponse\Response;

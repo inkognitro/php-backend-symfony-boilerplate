@@ -8,3 +8,7 @@ doctrine:
                 password: '%env(DATABASE_DEFAULT_PASSWORD)%'
                 host: '%env(DATABASE_DEFAULT_HOST)%'
                 driver: '%env(DATABASE_DEFAULT_DRIVER)%'
+                charset: utf8mb4
+                default_table_options:
+                    charset: utf8mb4
+                    collate: utf8mb4_unicode_ci

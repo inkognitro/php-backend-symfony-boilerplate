@@ -2,7 +2,7 @@
 
 namespace App\Packages\Common\Application\HandlerResponse;
 
-final class UnauthorizedResponse implements ErrorResponse
+final class UnauthorizedResponse implements Error
 {
     
 }

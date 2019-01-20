@@ -2,22 +2,24 @@
 
 namespace App\Packages\UserManagement\Domain\User;
 
-use App\Packages\Common\Application\Authorization\User as AuthUser;
-use App\Packages\Common\Domain\Event\EventStream;
+use App\Packages\Common\Application\Authorization\User\User as AuthUser;
+use App\Packages\Common\Application\Resources\Events\EventStream;
 use App\Packages\Common\Domain\AbstractAggregate;
-use App\Packages\UserManagement\Domain\User\Events\UserWasCreated;
+use App\Packages\UserManagement\Application\Resources\Events\UserWasCreated;
+use App\Packages\UserManagement\Application\Resources\Events\VerificationCodeWasSentToUser;
 use App\Packages\UserManagement\Application\Resources\User\User;
+use App\Packages\UserManagement\Application\Resources\User\VerificationCode;
 
 final class UserAggregate extends AbstractAggregate
 {
     private $persistedUser;
     private $currentUser;
 
-    protected function __construct(EventStream $recordedEvents, ?User $persistedUser, User $currentUser)
+    protected function __construct(EventStream $recordedEvents, ?User $persistedJob, User $currentJob)
     {
         parent::__construct($recordedEvents);
-        $this->currentUser = $currentUser;
-        $this->persistedUser = $persistedUser;
+        $this->currentUser = $currentJob;
+        $this->persistedUser = $persistedJob;
     }
 
     public function getUser(): User
@@ -28,7 +30,9 @@ final class UserAggregate extends AbstractAggregate
     public static function fromNewUser(User $user, AuthUser $creator): self
     {
         $persistedUser = null;
-        return new self(new EventStream([UserWasCreated::occur($user, $creator)]), $persistedUser, $user);
+        $event = UserWasCreated::occur($user, $creator);
+        $createdUser = $event->getUser();
+        return new self(new EventStream([$event]), $persistedUser, $createdUser);
     }
 
     public static function fromExistingUser(User $user): self
@@ -36,4 +40,13 @@ final class UserAggregate extends AbstractAggregate
         $persistedUser = null;
         return new self(new EventStream([]), $persistedUser, $user);
     }
+
+    public function sendVerificationCode(VerificationCode $verificationCode, AuthUser $sender): void
+    {
+        $this->recordedEvents->record(
+            VerificationCodeWasSentToUser::occur($verificationCode, $this->currentUser, $sender)
+        );
+    }
+
+    //todo getRecoredEvents(): compare persisted and current user, maybe no event should be triggered!
 }

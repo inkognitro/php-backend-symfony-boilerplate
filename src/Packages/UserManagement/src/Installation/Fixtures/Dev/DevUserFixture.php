@@ -2,10 +2,10 @@
 
 namespace App\Packages\UserManagement\Installation\Fixtures\Dev;
 
-use App\Packages\Common\Application\Authorization\User as AuthUser;
+use App\Packages\Common\Application\Authorization\User\User as AuthUser;
 use App\Packages\Common\Application\Authorization\UserFactory as AuthUserFactory;
 use App\Packages\Common\Application\CommandBus;
-use App\Packages\Common\Application\HandlerResponse\SuccessResponse;
+use App\Packages\Common\Application\HandlerResponse\Success;
 use App\Packages\Common\Installation\Fixtures\AbstractFixture;
 use App\Packages\UserManagement\Application\Command\CreateUser\CreateUser;
 use LogicException;
@@ -34,7 +34,7 @@ final class DevUserFixture extends AbstractFixture
 
             $response = $this->commandBus->handle(CreateUser::fromArray($data), $authUser);
 
-            if(!$response instanceof SuccessResponse) {
+            if(!$response instanceof Success) {
                 throw new LogicException(
                     'Error response from fixture.'
                     . ' Data:' . print_r($data, true)

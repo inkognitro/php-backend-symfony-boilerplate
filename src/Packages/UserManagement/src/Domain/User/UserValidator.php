@@ -30,7 +30,7 @@ final class UserValidator extends AbstractResourceValidator
     public function validate(AbstractResource $user): void
     {
         if(!$user instanceof User) {
-            throw new InvalidArgumentException('Variable $resource must be an instance of ' . User::class . '!');
+            throw new InvalidArgumentException('Variable $user must be an instance of ' . User::class . '!');
         }
         $this->warnings = new MessageBag();
         $this->errors = new MessageBag();

@@ -2,6 +2,8 @@
 
 namespace App\Packages\Common\Application\Authorization;
 
+use App\Packages\Common\Application\Authorization\User\User;
+
 final class UserFactory
 {
    public function createSystemUser(): User

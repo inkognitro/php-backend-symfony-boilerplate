@@ -4,5 +4,5 @@ namespace App\Packages\Common\Application\Resources;
 
 abstract class AbstractResource
 {
-
+    public abstract function getResourceId(): ResourceId;
 }

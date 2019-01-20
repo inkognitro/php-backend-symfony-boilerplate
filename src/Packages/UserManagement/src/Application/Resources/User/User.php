@@ -3,6 +3,9 @@
 namespace App\Packages\UserManagement\Application\Resources\User;
 
 use App\Packages\Common\Application\Resources\AbstractResource;
+use App\Packages\Common\Application\Resources\CreatedAt;
+use App\Packages\Common\Application\Resources\ResourceId;
+use App\Packages\Common\Application\Resources\UpdatedAt;
 
 final class User extends AbstractResource
 {
@@ -11,19 +14,36 @@ final class User extends AbstractResource
     private $emailAddress;
     private $password;
     private $role;
+    private $verificationCodeSentAt;
+    private $verifiedAt;
+    private $createdAt;
+    private $updatedAt;
 
     public function __construct(
         UserId $id,
         Username $username,
         EmailAddress $emailAddress,
         Password $password,
-        Role $role
+        Role $role,
+        ?VerificationCodeSentAt $verificationCodeSentAt,
+        ?VerifiedAt $verifiedAt,
+        ?CreatedAt $createdAt,
+        ?UpdatedAt $updatedAt
     ) {
         $this->id = $id;
         $this->username = $username;
         $this->emailAddress = $emailAddress;
         $this->password = $password;
         $this->role = $role;
+        $this->verificationCodeSentAt = $verificationCodeSentAt;
+        $this->verifiedAt = $verifiedAt;
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
+    }
+
+    public function getResourceId(): ResourceId
+    {
+        return $this->id;
     }
 
     public function getId(): UserId
@@ -49,5 +69,25 @@ final class User extends AbstractResource
     public function getPassword(): Password
     {
         return $this->password;
+    }
+
+    public function getVerificationCodeSentAt(): ?VerificationCodeSentAt
+    {
+        return $this->verificationCodeSentAt;
+    }
+
+    public function getVerifiedAt(): ?VerifiedAt
+    {
+        return $this->verifiedAt;
+    }
+
+    public function getCreatedAt(): ?CreatedAt
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): ?UpdatedAt
+    {
+        return $this->updatedAt;
     }
 }

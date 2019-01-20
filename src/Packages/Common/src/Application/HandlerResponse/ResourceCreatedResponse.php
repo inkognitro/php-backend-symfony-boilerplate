@@ -5,7 +5,7 @@ namespace App\Packages\Common\Application\HandlerResponse;
 use App\Packages\Common\Application\Resources\AbstractResource;
 use App\Packages\Common\Application\Validation\Messages\MessageBag;
 
-final class ResourceCreatedResponse implements SuccessResponse
+final class ResourceCreatedResponse implements Success
 {
     private $resource;
     private $warnings;

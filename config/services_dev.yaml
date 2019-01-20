@@ -1,3 +1,5 @@
 imports:
+    - { resource: '../src/Packages/Common/services/dev.yaml' }
+    - { resource: '../src/Packages/JobQueuing/services/dev.yaml' }
     - { resource: '../src/Packages/UserManagement/services/dev.yaml' }
     - { resource: '../src/CLI/services/dev.yaml' }
