@@ -25,5 +25,8 @@ services:
     App\Packages\Common\Installation\Fixtures\FixtureRepository:
         arguments: [!tagged 'app.fixture']
 
+    App\Packages\Common\Application\Mailing\Mailer:
+        class: App\Packages\Common\Infrastructure\DefaultMailer
+
 imports:
     - { resource: './imports/projections.yaml' }

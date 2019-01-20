@@ -6,6 +6,7 @@ use App\Packages\Common\Application\Authorization\User\User as AuthUser;
 use App\Packages\Common\Application\HandlerResponse\ResourceNotFoundResponse;
 use App\Packages\Common\Application\HandlerResponse\Response;
 use App\Packages\Common\Application\HandlerResponse\SuccessResponse;
+use App\Packages\Common\Application\Mailing\Mailer;
 use App\Packages\Common\Application\Validation\Messages\MessageBag;
 use App\Packages\Common\Domain\EventDispatcher;
 use App\Packages\UserManagement\Application\Resources\User\User;
@@ -13,8 +14,6 @@ use App\Packages\UserManagement\Application\Resources\User\UserId;
 use App\Packages\UserManagement\Application\Resources\User\UserRepository;
 use App\Packages\UserManagement\Application\Resources\User\VerificationCode;
 use App\Packages\UserManagement\Domain\User\UserAggregate;
-use Swift_Mailer;
-use Swift_Message;
 
 final class SendVerificationCodeToUserHandler
 {
@@ -22,7 +21,7 @@ final class SendVerificationCodeToUserHandler
     private $userRepository;
     private $mailer;
 
-    public function __construct(EventDispatcher $eventDispatcher, UserRepository $userRepository, Swift_Mailer $mailer)
+    public function __construct(EventDispatcher $eventDispatcher, UserRepository $userRepository, Mailer $mailer)
     {
         $this->eventDispatcher = $eventDispatcher;
         $this->userRepository = $userRepository;
@@ -48,13 +47,10 @@ final class SendVerificationCodeToUserHandler
 
     private function sendEmail(User $user, VerificationCode $verificationCode): void
     {
-        $link = str_replace('%verificationCode%', $verificationCode->toString(), getenv('APP_FRONTEND_VERIFICATION_URL'));
-        $body = str_replace('%link%', $link, file_get_contents('./template.html'));
-        $bodyContentType = 'text/html';
-        $message = new Swift_Message('Account Verification');
-        $message->setFrom(getenv('APP_EMAIL'));
-        $message->setTo($user->getEmailAddress()->toString());
-        $message->setBody($body, $bodyContentType);
-        $this->mailer->send($message);
+        $subject = 'Verification';
+        $link = getenv('APP_WEBFRONTEND_VERIFICATION_URL');
+        $link = str_replace('%verificationCode%', $verificationCode->toString(), $link);
+        $content = str_replace('%link%', $link, file_get_contents('./template.html'));
+        $this->mailer->send($user->getEmailAddress()->toString(), $subject, $content);
     }
 }
