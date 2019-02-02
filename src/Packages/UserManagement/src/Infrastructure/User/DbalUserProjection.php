@@ -8,6 +8,7 @@ use App\Packages\Common\Infrastructure\DbalConnection;
 use App\Packages\Common\Infrastructure\DbalParameter;
 use App\Packages\Common\Infrastructure\DbalParameters;
 use App\Packages\UserManagement\Application\Resources\Events\UserWasCreated;
+use App\Packages\UserManagement\Application\Resources\Events\VerificationCodeWasSentToUser;
 use App\Packages\UserManagement\Application\Resources\User\User;
 
 final class DbalUserProjection implements Projection
@@ -24,6 +25,16 @@ final class DbalUserProjection implements Projection
         if ($event instanceof UserWasCreated) {
             $this->projectUserWasCreated($event);
         }
+
+        if ($event instanceof VerificationCodeWasSentToUser) {
+            $this->projectVerificationCodeWasSentToUser($event);
+        }
+    }
+
+    private function projectVerificationCodeWasSentToUser(VerificationCodeWasSentToUser $event): void
+    {
+        $queryBuilder = $this->connection->createQueryBuilder();
+
     }
 
     private function projectUserWasCreated(UserWasCreated $event): void
@@ -64,6 +75,7 @@ final class DbalUserProjection implements Projection
             'email_address' => DbalParameter::create($user->getEmailAddress()->toString()),
             'password' => DbalParameter::create($user->getPassword()->toHash()),
             'role' => DbalParameter::create($user->getRole()->toString()),
+            'verification_code' => DbalParameter::create($user->getVerficationCode()->toString()),
             'verification_code_sent_at' => $verificationCodeSentParam,
             'verified_at' => $verifiedAtParam,
             'created_at' => $createdAtParam,

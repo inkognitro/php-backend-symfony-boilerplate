@@ -11,6 +11,7 @@ use App\Packages\UserManagement\Application\Resources\User\Role;
 use App\Packages\UserManagement\Application\Resources\User\User;
 use App\Packages\UserManagement\Application\Resources\User\UserId;
 use App\Packages\UserManagement\Application\Resources\User\Username;
+use App\Packages\UserManagement\Application\Resources\User\VerificationCode;
 use App\Packages\UserManagement\Application\Resources\User\VerificationCodeSentAt;
 use App\Packages\UserManagement\Application\Resources\User\VerifiedAt;
 
@@ -30,6 +31,7 @@ final class UserPayload extends AbstractPayload
             'emailAddress' => $user->getEmailAddress()->toString(),
             'role' => $user->getRole()->toString(),
             'password' => $user->getPassword()->toHash(),
+            'verificationCode' => $user->getVerificationCode()->toString(),
             'verificationCodeSentAt' => $verificationCodeSentAt,
             'verifiedAt' => $verifiedAt,
             'createdAt' => $createdAt,
@@ -53,6 +55,7 @@ final class UserPayload extends AbstractPayload
             EmailAddress::fromString($payloadData['emailAddress']),
             Password::fromHash($payloadData['password']),
             Role::fromString($payloadData['role']),
+            VerificationCode::fromString($payloadData['verificationCode']),
             $verificationCodeSentAt,
             $verifiedAt,
             $createdAt,

@@ -70,6 +70,7 @@ final class CreateUserHandler
     private function createUserFromCommand(CreateUser $command): User
     {
         $role = ($command->getRole() !== null ? $command->getRole() : AuthUser::DEFAULT_USER_ROLE);
+        $verificationCode = null;
         $verificationCodeSentAt = null;
         $verifiedAt = null;
         $createdAt = null;
@@ -80,6 +81,7 @@ final class CreateUserHandler
             EmailAddress::fromString($command->getEmailAddress()),
             Password::fromString($command->getEmailAddress()),
             Role::fromString($role),
+            $verificationCode,
             $verificationCodeSentAt,
             $verifiedAt,
             $createdAt,
