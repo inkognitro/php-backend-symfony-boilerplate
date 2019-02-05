@@ -57,6 +57,10 @@ final class DbalUserProjection implements Projection
             DbalParameter::create($user->getCreatedAt()->toDateTime(), 'datetime')
             : DbalParameter::create(null)
         );
+        $verificationCode = ($user->getVerificationCodeSentAt() !== null ?
+            DbalParameter::create($user->getVerificationCodeSentAt()->toString())
+            : DbalParameter::create(null)
+        );
         $verificationCodeSentParam = ($user->getVerificationCodeSentAt() !== null ?
             DbalParameter::create($user->getVerificationCodeSentAt()->toDateTime(), 'datetime')
             : DbalParameter::create(null)
@@ -75,7 +79,7 @@ final class DbalUserProjection implements Projection
             'email_address' => DbalParameter::create($user->getEmailAddress()->toString()),
             'password' => DbalParameter::create($user->getPassword()->toHash()),
             'role' => DbalParameter::create($user->getRole()->toString()),
-            'verification_code' => DbalParameter::create($user->getVerficationCode()->toString()),
+            'verification_code' => $verificationCode,
             'verification_code_sent_at' => $verificationCodeSentParam,
             'verified_at' => $verifiedAtParam,
             'created_at' => $createdAtParam,
