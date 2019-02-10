@@ -6,6 +6,13 @@ use App\Packages\Common\Application\Command\Command;
 
 final class CreateUser implements Command
 {
+    public const ID = 'id';
+    public const USERNAME = 'username';
+    public const PASSWORD = 'password';
+    public const EMAIL_ADDRESS = 'emailAddress';
+    public const ROLE = 'role';
+    public const SEND_INVITATION = 'sendInvitation';
+
     private $userId;
     private $username;
     private $emailAddress;
@@ -35,7 +42,7 @@ final class CreateUser implements Command
         return new self(
             $array['id'],
             $array['username'],
-            $array['emailAddress'],
+            $array[self::EMAIL_ADDRESS],
             $array['password'],
             ($array['role'] ?? null),
             $array['sendInvitation']
