@@ -4,7 +4,6 @@ namespace App\Tests\Packages\UserManagement;
 
 use App\Packages\UserManagement\Application\Command\CreateUser\CreateUser;
 use App\Tests\Packages\PackageTestCase;
-use App\Tests\UserManagement\UserProjectionGateway;
 use Ramsey\Uuid\Uuid;
 
 final class CreateUserTest extends PackageTestCase
@@ -28,7 +27,7 @@ final class CreateUserTest extends PackageTestCase
             CreateUser::USERNAME => 'foo',
             CreateUser::SEND_INVITATION => false,
         ]);
-        $this->executeCommand($command, $this->createSystemAuthUser());
+        $this->getCommandBus()->handle($command, $this->createSystemAuthUser());
         $row = $this->userProjectionGateway->getRowById($userId);
         self::assertNotNull($row);
         //todo: assert fields

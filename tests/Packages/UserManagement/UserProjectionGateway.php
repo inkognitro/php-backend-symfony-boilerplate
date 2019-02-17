@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Tests\UserManagement;
+namespace App\Tests\Packages\UserManagement;
 
 use Doctrine\DBAL\Connection;
 
@@ -14,7 +14,7 @@ final class UserProjectionGateway
     public const ROLE_FIELD = 'role';
     public const VERIFICATION_CODE_FIELD = 'verification_code';
     public const VERIFICATION_CODE_SENT_AT_FIELD = 'verification_code_sent_at';
-    public const VERIFIED_AT_FIELD = 'verification_at';
+    public const VERIFIED_AT_FIELD = 'verified_at';
     public const CREATED_AT_FIELD = 'created_at';
     public const UPDATED_AT_FIELD = 'updated_at';
 

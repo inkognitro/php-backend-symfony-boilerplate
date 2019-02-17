@@ -2,44 +2,39 @@
 
 namespace App\Tests;
 
-use App\Packages\Common\Infrastructure\DbalConnection;
 use Doctrine\DBAL\Connection;
-use PHPUnit\Framework\TestCase as PhpUnitTestCase;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-abstract class TestCase extends PhpUnitTestCase
+abstract class TestCase extends KernelTestCase
 {
-    /** @var ContainerInterface */
-    protected $container;
-    /** @var Connection */
-    protected $connection;
+    /** @var ServiceAdapter */
+    private $serviceAdapter;
     /** @var string */
-    protected $transactionSavepointName;
-
-    public function __construct($name = null, array $data = [], $dataName = '', ContainerInterface $container)
-    {
-        parent::__construct($name, $data, $dataName);
-        $this->container = $container;
-        $this->connection = $container->get(DbalConnection::class);
-        $this->transactionSavepointName = 'a' . str_replace('-', '', Uuid::uuid4()->toString());
-    }
+    private $transactionSavepointName;
 
     protected function getConnection(): Connection
     {
-        return $this->connection;
+        return $this->serviceAdapter->getConnection();
+    }
+
+    protected function getContainer(): ContainerInterface
+    {
+        return self::$kernel->getContainer();
     }
 
     protected function setUp()
     {
-        parent::setUp();
-        $this->connection->beginTransaction();
-        $this->connection->createSavepoint($this->transactionSavepointName);
+        self::bootKernel();
+        $this->transactionSavepointName = 'a' . str_replace('-', '', Uuid::uuid4()->toString());
+        $this->serviceAdapter = $this->getContainer()->get(ServiceAdapter::class);
+        $this->serviceAdapter->getStateManager()->beginTransaction($this->transactionSavepointName);
     }
 
     protected function tearDown()
     {
-        $this->connection->rollbackSavepoint($this->transactionSavepointName);
+        $this->serviceAdapter->getStateManager()->rollbackTransaction($this->transactionSavepointName);
         parent::tearDown();
     }
 }

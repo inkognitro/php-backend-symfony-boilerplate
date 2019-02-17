@@ -9,6 +9,15 @@ use App\Tests\TestCase;
 
 abstract class PackageTestCase extends TestCase
 {
+    /** @var PackageServiceAdapter */
+    private $serviceAdapter;
+
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->serviceAdapter = $this->getContainer()->get(PackageServiceAdapter::class);
+    }
+
     protected function createSystemAuthUser(): AuthUser
     {
         $userId = null;
@@ -17,10 +26,8 @@ abstract class PackageTestCase extends TestCase
         return new AuthUser($userId, $role, $languageId);
     }
 
-    protected function executeCommand(Command $command, AuthUser $authUser): void
+    protected function getCommandBus(): CommandBus
     {
-        /** @var $commandBus CommandBus */
-        $commandBus = $this->container->get(CommandBus::class);
-        $commandBus->handle($command, $authUser);
+       return $this->serviceAdapter->getCommandBus();
     }
 }
