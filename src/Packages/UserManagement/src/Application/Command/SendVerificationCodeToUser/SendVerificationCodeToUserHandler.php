@@ -35,11 +35,11 @@ final class SendVerificationCodeToUserHandler
             return new ResourceNotFoundResponse();
         }
 
+        $this->sendEmail($user, VerificationCode::fromString($command->getVerificationCode()));
+
         $userAggregate = UserAggregate::fromExistingUser($user);
         $userAggregate->sendVerificationCode(VerificationCode::fromString($command->getVerificationCode()), $sender);
         $this->eventDispatcher->dispatch($userAggregate->getRecordedEvents());
-
-        $this->sendEmail($user, VerificationCode::fromString($command->getVerificationCode()));
 
         $warnings = new MessageBag();
         return new SuccessResponse($warnings);
@@ -49,7 +49,7 @@ final class SendVerificationCodeToUserHandler
     {
         $subject = 'Verification';
         $link = getenv('APP_WEBFRONTEND_VERIFICATION_URL');
-        $link = str_replace('%verificationCode%', $verificationCode->toString(), $link);
+        $link = str_replace('%verificationCode%', urlencode($verificationCode->toString()), $link);
         $content = str_replace('%link%', $link, file_get_contents('./template.html'));
         $this->mailer->send($user->getEmailAddress()->toString(), $subject, $content);
     }

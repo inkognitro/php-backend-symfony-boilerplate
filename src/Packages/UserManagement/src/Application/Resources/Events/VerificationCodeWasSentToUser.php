@@ -8,7 +8,6 @@ use App\Packages\Common\Application\Resources\Events\AbstractEvent;
 use App\Packages\Common\Application\Resources\Events\EventId;
 use App\Packages\Common\Application\Resources\Events\OccurredAt;
 use App\Packages\Common\Application\Resources\Events\Payload;
-use App\Packages\UserManagement\Application\Resources\Events\UserPayload;
 use App\Packages\UserManagement\Application\Resources\User\User;
 use App\Packages\UserManagement\Application\Resources\User\VerificationCode;
 

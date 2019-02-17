@@ -26,6 +26,7 @@ final class UsersMigration20190101174900 extends AbstractMigration
         $table->addColumn('email_address', Type::STRING, ['length' => 191]);
         $table->addColumn('password', Type::BINARY, ['length' => 60]);
         $table->addColumn('role', Type::STRING, ['length' => 32]);
+        $table->addColumn('verification_code', Type::STRING, ['notnull' => false, 'length' => 32]);
         $table->addColumn('verification_code_sent_at', Type::DATETIME, ['notnull' => false]);
         $table->addColumn('verified_at', Type::DATETIME, ['notnull' => false]);
         $table->addColumn('created_at', Type::DATETIME);

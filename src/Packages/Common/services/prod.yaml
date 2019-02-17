@@ -20,7 +20,8 @@ services:
     App\Packages\Common\Domain\Event\ProjectionRepository:
         arguments: [!tagged 'app.event_projection']
 
-    App\Packages\Common\Infrastructure\DbalConnection: '@doctrine.dbal.default_connection'
+    App\Packages\Common\Infrastructure\DbalConnection:
+        alias: 'doctrine.dbal.default_connection'
 
     App\Packages\Common\Installation\Fixtures\FixtureRepository:
         arguments: [!tagged 'app.fixture']

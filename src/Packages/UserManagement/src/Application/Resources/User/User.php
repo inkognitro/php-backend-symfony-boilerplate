@@ -14,6 +14,7 @@ final class User extends AbstractResource
     private $emailAddress;
     private $password;
     private $role;
+    private $verificationCode;
     private $verificationCodeSentAt;
     private $verifiedAt;
     private $createdAt;
@@ -25,6 +26,7 @@ final class User extends AbstractResource
         EmailAddress $emailAddress,
         Password $password,
         Role $role,
+        ?VerificationCode $verificationCode,
         ?VerificationCodeSentAt $verificationCodeSentAt,
         ?VerifiedAt $verifiedAt,
         ?CreatedAt $createdAt,
@@ -35,6 +37,7 @@ final class User extends AbstractResource
         $this->emailAddress = $emailAddress;
         $this->password = $password;
         $this->role = $role;
+        $this->verificationCode = $verificationCode;
         $this->verificationCodeSentAt = $verificationCodeSentAt;
         $this->verifiedAt = $verifiedAt;
         $this->createdAt = $createdAt;
@@ -69,6 +72,11 @@ final class User extends AbstractResource
     public function getPassword(): Password
     {
         return $this->password;
+    }
+
+    public function getVerificationCode(): ?VerificationCode
+    {
+        return $this->verificationCode;
     }
 
     public function getVerificationCodeSentAt(): ?VerificationCodeSentAt
