@@ -7,7 +7,7 @@ use App\Packages\Common\Application\Resources\UpdatedAt;
 use App\Packages\Common\Infrastructure\DbalConnection;
 use App\Packages\UserManagement\Application\Resources\User\EmailAddress;
 use App\Packages\UserManagement\Application\Resources\User\Password;
-use App\Packages\UserManagement\Application\Resources\User\Role;
+use App\Packages\AccessManagement\Application\RoleId;
 use App\Packages\UserManagement\Application\Resources\User\Username;
 use App\Packages\UserManagement\Application\Resources\User\UserRepository;
 use App\Packages\UserManagement\Application\Resources\User\UserId;
@@ -91,7 +91,7 @@ final class DbalUserRepository implements UserRepository
             Username::fromString($data['username']),
             EmailAddress::fromString($data['emailAddress']),
             Password::fromHash($data['password']),
-            Role::fromString($data['role']),
+            RoleId::fromString($data['role']),
             $verificationCode,
             $verificationCodeSentAt,
             $verifiedAt,

@@ -2,7 +2,7 @@
 
 namespace App\Tests\Packages\UserManagement;
 
-use App\Packages\UserManagement\Application\Command\CreateUser\CreateUser;
+use App\Packages\UserManagement\Application\Commands\CreateUser\CreateUser;
 use App\Tests\Packages\PackageTestCase;
 use Ramsey\Uuid\Uuid;
 

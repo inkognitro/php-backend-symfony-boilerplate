@@ -4,5 +4,5 @@ namespace App\Packages\Common\Application\Command;
 
 interface Command
 {
-
+    public static function getHandlerClassName(): string;
 }

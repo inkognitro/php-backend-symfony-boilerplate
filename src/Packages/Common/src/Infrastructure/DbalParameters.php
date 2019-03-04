@@ -22,7 +22,7 @@ final class DbalParameters
     }
 
     /** @return DbalParameter[] */
-    public function toCollection(): array
+    public function toArray(): array
     {
         return $this->parameters;
     }

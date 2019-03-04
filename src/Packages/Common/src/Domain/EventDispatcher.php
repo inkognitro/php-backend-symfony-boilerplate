@@ -17,16 +17,15 @@ final class EventDispatcher
 
     public function dispatch(EventStream $events): void
     {
-        foreach($events->toCollection() as $event) {
+        foreach($events->toArray() as $event) {
             $this->projectEvent($event);
-            //todo: execute event subscribers here!
         }
     }
 
     public function projectEvent(AbstractEvent $event): void
     {
         $projections = $this->repository->findAll();
-        foreach($projections->toCollection() as $projection) {
+        foreach($projections->toArray() as $projection) {
             $projection->project($event);
         }
     }

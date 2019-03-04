@@ -28,11 +28,11 @@ class ExecuteCommand extends Command
     {
         $fixtures = $this->repository->findAll();
 
-        if(count($fixtures->toCollection()) === 0) {
+        if(count($fixtures->toArray()) === 0) {
             echo "No fixture available!";
         }
 
-        foreach($fixtures->toCollection() as $fixture) {
+        foreach($fixtures->toArray() as $fixture) {
             $fixture->execute();
         }
 

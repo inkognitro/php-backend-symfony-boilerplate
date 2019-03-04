@@ -7,6 +7,7 @@ use App\Packages\Common\Application\Resources\DateTimeValueObject;
 
 final class VerificationCodeSentAt extends DateTimeValueObject
 {
+    public const KEY = User::KEY . '.verificationCodeSentAt';
     public static function fromString(string $dateTime): self
     {
         return new self(DateTimeFactory::createFromString($dateTime));

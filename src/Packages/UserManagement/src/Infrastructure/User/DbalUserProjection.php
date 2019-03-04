@@ -33,8 +33,7 @@ final class DbalUserProjection implements Projection
 
     private function projectVerificationCodeWasSentToUser(VerificationCodeWasSentToUser $event): void
     {
-        $queryBuilder = $this->connection->createQueryBuilder();
-
+        //todo!
     }
 
     private function projectUserWasCreated(UserWasCreated $event): void
@@ -51,7 +50,7 @@ final class DbalUserProjection implements Projection
     }
 
     /** @return DbalParameter[] */
-    public function getFieldToParameterMapping(User $user): array
+    private function getFieldToParameterMapping(User $user): array
     {
         $createdAtParam = ($user->getCreatedAt() !== null ?
             DbalParameter::create($user->getCreatedAt()->toDateTime(), 'datetime')
@@ -78,7 +77,7 @@ final class DbalUserProjection implements Projection
             'username' => DbalParameter::create($user->getUsername()->toString()),
             'email_address' => DbalParameter::create($user->getEmailAddress()->toString()),
             'password' => DbalParameter::create($user->getPassword()->toHash()),
-            'role' => DbalParameter::create($user->getRole()->toString()),
+            'role' => DbalParameter::create($user->getRoleId()->toString()),
             'verification_code' => $verificationCode,
             'verification_code_sent_at' => $verificationCodeSentParam,
             'verified_at' => $verifiedAtParam,

@@ -6,6 +6,7 @@ use App\Packages\Common\Application\Resources\ResourceId;
 
 final class UserId implements ResourceId
 {
+    public const KEY = User::KEY . '.id';
     private $id;
 
     private function __construct(string $id)

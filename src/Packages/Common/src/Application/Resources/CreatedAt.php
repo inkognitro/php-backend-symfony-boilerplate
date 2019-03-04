@@ -6,6 +6,8 @@ use App\Packages\Common\Application\DateTimeFactory;
 
 final class CreatedAt extends DateTimeValueObject
 {
+    public const KEY = 'createdAt';
+
     public static function fromString(string $dateTime): self
     {
         return new self(DateTimeFactory::createFromString($dateTime));

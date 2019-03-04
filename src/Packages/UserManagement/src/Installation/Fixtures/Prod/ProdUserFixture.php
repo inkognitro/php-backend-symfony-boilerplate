@@ -7,7 +7,7 @@ use App\Packages\Common\Application\Authorization\UserFactory as AuthUserFactory
 use App\Packages\Common\Application\CommandBus;
 use App\Packages\Common\Application\HandlerResponse\Success;
 use App\Packages\Common\Installation\Fixtures\AbstractFixture;
-use App\Packages\UserManagement\Application\Command\CreateUser\CreateUser;
+use App\Packages\UserManagement\Application\Commands\CreateUser\CreateUser;
 use LogicException;
 
 final class ProdUserFixture extends AbstractFixture

@@ -13,7 +13,7 @@ final class EventStream
     }
 
     /** @return AbstractEvent[] */
-    public function toCollection(): array
+    public function toArray(): array
     {
         return $this->events;
     }

@@ -17,7 +17,7 @@ abstract class AbstractAggregate
     protected function recordEvent(AbstractEvent $event): void
     {
         $this->recordedEvents = new EventStream(
-            array_merge($this->recordedEvents->toCollection(), $event)
+            array_merge($this->recordedEvents->toArray(), $event)
         );
     }
 

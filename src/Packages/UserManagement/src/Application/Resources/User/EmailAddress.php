@@ -4,7 +4,7 @@ namespace App\Packages\UserManagement\Application\Resources\User;
 
 final class EmailAddress
 {
-    public const NAME = 'emailAddress';
+    public const KEY = User::KEY . '.emailAddress';
     private $emailAddress;
 
     private function __construct(string $emailAddress)

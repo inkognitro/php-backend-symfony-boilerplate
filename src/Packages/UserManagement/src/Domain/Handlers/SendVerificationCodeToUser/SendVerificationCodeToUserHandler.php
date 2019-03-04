@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\UserManagement\Application\Command\SendVerificationCodeToUser;
+namespace App\Packages\UserManagement\Domain\Handlers\SendVerificationCodeToUser;
 
 use App\Packages\Common\Application\Authorization\User\User as AuthUser;
 use App\Packages\Common\Application\HandlerResponse\ResourceNotFoundResponse;
@@ -9,6 +9,7 @@ use App\Packages\Common\Application\HandlerResponse\SuccessResponse;
 use App\Packages\Common\Application\Mailing\Mailer;
 use App\Packages\Common\Application\Validation\Messages\MessageBag;
 use App\Packages\Common\Domain\EventDispatcher;
+use App\Packages\UserManagement\Application\Command\SendVerificationCodeToUser\SendVerificationCodeToUser;
 use App\Packages\UserManagement\Application\Resources\User\User;
 use App\Packages\UserManagement\Application\Resources\User\UserId;
 use App\Packages\UserManagement\Application\Resources\User\UserRepository;

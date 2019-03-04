@@ -1,16 +1,22 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\UserManagement\Application\Command\CreateUser;
+namespace App\Packages\UserManagement\Application\Commands\CreateUser;
 
 use App\Packages\Common\Application\Command\Command;
+use App\Packages\UserManagement\Application\Command\CreateUser\CreateUserHandler;
+use App\Packages\UserManagement\Application\Resources\User\EmailAddress;
+use App\Packages\UserManagement\Application\Resources\User\Password;
+use App\Packages\AccessManagement\Application\RoleId;
+use App\Packages\UserManagement\Application\Resources\User\UserId;
+use App\Packages\UserManagement\Application\Resources\User\Username;
 
 final class CreateUser implements Command
 {
-    public const ID = 'id';
-    public const USERNAME = 'username';
-    public const PASSWORD = 'password';
-    public const EMAIL_ADDRESS = 'emailAddress';
-    public const ROLE = 'role';
+    public const ID = UserId::KEY;
+    public const USERNAME = Username::KEY;
+    public const PASSWORD = Password::KEY;
+    public const EMAIL_ADDRESS = EmailAddress::KEY;
+    public const ROLE = RoleId::KEY;
     public const SEND_INVITATION = 'sendInvitation';
 
     private $userId;
@@ -19,6 +25,11 @@ final class CreateUser implements Command
     private $password;
     private $role;
     private $sendInvitation;
+
+    public static function getHandlerClassName(): string
+    {
+        return CreateUserHandler::class;
+    }
 
     private function __construct(
         string $userId,
@@ -37,15 +48,15 @@ final class CreateUser implements Command
         $this->sendInvitation = $sendInvitation;
     }
 
-    public static function fromArray(array $array): self
+    public static function fromArray(array $data): self
     {
         return new self(
-            $array['id'],
-            $array['username'],
-            $array[self::EMAIL_ADDRESS],
-            $array['password'],
-            ($array['role'] ?? null),
-            $array['sendInvitation']
+            $data[self::ID],
+            $data[self::USERNAME],
+            $data[self::EMAIL_ADDRESS],
+            $data[self::PASSWORD],
+            ($data[self::ROLE] ?? null),
+            $data[self::SEND_INVITATION]
         );
     }
 

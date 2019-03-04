@@ -4,6 +4,7 @@ namespace App\Packages\UserManagement\Application\Resources\User;
 
 final class Password
 {
+    public const KEY = User::KEY . '.password';
     private $passwordHash;
 
     private function __construct(string $passwordHash)

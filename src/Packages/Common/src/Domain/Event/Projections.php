@@ -13,7 +13,7 @@ final class Projections
     }
 
     /** @return Projection[] */
-    public function toCollection(): array
+    public function toArray(): array
     {
         return $this->projections;
     }

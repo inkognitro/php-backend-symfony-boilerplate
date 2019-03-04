@@ -13,7 +13,7 @@ final class Fixtures
     }
 
     /** @return AbstractFixture[] */
-    public function toCollection(): array
+    public function toArray(): array
     {
         return $this->fixtures;
     }

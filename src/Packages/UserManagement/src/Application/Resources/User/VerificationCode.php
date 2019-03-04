@@ -4,6 +4,7 @@ namespace App\Packages\UserManagement\Application\Resources\User;
 
 final class VerificationCode
 {
+    public const KEY = User::KEY . '.verificationCode';
     private $code;
 
     private function __construct(string $code)

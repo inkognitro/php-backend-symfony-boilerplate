@@ -13,7 +13,7 @@ final class Migrations
     }
 
     /** @return AbstractMigration[] */
-    public function toCollection(): array
+    public function toArray(): array
     {
         return $this->migrations;
     }

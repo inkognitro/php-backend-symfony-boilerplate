@@ -41,7 +41,7 @@ class RollbackCommand extends Command
         $executedMigrations = $this->repository->findAllExecuted();
         $migrationsToRollback = $this->getMigrationsToRollback($executedMigrations);
 
-        if(count($migrationsToRollback->toCollection()) === 0) {
+        if(count($migrationsToRollback->toArray()) === 0) {
             echo "Nothing to rollback!" . PHP_EOL;
             return;
         }
@@ -49,7 +49,7 @@ class RollbackCommand extends Command
         $schemaManager = $this->connection->getSchemaManager();
         $fromSchema = $schemaManager->createSchema();
 
-        foreach($migrationsToRollback->toCollection() as $migration) {
+        foreach($migrationsToRollback->toArray() as $migration) {
             $toSchema = clone $fromSchema;
 
             $migration->schemaDownBeforeDataRollback($toSchema);
@@ -70,7 +70,7 @@ class RollbackCommand extends Command
 
         $executedMigrations = $this->repository->findAllExecuted();
 
-        if(count($executedMigrations->toCollection()) === 0) {
+        if(count($executedMigrations->toArray()) === 0) {
             echo 'Rolled successfully back to point zero.' . PHP_EOL;
             return;
         }
@@ -81,14 +81,14 @@ class RollbackCommand extends Command
 
     private function getMigrationsToRollback(Migrations $executedMigrations): Migrations
     {
-        if(count($executedMigrations->toCollection()) === 0) {
+        if(count($executedMigrations->toArray()) === 0) {
             return new Migrations([]);
         }
 
         $latestExecutedBatchNumber = ($executedMigrations->getHighestBatchNumber());
 
         $migrations = [];
-        foreach($executedMigrations->toCollection() as $migration) {
+        foreach($executedMigrations->toArray() as $migration) {
             if($migration->getBatchNumber() !== $latestExecutedBatchNumber) {
                 continue;
             }

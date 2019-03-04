@@ -7,7 +7,6 @@ use App\Packages\Common\Application\Resources\AbstractResource;
 use App\Packages\Common\Application\Resources\Events\AbstractEvent;
 use App\Packages\Common\Application\Resources\Events\EventId;
 use App\Packages\Common\Application\Resources\Events\OccurredAt;
-use App\Packages\UserManagement\Application\Resources\Events\UserPayload;
 use App\Packages\UserManagement\Application\Resources\User\User;
 
 final class UserWasCreated extends AbstractEvent

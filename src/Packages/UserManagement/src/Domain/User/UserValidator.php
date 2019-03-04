@@ -2,6 +2,7 @@
 
 namespace App\Packages\UserManagement\Domain\User;
 
+use App\Packages\AccessManagement\Application\Role\RoleId;
 use App\Packages\Common\Application\Authorization\RolesRepository;
 use App\Packages\Common\Application\Resources\AbstractResource;
 use App\Packages\Common\Application\Validation\Messages\DoesAlreadyExistMessage;
@@ -11,7 +12,10 @@ use App\Packages\Common\Application\Validation\Rules\EmptyOrEmailAddressRule;
 use App\Packages\Common\Application\Validation\Rules\EmptyOrUuidRule;
 use App\Packages\Common\Application\Validation\Rules\NotEmptyRule;
 use App\Packages\Common\Domain\AbstractResourceValidator;
+use App\Packages\UserManagement\Application\Resources\User\EmailAddress;
 use App\Packages\UserManagement\Application\Resources\User\User;
+use App\Packages\UserManagement\Application\Resources\User\UserId;
+use App\Packages\UserManagement\Application\Resources\User\Username;
 use App\Packages\UserManagement\Application\Resources\User\UserRepository;
 use InvalidArgumentException;
 
@@ -42,7 +46,7 @@ final class UserValidator extends AbstractResourceValidator
 
     private function validateUserId(User $user): void
     {
-        $errorKey = 'id';
+        $errorKey = UserId::KEY;
 
         $errorMessage = NotEmptyRule::getMessageFromValidation($user->getId()->toString());
         if($errorMessage !== null) {
@@ -58,7 +62,7 @@ final class UserValidator extends AbstractResourceValidator
 
     private function validateUsername(User $user): void
     {
-        $errorKey = 'username';
+        $errorKey = Username::KEY;
 
         $errorMessage = NotEmptyRule::getMessageFromValidation($user->getUsername()->toString());
         if($errorMessage !== null) {
@@ -74,7 +78,7 @@ final class UserValidator extends AbstractResourceValidator
 
     private function validateEmailAddress(User $user): void
     {
-        $errorKey = 'emailAddress';
+        $errorKey = EmailAddress::KEY;
 
         $errorMessage = NotEmptyRule::getMessageFromValidation($user->getEmailAddress()->toString());
         if($errorMessage !== null) {
@@ -96,15 +100,15 @@ final class UserValidator extends AbstractResourceValidator
 
     private function validateRole(User $user): void
     {
-        $errorKey = 'role';
+        $errorKey = RoleId::KEY;
 
-        $errorMessage = NotEmptyRule::getMessageFromValidation($user->getRole()->toString());
+        $errorMessage = NotEmptyRule::getMessageFromValidation($user->getRoleId()->toString());
         if($errorMessage !== null) {
             $this->errors->addMessage($errorKey, $errorMessage);
             return;
         }
 
-        if(!in_array($user->getRole()->toString(), $this->rolesRepository->findAll())) {
+        if(!in_array($user->getRoleId()->toString(), $this->rolesRepository->findAll())) {
             $this->errors->addMessage($errorKey, new DoesNotExistMessage());
             return;
         }

@@ -27,7 +27,7 @@ class RoutingLoader extends Loader
         }
 
         $routes = new RouteCollection();
-        foreach($this->endpoints->toCollection() as $endpoint) {
+        foreach($this->endpoints->toIterable() as $endpoint) {
             /** @var $endpoint Endpoint */
             $endpointClassName = get_class($endpoint);
             $routes->add($endpointClassName, $this->createRoute($endpoint));

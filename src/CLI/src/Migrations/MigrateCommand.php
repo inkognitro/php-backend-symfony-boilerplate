@@ -37,7 +37,7 @@ class MigrateCommand extends Command
     {
         $migrations = $this->getMigrationsToMigrate();
 
-        if (count($migrations->toCollection()) === 0) {
+        if (count($migrations->toArray()) === 0) {
             echo "Nothing to migrate!" . PHP_EOL;
             return;
         }
@@ -45,7 +45,7 @@ class MigrateCommand extends Command
         $schemaManager = $this->connection->getSchemaManager();
         $fromSchema = $schemaManager->createSchema();
 
-        foreach ($migrations->toCollection() as $migration) {
+        foreach ($migrations->toArray() as $migration) {
             $toSchema = clone $fromSchema;
 
             $migration->schemaUp($toSchema);
@@ -61,7 +61,7 @@ class MigrateCommand extends Command
             echo 'Migrated: ' . get_class($migration) . PHP_EOL;
         }
 
-        $batchNumber = $migrations->toCollection()[0]->getBatchNumber();
+        $batchNumber = $migrations->toArray()[0]->getBatchNumber();
         echo "Migrated successfully to batch {$batchNumber}." . PHP_EOL;
     }
 
@@ -69,7 +69,7 @@ class MigrateCommand extends Command
     {
         $notExecutedMigrations = $this->repository->findAllNotExecuted();
 
-        if (count($notExecutedMigrations->toCollection()) === 0) {
+        if (count($notExecutedMigrations->toArray()) === 0) {
             return new Migrations([]);
         }
 
@@ -77,14 +77,14 @@ class MigrateCommand extends Command
         $latestBatchNumber = ($executedMigrations->getHighestBatchNumber());
 
         $nextBatchesMigrations = $notExecutedMigrations->findAllWithHigherBatchNumber($latestBatchNumber);
-        if (count($nextBatchesMigrations->toCollection()) === 0) {
+        if (count($nextBatchesMigrations->toArray()) === 0) {
             return new Migrations([]);
         }
 
         $batchNumber = $nextBatchesMigrations->getLowestBatchNumber();
 
         $migrations = [];
-        foreach ($nextBatchesMigrations->toCollection() as $migration) {
+        foreach ($nextBatchesMigrations->toArray() as $migration) {
             if ($migration->getBatchNumber() !== $batchNumber) {
                 continue;
             }

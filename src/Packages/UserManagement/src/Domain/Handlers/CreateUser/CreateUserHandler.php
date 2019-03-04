@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\UserManagement\Application\Command\CreateUser;
+namespace App\Packages\UserManagement\Domain\CommandHandling\CreateUser;
 
 use App\Packages\Common\Application\Authorization\User\User as AuthUser;
 use App\Packages\Common\Application\HandlerResponse\Response;
@@ -13,7 +13,7 @@ use App\Packages\JobQueuing\Application\Command\CreateJob\CreateJobHandler;
 use App\Packages\UserManagement\Application\Command\SendVerificationCodeToUser\SendVerificationCodeToUser;
 use App\Packages\UserManagement\Application\Resources\User\EmailAddress;
 use App\Packages\UserManagement\Application\Resources\User\Password;
-use App\Packages\UserManagement\Application\Resources\User\Role;
+use App\Packages\AccessManagement\Application\RoleId;
 use App\Packages\UserManagement\Application\Resources\User\User;
 use App\Packages\UserManagement\Application\Resources\User\Username;
 use App\Packages\UserManagement\Application\Resources\User\UserRepository;
@@ -80,7 +80,7 @@ final class CreateUserHandler
             Username::fromString($command->getUsername()),
             EmailAddress::fromString($command->getEmailAddress()),
             Password::fromString($command->getEmailAddress()),
-            Role::fromString($role),
+            RoleId::fromString($role),
             $verificationCode,
             $verificationCodeSentAt,
             $verifiedAt,
@@ -91,7 +91,7 @@ final class CreateUserHandler
 
     private function queueSendVerificationCode(User $user): void
     {
-        $command = SendVerificationCodeToUser::create($user->getId()->toString());
+        $command = SendVerificationCodeToUser::fromUserId($user->getId()->toString());
         $this->createJobHandler->handle(CreateJob::create($command));
     }
 }

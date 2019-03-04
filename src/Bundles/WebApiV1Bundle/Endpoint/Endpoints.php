@@ -11,7 +11,7 @@ final class Endpoints
         $this->endpoints = $endpoints;
     }
 
-    public function toCollection(): iterable
+    public function toIterable(): iterable
     {
         return $this->endpoints;
     }
