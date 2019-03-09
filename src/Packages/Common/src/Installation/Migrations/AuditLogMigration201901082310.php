@@ -22,9 +22,9 @@ final class AuditLogMigration201901082310 extends AbstractMigration
         $table = $schema->createTable('audit_log');
         $table->addColumn('id', Type::GUID);
         $table->addColumn('sequence_number', Type::INTEGER, ['autoincrement' => true]);
-        $table->addColumn('event_class_name', Type::STRING, ['length' => 128]);
-        $table->addColumn('resource_class_name', Type::STRING, ['length' => 128, 'notnull' => false]);
-        $table->addColumn('resource_id', Type::GUID, ['notnull' => false]);
+        $table->addColumn('event', Type::STRING, ['length' => 128]);
+        $table->addColumn('aggregate_type', Type::STRING, ['length' => 128, 'notnull' => false]);
+        $table->addColumn('aggregate_id', Type::GUID, ['notnull' => false]);
         $table->addColumn('previous_payload', Type::TEXT, ['notnull' => false]);
         $table->addColumn('payload', Type::TEXT);
         $table->addColumn('auth_user_role', Type::STRING, ['length' => 16]);

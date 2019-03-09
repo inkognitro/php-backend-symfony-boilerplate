@@ -2,7 +2,7 @@
 
 namespace App\Packages\Common\Application\HandlerResponse;
 
-use App\Packages\Common\Application\Resources\AbstractResource;
+use App\Packages\Common\Domain\AbstractResource;
 use App\Packages\Common\Application\Validation\Messages\MessageBag;
 
 final class ResourceCreatedResponse implements Success

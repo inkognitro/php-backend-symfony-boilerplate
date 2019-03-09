@@ -2,16 +2,16 @@
 
 namespace App\Packages\UserManagement\Infrastructure\User;
 
-use App\Packages\Common\Application\Resources\Events\AbstractEvent;
-use App\Packages\Common\Domain\Event\Projection;
+use App\Packages\Common\Domain\Events\AbstractEvent;
 use App\Packages\Common\Infrastructure\DbalConnection;
 use App\Packages\Common\Infrastructure\DbalParameter;
 use App\Packages\Common\Infrastructure\DbalParameters;
-use App\Packages\UserManagement\Application\Resources\Events\UserWasCreated;
-use App\Packages\UserManagement\Application\Resources\Events\VerificationCodeWasSentToUser;
-use App\Packages\UserManagement\Application\Resources\User\User;
+use App\Packages\UserManagement\Domain\User\Events\UserWasCreated;
+use App\Packages\UserManagement\Domain\User\Events\VerificationCodeWasSentToUser;
+use App\Packages\UserManagement\Domain\User\User;
+use App\Packages\UserManagement\Domain\User\UserProjection;
 
-final class DbalUserProjection implements Projection
+final class DbalUserProjection implements UserProjection
 {
     private $connection;
 
@@ -20,7 +20,7 @@ final class DbalUserProjection implements Projection
         $this->connection = $connection;
     }
 
-    public function project(AbstractEvent $event): void
+    public function when(AbstractEvent $event): void
     {
         if ($event instanceof UserWasCreated) {
             $this->projectUserWasCreated($event);

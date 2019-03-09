@@ -3,9 +3,9 @@
 namespace App\Packages\JobQueuing\Application\Resources\Events;
 
 use App\Packages\Common\Application\Command\Command;
-use App\Packages\Common\Application\Resources\CreatedAt;
-use App\Packages\Common\Application\Resources\ExecutedAt;
-use App\Packages\Common\Application\Resources\Events\AbstractPayload;
+use App\Packages\Common\Domain\CreatedAt;
+use App\Packages\Common\Domain\ExecutedAt;
+use App\Packages\Common\Domain\Events\AbstractPayload;
 use App\Packages\JobQueuing\Application\Resources\Job\Job;
 use App\Packages\JobQueuing\Application\Resources\Job\JobId;
 

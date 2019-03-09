@@ -4,38 +4,32 @@ namespace App\Packages\UserManagement\Domain\User;
 
 use App\Packages\AccessManagement\Application\Role\RoleId;
 use App\Packages\Common\Application\Authorization\RolesRepository;
-use App\Packages\Common\Application\Resources\AbstractResource;
 use App\Packages\Common\Application\Validation\Messages\DoesAlreadyExistMessage;
 use App\Packages\Common\Application\Validation\Messages\DoesNotExistMessage;
 use App\Packages\Common\Application\Validation\Messages\MessageBag;
 use App\Packages\Common\Application\Validation\Rules\EmptyOrEmailAddressRule;
 use App\Packages\Common\Application\Validation\Rules\EmptyOrUuidRule;
 use App\Packages\Common\Application\Validation\Rules\NotEmptyRule;
-use App\Packages\Common\Domain\AbstractResourceValidator;
-use App\Packages\UserManagement\Application\Resources\User\EmailAddress;
-use App\Packages\UserManagement\Application\Resources\User\User;
-use App\Packages\UserManagement\Application\Resources\User\UserId;
-use App\Packages\UserManagement\Application\Resources\User\Username;
-use App\Packages\UserManagement\Application\Resources\User\UserRepository;
-use InvalidArgumentException;
+use App\Packages\Common\Domain\Validator;
+use App\Packages\UserManagement\Domain\User\Attributes\Values\EmailAddress;
+use App\Packages\UserManagement\Domain\User\Attributes\Values\UserId;
+use App\Packages\UserManagement\Domain\User\Attributes\Values\Username;
+use App\Packages\UserManagement\Domain\User\UserQuery;
 
-final class UserValidator extends AbstractResourceValidator
+final class UserValidator extends Validator
 {
     private $userRepository;
     private $rolesRepository;
 
-    public function __construct(UserRepository $userRepository, RolesRepository $rolesRepository)
+    public function __construct(UserQuery $userRepository, RolesRepository $rolesRepository)
     {
         parent::__construct();
         $this->userRepository = $userRepository;
         $this->rolesRepository = $rolesRepository;
     }
 
-    public function validate(AbstractResource $user): void
+    public function validate(User $user): void
     {
-        if(!$user instanceof User) {
-            throw new InvalidArgumentException('Variable $user must be an instance of ' . User::class . '!');
-        }
         $this->warnings = new MessageBag();
         $this->errors = new MessageBag();
         $this->validateUserId($user);

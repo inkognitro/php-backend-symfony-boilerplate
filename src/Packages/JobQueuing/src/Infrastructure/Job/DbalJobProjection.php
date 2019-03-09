@@ -2,8 +2,8 @@
 
 namespace App\Packages\JobQueuing\Infrastructure\Job;
 
-use App\Packages\Common\Application\Resources\Events\AbstractEvent;
-use App\Packages\Common\Domain\Event\Projection;
+use App\Packages\Common\Domain\Events\AbstractEvent;
+use App\Packages\Common\Domain\Projection;
 use App\Packages\Common\Infrastructure\DbalConnection;
 use App\Packages\JobQueuing\Application\Resources\Events\JobWasCreated;
 
@@ -16,7 +16,7 @@ final class DbalJobProjection implements Projection
         $this->connection = $connection;
     }
 
-    public function project(AbstractEvent $event): void
+    public function when(AbstractEvent $event): void
     {
         if ($event instanceof JobWasCreated) {
             $this->projectJobWasCreated($event);

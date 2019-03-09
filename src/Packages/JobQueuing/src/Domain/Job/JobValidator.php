@@ -2,16 +2,15 @@
 
 namespace App\Packages\JobQueuing\Domain\Job;
 
-use App\Packages\Common\Application\Resources\AbstractResource;
 use App\Packages\Common\Application\Validation\Messages\MessageBag;
 use App\Packages\Common\Application\Validation\Rules\EmptyOrUuidRule;
 use App\Packages\Common\Application\Validation\Rules\NotEmptyRule;
-use App\Packages\Common\Domain\AbstractResourceValidator;
+use App\Packages\Common\Domain\Validator;
 use App\Packages\JobQueuing\Application\Resources\Job\Job;
 use App\Packages\JobQueuing\Application\Resources\Job\JobRepository;
 use InvalidArgumentException;
 
-final class JobValidator extends AbstractResourceValidator
+final class JobValidator extends Validator
 {
     private $jobRepository;
 
@@ -21,7 +20,7 @@ final class JobValidator extends AbstractResourceValidator
         $this->jobRepository = $jobRepository;
     }
 
-    public function validate(AbstractResource $job): void
+    public function validate(Job $job): void
     {
         if(!$job instanceof Job) {
             throw new InvalidArgumentException('Variable $resource must be an instance of ' . Job::class . '!');

@@ -2,31 +2,30 @@
 
 namespace App\Packages\Common\Domain;
 
-use App\Packages\Common\Application\Resources\Events\AbstractEvent;
-use App\Packages\Common\Application\Resources\Events\EventStream;
-use App\Packages\Common\Domain\Event\ProjectionRepository;
+use App\Packages\Common\Domain\Events\AbstractEvent;
+use App\Packages\Common\Domain\Events\EventStream;
 
 final class EventDispatcher
 {
-    private $repository;
+    private $auditLogProjection;
 
-    public function __construct(ProjectionRepository $repository)
+    public function __construct(AuditLogProjection $auditLogProjection)
     {
-        $this->repository = $repository;
+        $this->auditLogProjection = $auditLogProjection;
     }
 
-    public function dispatch(EventStream $events): void
+    public function dispatch(EventStream $events, Projections $projections): void
     {
         foreach($events->toArray() as $event) {
-            $this->projectEvent($event);
+            $this->projectEvent($event, $projections);
         }
     }
 
-    public function projectEvent(AbstractEvent $event): void
+    public function projectEvent(AbstractEvent $event, Projections $projections): void
     {
-        $projections = $this->repository->findAll();
+        $this->auditLogProjection->when($event);
         foreach($projections->toArray() as $projection) {
-            $projection->project($event);
+            $projection->when($event);
         }
     }
 }

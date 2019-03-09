@@ -10,10 +10,10 @@ use App\Packages\Common\Application\Mailing\Mailer;
 use App\Packages\Common\Application\Validation\Messages\MessageBag;
 use App\Packages\Common\Domain\EventDispatcher;
 use App\Packages\UserManagement\Application\Command\SendVerificationCodeToUser\SendVerificationCodeToUser;
-use App\Packages\UserManagement\Application\Resources\User\User;
-use App\Packages\UserManagement\Application\Resources\User\UserId;
-use App\Packages\UserManagement\Application\Resources\User\UserRepository;
-use App\Packages\UserManagement\Application\Resources\User\VerificationCode;
+use App\Packages\UserManagement\Domain\User\Attributes\Values\User;
+use App\Packages\UserManagement\Domain\User\Attributes\Values\UserId;
+use App\Packages\UserManagement\Domain\User\UserQuery;
+use App\Packages\UserManagement\Domain\User\Attributes\Values\VerificationCode;
 use App\Packages\UserManagement\Domain\User\UserAggregate;
 
 final class SendVerificationCodeToUserHandler
@@ -22,7 +22,7 @@ final class SendVerificationCodeToUserHandler
     private $userRepository;
     private $mailer;
 
-    public function __construct(EventDispatcher $eventDispatcher, UserRepository $userRepository, Mailer $mailer)
+    public function __construct(EventDispatcher $eventDispatcher, UserQuery $userRepository, Mailer $mailer)
     {
         $this->eventDispatcher = $eventDispatcher;
         $this->userRepository = $userRepository;

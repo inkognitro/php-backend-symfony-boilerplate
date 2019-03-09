@@ -3,12 +3,11 @@
 namespace App\Packages\UserManagement\Domain\User;
 
 use App\Packages\Common\Application\Authorization\User\User as AuthUser;
-use App\Packages\Common\Application\Resources\Events\EventStream;
+use App\Packages\Common\Domain\Events\EventStream;
 use App\Packages\Common\Domain\AbstractAggregate;
-use App\Packages\UserManagement\Application\Resources\Events\UserWasCreated;
-use App\Packages\UserManagement\Application\Resources\Events\VerificationCodeWasSentToUser;
-use App\Packages\UserManagement\Application\Resources\User\User;
-use App\Packages\UserManagement\Application\Resources\User\VerificationCode;
+use App\Packages\UserManagement\Domain\User\Events\UserWasCreated;
+use App\Packages\UserManagement\Domain\User\Events\VerificationCodeWasSentToUser;
+use App\Packages\UserManagement\Domain\User\Attributes\Values\VerificationCode;
 
 final class UserAggregate extends AbstractAggregate
 {

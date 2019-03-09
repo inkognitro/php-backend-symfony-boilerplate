@@ -4,11 +4,11 @@ namespace App\Packages\UserManagement\Application\Commands\CreateUser;
 
 use App\Packages\Common\Application\Command\Command;
 use App\Packages\UserManagement\Application\Command\CreateUser\CreateUserHandler;
-use App\Packages\UserManagement\Application\Resources\User\EmailAddress;
-use App\Packages\UserManagement\Application\Resources\User\Password;
+use App\Packages\UserManagement\Domain\User\Attributes\Values\EmailAddress;
+use App\Packages\UserManagement\Domain\User\Attributes\Values\Password;
 use App\Packages\AccessManagement\Application\RoleId;
-use App\Packages\UserManagement\Application\Resources\User\UserId;
-use App\Packages\UserManagement\Application\Resources\User\Username;
+use App\Packages\UserManagement\Domain\User\Attributes\Values\UserId;
+use App\Packages\UserManagement\Domain\User\Attributes\Values\Username;
 
 final class CreateUser implements Command
 {

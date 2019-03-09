@@ -2,8 +2,8 @@
 
 namespace App\Packages\Common\Domain;
 
-use App\Packages\Common\Application\Resources\Events\AbstractEvent;
-use App\Packages\Common\Application\Resources\Events\EventStream;
+use App\Packages\Common\Domain\Events\AbstractEvent;
+use App\Packages\Common\Domain\Events\EventStream;
 
 abstract class AbstractAggregate
 {

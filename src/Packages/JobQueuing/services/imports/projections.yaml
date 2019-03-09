@@ -1,6 +1,6 @@
 services:
     _defaults:
         autowire: true
-        tags: ['app.event_projection']
 
-    App\Packages\JobQueuing\Infrastructure\Job\DbalJobProjection: ~
+    App\Packages\JobQueuing\Domain\Job\JobProjection:
+        class: App\Packages\JobQueuing\Infrastructure\Job\DbalJobProjection

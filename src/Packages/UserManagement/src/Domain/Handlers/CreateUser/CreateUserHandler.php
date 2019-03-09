@@ -2,47 +2,48 @@
 
 namespace App\Packages\UserManagement\Domain\CommandHandling\CreateUser;
 
+use App\Packages\AccessManagement\Application\Role\RoleId;
 use App\Packages\Common\Application\Authorization\User\User as AuthUser;
 use App\Packages\Common\Application\HandlerResponse\Response;
 use App\Packages\Common\Application\HandlerResponse\ValidationErrorResponse;
 use App\Packages\Common\Application\HandlerResponse\UnauthorizedResponse;
 use App\Packages\Common\Application\HandlerResponse\ResourceCreatedResponse;
-use App\Packages\Common\Domain\EventDispatcher;
 use App\Packages\JobQueuing\Application\Command\CreateJob\CreateJob;
 use App\Packages\JobQueuing\Application\Command\CreateJob\CreateJobHandler;
 use App\Packages\UserManagement\Application\Command\SendVerificationCodeToUser\SendVerificationCodeToUser;
-use App\Packages\UserManagement\Application\Resources\User\EmailAddress;
-use App\Packages\UserManagement\Application\Resources\User\Password;
-use App\Packages\AccessManagement\Application\RoleId;
-use App\Packages\UserManagement\Application\Resources\User\User;
-use App\Packages\UserManagement\Application\Resources\User\Username;
-use App\Packages\UserManagement\Application\Resources\User\UserRepository;
+use App\Packages\UserManagement\Application\Commands\CreateUser\CreateUser;
+use App\Packages\UserManagement\Domain\User\Attributes\Values\EmailAddress;
+use App\Packages\UserManagement\Domain\User\Attributes\Values\Password;
+use App\Packages\UserManagement\Domain\User\User;
+use App\Packages\UserManagement\Domain\User\Attributes\Values\Username;
+use App\Packages\UserManagement\Domain\User\UserQuery;
+use App\Packages\UserManagement\Domain\User\UserRepository;
 use App\Packages\UserManagement\Domain\User\UserValidator;
-use App\Packages\UserManagement\Application\Resources\User\UserId;
+use App\Packages\UserManagement\Domain\User\Attributes\Values\UserId;
 use App\Packages\UserManagement\Domain\User\UserAggregate;
 
 final class CreateUserHandler
 {
     private $validator;
+    private $userQuery;
     private $userRepository;
-    private $eventDispatcher;
     private $createJobHandler;
 
     public function __construct(
         UserValidator $validator,
+        UserQuery $userQuery,
         UserRepository $userRepository,
-        EventDispatcher $eventDispatcher,
         CreateJobHandler $createJobHandler
     ) {
         $this->validator = $validator;
+        $this->userQuery = $userQuery;
         $this->userRepository = $userRepository;
-        $this->eventDispatcher = $eventDispatcher;
         $this->createJobHandler = $createJobHandler;
     }
 
     public function handle(CreateUser $command, AuthUser $creator): Response
     {
-        $user = $this->userRepository->findById(UserId::fromString($command->getUserId()));
+        $user = $this->userQuery->findById(UserId::fromString($command->getUserId()));
         if ($user !== null) {
             return new UnauthorizedResponse();
         }
@@ -58,7 +59,7 @@ final class CreateUserHandler
         }
 
         $userAggregate = UserAggregate::fromNewUser($user, $creator);
-        $this->eventDispatcher->dispatch($userAggregate->getRecordedEvents());
+        $this->userRepository->save($userAggregate);
 
         if($command->sendInvitation()) {
             $this->queueSendVerificationCode($user);

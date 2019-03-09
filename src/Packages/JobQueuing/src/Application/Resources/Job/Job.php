@@ -3,12 +3,10 @@
 namespace App\Packages\JobQueuing\Application\Resources\Job;
 
 use App\Packages\Common\Application\Command\Command;
-use App\Packages\Common\Application\Resources\AbstractResource;
-use App\Packages\Common\Application\Resources\CreatedAt;
-use App\Packages\Common\Application\Resources\ExecutedAt;
-use App\Packages\Common\Application\Resources\ResourceId;
+use App\Packages\Common\Domain\CreatedAt;
+use App\Packages\Common\Domain\ExecutedAt;
 
-final class Job extends AbstractResource
+final class Job
 {
     private $id;
     private $command;
@@ -25,11 +23,6 @@ final class Job extends AbstractResource
         $this->command = $command;
         $this->createdAt = $createdAt;
         $this->executedAt = $executedAt;
-    }
-
-    public function getResourceId(): ResourceId
-    {
-        return $this->id;
     }
 
     public function getId(): JobId

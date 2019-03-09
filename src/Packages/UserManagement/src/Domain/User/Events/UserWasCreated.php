@@ -1,34 +1,34 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\JobQueuing\Application\Resources\Events;
+namespace App\Packages\UserManagement\Domain\User\Events;
 
 use App\Packages\Common\Application\Authorization\User\User as AuthUser;
 use App\Packages\Common\Domain\Events\AbstractEvent;
 use App\Packages\Common\Domain\Events\EventId;
 use App\Packages\Common\Domain\Events\OccurredAt;
-use App\Packages\JobQueuing\Application\Resources\Job\Job;
+use App\Packages\UserManagement\Domain\User\User;
 
-final class JobWasCreated extends AbstractEvent
+final class UserWasCreated extends AbstractEvent
 {
-    public static function occur(Job $job, AuthUser $authUser): self
+    public static function occur(User $user, AuthUser $authUser): self
     {
         $previousPayload = null;
         $occurredAt = OccurredAt::create();
-        $payload = JobPayload::fromJob($job, [
+        $payload = UserPayload::fromUser($user, [
             'createdAt' => $occurredAt->toString()
         ]);
         return new self(EventId::create(), $occurredAt, $authUser, $payload, $previousPayload);
     }
 
-    public function getJob(): Job
+    public function getUser(): User
     {
-        /** @var $payload JobPayload */
+        /** @var $payload UserPayload */
         $payload = $this->getPayload();
-        return $payload->toJob();
+        return $payload->toUser();
     }
 
     public function mustBeLogged(): bool
     {
-        return false;
+        return true;
     }
 }

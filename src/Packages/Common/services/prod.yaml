@@ -17,9 +17,6 @@ services:
     App\Packages\Common\Application\Command\CommandHandlerRepository:
         arguments: [!tagged 'app.command_handler']
 
-    App\Packages\Common\Domain\Event\ProjectionRepository:
-        arguments: [!tagged 'app.event_projection']
-
     App\Packages\Common\Infrastructure\DbalConnection:
         alias: 'doctrine.dbal.default_connection'
 

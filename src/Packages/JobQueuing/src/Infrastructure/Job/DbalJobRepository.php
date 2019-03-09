@@ -2,8 +2,8 @@
 
 namespace App\Packages\JobQueuing\Infrastructure\Job;
 
-use App\Packages\Common\Application\Resources\CreatedAt;
-use App\Packages\Common\Application\Resources\ExecutedAt;
+use App\Packages\Common\Domain\CreatedAt;
+use App\Packages\Common\Domain\ExecutedAt;
 use App\Packages\Common\Infrastructure\DbalConnection;
 use App\Packages\JobQueuing\Application\Resources\Job\Job;
 use App\Packages\JobQueuing\Application\Resources\Job\JobId;

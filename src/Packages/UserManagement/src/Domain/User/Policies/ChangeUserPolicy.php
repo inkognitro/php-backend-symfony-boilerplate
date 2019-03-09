@@ -3,7 +3,7 @@
 namespace App\Packages\UserManagement\Domain\User\Policies;
 
 use App\Packages\Common\Application\Authorization\User\User as AuthUser;
-use App\Packages\UserManagement\Application\Resources\User\User;
+use App\Packages\UserManagement\Domain\User\Attributes\Values\User;
 
 final class ChangeUserPolicy extends UserPolicy
 {

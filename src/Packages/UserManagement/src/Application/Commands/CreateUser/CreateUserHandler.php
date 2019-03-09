@@ -12,14 +12,14 @@ use App\Packages\JobQueuing\Application\Command\CreateJob\CreateJob;
 use App\Packages\JobQueuing\Application\Command\CreateJob\CreateJobHandler;
 use App\Packages\UserManagement\Application\Command\SendVerificationCodeToUser\SendVerificationCodeToUser;
 use App\Packages\UserManagement\Application\Commands\CreateUser\CreateUser;
-use App\Packages\UserManagement\Application\Resources\User\EmailAddress;
-use App\Packages\UserManagement\Application\Resources\User\Password;
+use App\Packages\UserManagement\Domain\User\Attributes\Values\EmailAddress;
+use App\Packages\UserManagement\Domain\User\Attributes\Values\Password;
 use App\Packages\AccessManagement\Application\RoleId;
-use App\Packages\UserManagement\Application\Resources\User\User;
-use App\Packages\UserManagement\Application\Resources\User\Username;
-use App\Packages\UserManagement\Application\Resources\User\UserRepository;
+use App\Packages\UserManagement\Domain\User\Attributes\Values\User;
+use App\Packages\UserManagement\Domain\User\Attributes\Values\Username;
+use App\Packages\UserManagement\Domain\User\UserQuery;
 use App\Packages\UserManagement\Domain\User\UserValidator;
-use App\Packages\UserManagement\Application\Resources\User\UserId;
+use App\Packages\UserManagement\Domain\User\Attributes\Values\UserId;
 use App\Packages\UserManagement\Domain\User\UserAggregate;
 
 final class CreateUserHandler
@@ -31,7 +31,7 @@ final class CreateUserHandler
 
     public function __construct(
         UserValidator $validator,
-        UserRepository $userRepository,
+        UserQuery $userRepository,
         EventDispatcher $eventDispatcher,
         CreateJobHandler $createJobHandler
     ) {

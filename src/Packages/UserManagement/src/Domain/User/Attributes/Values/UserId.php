@@ -1,11 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\JobQueuing\Application\Resources\Job;
+namespace App\Packages\UserManagement\Domain\User\Attributes\Values;
 
 use App\Packages\Common\Domain\Events\AggregateId;
 
-final class JobId
+final class UserId
 {
+    public const KEY = User::KEY . '.id';
     private $id;
 
     private function __construct(string $id)
@@ -28,8 +29,8 @@ final class JobId
         return $this->id;
     }
 
-    public function isEqual(self $jobId): bool
+    public function isEqual(self $userId): bool
     {
-        return (strcasecmp($jobId->toString(), $this->toString()) === 0);
+        return (strcasecmp($userId->toString(), $this->toString()) === 0);
     }
 }

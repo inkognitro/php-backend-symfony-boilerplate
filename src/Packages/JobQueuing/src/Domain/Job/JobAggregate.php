@@ -3,7 +3,7 @@
 namespace App\Packages\JobQueuing\Domain\Job;
 
 use App\Packages\Common\Application\Authorization\User\User as AuthUser;
-use App\Packages\Common\Application\Resources\Events\EventStream;
+use App\Packages\Common\Domain\Events\EventStream;
 use App\Packages\Common\Domain\AbstractAggregate;
 use App\Packages\JobQueuing\Application\Resources\Events\JobWasCreated;
 use App\Packages\JobQueuing\Application\Resources\Job\Job;
