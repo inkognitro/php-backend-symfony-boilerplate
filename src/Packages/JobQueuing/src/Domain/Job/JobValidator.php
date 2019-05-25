@@ -6,8 +6,6 @@ use App\Packages\Common\Application\Validation\Messages\MessageBag;
 use App\Packages\Common\Application\Validation\Rules\EmptyOrUuidRule;
 use App\Packages\Common\Application\Validation\Rules\NotEmptyRule;
 use App\Packages\Common\Domain\Validator;
-use App\Packages\JobQueuing\Application\Resources\Job\Job;
-use App\Packages\JobQueuing\Application\Resources\Job\JobRepository;
 use InvalidArgumentException;
 
 final class JobValidator extends Validator

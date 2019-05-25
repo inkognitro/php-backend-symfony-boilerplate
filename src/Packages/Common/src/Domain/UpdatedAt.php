@@ -2,7 +2,7 @@
 
 namespace App\Packages\Common\Domain;
 
-use App\Packages\Common\Application\DateTimeFactory;
+use App\Packages\Common\Domain\DateTimeFactory;
 
 final class UpdatedAt extends DateTimeValueObject
 {

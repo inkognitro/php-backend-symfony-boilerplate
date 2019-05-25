@@ -2,7 +2,7 @@
 
 namespace App\Packages\UserManagement\Infrastructure\User;
 
-use App\Packages\Common\Domain\Events\AbstractEvent;
+use App\Packages\Common\Domain\Event\AbstractEvent;
 use App\Packages\Common\Infrastructure\DbalConnection;
 use App\Packages\Common\Infrastructure\DbalParameter;
 use App\Packages\Common\Infrastructure\DbalParameters;

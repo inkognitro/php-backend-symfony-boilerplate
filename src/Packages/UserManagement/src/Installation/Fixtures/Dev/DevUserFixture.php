@@ -4,7 +4,7 @@ namespace App\Packages\UserManagement\Installation\Fixtures\Dev;
 
 use App\Packages\Common\Application\Authorization\User\User as AuthUser;
 use App\Packages\Common\Application\Authorization\UserFactory as AuthUserFactory;
-use App\Packages\Common\Application\CommandBus;
+use App\Packages\Common\Application\Command\CommandBus;
 use App\Packages\Common\Application\HandlerResponse\Success;
 use App\Packages\Common\Installation\Fixtures\AbstractFixture;
 use App\Packages\UserManagement\Application\Commands\CreateUser\CreateUser;

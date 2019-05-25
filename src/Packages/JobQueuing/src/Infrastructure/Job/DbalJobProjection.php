@@ -2,10 +2,10 @@
 
 namespace App\Packages\JobQueuing\Infrastructure\Job;
 
-use App\Packages\Common\Domain\Events\AbstractEvent;
+use App\Packages\Common\Domain\Event\AbstractEvent;
 use App\Packages\Common\Domain\Projection;
 use App\Packages\Common\Infrastructure\DbalConnection;
-use App\Packages\JobQueuing\Application\Resources\Events\JobWasCreated;
+use App\Packages\JobQueuing\Domain\Job\Events\JobWasCreated;
 
 final class DbalJobProjection implements Projection
 {

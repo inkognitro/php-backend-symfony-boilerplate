@@ -2,8 +2,8 @@
 
 namespace App\Packages\Common\Domain;
 
-use App\Packages\Common\Domain\Events\AbstractEvent;
-use App\Packages\Common\Domain\Events\EventStream;
+use App\Packages\Common\Domain\Event\AbstractEvent;
+use App\Packages\Common\Domain\Event\EventStream;
 
 final class EventDispatcher
 {

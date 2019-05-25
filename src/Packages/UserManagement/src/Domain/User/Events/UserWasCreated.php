@@ -3,9 +3,9 @@
 namespace App\Packages\UserManagement\Domain\User\Events;
 
 use App\Packages\Common\Application\Authorization\User\User as AuthUser;
-use App\Packages\Common\Domain\Events\AbstractEvent;
-use App\Packages\Common\Domain\Events\EventId;
-use App\Packages\Common\Domain\Events\OccurredAt;
+use App\Packages\Common\Domain\Event\AbstractEvent;
+use App\Packages\Common\Domain\Event\EventId;
+use App\Packages\Common\Domain\Event\OccurredAt;
 use App\Packages\UserManagement\Domain\User\User;
 
 final class UserWasCreated extends AbstractEvent

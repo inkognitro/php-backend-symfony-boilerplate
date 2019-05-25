@@ -2,7 +2,7 @@
 
 namespace App\Packages\UserManagement\Domain\User\Attributes\Values;
 
-use App\Packages\Common\Domain\Events\AggregateId;
+use App\Packages\Common\Domain\Event\AggregateId;
 
 final class UserId
 {

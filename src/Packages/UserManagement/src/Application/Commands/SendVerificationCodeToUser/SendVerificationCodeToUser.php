@@ -1,9 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\UserManagement\Application\Command\SendVerificationCodeToUser;
+namespace App\Packages\UserManagement\Application\Commands\SendVerificationCodeToUser;
 
 use App\Packages\Common\Application\Command\Command;
-use App\Packages\UserManagement\Domain\Handlers\SendVerificationCodeToUser\SendVerificationCodeToUserHandler;
 use Ramsey\Uuid\Uuid;
 
 final class SendVerificationCodeToUser implements Command
@@ -17,7 +16,7 @@ final class SendVerificationCodeToUser implements Command
         $this->verificationCode = $verificationCode;
     }
 
-    public static function getHandlerClassName(): string
+    public static function getHandlerClass(): string
     {
         return SendVerificationCodeToUserHandler::class;
     }

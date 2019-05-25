@@ -5,7 +5,7 @@ namespace App\Packages\UserManagement\Domain\User\Events;
 use App\Packages\AccessManagement\Application\Role\RoleId;
 use App\Packages\Common\Domain\CreatedAt;
 use App\Packages\Common\Domain\UpdatedAt;
-use App\Packages\Common\Domain\Events\AbstractPayload;
+use App\Packages\Common\Domain\Event\AbstractPayload;
 use App\Packages\UserManagement\Domain\User\Attributes\Values\EmailAddress;
 use App\Packages\UserManagement\Domain\User\Attributes\Values\Password;
 use App\Packages\UserManagement\Domain\User\Attributes\Values\UserId;

@@ -1,12 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\JobQueuing\Application\Resources\Events;
+namespace App\Packages\JobQueuing\Domain\Job\Events;
 
 use App\Packages\Common\Application\Authorization\User\User as AuthUser;
-use App\Packages\Common\Domain\Events\AbstractEvent;
-use App\Packages\Common\Domain\Events\EventId;
-use App\Packages\Common\Domain\Events\OccurredAt;
-use App\Packages\JobQueuing\Application\Resources\Job\Job;
+use App\Packages\Common\Domain\Event\AbstractEvent;
+use App\Packages\Common\Domain\Event\EventId;
+use App\Packages\Common\Domain\Event\OccurredAt;
+use App\Packages\JobQueuing\Domain\Job\Events\JobPayload;
+use App\Packages\JobQueuing\Domain\Job\Job;
 
 final class JobWasCreated extends AbstractEvent
 {

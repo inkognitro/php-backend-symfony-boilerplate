@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Domain\Events;
+namespace App\Packages\Common\Domain\Event;
 
-use App\Packages\Common\Application\DateTimeFactory;
+use App\Packages\Common\Domain\DateTimeFactory;
 use App\Packages\Common\Domain\DateTimeValueObject;
 
 final class OccurredAt extends DateTimeValueObject

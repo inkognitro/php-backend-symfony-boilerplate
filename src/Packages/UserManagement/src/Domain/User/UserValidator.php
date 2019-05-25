@@ -14,14 +14,13 @@ use App\Packages\Common\Domain\Validator;
 use App\Packages\UserManagement\Domain\User\Attributes\Values\EmailAddress;
 use App\Packages\UserManagement\Domain\User\Attributes\Values\UserId;
 use App\Packages\UserManagement\Domain\User\Attributes\Values\Username;
-use App\Packages\UserManagement\Domain\User\UserQuery;
 
 final class UserValidator extends Validator
 {
     private $userRepository;
     private $rolesRepository;
 
-    public function __construct(UserQuery $userRepository, RolesRepository $rolesRepository)
+    public function __construct(UserRepository $userRepository, RolesRepository $rolesRepository)
     {
         parent::__construct();
         $this->userRepository = $userRepository;

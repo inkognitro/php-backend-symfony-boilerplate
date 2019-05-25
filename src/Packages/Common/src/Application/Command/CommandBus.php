@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Application;
+namespace App\Packages\Common\Application\Command;
 
 use App\Packages\Common\Application\Authorization\User\User as AuthUser;
-use App\Packages\Common\Application\Command\Command;
 use App\Packages\Common\Application\HandlerResponse\Response;
 use App\Packages\Common\Application\HandlerResponse\Success;
+use App\Packages\Common\Application\StateManager;
 use Exception;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -41,9 +41,7 @@ final class CommandBus
 
     private function getHandlerResponseFromCommandExecution(Command $command, AuthUser $authUser): Response
     {
-        $commandClassName = get_class($command);
-        $commandHandlerClassName = $commandClassName . 'Handler';
-        $commandHandler = $this->serviceContainer->get($commandHandlerClassName);
+        $commandHandler = $this->serviceContainer->get($command->getHandlerClass());
         return $commandHandler->handle($command, $authUser);
     }
 

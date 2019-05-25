@@ -6,20 +6,11 @@ use App\Packages\Common\Application\Validation\Messages\MessageBag;
 
 final class ResourceRemovedResponse implements Success
 {
-    private $resource;
     private $warnings;
 
-    /** @param $resource mixed */
-    public function __construct($resource, MessageBag $warnings)
+    public function __construct(MessageBag $warnings)
     {
-        $this->resource = $resource;
         $this->warnings = $warnings;
-    }
-
-    /** @return mixed */
-    public function getResource()
-    {
-        return $this->resource;
     }
 
     public function getWarnings(): MessageBag

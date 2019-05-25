@@ -4,11 +4,29 @@ namespace App\Packages\UserManagement\Domain\User;
 
 use App\Packages\Common\Domain\EventDispatcher;
 use App\Packages\Common\Domain\Projections;
+use App\Packages\UserManagement\Domain\User\Attributes\Values\EmailAddress;
+use App\Packages\UserManagement\Domain\User\Attributes\Values\UserId;
+use App\Packages\UserManagement\Domain\User\Attributes\Values\Username;
 
 final class UserRepository
 {
     private $eventDispatcher;
     private $userProjection;
+
+    public function findById(UserId $userId): ?User
+    {
+        return null; //todo!
+    }
+
+    public function findByUsername(Username $username): ?User
+    {
+        return null; //todo!
+    }
+
+    public function findByEmailAddress(EmailAddress $emailAddress): ?User
+    {
+        return null; //todo!
+    }
 
     public function __construct(EventDispatcher $eventDispatcher, UserProjection $userProjection)
     {

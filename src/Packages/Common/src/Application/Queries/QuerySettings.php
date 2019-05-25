@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Application\Query;
+namespace App\Packages\Common\Application\Queries;
 
 final class QuerySettings
 {

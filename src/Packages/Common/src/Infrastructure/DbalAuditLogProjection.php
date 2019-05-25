@@ -3,7 +3,7 @@
 namespace App\Packages\Common\Infrastructure;
 
 use App\Packages\Common\Domain\AuditLogProjection;
-use App\Packages\Common\Domain\Events\AbstractEvent;
+use App\Packages\Common\Domain\Event\AbstractEvent;
 
 final class DbalAuditLogProjection implements AuditLogProjection
 {

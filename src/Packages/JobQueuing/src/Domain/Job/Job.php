@@ -1,10 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\JobQueuing\Application\Resources\Job;
+namespace App\Packages\JobQueuing\Domain\Job;
 
 use App\Packages\Common\Application\Command\Command;
 use App\Packages\Common\Domain\CreatedAt;
-use App\Packages\Common\Domain\ExecutedAt;
+use App\Packages\Common\Domain\Job\Attributes\Values\ExecutedAt;
+use App\Packages\JobQueuing\Domain\Job\Attributes\Values\JobId;
 
 final class Job
 {

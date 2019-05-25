@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\JobQueuing\Application\Resources\Events;
+namespace App\Packages\JobQueuing\Domain\Job\Events;
 
 use App\Packages\Common\Application\Command\Command;
 use App\Packages\Common\Domain\CreatedAt;
-use App\Packages\Common\Domain\ExecutedAt;
-use App\Packages\Common\Domain\Events\AbstractPayload;
-use App\Packages\JobQueuing\Application\Resources\Job\Job;
-use App\Packages\JobQueuing\Application\Resources\Job\JobId;
+use App\Packages\Common\Domain\Job\Attributes\Values\ExecutedAt;
+use App\Packages\Common\Domain\Event\AbstractPayload;
+use App\Packages\JobQueuing\Domain\Job\Job;
+use App\Packages\JobQueuing\Domain\Job\Attributes\Values\JobId;
 
 final class JobPayload extends AbstractPayload
 {

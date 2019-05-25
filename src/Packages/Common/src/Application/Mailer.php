@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Application\Mailing;
+namespace App\Packages\Common\Application;
 
 interface Mailer
 {

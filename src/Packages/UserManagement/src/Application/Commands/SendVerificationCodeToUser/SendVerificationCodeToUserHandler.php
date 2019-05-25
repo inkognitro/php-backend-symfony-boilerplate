@@ -1,20 +1,19 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\UserManagement\Domain\Handlers\SendVerificationCodeToUser;
+namespace App\Packages\UserManagement\Application\Commands\SendVerificationCodeToUser;
 
 use App\Packages\Common\Application\Authorization\User\User as AuthUser;
 use App\Packages\Common\Application\HandlerResponse\ResourceNotFoundResponse;
 use App\Packages\Common\Application\HandlerResponse\Response;
 use App\Packages\Common\Application\HandlerResponse\SuccessResponse;
-use App\Packages\Common\Application\Mailing\Mailer;
+use App\Packages\Common\Application\Mailer;
 use App\Packages\Common\Application\Validation\Messages\MessageBag;
 use App\Packages\Common\Domain\EventDispatcher;
-use App\Packages\UserManagement\Application\Command\SendVerificationCodeToUser\SendVerificationCodeToUser;
-use App\Packages\UserManagement\Domain\User\Attributes\Values\User;
+use App\Packages\UserManagement\Domain\User\User;
 use App\Packages\UserManagement\Domain\User\Attributes\Values\UserId;
-use App\Packages\UserManagement\Domain\User\UserQuery;
 use App\Packages\UserManagement\Domain\User\Attributes\Values\VerificationCode;
 use App\Packages\UserManagement\Domain\User\UserAggregate;
+use App\Packages\UserManagement\Domain\User\UserRepository;
 
 final class SendVerificationCodeToUserHandler
 {
@@ -22,7 +21,7 @@ final class SendVerificationCodeToUserHandler
     private $userRepository;
     private $mailer;
 
-    public function __construct(EventDispatcher $eventDispatcher, UserQuery $userRepository, Mailer $mailer)
+    public function __construct(EventDispatcher $eventDispatcher, UserRepository $userRepository, Mailer $mailer)
     {
         $this->eventDispatcher = $eventDispatcher;
         $this->userRepository = $userRepository;
@@ -36,11 +35,11 @@ final class SendVerificationCodeToUserHandler
             return new ResourceNotFoundResponse();
         }
 
-        $this->sendEmail($user, VerificationCode::fromString($command->getVerificationCode()));
+        $this->sendEmail($user, VerificationCode::fromString($command->getVerificationCode())); //todo: queue that!
 
         $userAggregate = UserAggregate::fromExistingUser($user);
         $userAggregate->sendVerificationCode(VerificationCode::fromString($command->getVerificationCode()), $sender);
-        $this->eventDispatcher->dispatch($userAggregate->getRecordedEvents());
+        $this->userRepository->save($userAggregate);
 
         $warnings = new MessageBag();
         return new SuccessResponse($warnings);

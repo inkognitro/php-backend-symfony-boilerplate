@@ -6,11 +6,6 @@ services:
 
     App\Packages\UserManagement\Application\Command\CreateUser\CreateUserHandler:
         public: true
-        tags: ['app.command_handler']
-
-    App\Packages\UserManagement\Application\Command\CreateUser\RemoveUserHandler:
-        public: true
-        tags: ['app.command_handler']
 
     App\Packages\UserManagement\Application\Resources\User\UserRepository:
         class: App\Packages\UserManagement\Infrastructure\User\DbalUserRepository

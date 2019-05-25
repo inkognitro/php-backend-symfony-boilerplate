@@ -2,16 +2,11 @@ services:
     _defaults:
         autowire: true
 
-    App\Packages\JobQueuing\Application\Command\CreateJob\JobFactory: ~
+    App\Packages\JobQueuing\Domain\Job\JobRepository: ~
+    App\Packages\JobQueuing\Domain\Job\JobValidator: ~
 
     App\Packages\JobQueuing\Application\Command\CreateJob\CreateJobHandler:
         public: true
-        tags: ['app.command_handler']
-
-    App\Packages\JobQueuing\Application\Resources\Job\JobRepository:
-        class: App\Packages\JobQueuing\Infrastructure\Job\DbalJobRepository
-
-    App\Packages\JobQueuing\Domain\Job\JobValidator: ~
 
 imports:
     - { resource: './imports/projections.yaml' }

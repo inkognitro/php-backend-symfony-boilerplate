@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Domain\Events;
+namespace App\Packages\Common\Domain\Event;
 
 abstract class AbstractPayload
 {

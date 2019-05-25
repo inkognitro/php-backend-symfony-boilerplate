@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\JobQueuing\Application\Command\CreateJob;
+namespace App\Packages\JobQueuing\Application\Commands\CreateJob;
 
 use App\Packages\Common\Application\Command\Command;
 use Ramsey\Uuid\Uuid;
@@ -29,5 +29,10 @@ final class CreateJob implements Command
     public function getCommand(): Command
     {
         return $this->command;
+    }
+
+    public static function getHandlerClass(): string
+    {
+        return CreateJobHandler::class;
     }
 }

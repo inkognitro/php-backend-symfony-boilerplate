@@ -1,8 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Domain;
+namespace App\Packages\Common\Domain\Job\Attributes\Values;
 
-use App\Packages\Common\Application\DateTimeFactory;
+use App\Packages\Common\Domain\DateTimeFactory;
+use App\Packages\Common\Domain\DateTimeValueObject;
 
 final class ExecutedAt extends DateTimeValueObject
 {

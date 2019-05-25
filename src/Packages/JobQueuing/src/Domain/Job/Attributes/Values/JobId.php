@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\JobQueuing\Application\Resources\Job;
+namespace App\Packages\JobQueuing\Domain\Job\Attributes\Values;
 
-use App\Packages\Common\Domain\Events\AggregateId;
+use App\Packages\Common\Domain\Event\AggregateId;
 
 final class JobId
 {

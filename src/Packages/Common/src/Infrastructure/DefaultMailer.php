@@ -2,7 +2,7 @@
 
 namespace App\Packages\Common\Infrastructure;
 
-use App\Packages\Common\Application\Mailing\Mailer;
+use App\Packages\Common\Application\Mailer;
 use Swift_Mailer;
 use Swift_Message;
 
