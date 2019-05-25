@@ -1,44 +1,34 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\UserManagement\Application\Commands\CreateUser;
+namespace App\Packages\UserManagement\Domain\CreateUser;
 
-use App\Packages\AccessManagement\Application\Role\RoleId;
-use App\Packages\Common\Application\Authorization\User\User as AuthUser;
+use App\Packages\UserManagement\Domain\UserValidation\UserValidator;
+use App\Resources\User\UserId;
+use App\Utilities\AuthUser as AuthUser;
 use App\Packages\Common\Application\HandlerResponse\Response;
 use App\Packages\Common\Application\HandlerResponse\ValidationErrorResponse;
 use App\Packages\Common\Application\HandlerResponse\UnauthorizedResponse;
 use App\Packages\Common\Application\HandlerResponse\ResourceCreatedResponse;
-use App\Packages\JobQueuing\Application\Commands\CreateJob\CreateJob;
-use App\Packages\JobQueuing\Application\Commands\CreateJob\CreateJobHandler;
-use App\Packages\UserManagement\Application\Commands\SendVerificationCodeToUser\SendVerificationCodeToUser;
-use App\Packages\UserManagement\Domain\User\Attributes\Values\EmailAddress;
-use App\Packages\UserManagement\Domain\User\Attributes\Values\Password;
+use App\Packages\UserManagement\Application\CreateUser;
 use App\Packages\UserManagement\Domain\User\User;
-use App\Packages\UserManagement\Domain\User\Attributes\Values\Username;
-use App\Packages\UserManagement\Domain\User\UserRepository;
-use App\Packages\UserManagement\Domain\User\UserValidator;
-use App\Packages\UserManagement\Domain\User\Attributes\Values\UserId;
 use App\Packages\UserManagement\Domain\User\UserAggregate;
 
 final class CreateUserHandler
 {
     private $validator;
     private $userRepository;
-    private $createJobHandler;
 
     public function __construct(
         UserValidator $validator,
-        UserRepository $userRepository,
-        CreateJobHandler $createJobHandler
+        UserRepository $userRepository
     ) {
         $this->validator = $validator;
         $this->userRepository = $userRepository;
-        $this->createJobHandler = $createJobHandler;
     }
 
     public function handle(CreateUser $command, AuthUser $creator): Response
     {
-        $user = $this->userRepository->findById(UserId::fromString($command->getUserId()));
+        $user = $this->userQueryHandler->findById(UserId::fromString($command->getUserId()));
         if ($user !== null) {
             return new UnauthorizedResponse();
         }
@@ -85,9 +75,11 @@ final class CreateUserHandler
         );
     }
 
-    private function queueSendVerificationCode(User $user): void
+    /*
+    private function queueSendVerificationCode(User $user): void //todo
     {
         $command = SendVerificationCodeToUser::fromUserId($user->getId()->toString());
         $this->createJobHandler->handle(CreateJob::create($command));
     }
+    */
 }

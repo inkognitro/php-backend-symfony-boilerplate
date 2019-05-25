@@ -2,34 +2,17 @@
 
 namespace App\Resources\AuditLogEvent;
 
-use App\Resources\Attribute;
+use App\Resources\PayloadAttribute;
 
-final class Payload implements Attribute
+final class Payload extends PayloadAttribute
 {
-    protected $data;
-
     public static function getKey(): string
     {
         return 'auditLogEvent.payload';
     }
 
-    public function __construct(array $data)
-    {
-        $this->data = $data;
-    }
-
     public static function fromArray(array $data): self
     {
         return new self($data);
-    }
-
-    public function toArray(): array
-    {
-        return $this->data;
-    }
-
-    public function toJson(): string
-    {
-        return json_encode($this->data);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Packages\UserManagement\Infrastructure\User;
 
-use App\Packages\Common\Domain\Event\AbstractEvent;
+use App\Packages\Common\Domain\Event\AbstractAuditLogEvent;
 use App\Packages\Common\Infrastructure\DbalConnection;
 use App\Packages\Common\Infrastructure\DbalParameter;
 use App\Packages\Common\Infrastructure\DbalParameters;
@@ -20,7 +20,7 @@ final class DbalUserProjection implements UserProjection
         $this->connection = $connection;
     }
 
-    public function when(AbstractEvent $event): void
+    public function when(AbstractAuditLogEvent $event): void
     {
         if ($event instanceof UserWasCreated) {
             $this->projectUserWasCreated($event);

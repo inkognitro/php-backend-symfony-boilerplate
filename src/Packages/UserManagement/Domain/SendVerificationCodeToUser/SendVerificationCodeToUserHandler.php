@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\UserManagement\Application\Commands\SendVerificationCodeToUser;
+namespace App\Packages\UserManagement\Domain\SendVerificationCodeToUser;
 
-use App\Packages\Common\Application\Authorization\User\User as AuthUser;
+use App\Utilities\AuthUser as AuthUser;
 use App\Packages\Common\Application\HandlerResponse\ResourceNotFoundResponse;
 use App\Packages\Common\Application\HandlerResponse\Response;
 use App\Packages\Common\Application\HandlerResponse\SuccessResponse;

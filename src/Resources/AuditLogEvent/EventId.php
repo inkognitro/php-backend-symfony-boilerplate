@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Resources\AuditLogEvent\Attributes;
+namespace App\Resources\AuditLogEvent;
 
 use App\Resources\Attribute;
 use Ramsey\Uuid\Uuid;

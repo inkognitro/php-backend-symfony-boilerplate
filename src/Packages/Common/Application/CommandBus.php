@@ -2,7 +2,7 @@
 
 namespace App\Packages\Common\Application\Command;
 
-use App\Packages\Common\Application\Authorization\User\User as AuthUser;
+use App\Utilities\AuthUser as AuthUser;
 use App\Packages\Common\Application\HandlerResponse\Response;
 use App\Packages\Common\Application\HandlerResponse\Success;
 use App\Packages\Common\Application\StateManager;

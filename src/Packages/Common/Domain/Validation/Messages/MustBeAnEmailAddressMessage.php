@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Application\Validation\Messages;
+namespace App\Packages\Common\Domain\Validation\Messages;
 
 final class MustBeAnEmailAddressMessage implements Message
 {
@@ -12,5 +12,10 @@ final class MustBeAnEmailAddressMessage implements Message
     public function getMessage(): string
     {
         return 'must be an email address';
+    }
+
+    public function getPlaceholders(): array
+    {
+        return [];
     }
 }

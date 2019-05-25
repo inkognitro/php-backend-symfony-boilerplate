@@ -1,11 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Application\Authorization\User;
+namespace App\Utilities;
 
 use App\Resources\AuditLogEvent\AuthUserPayload;
-use App\Resources\AuthUser\AuthUser;
 
-final class User implements AuthUser
+final class AuthUser
 {
     public const SYSTEM_USER_ROLE = 'system';
     public const ADMIN_USER_ROLE = 'admin';

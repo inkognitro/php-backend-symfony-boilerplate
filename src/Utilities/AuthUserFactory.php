@@ -1,10 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Application\Authorization;
+namespace App\Utilities;
 
-use App\Utilities\AuthUser;
-
-final class UserFactory
+final class AuthUserFactory
 {
    public function createSystemUser(): AuthUser
    {

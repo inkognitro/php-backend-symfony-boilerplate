@@ -1,34 +1,38 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Domain\Event;
+namespace App\Packages\Common\Domain;
 
-use App\Packages\Common\Application\Authorization\User\User as AuthUser;
+use App\Resources\AuditLogEvent\AuditLogEvent;
+use App\Resources\AuditLogEvent\AuthUserPayload;
+use App\Resources\AuditLogEvent\EventId;
+use App\Resources\AuditLogEvent\OccurredAt;
+use App\Resources\AuditLogEvent\Payload;
+use App\Resources\AuditLogEvent\ResourceId;
 
-abstract class AbstractEvent
+abstract class AbstractAuditLogEvent implements AuditLogEvent
 {
     private $id;
-    private $occurredAt;
-    private $triggeredFrom;
+    private $resourceId;
     private $payload;
-    private $previousPayload;
+    private $authUserPayload;
+    private $occurredAt;
 
     public abstract function mustBeLogged(): bool;
-    public abstract function getAggregateId(): AggregateId;
-    public static abstract function getAggregateType(): string;
+    public abstract static function getResourceType(): string;
 
     protected function __construct(
         EventId $id,
-        OccurredAt $occurredAt,
-        AuthUser $triggeredFrom,
-        AbstractPayload $payload,
-        ?AbstractPayload $previousPayload
+        ResourceId $resourceId,
+        Payload $payload,
+        AuthUserPayload $authUserPayload,
+        OccurredAt $occurredAt
     )
     {
         $this->id = $id;
-        $this->occurredAt = $occurredAt;
-        $this->triggeredFrom = $triggeredFrom;
+        $this->resourceId = $resourceId;
         $this->payload = $payload;
-        $this->previousPayload = $previousPayload;
+        $this->authUserPayload = $authUserPayload;
+        $this->occurredAt = $occurredAt;
     }
 
     public function getId(): EventId
@@ -36,23 +40,23 @@ abstract class AbstractEvent
         return $this->id;
     }
 
-    public function getOccurredAt(): OccurredAt
+    public function getResourceId(): ResourceId
     {
-        return $this->occurredAt;
+        return $this->resourceId;
     }
 
-    public function getTriggeredFrom(): AuthUser
-    {
-        return $this->triggeredFrom;
-    }
-
-    public function getPayload(): AbstractPayload
+    public function getPayload(): Payload
     {
         return $this->payload;
     }
 
-    public function getPreviousPayload(): ?AbstractPayload
+    public function getAuthUserPayload(): AuthUserPayload
     {
-        return $this->previousPayload;
+        return $this->authUserPayload;
+    }
+
+    public function getOccurredAt(): OccurredAt
+    {
+        return $this->occurredAt;
     }
 }

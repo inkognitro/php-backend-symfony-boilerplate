@@ -2,11 +2,11 @@
 
 namespace App\Resources;
 
-abstract class AbstractPayload implements Attribute
+abstract class PayloadAttribute implements Attribute
 {
     protected $data;
 
-    private function __construct(array $data)
+    protected function __construct(array $data)
     {
         $this->data = $data;
     }

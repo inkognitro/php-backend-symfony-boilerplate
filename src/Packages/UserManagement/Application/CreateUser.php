@@ -1,24 +1,24 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\UserManagement\Application\Commands\CreateUser;
+namespace App\Packages\UserManagement\Application;
 
 use App\Packages\Common\Application\Command\Command;
-use App\Resources\User\Attributes\UserId;
+use App\Packages\UserManagement\Domain\CreateUser\CreateUserHandler;
 
 final class CreateUser implements Command
 {
-    public const ID = UserId::getKey();
-    public const USERNAME = Username::KEY;
-    public const PASSWORD = Password::KEY;
-    public const EMAIL_ADDRESS = EmailAddress::KEY;
-    public const ROLE = RoleId::KEY;
+    public const ID = 'id';
+    public const USERNAME = 'username';
+    public const PASSWORD = 'password';
+    public const EMAIL_ADDRESS = 'emailAddress';
+    public const ROLE_ID = 'roleId';
     public const SEND_INVITATION = 'sendInvitation';
 
     private $userId;
     private $username;
     private $emailAddress;
     private $password;
-    private $role;
+    private $roleId;
     private $sendInvitation;
 
     public static function getHandlerClass(): string
@@ -31,7 +31,7 @@ final class CreateUser implements Command
         string $username,
         string $emailAddress,
         string $password,
-        ?string $role,
+        ?string $roleId,
         bool $sendInvitation
     )
     {
@@ -39,7 +39,7 @@ final class CreateUser implements Command
         $this->username = $username;
         $this->emailAddress = $emailAddress;
         $this->password = $password;
-        $this->role = $role;
+        $this->roleId = $roleId;
         $this->sendInvitation = $sendInvitation;
     }
 
@@ -50,7 +50,7 @@ final class CreateUser implements Command
             $data[self::USERNAME],
             $data[self::EMAIL_ADDRESS],
             $data[self::PASSWORD],
-            ($data[self::ROLE] ?? null),
+            ($data[self::ROLE_ID] ?? null),
             $data[self::SEND_INVITATION]
         );
     }
@@ -75,9 +75,9 @@ final class CreateUser implements Command
         return $this->password;
     }
 
-    public function getRole(): ?string
+    public function getRoleId(): ?string
     {
-        return $this->role;
+        return $this->roleId;
     }
 
     public function sendInvitation(): bool

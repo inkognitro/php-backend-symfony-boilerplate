@@ -1,16 +1,20 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Application\Validation\Rules;
+namespace App\Packages\Common\Domain\Validation\Rules;
 
-use App\Packages\Common\Application\Validation\Messages\Message;
-use App\Packages\Common\Application\Validation\Messages\MustNotBeEmptyMessage;
+use App\Packages\Common\Domain\Validation\Messages\Message;
+use App\Packages\Common\Domain\Validation\Messages\MustBeAStringMessage;
+use App\Packages\Common\Domain\Validation\Messages\MustNotBeEmptyMessage;
 
-final class NotEmptyRule implements Rule
+final class NotEmptyRule
 {
-    public static function getMessageFromValidation($data): ?Message
+    /** @param $text mixed */
+    public static function findError($text): ?Message
     {
-        $data = (string)$data;
-        if(strlen(trim($data)) === 0) {
+        if(!is_string($text)) {
+            return new MustBeAStringMessage();
+        }
+        if(strlen(trim($text)) === 0) {
             return new MustNotBeEmptyMessage();
         }
         return null;

@@ -2,14 +2,16 @@
 
 namespace App\Packages\UserManagement\Domain\User\Events;
 
-use App\Packages\Common\Application\Authorization\User\User as AuthUser;
-use App\Packages\Common\Domain\Event\AbstractAuditLogEvent;
-use App\Packages\Common\Domain\Event\EventId;
-use App\Packages\Common\Domain\Event\OccurredAt;
-use App\Packages\UserManagement\Domain\User\User;
+use App\Resources\User\Password;
+use App\Resources\UserRole\RoleId;
+use App\Utilities\AuthUser as AuthUser;
+use App\Packages\Common\Domain\AbstractAuditLogEvent;
+use App\Resources\AuditLogEvent\EventId;
+use App\Resources\AuditLogEvent\OccurredAt;
 use App\Resources\AuditLogEvent\Payload;
-use App\Resources\User\CreatedAt;
+use App\Resources\AuditLogEvent\ResourceId;
 use App\Resources\User\EmailAddress;
+use App\Resources\User\User;
 use App\Resources\User\UserId;
 use App\Resources\User\Username;
 
@@ -19,21 +21,42 @@ final class UserWasCreated extends AbstractAuditLogEvent
         UserId $userId,
         Username $username,
         EmailAddress $emailAddress,
+        Password $password,
+        RoleId $roleId,
         AuthUser $authUser
     ): self {
         $previousPayload = null;
         $occurredAt = OccurredAt::create();
-        $payload = Payload::fromArray($user, [
-            CreatedAt::getKey() => $occurredAt->toString()
+        $payload = Payload::fromArray([
+            Username::getKey() => $username->toString(),
+            EmailAddress::getKey() => $emailAddress->toString(),
+            Password::getKey() => $password->toHash(),
+            RoleId::getKey() => $roleId->toString(),
         ]);
-        return new self(EventId::create(), $occurredAt, $authUser, $payload, $previousPayload);
+        $resourceId = ResourceId::fromString($userId->toString());
+        return new self(EventId::create(), $resourceId, $payload, $authUser->toAuditLogEventAuthUserPayload(), $occurredAt);
     }
 
-    public function getUser(): User
+    public static function getResourceType(): string
     {
-        /** @var $payload UserPayload */
-        $payload = $this->getPayload();
-        return $payload->toUser();
+        return User::class;
+    }
+
+    public function getUserId(): UserId
+    {
+        return UserId::fromString($this->getResourceId()->toString());
+    }
+
+    public function getUsername(): Username
+    {
+        $username = $this->getPayload()->toArray()[Username::getKey()];
+        return Username::fromString($username);
+    }
+
+    public function getEmailAddress(): EmailAddress
+    {
+        $username = $this->getPayload()->toArray()[EmailAddress::getKey()];
+        return EmailAddress::fromString($username);
     }
 
     public function mustBeLogged(): bool

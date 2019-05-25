@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Application\Validation\Messages;
+namespace App\Packages\Common\Domain\Validation\Messages;
 
 final class DoesAlreadyExistMessage implements Message
 {
@@ -12,5 +12,10 @@ final class DoesAlreadyExistMessage implements Message
     public function getMessage(): string
     {
         return 'does already exist';
+    }
+
+    public function getPlaceholders(): array
+    {
+        return [];
     }
 }

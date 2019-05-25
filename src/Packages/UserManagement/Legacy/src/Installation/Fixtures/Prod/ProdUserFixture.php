@@ -2,8 +2,8 @@
 
 namespace App\Packages\UserManagement\Installation\Fixtures\Prod;
 
-use App\Packages\Common\Application\Authorization\User\User as AuthUser;
-use App\Packages\Common\Application\Authorization\UserFactory as AuthUserFactory;
+use App\Utilities\AuthUser as AuthUser;
+use App\Utilities\Auth\AuthUserFactory as AuthUserFactory;
 use App\Packages\Common\Application\Command\CommandBus;
 use App\Packages\Common\Application\HandlerResponse\Success;
 use App\Packages\Common\Installation\Fixtures\AbstractFixture;

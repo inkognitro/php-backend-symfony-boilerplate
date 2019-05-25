@@ -1,12 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Application\Validation\Messages;
+namespace App\Packages\Common\Domain\Validation\Messages;
 
 final class MessageBag
 {
     private $messages;
 
     public function __construct()
+    {
+        $this->messages = [];
+    }
+
+    public function clear(): void
     {
         $this->messages = [];
     }

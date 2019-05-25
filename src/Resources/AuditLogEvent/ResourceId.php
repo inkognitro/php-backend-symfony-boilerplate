@@ -4,7 +4,7 @@ namespace App\Resources\AuditLogEvent;
 
 use App\Resources\Attribute;
 
-final class AggregateId implements Attribute
+final class ResourceId implements Attribute
 {
     private $id;
 

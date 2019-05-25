@@ -1,16 +1,16 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\UserManagement\Application\Commands\SendVerificationCodeToUser;
+namespace App\Packages\UserManagement\Application;
 
 use App\Packages\Common\Application\Command\Command;
-use Ramsey\Uuid\Uuid;
+use App\Packages\UserManagement\Domain\SendVerificationCodeToUser\SendVerificationCodeToUserHandler;
 
 final class SendVerificationCodeToUser implements Command
 {
     private $userId;
     private $verificationCode;
 
-    private function __construct(string $userId, string $verificationCode)
+    private function __construct(string $userId, ?string $verificationCode)
     {
         $this->userId = $userId;
         $this->verificationCode = $verificationCode;
@@ -23,8 +23,7 @@ final class SendVerificationCodeToUser implements Command
 
     public static function fromUserId(string $userId): self
     {
-        $verificationCode = str_replace('-', '', Uuid::uuid4()->toString());
-        return new self($userId, $verificationCode);
+        return new self($userId, null);
     }
 
     public function getUserId(): string
@@ -32,7 +31,7 @@ final class SendVerificationCodeToUser implements Command
         return $this->userId;
     }
 
-    public function getVerificationCode(): string
+    public function getVerificationCode(): ?string
     {
         return $this->verificationCode;
     }
