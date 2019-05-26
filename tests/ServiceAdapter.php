@@ -2,7 +2,7 @@
 
 namespace App\Tests;
 
-use App\Packages\Common\Application\StateManager;
+use App\Packages\Common\Domain\StateManager;
 use App\Packages\Common\Infrastructure\DbalConnection;
 use Doctrine\DBAL\Connection;
 

@@ -3,10 +3,11 @@
 namespace App\Packages\UserManagement\Domain\UserValidation;
 
 use App\Resources\User\EmailAddress;
+use App\Resources\User\User as UserResource;
 use App\Resources\User\UserId;
 use App\Resources\User\Username;
 
-final class User
+final class User implements UserResource
 {
     private $userId;
     private $username;

@@ -1,7 +1,0 @@
-services:
-    _defaults:
-        autowire: true
-        tags: ['app.migration']
-
-    App\Packages\Common\Installation\Migrations\MigrationsMigration201901121802: ~
-    App\Packages\Common\Installation\Migrations\AuditLogMigration201901082310: ~

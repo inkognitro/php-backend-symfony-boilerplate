@@ -2,8 +2,8 @@
 
 namespace App\Packages\UserManagement\Application;
 
-use App\Packages\Common\Application\Command\Command;
-use App\Packages\UserManagement\Domain\CreateUser\CreateUserHandler;
+use App\Packages\Common\Application\Command;
+use App\Utilities\AuthUser;
 
 final class CreateUser implements Command
 {
@@ -13,6 +13,7 @@ final class CreateUser implements Command
     public const EMAIL_ADDRESS = 'emailAddress';
     public const ROLE_ID = 'roleId';
     public const SEND_INVITATION = 'sendInvitation';
+    public const EXECUTOR = 'executor';
 
     private $userId;
     private $username;
@@ -20,6 +21,7 @@ final class CreateUser implements Command
     private $password;
     private $roleId;
     private $sendInvitation;
+    private $executor;
 
     public static function getHandlerClass(): string
     {
@@ -32,7 +34,8 @@ final class CreateUser implements Command
         string $emailAddress,
         string $password,
         ?string $roleId,
-        bool $sendInvitation
+        bool $sendInvitation,
+        AuthUser $executor
     )
     {
         $this->userId = $userId;
@@ -41,6 +44,7 @@ final class CreateUser implements Command
         $this->password = $password;
         $this->roleId = $roleId;
         $this->sendInvitation = $sendInvitation;
+        $this->executor = $executor;
     }
 
     public static function fromArray(array $data): self
@@ -51,7 +55,8 @@ final class CreateUser implements Command
             $data[self::EMAIL_ADDRESS],
             $data[self::PASSWORD],
             ($data[self::ROLE_ID] ?? null),
-            $data[self::SEND_INVITATION]
+            $data[self::SEND_INVITATION],
+            $data[self::EXECUTOR]
         );
     }
 
@@ -83,5 +88,10 @@ final class CreateUser implements Command
     public function sendInvitation(): bool
     {
         return $this->sendInvitation;
+    }
+
+    public function getExecutor(): AuthUser
+    {
+        return $this->executor;
     }
 }

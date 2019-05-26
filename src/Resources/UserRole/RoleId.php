@@ -2,6 +2,8 @@
 
 namespace App\Resources\UserRole;
 
+use App\Utilities\Validation\Messages\Message;
+use App\Utilities\Validation\Rules\RequiredStringRule;
 use App\Resources\Attribute;
 
 final class RoleId implements Attribute
@@ -11,6 +13,12 @@ final class RoleId implements Attribute
     public static function getKey(): string
     {
         return 'userRole.id';
+    }
+
+    /** @param $roleId mixed */
+    public static function findFormatError($roleId): ?Message
+    {
+        return RequiredStringRule::findError($roleId);
     }
 
     private function __construct(string $roleId)

@@ -2,8 +2,9 @@
 
 namespace App\Packages\JobQueuing\Domain\Job;
 
-use App\Packages\Common\Domain\EventDispatcher;
-use App\Packages\Common\Domain\Projections;
+use App\Packages\Common\Domain\Event\EventDispatcher;
+use App\Packages\Common\Domain\Event\Projections;
+use App\Packages\Common\Domain\JobQueuing\JobProjection;
 
 final class JobRepository
 {

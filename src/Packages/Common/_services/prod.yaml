@@ -1,0 +1,21 @@
+services:
+    _defaults:
+        autowire: true
+
+    App\Packages\Common\Application\Command\CommandBus: ~
+    App\Packages\Common\Domain\EventDispatcher: ~
+
+    App\Packages\Common\Domain\StateManager:
+        class: App\Packages\Common\Infrastructure\DbalStateManager
+
+    App\Packages\Common\Infrastructure\DbalConnection:
+        alias: 'doctrine.dbal.default_connection'
+
+    App\Packages\Common\Installation\Fixtures\FixtureRepository:
+        arguments: [!tagged 'app.fixture']
+
+    App\Packages\Common\Domain\Mailer:
+        class: App\Packages\Common\Infrastructure\SwiftMailerBridge
+
+imports:
+    - { resource: './imports/projections.yaml' }

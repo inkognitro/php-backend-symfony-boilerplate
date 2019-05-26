@@ -1,6 +1,0 @@
-services:
-    _defaults:
-        autowire: true
-
-    App\Packages\UserManagement\Domain\User\UserProjection:
-        class: App\Packages\UserManagement\Infrastructure\User\DbalUserProjection

@@ -2,9 +2,9 @@
 
 namespace App\Resources\User;
 
-use App\Packages\Common\Domain\Validation\Messages\Message;
-use App\Packages\Common\Domain\Validation\Rules\MaxLengthRule;
-use App\Packages\Common\Domain\Validation\Rules\MinLengthRule;
+use App\Utilities\Validation\Messages\Message;
+use App\Utilities\Validation\Rules\MaxLengthRule;
+use App\Utilities\Validation\Rules\MinLengthRule;
 use App\Resources\Attribute;
 
 final class Password implements Attribute

@@ -2,7 +2,7 @@
 
 namespace App\Tests\Packages;
 
-use App\Packages\Common\Application\Command\CommandBus;
+use App\Packages\Common\Application\CommandBus;
 
 final class PackageServiceAdapter
 {

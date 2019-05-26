@@ -2,7 +2,7 @@
 
 namespace App\Packages\JobQueuing\Domain\Job\Events;
 
-use App\Packages\Common\Application\Command\Command;
+use App\Packages\Common\Application\Command;
 use App\Packages\Common\Domain\CreatedAt;
 use App\Packages\Common\Domain\Job\Attributes\Values\ExecutedAt;
 use App\Packages\Common\Domain\Event\AbstractPayload;

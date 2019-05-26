@@ -6,19 +6,19 @@ use App\Resources\AuditLogEvent\AuthUserPayload;
 
 final class AuthUser
 {
-    public const SYSTEM_USER_ROLE = 'system';
-    public const ADMIN_USER_ROLE = 'admin';
-    public const GUEST_USER_ROLE = 'guest';
-    public const DEFAULT_USER_ROLE = 'user';
+    public const SYSTEM_USER_ROLE_ID = 'system';
+    public const ADMIN_USER_ROLE_ID = 'admin';
+    public const GUEST_USER_ROLE_ID = 'guest';
+    public const NORMAL_USER_ROLE_ID = 'user';
 
     private $userId;
-    private $role;
+    private $roleId;
     private $languageId;
 
-    public function __construct(?string $userId, string $role, string $languageId)
+    public function __construct(?string $userId, string $roleId, string $languageId)
     {
         $this->userId = $userId;
-        $this->role = $role;
+        $this->roleId = $roleId;
         $this->languageId = $languageId;
     }
 
@@ -27,9 +27,9 @@ final class AuthUser
         return $this->userId;
     }
 
-    public function getRole(): string
+    public function getRoleId(): string
     {
-        return $this->role;
+        return $this->roleId;
     }
     
     public function getLanguageId(): string
@@ -37,16 +37,21 @@ final class AuthUser
         return $this->languageId;
     }
 
-    public function hasEveryRight(): bool
+    public function isSystem(): bool
     {
-        return ($this->role === self::SYSTEM_USER_ROLE || $this->role === self::ADMIN_USER_ROLE);
+        return $this->roleId === self::SYSTEM_USER_ROLE_ID;
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->roleId === self::ADMIN_USER_ROLE_ID;
     }
 
     public function toAuditLogEventAuthUserPayload(): AuthUserPayload
     {
         return AuthUserPayload::fromArray([
             'userId' => $this->userId,
-            'role' => $this->role,
+            'roleId' => $this->roleId,
             'languageId' => $this->languageId,
         ]);
     }
