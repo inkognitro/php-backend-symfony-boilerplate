@@ -39,6 +39,7 @@ final class DbalUserProjection implements UserProjection
         $queryBuilder->andWhere(
             "verification_code = {$queryBuilder->createNamedParameter($event->getUserId()->toString())}"
         );
+        $queryBuilder->execute();
     }
 
     private function projectUserWasCreated(UserWasCreated $event): void
@@ -53,5 +54,6 @@ final class DbalUserProjection implements UserProjection
             'role_id' => $queryBuilder->createNamedParameter($event->getRoleId()->toString()),
             'created_at' => $queryBuilder->createNamedParameter($event->getOccurredAt()->toDateTime(), 'datetime'),
         ]);
+        $queryBuilder->execute();
     }
 }
