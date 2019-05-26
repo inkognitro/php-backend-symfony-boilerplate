@@ -2,13 +2,13 @@
 
 namespace App\Packages\UserManagement\Installation\Fixtures\Prod;
 
+use App\Packages\Common\Application\DidNotReceiveSuccessResponseException;
 use App\Packages\UserManagement\Application\CreateUser;
 use App\Utilities\AuthUser as AuthUser;
 use App\Packages\Common\Application\CommandBus;
 use App\Packages\Common\Application\HandlerResponse\Success;
 use App\Packages\Common\Installation\Fixtures\Fixture;
 use App\Utilities\AuthUserFactory;
-use LogicException;
 
 final class ProdUserFixture extends Fixture
 {
@@ -25,15 +25,21 @@ final class ProdUserFixture extends Fixture
     {
         $authUser = $this->authUserFactory->createSystemUser();
         foreach($this->getRows() as $row) {
-            $data = array_merge(['sendInvitation' => true], $row);
-
-            $response = $this->commandBus->handle(CreateUser::fromArray($data), $authUser);
-
+            $command = CreateUser::fromArray([
+                CreateUser::USER_ID => $row['id'],
+                CreateUser::USERNAME => $row['username'],
+                CreateUser::EMAIL_ADDRESS => $row['emailAddress'],
+                CreateUser::PASSWORD => $row['password'],
+                CreateUser::ROLE_ID => $row['roleId'],
+                CreateUser::SEND_INVITATION => false,
+                CreateUser::CREATOR => $authUser,
+            ]);
+            $response = $this->commandBus->handle($command);
             if(!$response instanceof Success) {
-                throw new LogicException(
+                throw new DidNotReceiveSuccessResponseException(
                     'Error response from fixture.'
-                    . ' Data:' . print_r($data, true)
-                    . ' Response:' . print_r($response, true)
+                    . "\n" . ' Data:' . "\n" . print_r($row, true)
+                    . "\n" . ' Response:' . "\n" . print_r($response, true)
                 );
             }
         }
@@ -47,7 +53,7 @@ final class ProdUserFixture extends Fixture
                 'username' => getenv('APP_ADMIN_USERNAME'),
                 'emailAddress' => getenv('APP_ADMIN_EMAIL'),
                 'password' => getenv('APP_ADMIN_PASSWORD'),
-                'role' => AuthUser::ADMIN_USER_ROLE_ID,
+                'roleId' => AuthUser::ADMIN_USER_ROLE_ID,
             ]
         ];
     }

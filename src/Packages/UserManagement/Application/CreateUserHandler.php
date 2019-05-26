@@ -16,7 +16,7 @@ use App\Resources\UserRole\RoleId;
 use App\Packages\Common\Application\HandlerResponse\Response;
 use App\Packages\Common\Application\HandlerResponse\ValidationErrorResponse;
 use App\Packages\Common\Application\HandlerResponse\ResourceCreatedResponse;
-use App\Packages\UserManagement\Domain\User\UserAggregate;
+use App\Packages\UserManagement\Domain\UserAggregate;
 use App\Utilities\AuthUserFactory;
 
 final class CreateUserHandler

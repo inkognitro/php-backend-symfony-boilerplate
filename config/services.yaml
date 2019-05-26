@@ -1,6 +1,5 @@
 imports:
     - { resource: '../src/Utilities/services.yaml' }
     - { resource: '../src/Packages/Common/_services/prod.yaml' }
-    - { resource: '../src/Packages/JobQueuing/_services/prod.yaml' }
     - { resource: '../src/Packages/UserManagement/_services/prod.yaml' }
     - { resource: '../src/CLI/_services/prod.yaml' }

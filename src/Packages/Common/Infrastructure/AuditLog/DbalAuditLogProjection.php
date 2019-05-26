@@ -1,9 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Infrastructure;
+namespace App\Packages\Common\Infrastructure\AuditLog;
 
-use App\Packages\Common\Domain\Event\AuditLogEvent;
-use App\Packages\Common\Domain\Event\AuditLogProjection;
+use App\Packages\Common\Domain\AuditLog\AuditLogEvent;
+use App\Packages\Common\Domain\AuditLog\AuditLogProjection;
+use App\Packages\Common\Infrastructure\DbalConnection;
 
 final class DbalAuditLogProjection implements AuditLogProjection
 {
@@ -25,8 +26,8 @@ final class DbalAuditLogProjection implements AuditLogProjection
         $queryBuilder->insert('audit_log');
         $queryBuilder->setValue('id', $queryBuilder->createNamedParameter($event->getId()->toString()));
         $queryBuilder->setValue('event', $queryBuilder->createNamedParameter(get_class($event)));
-        $queryBuilder->setValue('resource_type', $queryBuilder->createNamedParameter($resourceType));
-        $queryBuilder->setValue('resource_id', $queryBuilder->createNamedParameter($resourceId));
+        $queryBuilder->setValue('resource_type', $queryBuilder->createNamedParameter($resourceType->toString()));
+        $queryBuilder->setValue('resource_id', $queryBuilder->createNamedParameter($resourceId->toString()));
         $queryBuilder->setValue('payload', $queryBuilder->createNamedParameter($event->getPayload()->toJson()));
         $queryBuilder->setValue('auth_user_payload', $queryBuilder->createNamedParameter($event->getPayload()->toJson()));
         $queryBuilder->setValue(

@@ -2,8 +2,8 @@
 
 namespace App\Packages\Common\Infrastructure\JobQueuing;
 
-use App\Packages\Common\Domain\Event\AuditLogEvent;
-use App\Packages\Common\Domain\Event\Projection;
+use App\Packages\Common\Domain\AuditLog\AuditLogEvent;
+use App\Packages\Common\Domain\AuditLog\Projection;
 use App\Packages\Common\Domain\JobQueuing\Events\JobWasCreated;
 use App\Packages\Common\Infrastructure\DbalConnection;
 use LogicException;

@@ -1,12 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\UserManagement\Domain\User\Events;
+namespace App\Packages\UserManagement\Domain\Events;
 
-use App\Packages\Common\Domain\Event\AuditLogEvent;
+use App\Packages\Common\Domain\AuditLog\AuditLogEvent;
 use App\Resources\AuditLogEvent\EventId;
 use App\Resources\AuditLogEvent\OccurredAt;
 use App\Resources\AuditLogEvent\Payload;
 use App\Resources\AuditLogEvent\ResourceId;
+use App\Resources\AuditLogEvent\ResourceType;
 use App\Resources\User\User;
 use App\Resources\User\UserId;
 use App\Resources\User\VerificationCode;
@@ -45,8 +46,8 @@ final class VerificationCodeWasSentToUser extends AuditLogEvent
         return true;
     }
 
-    public  static function getResourceType(): string
+    public  static function getResourceType(): ResourceType
     {
-        return User::class;
+        return ResourceType::fromString(User::class);
     }
 }

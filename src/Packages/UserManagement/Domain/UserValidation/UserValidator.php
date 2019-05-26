@@ -51,7 +51,7 @@ final class UserValidator extends Validator
         }
     }
 
-    private function validateUsernameFormat(string $username): void
+    private function validateUsernameFormat(string $username): void //todo: validate a-zA-Z_
     {
         $errorMessage = RequiredStringRule::findError($username);
         if ($errorMessage !== null) {
@@ -102,12 +102,10 @@ final class UserValidator extends Validator
             $this->errors = $this->errors->addMessage(RoleId::getKey(), $errorMessage);
             return;
         }
-
         $availableRoleIds = [AuthUser::NORMAL_USER_ROLE_ID];
         if ($authUser->isAdmin() || $authUser->isSystem()) {
-            $availableRoleIds[] = [AuthUser::ADMIN_USER_ROLE_ID];
+            $availableRoleIds[] = AuthUser::ADMIN_USER_ROLE_ID;
         }
-
         if (!in_array($roleId, $availableRoleIds)) {
             $this->errors = $this->errors->addMessage(RoleId::getKey(), new CanNotBeChosenMessage());
         }

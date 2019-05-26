@@ -5,9 +5,7 @@ services:
     App\Packages\UserManagement\Application\CreateUserHandler:
         public: true
 
-    App\Packages\UserManagement\Application\Resources\User\UserRepository:
-        class: App\Packages\UserManagement\Infrastructure\User\DbalUserRepository
-
+    App\Packages\UserManagement\Domain\UserRepository: ~
     App\Packages\UserManagement\Domain\UserValidation\UserValidator: ~
 
     App\Packages\UserManagement\Domain\UserValidation\UsersWithAnEqualValueQuery:

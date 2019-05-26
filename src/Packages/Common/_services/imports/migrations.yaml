@@ -5,3 +5,4 @@ services:
 
     App\Packages\Common\Installation\Migrations\MigrationsMigrationBase: ~
     App\Packages\Common\Installation\Migrations\AuditLogMigrationBase: ~
+    App\Packages\Common\Installation\Migrations\JobsMigrationBase: ~

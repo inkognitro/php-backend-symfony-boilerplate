@@ -2,7 +2,7 @@
 
 namespace App\Packages\Common\Domain\JobQueuing;
 
-use App\Packages\Common\Domain\Event\Projection;
+use App\Packages\Common\Domain\AuditLog\Projection;
 
 interface JobProjection extends Projection
 {

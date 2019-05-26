@@ -3,7 +3,7 @@
 namespace App\Packages\Common\Domain\JobQueuing;
 
 use App\Packages\Common\Domain\Aggregate;
-use App\Packages\Common\Domain\Event\EventStream;
+use App\Packages\Common\Domain\AuditLog\EventStream;
 use App\Packages\Common\Domain\JobQueuing\Events\JobWasCreated;
 use App\Resources\QueueJob\Command;
 use App\Resources\QueueJob\QueueJob;

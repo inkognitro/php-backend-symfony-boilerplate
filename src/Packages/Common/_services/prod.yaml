@@ -2,8 +2,8 @@ services:
     _defaults:
         autowire: true
 
-    App\Packages\Common\Application\Command\CommandBus: ~
-    App\Packages\Common\Domain\EventDispatcher: ~
+    App\Packages\Common\Application\CommandBus: ~
+    App\Packages\Common\Domain\AuditLog\EventDispatcher: ~
 
     App\Packages\Common\Domain\StateManager:
         class: App\Packages\Common\Infrastructure\DbalStateManager
@@ -17,8 +17,8 @@ services:
     App\Packages\Common\Domain\Mailing\Mailer:
         class: App\Packages\Common\Infrastructure\Mailing\SwiftMailerBridge
 
-    App\Packages\Common\Domain\AuditLogProjection:
-        class: App\Packages\Common\Infrastructure\DbalAuditLogProjection
+    App\Packages\Common\Domain\AuditLog\AuditLogProjection:
+        class: App\Packages\Common\Infrastructure\AuditLog\DbalAuditLogProjection
 
     App\Packages\Common\Domain\JobQueuing\JobProjection:
         class: App\Packages\Common\Infrastructure\JobQueuing\DbalJobProjection

@@ -2,9 +2,9 @@
 
 namespace App\Packages\UserManagement\Domain;
 
-use App\Packages\Common\Domain\Event\EventDispatcher;
-use App\Packages\Common\Domain\Event\Projections;
-use App\Packages\UserManagement\Domain\User\UserAggregate;
+use App\Packages\Common\Domain\AuditLog\EventDispatcher;
+use App\Packages\Common\Domain\AuditLog\Projections;
+use App\Packages\UserManagement\Domain\UserAggregate;
 
 final class UserRepository
 {

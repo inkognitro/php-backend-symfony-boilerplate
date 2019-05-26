@@ -2,10 +2,10 @@
 
 namespace App\Packages\UserManagement\Infrastructure;
 
-use App\Packages\Common\Domain\Event\AuditLogEvent;
+use App\Packages\Common\Domain\AuditLog\AuditLogEvent;
 use App\Packages\Common\Infrastructure\DbalConnection;
-use App\Packages\UserManagement\Domain\User\Events\UserWasCreated;
-use App\Packages\UserManagement\Domain\User\Events\VerificationCodeWasSentToUser;
+use App\Packages\UserManagement\Domain\Events\UserWasCreated;
+use App\Packages\UserManagement\Domain\Events\VerificationCodeWasSentToUser;
 use App\Packages\UserManagement\Domain\UserProjection;
 
 final class DbalUserProjection implements UserProjection

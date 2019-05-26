@@ -8,8 +8,8 @@ use App\Packages\Common\Application\HandlerResponse\ResourceNotFoundResponse;
 use App\Packages\Common\Application\HandlerResponse\Response;
 use App\Packages\Common\Application\HandlerResponse\SuccessResponse;
 use App\Packages\Common\Domain\Mailing\Mailer;
-use App\Packages\Common\Domain\Event\EventDispatcher;
-use App\Packages\UserManagement\Domain\User\UserAggregate;
+use App\Packages\Common\Domain\AuditLog\EventDispatcher;
+use App\Packages\UserManagement\Domain\UserAggregate;
 use App\Utilities\Validation\Messages\MessageBag;
 
 final class SendVerificationCodeToUserHandler

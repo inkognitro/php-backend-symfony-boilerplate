@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Domain\Event;
+namespace App\Packages\Common\Domain\AuditLog;
 
 use App\Resources\AuditLogEvent\AuditLogEvent as AuditLogEventResource;
 use App\Resources\AuditLogEvent\AuthUserPayload;
@@ -8,6 +8,7 @@ use App\Resources\AuditLogEvent\EventId;
 use App\Resources\AuditLogEvent\OccurredAt;
 use App\Resources\AuditLogEvent\Payload;
 use App\Resources\AuditLogEvent\ResourceId;
+use App\Resources\AuditLogEvent\ResourceType;
 
 abstract class AuditLogEvent implements AuditLogEventResource
 {
@@ -18,7 +19,7 @@ abstract class AuditLogEvent implements AuditLogEventResource
     private $occurredAt;
 
     public abstract function mustBeLogged(): bool;
-    public abstract static function getResourceType(): string;
+    public abstract static function getResourceType(): ResourceType;
 
     protected function __construct(
         EventId $id,

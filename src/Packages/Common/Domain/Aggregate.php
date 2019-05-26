@@ -2,8 +2,8 @@
 
 namespace App\Packages\Common\Domain;
 
-use App\Packages\Common\Domain\Event\AuditLogEvent;
-use App\Packages\Common\Domain\Event\EventStream;
+use App\Packages\Common\Domain\AuditLog\AuditLogEvent;
+use App\Packages\Common\Domain\AuditLog\EventStream;
 
 abstract class Aggregate
 {

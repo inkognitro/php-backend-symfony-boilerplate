@@ -33,13 +33,7 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/",
-            "App\\Tests\\": "tests/",
-            "App\\CLI\\": "src/CLI/src/",
-            "App\\Packages\\Common\\": "src/Packages/Common/src/",
-            "App\\Packages\\JobQueuing\\": "src/Packages/JobQueuing/src/",
-            "App\\Packages\\UserManagement\\": "src/Packages/UserManagement/src/",
-            "App\\Packages\\AccessManagement\\": "src/Packages/AccessManagement/src/"
+            "App\\": "src/"
         }
     },
     "autoload-dev": {

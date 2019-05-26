@@ -2,7 +2,8 @@
 
 namespace App\Packages\Common\Domain\JobQueuing\Events;
 
-use App\Packages\Common\Domain\Event\AuditLogEvent;
+use App\Packages\Common\Domain\AuditLog\AuditLogEvent;
+use App\Resources\AuditLogEvent\ResourceType;
 use App\Resources\QueueJob\Command;
 use App\Resources\AuditLogEvent\EventId;
 use App\Resources\AuditLogEvent\OccurredAt;
@@ -27,9 +28,9 @@ final class JobWasCreated extends AuditLogEvent
         );
     }
 
-    public static function getResourceType(): string
+    public static function getResourceType(): ResourceType
     {
-        return QueueJob::class;
+        return ResourceType::fromString(QueueJob::class);
     }
 
     public function getJobId(): QueueJobId

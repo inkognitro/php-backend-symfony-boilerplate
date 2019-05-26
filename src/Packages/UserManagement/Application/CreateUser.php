@@ -7,13 +7,13 @@ use App\Utilities\AuthUser;
 
 final class CreateUser implements Command
 {
-    public const ID = 'id';
+    public const USER_ID = 'id';
     public const USERNAME = 'username';
     public const PASSWORD = 'password';
     public const EMAIL_ADDRESS = 'emailAddress';
     public const ROLE_ID = 'roleId';
     public const SEND_INVITATION = 'sendInvitation';
-    public const EXECUTOR = 'executor';
+    public const CREATOR = 'creator';
 
     private $userId;
     private $username;
@@ -21,7 +21,7 @@ final class CreateUser implements Command
     private $password;
     private $roleId;
     private $sendInvitation;
-    private $executor;
+    private $creator;
 
     public static function getHandlerClass(): string
     {
@@ -35,7 +35,7 @@ final class CreateUser implements Command
         string $password,
         ?string $roleId,
         bool $sendInvitation,
-        AuthUser $executor
+        AuthUser $creator
     )
     {
         $this->userId = $userId;
@@ -44,19 +44,19 @@ final class CreateUser implements Command
         $this->password = $password;
         $this->roleId = $roleId;
         $this->sendInvitation = $sendInvitation;
-        $this->executor = $executor;
+        $this->creator = $creator;
     }
 
     public static function fromArray(array $data): self
     {
         return new self(
-            $data[self::ID],
+            $data[self::USER_ID],
             $data[self::USERNAME],
             $data[self::EMAIL_ADDRESS],
             $data[self::PASSWORD],
             ($data[self::ROLE_ID] ?? null),
             $data[self::SEND_INVITATION],
-            $data[self::EXECUTOR]
+            $data[self::CREATOR]
         );
     }
 
@@ -92,6 +92,6 @@ final class CreateUser implements Command
 
     public function getExecutor(): AuthUser
     {
-        return $this->executor;
+        return $this->creator;
     }
 }

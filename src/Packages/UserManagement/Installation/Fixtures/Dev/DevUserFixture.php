@@ -2,13 +2,13 @@
 
 namespace App\Packages\UserManagement\Installation\Fixtures\Dev;
 
+use App\Packages\Common\Application\DidNotReceiveSuccessResponseException;
 use App\Packages\UserManagement\Application\CreateUser;
-use App\Utilities\AuthUser as AuthUser;
 use App\Packages\Common\Application\CommandBus;
 use App\Packages\Common\Application\HandlerResponse\Success;
 use App\Packages\Common\Installation\Fixtures\Fixture;
+use App\Utilities\AuthUser;
 use App\Utilities\AuthUserFactory;
-use LogicException;
 
 final class DevUserFixture extends Fixture
 {
@@ -25,20 +25,21 @@ final class DevUserFixture extends Fixture
     {
         $authUser = $this->authUserFactory->createSystemUser();
         foreach($this->getRows() as $row) {
-            $data = array_merge([
-                'emailAddress' => $row['username'] . '@dev-fixture.com',
-                'password' => 'test',
-                'role' => AuthUser::NORMAL_USER_ROLE_ID,
-                'sendInvitation' => false,
-            ], $row);
-
-            $response = $this->commandBus->handle(CreateUser::fromArray($data), $authUser);
-
+            $command = CreateUser::fromArray([
+                CreateUser::USER_ID => $row['id'],
+                CreateUser::USERNAME => $row['username'],
+                CreateUser::EMAIL_ADDRESS => $row['username'] . '@test.com',
+                CreateUser::PASSWORD => '1234',
+                CreateUser::ROLE_ID => AuthUser::NORMAL_USER_ROLE_ID,
+                CreateUser::SEND_INVITATION => false,
+                CreateUser::CREATOR => $authUser,
+            ]);
+            $response = $this->commandBus->handle($command);
             if(!$response instanceof Success) {
-                throw new LogicException(
+                throw new DidNotReceiveSuccessResponseException(
                     'Error response from fixture.'
-                    . ' Data:' . print_r($data, true)
-                    . ' Response:' . print_r($response, true)
+                    . "\n" . ' Data:' . "\n" . print_r($row, true)
+                    . "\n" . ' Response:' . "\n" . print_r($response, true)
                 );
             }
         }
@@ -69,7 +70,7 @@ final class DevUserFixture extends Fixture
             ],
             [
                 'id' => '14e1350f-e576-4923-9c22-80ff9a80b5ba',
-                'username' => 'fränzi',
+                'username' => 'fraenzi',
                 'emailAddress' => 'fraenzi@dev-fixture.com',
             ],
             [
@@ -78,7 +79,7 @@ final class DevUserFixture extends Fixture
             ],
             [
                 'id' => '1c5b035f-2a91-4b47-a2a2-3b899b356f60',
-                'username' => 'äääööüüüüééùu',
+                'username' => 'aeaeaaeioukkh',
                 'emailAddress' => 'aeaeaeoeueueueue@dev-fixture.com',
             ],
         ];

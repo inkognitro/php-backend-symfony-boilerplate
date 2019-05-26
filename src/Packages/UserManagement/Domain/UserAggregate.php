@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\UserManagement\Domain\User;
+namespace App\Packages\UserManagement\Domain;
 
-use App\Packages\Common\Domain\Event\EventStream;
+use App\Packages\Common\Domain\AuditLog\EventStream;
 use App\Resources\User\EmailAddress;
 use App\Resources\User\Password;
 use App\Resources\User\UserId;
@@ -10,7 +10,7 @@ use App\Resources\User\Username;
 use App\Resources\UserRole\RoleId;
 use App\Utilities\AuthUser as AuthUser;
 use App\Packages\Common\Domain\Aggregate;
-use App\Packages\UserManagement\Domain\User\Events\UserWasCreated;
+use App\Packages\UserManagement\Domain\Events\UserWasCreated;
 use App\Resources\User\User as UserResource;
 
 final class UserAggregate extends Aggregate implements UserResource

@@ -2,7 +2,7 @@
 
 namespace App\Packages\UserManagement\Domain;
 
-use App\Packages\Common\Domain\Event\Projection;
+use App\Packages\Common\Domain\AuditLog\Projection;
 
 interface UserProjection extends Projection
 {
