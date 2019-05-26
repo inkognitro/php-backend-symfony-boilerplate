@@ -1,10 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Infrastructure;
+namespace App\Packages\Common\Infrastructure\JobQueuing;
 
 use App\Packages\Common\Domain\Event\AuditLogEvent;
 use App\Packages\Common\Domain\Event\Projection;
 use App\Packages\Common\Domain\JobQueuing\Events\JobWasCreated;
+use App\Packages\Common\Infrastructure\DbalConnection;
 use LogicException;
 
 final class DbalJobProjection implements Projection
@@ -32,7 +33,7 @@ final class DbalJobProjection implements Projection
             'id', $queryBuilder->createNamedParameter($event->getJobId()->toString())
         );
         $queryBuilder->setValue(
-            'command', $queryBuilder->createNamedParameter($event->getCommand()->toSerialized())
+            'command', $queryBuilder->createNamedParameter($event->getCommand()->toSerializedString())
         );
         $queryBuilder->setValue(
             'created_at', $queryBuilder->createNamedParameter($event->getOccurredAt()->toDateTime(), 'datetime')

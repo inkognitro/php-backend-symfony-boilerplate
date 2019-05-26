@@ -6,24 +6,28 @@ final class MessageBag
 {
     private $messages;
 
-    public function __construct()
+    private function __construct(array $messages)
     {
-        $this->messages = [];
+        $this->messages = $messages;
     }
 
-    public function clear(): void
+    public static function createEmpty(): self
     {
-        $this->messages = [];
+        return new self([]);
     }
 
-    public function addMessage(string $key, Message $message): void
+    public function addMessage(string $key, Message $message): self
     {
-        $this->messages[$key] = $message;
+        return new self(array_merge($this->messages, [
+            $key => $message
+        ]));
     }
 
-    public function addMessageBag(string $key, self $messageBag): void
+    public function addMessageBag(string $key, self $messageBag): self
     {
-        $this->messages[$key] = $messageBag;
+        return new self(array_merge($this->messages, [
+            $key => $messageBag
+        ]));
     }
 
     public function hasKey(string $key): bool
@@ -60,7 +64,8 @@ final class MessageBag
             if ($value instanceof Message) {
                 $array[$key] = [
                     'code' => $value->getCode(),
-                    'message' => $value->getMessage()
+                    'message' => $value->getMessage(),
+                    'placeholders' => $value->getPlaceholders(),
                 ];
             }
         }

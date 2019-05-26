@@ -1,6 +1,0 @@
-services:
-    _defaults:
-        autowire: true
-        tags: ['app.migration']
-
-    App\Packages\JobQueuing\Installation\Migrations\JobsMigration201901131125: ~

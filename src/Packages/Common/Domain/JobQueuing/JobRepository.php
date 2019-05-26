@@ -4,26 +4,24 @@ namespace App\Packages\Common\Domain\JobQueuing;
 
 use App\Packages\Common\Domain\Event\EventDispatcher;
 use App\Packages\Common\Domain\Event\Projections;
-use App\Packages\Common\Domain\JobQueuing\JobProjection;
-use App\Packages\UserManagement\Domain\User\UserAggregate;
 
 final class JobRepository
 {
     private $eventDispatcher;
-    private $userProjection;
+    private $jobProjection;
 
-    public function __construct(EventDispatcher $eventDispatcher, JobProjection $userProjection)
+    public function __construct(EventDispatcher $eventDispatcher, JobProjection $jobProjection)
     {
         $this->eventDispatcher = $eventDispatcher;
-        $this->userProjection = $userProjection;
+        $this->jobProjection = $jobProjection;
     }
 
-    public function save(UserAggregate $user): void
+    public function save(JobAggregate $job): void
     {
         $this->eventDispatcher->dispatch(
-            $user->getRecordedEvents(),
+            $job->getRecordedEvents(),
             Projections::fromArray([
-                $this->userProjection,
+                $this->jobProjection,
             ])
         );
     }

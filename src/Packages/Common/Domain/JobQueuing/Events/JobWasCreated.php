@@ -20,7 +20,7 @@ final class JobWasCreated extends AuditLogEvent
         $occurredAt = OccurredAt::create();
         $resourceId = ResourceId::fromString($jobId->toString());
         $payload = Payload::fromArray([
-            Command::getKey() => $command->toSerialized()
+            Command::getKey() => $command->toSerializedString()
         ]);
         return new self(
             EventId::create(), $resourceId, $payload, $creator->toAuditLogEventAuthUserPayload(), $occurredAt
@@ -40,7 +40,7 @@ final class JobWasCreated extends AuditLogEvent
     public function getCommand(): Command
     {
         $commandPayload = $this->getPayload()->toArray()[Command::getKey()];
-        return Command::fromSerialized($commandPayload);
+        return Command::fromSerializedString($commandPayload);
     }
 
     public function mustBeLogged(): bool

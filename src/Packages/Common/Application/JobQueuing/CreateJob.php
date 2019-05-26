@@ -9,13 +9,13 @@ use Ramsey\Uuid\Uuid;
 final class CreateJob implements Command
 {
     private $jobId;
-    private $command;
+    private $commandToQueue;
     private $executor;
 
-    private function __construct(string $jobId, Command $command, AuthUser $executor)
+    private function __construct(string $jobId, Command $commandToQueue, AuthUser $executor)
     {
         $this->jobId = $jobId;
-        $this->command = $command;
+        $this->commandToQueue = $commandToQueue;
         $this->executor = $executor;
     }
 
@@ -29,9 +29,9 @@ final class CreateJob implements Command
         return $this->jobId;
     }
 
-    public function getCommand(): Command
+    public function getCommandToQueue(): Command
     {
-        return $this->command;
+        return $this->commandToQueue;
     }
 
     public static function getHandlerClass(): string

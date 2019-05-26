@@ -19,13 +19,13 @@ final class JobAggregate extends Aggregate implements QueueJob
 
     public static function create(
         QueueJobId $jobId,
-        Command $commandPayload,
+        Command $command,
         AuthUser $creator
     ): self
     {
         $persistedUser = null;
         $events = [
-            JobWasCreated::occur($jobId, $commandPayload, $creator),
+            JobWasCreated::occur($jobId, $command, $creator),
         ];
         return new self(new EventStream($events));
     }

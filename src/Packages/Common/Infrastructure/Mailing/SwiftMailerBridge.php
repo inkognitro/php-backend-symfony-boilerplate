@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Infrastructure;
+namespace App\Packages\Common\Infrastructure\Mailing;
 
 use App\Packages\Common\Domain\Mailing\Mailer;
 use Swift_Mailer;

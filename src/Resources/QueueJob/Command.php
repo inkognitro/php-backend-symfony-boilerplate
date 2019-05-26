@@ -24,12 +24,12 @@ final class Command implements Attribute
         return new self($command);
     }
 
-    public static function fromSerialized(string $serialized): self
+    public static function fromSerializedString(string $serialized): self
     {
         return new self(unserialize($serialized));
     }
 
-    public function toSerialized(): string
+    public function toSerializedString(): string
     {
         return serialize($this->command);
     }

@@ -11,14 +11,14 @@ abstract class Validator
 
     public function __construct()
     {
-        $this->errors = new MessageBag();
-        $this->warnings = new MessageBag();
+        $this->errors = MessageBag::createEmpty();
+        $this->warnings = MessageBag::createEmpty();
     }
 
-    public function reset(): void
+    public function resetMessageBags(): void
     {
-        $this->errors = new MessageBag();
-        $this->warnings = new MessageBag();
+        $this->errors = MessageBag::createEmpty();
+        $this->warnings = MessageBag::createEmpty();
     }
 
     public function getErrors(): MessageBag

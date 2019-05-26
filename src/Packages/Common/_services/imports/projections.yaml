@@ -1,6 +1,0 @@
-services:
-    _defaults:
-        autowire: true
-
-    App\Packages\Common\Domain\AuditLogProjection:
-        class: App\Packages\Common\Infrastructure\DbalAuditLogProjection

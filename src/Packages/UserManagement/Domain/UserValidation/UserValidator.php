@@ -30,6 +30,7 @@ final class UserValidator extends Validator
 
     public function validateCreation(CreateUser $command): void
     {
+        $this->resetMessageBags();
         $this->validateUserIdFormat($command->getUserId());
         $this->validateUsernameFormat($command->getUsername());
         $this->validateEmailAddressFormat($command->getEmailAddress());
@@ -76,21 +77,21 @@ final class UserValidator extends Validator
     {
         $errorMessage = RequiredEmailAddressRule::findError($emailAddress);
         if ($errorMessage !== null) {
-            $this->errors->addMessage(EmailAddress::getKey(), $errorMessage);
+            $this->errors = $this->errors->addMessage(EmailAddress::getKey(), $errorMessage);
             return;
         }
 
         $minLength = 4;
         $errorMessage = MinLengthRule::findError($emailAddress, $minLength);
         if ($errorMessage !== null) {
-            $this->errors->addMessage(Username::getKey(), $errorMessage);
+            $this->errors = $this->errors->addMessage(Username::getKey(), $errorMessage);
             return;
         }
 
         $maxLength = 191;
         $errorMessage = MaxLengthRule::findError($emailAddress, $maxLength);
         if ($errorMessage !== null) {
-            $this->errors->addMessage(Username::getKey(), $errorMessage);
+            $this->errors = $this->errors->addMessage(Username::getKey(), $errorMessage);
         }
     }
 
@@ -98,7 +99,7 @@ final class UserValidator extends Validator
     {
         $errorMessage = RoleId::findFormatError($roleId);
         if ($errorMessage !== null) {
-            $this->errors->addMessage(RoleId::getKey(), $errorMessage);
+            $this->errors = $this->errors->addMessage(RoleId::getKey(), $errorMessage);
             return;
         }
 
@@ -108,7 +109,7 @@ final class UserValidator extends Validator
         }
 
         if (!in_array($roleId, $availableRoleIds)) {
-            $this->errors->addMessage(RoleId::getKey(), new CanNotBeChosenMessage());
+            $this->errors = $this->errors->addMessage(RoleId::getKey(), new CanNotBeChosenMessage());
         }
     }
 
@@ -116,7 +117,7 @@ final class UserValidator extends Validator
     {
         $errorMessage = Password::findFormatError($password);
         if ($errorMessage !== null) {
-            $this->errors->addMessage(Password::getKey(), $errorMessage);
+            $this->errors = $this->errors->addMessage(Password::getKey(), $errorMessage);
         }
     }
 
@@ -139,13 +140,13 @@ final class UserValidator extends Validator
                 continue;
             }
             if (!$validateForExistingUser && $user->getUserId()->isEqual($userIdToUse)) {
-                $this->errors->addMessage(UserId::getKey(), new DoesAlreadyExistMessage());;
+                $this->errors = $this->errors->addMessage(UserId::getKey(), new DoesAlreadyExistMessage());;
             }
             if ($user->getUsername()->isEqual($usernameToUse)) {
-                $this->errors->addMessage(Username::getKey(), new DoesAlreadyExistMessage());
+                $this->errors = $this->errors->addMessage(Username::getKey(), new DoesAlreadyExistMessage());
             }
             if ($user->getEmailAddress()->isEqual($emailAddressToUse)) {
-                $this->errors->addMessage(EmailAddress::getKey(), new DoesAlreadyExistMessage());
+                $this->errors = $this->errors->addMessage(EmailAddress::getKey(), new DoesAlreadyExistMessage());
             }
         }
     }
