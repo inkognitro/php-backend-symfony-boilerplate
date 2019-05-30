@@ -2,7 +2,7 @@
 
 namespace App\Packages\Common\Domain\JobQueuing\JobValidation;
 
-use App\Packages\JobQueuing\Application\Commands\CreateJob\CreateJob;
+use App\Packages\Common\Application\JobQueuing\QueueCommand;
 use App\Resources\QueueJob\QueueJobId;
 use App\Utilities\Validation\Messages\DoesAlreadyExistMessage;
 use App\Utilities\Validation\Rules\RequiredUuidRule;
@@ -18,7 +18,7 @@ final class JobValidator extends Validator
         $this->jobExistsByIdQuery = $jobExistsByIdQuery;
     }
 
-    public function validateCreation(CreateJob $command): void
+    public function validateCreation(QueueCommand $command): void
     {
         $this->resetMessageBags();
         $this->validateJobId($command->getJobId());

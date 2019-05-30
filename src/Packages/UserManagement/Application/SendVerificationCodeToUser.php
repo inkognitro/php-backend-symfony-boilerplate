@@ -1,8 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\UserManagement\Application\SendVerificationCodeToUser;
+namespace App\Packages\UserManagement\Application;
 
 use App\Packages\Common\Application\Command;
+use App\Packages\UserManagement\Domain\Handlers\SendVerificationCodeToUser\SendVerificationCodeToUserHandler;
 use App\Utilities\AuthUser;
 
 final class SendVerificationCodeToUser implements Command

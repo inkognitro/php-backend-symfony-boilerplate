@@ -3,12 +3,12 @@
 namespace App\Packages\Common\Infrastructure\JobQueuing;
 
 use App\Packages\Common\Domain\AuditLog\AuditLogEvent;
-use App\Packages\Common\Domain\AuditLog\Projection;
 use App\Packages\Common\Domain\JobQueuing\Events\JobWasCreated;
+use App\Packages\Common\Domain\JobQueuing\JobProjection;
 use App\Packages\Common\Infrastructure\DbalConnection;
 use LogicException;
 
-final class DbalJobProjection implements Projection
+final class DbalJobProjection implements JobProjection
 {
     private $connection;
 
@@ -20,12 +20,12 @@ final class DbalJobProjection implements Projection
     public function when(AuditLogEvent $event): void
     {
         if ($event instanceof JobWasCreated) {
-            $this->projectJobWasCreated($event);
+            $this->whenJobWasCreated($event);
         }
         throw new LogicException('event "' . get_class($event) . '" is not supported');
     }
 
-    private function projectJobWasCreated(JobWasCreated $event): void
+    private function whenJobWasCreated(JobWasCreated $event): void
     {
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder->insert('jobs');

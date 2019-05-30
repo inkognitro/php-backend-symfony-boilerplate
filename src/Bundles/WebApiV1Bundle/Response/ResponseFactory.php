@@ -3,13 +3,13 @@
 namespace App\Bundles\WebApiV1Bundle\Response;
 
 use App\Bundles\WebApiV1Bundle\Transformer\Transformer;
-use App\Packages\Common\Application\HandlerResponse\Response;
-use App\Packages\Common\Application\HandlerResponse\UnauthorizedResponse as UnauthorizedHandlerResponse;
-use App\Packages\Common\Application\HandlerResponse\ValidationErrorResponse;
-use App\Packages\Common\Application\HandlerResponse\ResourceChangedResponse;
-use App\Packages\Common\Application\HandlerResponse\ResourceCreatedResponse;
-use App\Packages\Common\Application\HandlerResponse\ResourceNotFoundResponse as ResourceNotFoundResponse;
-use App\Packages\Common\Application\HandlerResponse\ResourceRemovedResponse;
+use App\Utilities\HandlerResponse\Response;
+use App\Utilities\HandlerResponse\UnauthorizedResponse as UnauthorizedHandlerResponse;
+use App\Utilities\HandlerResponse\ValidationErrorResponse;
+use App\Utilities\HandlerResponse\ResourceChangedResponse;
+use App\Utilities\HandlerResponse\ResourceCreatedResponse;
+use App\Utilities\HandlerResponse\ResourceNotFoundResponse as ResourceNotFoundResponse;
+use App\Utilities\HandlerResponse\ResourceRemovedResponse;
 
 final class ResponseFactory
 {

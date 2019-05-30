@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Application\HandlerResponse;
+namespace App\Utilities\HandlerResponse;
 
 use App\Utilities\Validation\Messages\MessageBag;
 
-final class SuccessResponse implements Success
+final class ResourceChangedResponse implements Success
 {
     private $warnings;
 

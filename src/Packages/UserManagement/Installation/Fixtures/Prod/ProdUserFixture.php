@@ -2,11 +2,11 @@
 
 namespace App\Packages\UserManagement\Installation\Fixtures\Prod;
 
-use App\Packages\Common\Application\DidNotReceiveSuccessResponseException;
+use App\Packages\Common\Domain\DidNotReceiveSuccessResponseException;
 use App\Packages\UserManagement\Application\CreateUser;
 use App\Utilities\AuthUser as AuthUser;
 use App\Packages\Common\Application\CommandBus;
-use App\Packages\Common\Application\HandlerResponse\Success;
+use App\Utilities\HandlerResponse\Success;
 use App\Packages\Common\Installation\Fixtures\Fixture;
 use App\Utilities\AuthUserFactory;
 

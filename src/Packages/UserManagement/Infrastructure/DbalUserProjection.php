@@ -7,6 +7,7 @@ use App\Packages\Common\Infrastructure\DbalConnection;
 use App\Packages\UserManagement\Domain\Events\UserWasCreated;
 use App\Packages\UserManagement\Domain\Events\VerificationCodeWasSentToUser;
 use App\Packages\UserManagement\Domain\UserProjection;
+use LogicException;
 
 final class DbalUserProjection implements UserProjection
 {
@@ -26,6 +27,8 @@ final class DbalUserProjection implements UserProjection
         if ($event instanceof VerificationCodeWasSentToUser) {
             $this->projectVerificationCodeWasSentToUser($event);
         }
+
+        throw new LogicException('event "' . get_class($event) . '" is not supported');
     }
 
     private function projectVerificationCodeWasSentToUser(VerificationCodeWasSentToUser $event): void

@@ -1,21 +1,22 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\JobQueuing\Application\Commands\CreateJob;
+namespace App\Packages\Common\Application\JobQueuing;
 
 use App\Packages\Common\Application\Command;
+use App\Packages\Common\Domain\JobQueuing\QueueCommandHandler;
 use App\Utilities\AuthUser;
 use Ramsey\Uuid\Uuid;
 
-final class CreateJob implements Command
+final class QueueCommand implements Command
 {
     private $jobId;
-    private $commandToQueue;
+    private $queueCommand;
     private $executor;
 
-    private function __construct(string $jobId, Command $commandToQueue, AuthUser $executor)
+    private function __construct(string $jobId, Command $queueCommand, AuthUser $executor)
     {
         $this->jobId = $jobId;
-        $this->commandToQueue = $commandToQueue;
+        $this->queueCommand = $queueCommand;
         $this->executor = $executor;
     }
 
@@ -29,14 +30,14 @@ final class CreateJob implements Command
         return $this->jobId;
     }
 
-    public function getCommandToQueue(): Command
+    public function getQueueCommand(): Command
     {
-        return $this->commandToQueue;
+        return $this->queueCommand;
     }
 
     public static function getHandlerClass(): string
     {
-        return CreateJobHandler::class;
+        return QueueCommandHandler::class;
     }
 
     public function getExecutor(): AuthUser

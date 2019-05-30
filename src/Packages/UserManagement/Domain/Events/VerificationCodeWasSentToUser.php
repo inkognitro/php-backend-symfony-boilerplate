@@ -16,8 +16,8 @@ use App\Utilities\AuthUser;
 final class VerificationCodeWasSentToUser extends AuditLogEvent
 {
     public static function occur(
-        VerificationCode $verificationCode,
         UserId $userId,
+        VerificationCode $verificationCode,
         AuthUser $sender
     ): self {
         $occurredAt = OccurredAt::create();
@@ -46,7 +46,7 @@ final class VerificationCodeWasSentToUser extends AuditLogEvent
         return true;
     }
 
-    public  static function getResourceType(): ResourceType
+    public static function getResourceType(): ResourceType
     {
         return ResourceType::fromString(User::class);
     }

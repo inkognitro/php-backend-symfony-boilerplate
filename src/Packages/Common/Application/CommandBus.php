@@ -2,22 +2,22 @@
 
 namespace App\Packages\Common\Application;
 
-use App\Packages\Common\Application\HandlerResponse\Response;
-use App\Packages\Common\Application\HandlerResponse\Success;
+use App\Utilities\HandlerResponse\Response;
+use App\Utilities\HandlerResponse\Success;
+use App\Packages\Common\Domain\CommandHandler;
 use App\Packages\Common\Domain\StateManager;
 use Exception;
 use Ramsey\Uuid\Uuid;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 final class CommandBus
 {
     private $stateManager;
-    private $serviceContainer;
+    private $commandHandler;
 
-    public function __construct(StateManager $stateManager, ContainerInterface $serviceContainer)
+    public function __construct(StateManager $stateManager, CommandHandler $commandHandler)
     {
         $this->stateManager = $stateManager;
-        $this->serviceContainer = $serviceContainer;
+        $this->commandHandler = $commandHandler;
     }
 
     public function handle(Command $command): Response
@@ -25,14 +25,13 @@ final class CommandBus
         $transactionSavePointName = $this->createSavePointName();
         $this->stateManager->beginTransaction($transactionSavePointName);
         try {
-            $commandHandler = $this->serviceContainer->get($command->getHandlerClass());
-            $handlerResponse = $commandHandler->handle($command);
-            if (!$handlerResponse instanceof Success) {
+            $response = $this->commandHandler->handle($command);
+            if (!$response instanceof Success) {
                 $this->stateManager->rollbackTransaction($transactionSavePointName);
-                return $handlerResponse;
+                return $response;
             }
             $this->stateManager->commitTransaction();
-            return $handlerResponse;
+            return $response;
         } catch (Exception $e) {
             $this->stateManager->rollbackTransaction($transactionSavePointName);
             throw $e;

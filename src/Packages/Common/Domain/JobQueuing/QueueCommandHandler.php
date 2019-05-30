@@ -1,17 +1,16 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\JobQueuing\Application\Commands\CreateJob;
+namespace App\Packages\Common\Domain\JobQueuing;
 
-use App\Packages\Common\Domain\JobQueuing\JobAggregate;
-use App\Packages\Common\Domain\JobQueuing\JobRepository;
+use App\Packages\Common\Application\JobQueuing\QueueCommand;
 use App\Packages\Common\Domain\JobQueuing\JobValidation\JobValidator;
-use App\Packages\Common\Application\HandlerResponse\Response;
-use App\Packages\Common\Application\HandlerResponse\ValidationErrorResponse;
-use App\Packages\Common\Application\HandlerResponse\ResourceCreatedResponse;
+use App\Utilities\HandlerResponse\Response;
+use App\Utilities\HandlerResponse\ValidationErrorResponse;
+use App\Utilities\HandlerResponse\ResourceCreatedResponse;
 use App\Resources\QueueJob\Command;
 use App\Resources\QueueJob\QueueJobId;
 
-final class CreateJobHandler
+final class QueueCommandHandler
 {
     private $jobRepository;
     private $validator;
@@ -22,7 +21,7 @@ final class CreateJobHandler
         $this->validator = $validator;
     }
 
-    public function handle(CreateJob $command): Response
+    public function handle(QueueCommand $command): Response
     {
         $this->validator->validateCreation($command);
         if ($this->validator->hasErrors()) {
@@ -33,7 +32,7 @@ final class CreateJobHandler
         }
         $jobAggregate = JobAggregate::create(
             QueueJobId::fromString($command->getJobId()),
-            Command::fromCommand($command->getCommandToQueue()),
+            Command::fromCommand($command->getQueueCommand()),
             $command->getExecutor()
         );
         $this->jobRepository->save($jobAggregate);

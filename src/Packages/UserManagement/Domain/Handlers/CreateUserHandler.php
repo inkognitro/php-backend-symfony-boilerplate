@@ -1,11 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\UserManagement\Application;
+namespace App\Packages\UserManagement\Domain\Handlers;
 
-use App\Packages\Common\Application\CommandBus;
-use App\Packages\Common\Application\DidNotReceiveSuccessResponseException;
-use App\Packages\Common\Application\HandlerResponse\Success;
-use App\Packages\UserManagement\Application\SendVerificationCodeToUser\SendVerificationCodeToUser;
+use App\Packages\Common\Application\JobQueuing\QueueCommand;
+use App\Packages\Common\Domain\CommandHandler;
+use App\Packages\Common\Domain\DidNotReceiveSuccessResponseException;
+use App\Packages\UserManagement\Application\CreateUser;
+use App\Utilities\HandlerResponse\Success;
+use App\Packages\UserManagement\Application\SendVerificationCodeToUser;
 use App\Packages\UserManagement\Domain\UserRepository;
 use App\Packages\UserManagement\Domain\UserValidation\UserValidator;
 use App\Resources\User\EmailAddress;
@@ -13,9 +15,9 @@ use App\Resources\User\Password;
 use App\Resources\User\UserId;
 use App\Resources\User\Username;
 use App\Resources\UserRole\RoleId;
-use App\Packages\Common\Application\HandlerResponse\Response;
-use App\Packages\Common\Application\HandlerResponse\ValidationErrorResponse;
-use App\Packages\Common\Application\HandlerResponse\ResourceCreatedResponse;
+use App\Utilities\HandlerResponse\Response;
+use App\Utilities\HandlerResponse\ValidationErrorResponse;
+use App\Utilities\HandlerResponse\ResourceCreatedResponse;
 use App\Packages\UserManagement\Domain\UserAggregate;
 use App\Utilities\AuthUserFactory;
 
@@ -24,18 +26,18 @@ final class CreateUserHandler
     private $validator;
     private $userRepository;
     private $authUserFactory;
-    private $commandBus;
+    private $commandHandler;
 
     public function __construct(
         UserValidator $validator,
         UserRepository $userRepository,
         AuthUserFactory $authUserFactory,
-        CommandBus $commandBus
+        CommandHandler $commandHandler
     ) {
         $this->validator = $validator;
         $this->userRepository = $userRepository;
         $this->authUserFactory = $authUserFactory;
-        $this->commandBus = $commandBus;
+        $this->commandHandler = $commandHandler;
     }
 
     public function handle(CreateUser $command): Response
@@ -57,17 +59,17 @@ final class CreateUserHandler
         );
         $this->userRepository->save($userAggregate);
         if ($command->sendInvitation()) {
-            $this->sendVerificationCode($command);
+            $this->queueSendVerificationCode($command);
         }
         return new ResourceCreatedResponse($this->validator->getWarnings());
     }
 
-    private function sendVerificationCode(CreateUser $command): void
+    private function queueSendVerificationCode(CreateUser $command): void
     {
-        $sendVerificationCodeCommand = SendVerificationCodeToUser::fromUserId(
-            $command->getUserId(), $this->authUserFactory->createSystemUser()
-        );
-        $response = $this->commandBus->handle($sendVerificationCodeCommand);
+        $systemAuthUser = $this->authUserFactory->createSystemUser();
+        $commandToQueue = SendVerificationCodeToUser::fromUserId($command->getUserId(), $systemAuthUser);
+        $createJobCommand = QueueCommand::create($commandToQueue, $systemAuthUser);
+        $response = $this->commandHandler->handle($createJobCommand);
         if (!$response instanceof Success) {
             throw new DidNotReceiveSuccessResponseException(
                 'Could not create job: ' . print_r($response, true)

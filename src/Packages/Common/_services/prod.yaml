@@ -3,6 +3,7 @@ services:
         autowire: true
 
     App\Packages\Common\Application\CommandBus: ~
+    App\Packages\Common\Domain\CommandHandler: ~
     App\Packages\Common\Domain\AuditLog\EventDispatcher: ~
 
     App\Packages\Common\Domain\StateManager:
