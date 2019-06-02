@@ -9,12 +9,14 @@ use App\Utilities\AuthUser;
 final class SendVerificationCodeToUser implements Command
 {
     private $userId;
+    private $emailAddress;
     private $verificationCode;
     private $executor;
 
-    private function __construct(string $userId, ?string $verificationCode, AuthUser $executor)
+    private function __construct(string $userId, string $emailAddress, ?string $verificationCode, AuthUser $executor)
     {
         $this->userId = $userId;
+        $this->emailAddress = $emailAddress;
         $this->verificationCode = $verificationCode;
         $this->executor = $executor;
     }
@@ -24,9 +26,9 @@ final class SendVerificationCodeToUser implements Command
         return SendVerificationCodeToUserHandler::class;
     }
 
-    public static function fromUserId(string $userId, AuthUser $sender): self
+    public static function create(string $userId, string $emailAddress, AuthUser $sender): self
     {
-        return new self($userId, null, $sender);
+        return new self($userId, $emailAddress, null, $sender);
     }
 
     public function getUserId(): string

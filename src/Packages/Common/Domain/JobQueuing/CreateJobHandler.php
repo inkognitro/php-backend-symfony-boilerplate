@@ -2,7 +2,7 @@
 
 namespace App\Packages\Common\Domain\JobQueuing;
 
-use App\Packages\Common\Application\JobQueuing\QueueCommand;
+use App\Packages\Common\Application\JobQueuing\CreateJob;
 use App\Packages\Common\Domain\JobQueuing\JobValidation\JobValidator;
 use App\Utilities\HandlerResponse\Response;
 use App\Utilities\HandlerResponse\ValidationErrorResponse;
@@ -10,7 +10,7 @@ use App\Utilities\HandlerResponse\ResourceCreatedResponse;
 use App\Resources\QueueJob\Command;
 use App\Resources\QueueJob\QueueJobId;
 
-final class QueueCommandHandler
+final class CreateJobHandler
 {
     private $jobRepository;
     private $validator;
@@ -21,7 +21,7 @@ final class QueueCommandHandler
         $this->validator = $validator;
     }
 
-    public function handle(QueueCommand $command): Response
+    public function handle(CreateJob $command): Response
     {
         $this->validator->validateCreation($command);
         if ($this->validator->hasErrors()) {

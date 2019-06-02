@@ -3,11 +3,11 @@
 namespace App\Packages\Common\Application\JobQueuing;
 
 use App\Packages\Common\Application\Command;
-use App\Packages\Common\Domain\JobQueuing\QueueCommandHandler;
+use App\Packages\Common\Domain\JobQueuing\CreateJobHandler;
 use App\Utilities\AuthUser;
 use Ramsey\Uuid\Uuid;
 
-final class QueueCommand implements Command
+final class CreateJob implements Command
 {
     private $jobId;
     private $queueCommand;
@@ -37,7 +37,7 @@ final class QueueCommand implements Command
 
     public static function getHandlerClass(): string
     {
-        return QueueCommandHandler::class;
+        return CreateJobHandler::class;
     }
 
     public function getExecutor(): AuthUser

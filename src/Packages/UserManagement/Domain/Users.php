@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\UserManagement\Domain\UserValidation;
+namespace App\Packages\UserManagement\Domain;
 
 final class Users
 {

@@ -2,6 +2,7 @@
 
 namespace App\Packages\UserManagement\Domain\UserValidation;
 
+use App\Packages\UserManagement\Domain\Users;
 use App\Resources\User\EmailAddress;
 use App\Resources\User\UserId;
 use App\Resources\User\Username;

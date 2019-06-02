@@ -6,10 +6,10 @@ use App\Packages\Common\Domain\AuditLog\AuditLogEvent;
 use App\Packages\Common\Infrastructure\DbalConnection;
 use App\Packages\UserManagement\Domain\Events\UserWasCreated;
 use App\Packages\UserManagement\Domain\Events\VerificationCodeWasSentToUser;
-use App\Packages\UserManagement\Domain\UserProjection;
+use App\Packages\UserManagement\Domain\UserEventProjection;
 use LogicException;
 
-final class DbalUserProjection implements UserProjection
+final class DbalUserEventProjection implements UserEventProjection
 {
     private $connection;
 
@@ -34,14 +34,18 @@ final class DbalUserProjection implements UserProjection
     private function projectVerificationCodeWasSentToUser(VerificationCodeWasSentToUser $event): void
     {
         $queryBuilder = $this->connection->createQueryBuilder();
-        $queryBuilder->update('users');
-        $queryBuilder->set(
-            'verification_code',
-            $queryBuilder->createNamedParameter($event->getVerificationCode()->toString())
-        );
-        $queryBuilder->andWhere(
-            "verification_code = {$queryBuilder->createNamedParameter($event->getUserId()->toString())}"
-        );
+        $queryBuilder->delete('user_email_address_verification_codes');
+        $queryBuilder->andWhere("user_id = {$queryBuilder->createNamedParameter($event->getUserId()->toString())}");
+        $queryBuilder->execute();
+
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $queryBuilder->insert('user_email_address_verification_codes');
+        $queryBuilder->values([
+            'code' => $queryBuilder->createNamedParameter($event->getVerificationCode()->toString()),
+            'user_id' => $queryBuilder->createNamedParameter($event->getUserId()->toString()),
+            'email_address' => $queryBuilder->createNamedParameter($event->getEmailAddress()->toString()),
+            'code_sent_at' => $queryBuilder->createNamedParameter($event->getOccurredAt()->toDateTime(), 'datetime'),
+        ]);
         $queryBuilder->execute();
     }
 

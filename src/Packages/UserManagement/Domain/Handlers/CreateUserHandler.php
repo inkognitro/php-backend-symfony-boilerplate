@@ -2,13 +2,13 @@
 
 namespace App\Packages\UserManagement\Domain\Handlers;
 
-use App\Packages\Common\Application\JobQueuing\QueueCommand;
+use App\Packages\Common\Application\JobQueuing\CreateJob;
 use App\Packages\Common\Domain\CommandHandler;
 use App\Packages\Common\Domain\DidNotReceiveSuccessResponseException;
 use App\Packages\UserManagement\Application\CreateUser;
 use App\Utilities\HandlerResponse\Success;
 use App\Packages\UserManagement\Application\SendVerificationCodeToUser;
-use App\Packages\UserManagement\Domain\UserRepository;
+use App\Packages\UserManagement\Domain\UserEventDispatcher;
 use App\Packages\UserManagement\Domain\UserValidation\UserValidator;
 use App\Resources\User\EmailAddress;
 use App\Resources\User\Password;
@@ -24,18 +24,19 @@ use App\Utilities\AuthUserFactory;
 final class CreateUserHandler
 {
     private $validator;
-    private $userRepository;
+    private $userEventDispatcher;
     private $authUserFactory;
     private $commandHandler;
 
     public function __construct(
         UserValidator $validator,
-        UserRepository $userRepository,
+        UserEventDispatcher $userEventDispatcher,
         AuthUserFactory $authUserFactory,
         CommandHandler $commandHandler
-    ) {
+    )
+    {
         $this->validator = $validator;
-        $this->userRepository = $userRepository;
+        $this->userEventDispatcher = $userEventDispatcher;
         $this->authUserFactory = $authUserFactory;
         $this->commandHandler = $commandHandler;
     }
@@ -57,7 +58,7 @@ final class CreateUserHandler
             RoleId::fromString($command->getRoleId()),
             $command->getExecutor()
         );
-        $this->userRepository->save($userAggregate);
+        $this->userEventDispatcher->dispatchEventsFromUserAggregate($userAggregate);
         if ($command->sendInvitation()) {
             $this->queueSendVerificationCode($command);
         }
@@ -67,8 +68,8 @@ final class CreateUserHandler
     private function queueSendVerificationCode(CreateUser $command): void
     {
         $systemAuthUser = $this->authUserFactory->createSystemUser();
-        $commandToQueue = SendVerificationCodeToUser::fromUserId($command->getUserId(), $systemAuthUser);
-        $createJobCommand = QueueCommand::create($commandToQueue, $systemAuthUser);
+        $commandToQueue = SendVerificationCodeToUser::create($command->getUserId(), $command->getEmailAddress(), $systemAuthUser);
+        $createJobCommand = CreateJob::create($commandToQueue, $systemAuthUser);
         $response = $this->commandHandler->handle($createJobCommand);
         if (!$response instanceof Success) {
             throw new DidNotReceiveSuccessResponseException(

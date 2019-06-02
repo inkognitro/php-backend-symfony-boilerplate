@@ -14,6 +14,7 @@ use App\Resources\User\Username;
 use App\Resources\User\VerificationCode;
 use App\Resources\UserRole\RoleId;
 use App\Utilities\AuthUser as AuthUser;
+
 final class UserAggregate extends Aggregate implements User
 {
     private $id;
@@ -31,14 +32,18 @@ final class UserAggregate extends Aggregate implements User
         Password $password,
         RoleId $roleId,
         AuthUser $creator
-    ): self {
+    ): self
+    {
         return new self($userId, new EventStream([
             UserWasCreated::occur($userId, $username, $emailAddress, $password, $roleId, $creator),
         ]));
     }
 
-    public function sendVerificationCode(VerificationCode $verificationCode, AuthUser $sender): void
-    {
-        $this->recordEvent(VerificationCodeWasSentToUser::occur($this->id, $verificationCode, $sender));
+    public function sendEmailAddressVerificationCode( //todo: use in handler
+        EmailAddress $emailAddress,
+        VerificationCode $verificationCode,
+        AuthUser $sender
+    ): void {
+        $this->recordEvent(VerificationCodeWasSentToUser::occur($this->id, $emailAddress, $verificationCode, $sender));
     }
 }
