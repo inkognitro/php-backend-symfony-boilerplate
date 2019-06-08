@@ -2,7 +2,14 @@
 
 namespace App\Utilities\HandlerResponse;
 
-final class ResourceNotFoundResponse implements Response
+final class ResourceNotFoundResponse implements Error
 {
+    private function __construct()
+    {
+    }
 
+    public static function create(): self
+    {
+        return new self();
+    }
 }

@@ -7,11 +7,9 @@ use App\Packages\UserManagement\Application\SendVerificationCodeToUser;
 use App\Packages\UserManagement\Domain\UserByIdQuery;
 use App\Packages\UserManagement\Domain\UserEventDispatcher;
 use App\Resources\User\UserId;
+use App\Utilities\HandlerResponse\ResourceNotFoundResponse;
 use App\Utilities\HandlerResponse\Response;
 use App\Utilities\HandlerResponse\SuccessResponse;
-use App\Utilities\HandlerResponse\ValidationErrorResponse;
-use App\Utilities\Validation\Messages\DoesNotExistMessage;
-use App\Utilities\Validation\Messages\MessageBag;
 
 final class SendVerificationCodeToUserHandler
 {
@@ -30,12 +28,8 @@ final class SendVerificationCodeToUserHandler
     {
         $user = $this->userByIdQuery->execute(UserId::fromString($command->getUserId()));
         if($user === null) {
-            $warnings = MessageBag::createEmpty();
-            $errors = MessageBag::createEmpty()->addMessage(UserId::getKey(), new DoesNotExistMessage());
-            return new ValidationErrorResponse($errors, $warnings);
+            return ResourceNotFoundResponse::create();
         }
-
-
         $subject = 'Verification';
         $link = getenv('APP_WEBFRONTEND_VERIFICATION_URL');
         $link = str_replace('%verificationCode%', urlencode($command->getVerificationCode()), $link);

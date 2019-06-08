@@ -4,7 +4,7 @@ namespace App\Utilities\HandlerResponse;
 
 use App\Utilities\Validation\Messages\MessageBag;
 
-final class ValidationErrorResponse implements Response
+final class ValidationErrorResponse implements Error
 {
     private $errors;
     private $warnings;
