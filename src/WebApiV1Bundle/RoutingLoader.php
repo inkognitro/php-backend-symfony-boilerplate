@@ -23,7 +23,7 @@ class RoutingLoader extends Loader
     public function load($resource, $type = null)
     {
         if ($this->isLoaded === true) {
-            throw new \RuntimeException('Class "' . self::class . '" loaded twice!');
+            throw new \RuntimeException('Class "' . self::class . '" loaded twice');
         }
         $routes = new RouteCollection();
         foreach($this->apiSchema->getEndpoints()->toIterable() as $endpoint) {
@@ -39,7 +39,7 @@ class RoutingLoader extends Loader
     {
         $endpointServiceName = get_class($endpoint);
         $endpointSchema = $endpoint::getSchema();
-        $url = $this->apiSchema->getDocumentationBasePath() . $endpointSchema->getPath();
+        $url = $endpointSchema->getPath();
         $defaults = [
             '_controller' => [$endpointServiceName, 'handle']
         ];

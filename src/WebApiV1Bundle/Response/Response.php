@@ -4,5 +4,5 @@ namespace App\WebApiV1Bundle\Response;
 
 interface Response
 {
-    public function getHttpStatusCode(): int;
+    public static function getHttpStatusCode(): int;
 }

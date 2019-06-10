@@ -4,9 +4,9 @@ namespace App\WebApiV1Bundle\Response;
 
 use Symfony\Component\HttpFoundation\Response;
 
-final class NotFoundResponse implements JsonResponse
+final class JsonNotFoundResponse implements JsonResponse
 {
-    public function getHttpStatusCode(): int
+    public static function getHttpStatusCode(): int
     {
         return Response::HTTP_UNAUTHORIZED;
     }

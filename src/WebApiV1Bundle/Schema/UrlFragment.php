@@ -4,15 +4,20 @@ namespace App\WebApiV1Bundle\Schema;
 
 final class UrlFragment
 {
-    private $fragments;
+    private $fragment;
 
     private function __construct(string $fragment)
     {
-        $this->fragments = $fragment;
+        $this->fragment = $fragment;
     }
 
     public static function fromString(string $fragment): self
     {
         return new self($fragment);
+    }
+
+    public function toString(): string
+    {
+        return $this->fragment;
     }
 }

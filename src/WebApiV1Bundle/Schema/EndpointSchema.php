@@ -48,7 +48,7 @@ final class EndpointSchema
 
     public function getPath(): string
     {
-        return '/' . implode('/', $this->urlFragments->toArray());
+        return $this->urlFragments->toPath();
     }
 
     public function getRequestMethod(): RequestMethod
@@ -76,7 +76,7 @@ final class EndpointSchema
         ];
         foreach($keysToAdd as $keyToAdd) {
             if(isset($this->openApiData[$keyToAdd])) {
-                $data[$keyToAdd] = $this->openApiData[$this->openApiData[$keyToAdd]];
+                $data[$keyToAdd] = $this->openApiData[$keyToAdd];
             }
         }
         return $data;

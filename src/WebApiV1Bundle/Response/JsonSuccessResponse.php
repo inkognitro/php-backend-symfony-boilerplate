@@ -4,18 +4,24 @@ namespace App\WebApiV1Bundle\Response;
 
 use Symfony\Component\HttpFoundation\Response;
 
-final class SuccessResponse implements JsonResponse
+final class JsonSuccessResponse implements JsonResponse
 {
     private $data;
     private $warnings;
 
-    public function __construct(array $data, array $warnings)
+    private function __construct(array $data, array $warnings)
     {
         $this->data = $data;
         $this->warnings = $warnings;
     }
 
-    public function getHttpStatusCode(): int
+    public static function fromData(array $data): self
+    {
+        $warnings = [];
+        return new self($data, $warnings);
+    }
+
+    public static function getHttpStatusCode(): int
     {
         return Response::HTTP_OK;
     }

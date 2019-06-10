@@ -12,9 +12,13 @@ final class UrlFragments
         $this->fragments = $fragments;
     }
 
-    public static function create(): self
+    public static function fromStrings(array $fragments): self
     {
-        return new self([]);
+        $fragmentObjects = [];
+        foreach($fragments as $fragment) {
+            $fragmentObjects[] = UrlFragment::fromString($fragment);
+        }
+        return new self($fragmentObjects);
     }
 
     public function add(UrlFragment $fragment): self
@@ -23,8 +27,12 @@ final class UrlFragments
     }
 
     /** @return UrlFragment[] */
-    public function toArray(): array
+    public function toPath(): string
     {
-        return $this->fragments;
+        $path = '';
+        foreach($this->fragments as $fragment) {
+            $path .= '/' . $fragment->toString();
+        }
+        return $path;
     }
 }

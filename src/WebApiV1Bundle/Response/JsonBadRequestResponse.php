@@ -4,7 +4,7 @@ namespace App\WebApiV1Bundle\Response;
 
 use Symfony\Component\HttpFoundation\Response;
 
-final class BadRequestResponse implements JsonResponse
+final class JsonBadRequestResponse implements JsonResponse
 {
     private $errors;
     private $warnings;
@@ -15,7 +15,7 @@ final class BadRequestResponse implements JsonResponse
         $this->warnings = $warnings;
     }
 
-    public function getHttpStatusCode(): int
+    public static function getHttpStatusCode(): int
     {
         return Response::HTTP_BAD_REQUEST;
     }

@@ -4,4 +4,4 @@ services:
         tags: ['app.migration']
 
     App\Packages\UserManagement\Installation\Migrations\UsersMigrationBase: ~
-    App\Packages\UserManagement\Installation\Migrations\UserEmailAddressVerificationCodesMigration: ~
+    App\Packages\UserManagement\Installation\Migrations\UserEmailAddressVerificationCodesMigrationBase: ~
