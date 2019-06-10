@@ -4,5 +4,5 @@ services:
         autowire: true
         tags: ['app.web_api_v1.endpoint', 'controller.service_arguments']
 
-    App\WebApiV1Bundle\Endpoints\Documentation\GetOpenApiV2SpecificationEndpoint: ~
+    App\WebApiV1Bundle\Endpoints\SpecificationEndpoint: ~
     App\WebApiV1Bundle\Endpoints\User\CreateUserEndpoint: ~

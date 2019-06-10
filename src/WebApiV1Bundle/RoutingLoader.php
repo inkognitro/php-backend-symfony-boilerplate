@@ -8,7 +8,7 @@ use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
-class RoutingLoader extends Loader
+final class RoutingLoader extends Loader
 {
     private const TYPE = 'web_api_v1_routes';
     private $isLoaded;
@@ -26,28 +26,51 @@ class RoutingLoader extends Loader
             throw new \RuntimeException('Class "' . self::class . '" loaded twice');
         }
         $routes = new RouteCollection();
-        foreach($this->apiSchema->getEndpoints()->toIterable() as $endpoint) {
-            /** @var $endpoint Endpoint */
-            $endpointClassName = get_class($endpoint);
-            $routes->add($endpointClassName, $this->createRoute($endpoint));
-        }
+        $this->addDocumentationRoutes($routes);
+        $this->addEndpointRoutes($routes);
         $this->isLoaded = true;
         return $routes;
     }
 
-    private function createRoute(Endpoint $endpoint): Route
+    private function addDocumentationRoutes(RouteCollection $routes): void
     {
-        $endpointServiceName = get_class($endpoint);
+        $requestMethod = 'GET';
+        $url = '';
+        $serviceClass = DocumentationController::class;
+        $serviceClassMethod = 'show';
+        $documentationIndexRoute = $this->createRoute($requestMethod, $url, $serviceClass, $serviceClassMethod);
+        $routes->add(WebApiV1Bundle::class . 'Documentation', $documentationIndexRoute);
+    }
+
+    private function addEndpointRoutes(RouteCollection $routes): void
+    {
+        foreach ($this->apiSchema->getEndpoints()->toIterable() as $endpoint) {
+            /** @var $endpoint Endpoint */
+            $endpointClassName = get_class($endpoint);
+            $routes->add($endpointClassName, $this->createEndpointRoute($endpoint));
+        }
+    }
+
+    private function createEndpointRoute(Endpoint $endpoint): Route
+    {
         $endpointSchema = $endpoint::getSchema();
+        $requestMethod = $endpointSchema->getRequestMethod()->toString();
         $url = $endpointSchema->getPath();
+        $endpointService = get_class($endpoint);
+        $endpointServiceMethod = 'handle';
+        return $this->createRoute($requestMethod, $url, $endpointService, $endpointServiceMethod);
+    }
+
+    private function createRoute(string $requestMethod, string $url, string $serviceClass, string $serviceMethod): Route
+    {
         $defaults = [
-            '_controller' => [$endpointServiceName, 'handle']
+            '_controller' => [$serviceClass, $serviceMethod]
         ];
         $requirements = [];
         $options = [];
         $host = '';
-        $schemes = [];
-        $methods = [$endpointSchema->getRequestMethod()->toString()];
+        $schemes = ['http', 'https'];
+        $methods = [$requestMethod];
         return new Route($url, $defaults, $requirements, $options, $host, $schemes, $methods);
     }
 

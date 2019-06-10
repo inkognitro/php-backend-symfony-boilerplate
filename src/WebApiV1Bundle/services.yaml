@@ -8,6 +8,9 @@ services:
     App\WebApiV1Bundle\Endpoints\Endpoints:
         arguments: [!tagged 'app.web_api_v1.endpoint']
 
+    App\WebApiV1Bundle\DocumentationController:
+        public: true
+
     App\WebApiV1Bundle\RoutingLoader:
         tags: ['routing.loader']
 

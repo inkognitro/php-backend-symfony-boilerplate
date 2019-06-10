@@ -29,6 +29,9 @@ final class UrlFragments
     /** @return UrlFragment[] */
     public function toPath(): string
     {
+        if(count($this->fragments) === 0) {
+            return '';
+        }
         $path = '';
         foreach($this->fragments as $fragment) {
             $path .= '/' . $fragment->toString();
