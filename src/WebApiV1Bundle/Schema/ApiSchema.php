@@ -20,8 +20,8 @@ final class ApiSchema
                 'version' => '1.0.0',
                 'title' => 'Boilerplate Api',
             ],
-            'host' => getenv('APP_API_HOST'),
-            'basePath' => '/v1/documentation',
+            'host' => getenv('APP_API_HOST_NAME'),
+            'basePath' => '/v1',
             'securityDefinitions' => [
                 'ApiKeyAuthentication' => [
                     'type' => 'apiKey',

@@ -63,7 +63,7 @@ final class EndpointSchema
 
     public function getOpenApiMethod(): string
     {
-        return $this->requestMethod->toString();
+        return strtolower($this->requestMethod->toString());
     }
 
     public function toOpenApiPathMethodFragment(): array
