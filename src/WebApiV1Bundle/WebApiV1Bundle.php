@@ -16,7 +16,7 @@ final class WebApiV1Bundle extends Bundle
         return '1.0.0';
     }
 
-    public static function getBasePath(): string
+    public static function getBasePath(): string //todo: RoutingLoader must consider this instead of definition in routes.yaml
     {
         return '/v1';
     }
