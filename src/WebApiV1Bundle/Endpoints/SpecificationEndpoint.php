@@ -43,6 +43,7 @@ final class SpecificationEndpoint implements Endpoint
         $endpointSchema = EndpointSchema::create(RequestMethod::get(), $urlFragments);
         $endpointSchema = $endpointSchema->setSummary('The open api version 2 specification.');
         $endpointSchema = $endpointSchema->setTags(['Specification']);
+        $endpointSchema = $endpointSchema->addResponseSchema(JsonPlainDataSuccessResponse::getSchema());
         return $endpointSchema;
     }
 }

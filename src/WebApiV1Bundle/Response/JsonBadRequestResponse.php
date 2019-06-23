@@ -2,6 +2,7 @@
 
 namespace App\WebApiV1Bundle\Response;
 
+use App\WebApiV1Bundle\Schema\ResponseSchema;
 use Symfony\Component\HttpFoundation\Response;
 
 final class JsonBadRequestResponse implements JsonResponse
@@ -35,5 +36,11 @@ final class JsonBadRequestResponse implements JsonResponse
         }
 
         return json_encode($responseData);
+    }
+
+    public static function getSchema(): ResponseSchema
+    {
+        $description = 'Bad request response';
+        return new ResponseSchema(self::getHttpStatusCode(), ResponseSchema::JSON_CONTENT_TYPE, $description);
     }
 }

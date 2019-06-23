@@ -2,6 +2,7 @@
 
 namespace App\WebApiV1Bundle\Response;
 
+use App\WebApiV1Bundle\Schema\ResponseSchema;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
 final class HtmlResponse implements Response
@@ -26,5 +27,11 @@ final class HtmlResponse implements Response
     public function toHtml(): string
     {
         return $this->html;
+    }
+
+    public static function getSchema(): ResponseSchema
+    {
+        $description = 'Successful html response';
+        return new ResponseSchema(self::getHttpStatusCode(), ResponseSchema::HTML_CONTENT_TYPE, $description);
     }
 }
