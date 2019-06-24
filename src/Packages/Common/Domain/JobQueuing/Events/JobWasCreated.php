@@ -11,7 +11,7 @@ use App\Resources\AuditLogEvent\Payload;
 use App\Resources\AuditLogEvent\ResourceId;
 use App\Resources\QueueJob\QueueJob;
 use App\Resources\QueueJob\QueueJobId;
-use App\Utilities\AuthUser;
+use App\Utilities\Authentication\AuthUser;
 
 final class JobWasCreated extends AuditLogEvent
 {

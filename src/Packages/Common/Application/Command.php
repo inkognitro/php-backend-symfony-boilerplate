@@ -2,7 +2,7 @@
 
 namespace App\Packages\Common\Application;
 
-use App\Utilities\AuthUser;
+use App\Utilities\Authentication\AuthUser;
 
 interface Command
 {

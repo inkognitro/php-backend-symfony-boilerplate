@@ -7,3 +7,4 @@ services:
     App\WebApiV1Bundle\Endpoints\SpecificationEndpoint: ~
     App\WebApiV1Bundle\Endpoints\UserManagement\CreateUserEndpoint: ~
     App\WebApiV1Bundle\Endpoints\UserManagement\UpdateUserEndpoint: ~
+    App\WebApiV1Bundle\Endpoints\UserManagement\DeleteUserEndpoint: ~

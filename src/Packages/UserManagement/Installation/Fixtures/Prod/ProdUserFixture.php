@@ -4,11 +4,11 @@ namespace App\Packages\UserManagement\Installation\Fixtures\Prod;
 
 use App\Packages\Common\Domain\DidNotReceiveSuccessResponseException;
 use App\Packages\UserManagement\Application\CreateUser;
-use App\Utilities\AuthUser as AuthUser;
+use App\Utilities\Authentication\AuthUser as AuthUser;
 use App\Packages\Common\Application\CommandBus;
 use App\Utilities\HandlerResponse\Success;
 use App\Packages\Common\Installation\Fixtures\Fixture;
-use App\Utilities\AuthUserFactory;
+use App\Utilities\Authentication\AuthUserFactory;
 
 final class ProdUserFixture extends Fixture
 {

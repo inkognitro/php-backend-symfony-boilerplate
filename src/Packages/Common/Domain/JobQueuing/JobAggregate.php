@@ -8,7 +8,7 @@ use App\Packages\Common\Domain\JobQueuing\Events\JobWasCreated;
 use App\Resources\QueueJob\Command;
 use App\Resources\QueueJob\QueueJob;
 use App\Resources\QueueJob\QueueJobId;
-use App\Utilities\AuthUser;
+use App\Utilities\Authentication\AuthUser;
 
 final class JobAggregate extends Aggregate implements QueueJob
 {

@@ -7,8 +7,8 @@ use App\Packages\UserManagement\Application\CreateUser;
 use App\Packages\Common\Application\CommandBus;
 use App\Utilities\HandlerResponse\Success;
 use App\Packages\Common\Installation\Fixtures\Fixture;
-use App\Utilities\AuthUser;
-use App\Utilities\AuthUserFactory;
+use App\Utilities\Authentication\AuthUser;
+use App\Utilities\Authentication\AuthUserFactory;
 
 final class DevUserFixture extends Fixture
 {

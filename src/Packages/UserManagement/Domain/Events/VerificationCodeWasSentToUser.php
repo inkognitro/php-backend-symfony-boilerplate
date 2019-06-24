@@ -12,7 +12,7 @@ use App\Resources\User\EmailAddress;
 use App\Resources\User\User;
 use App\Resources\User\UserId;
 use App\Resources\User\VerificationCode;
-use App\Utilities\AuthUser;
+use App\Utilities\Authentication\AuthUser;
 
 final class VerificationCodeWasSentToUser extends AuditLogEvent
 {

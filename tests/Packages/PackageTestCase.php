@@ -2,7 +2,7 @@
 
 namespace App\Tests\Packages;
 
-use App\Utilities\AuthUser as AuthUser;
+use App\Utilities\Authentication\AuthUser as AuthUser;
 use App\Packages\Common\Application\Command;
 use App\Packages\Common\Application\CommandBus;
 use App\Tests\TestCase;

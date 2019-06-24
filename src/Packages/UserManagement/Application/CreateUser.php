@@ -4,7 +4,7 @@ namespace App\Packages\UserManagement\Application;
 
 use App\Packages\Common\Application\Command;
 use App\Packages\UserManagement\Domain\Handlers\CreateUserHandler;
-use App\Utilities\AuthUser;
+use App\Utilities\Authentication\AuthUser;
 
 final class CreateUser implements Command
 {

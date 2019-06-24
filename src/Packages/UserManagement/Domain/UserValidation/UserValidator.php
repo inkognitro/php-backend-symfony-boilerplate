@@ -16,7 +16,7 @@ use App\Resources\User\Password;
 use App\Resources\User\UserId;
 use App\Resources\User\Username;
 use App\Resources\UserRole\RoleId;
-use App\Utilities\AuthUser;
+use App\Utilities\Authentication\AuthUser;
 
 final class UserValidator extends Validator
 {

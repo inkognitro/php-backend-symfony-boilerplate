@@ -4,7 +4,7 @@ namespace App\Packages\Common\Application\JobQueuing;
 
 use App\Packages\Common\Application\Command;
 use App\Packages\Common\Domain\JobQueuing\CreateJobHandler;
-use App\Utilities\AuthUser;
+use App\Utilities\Authentication\AuthUser;
 use Ramsey\Uuid\Uuid;
 
 final class CreateJob implements Command

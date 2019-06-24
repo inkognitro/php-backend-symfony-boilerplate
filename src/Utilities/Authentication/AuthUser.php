@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Utilities;
+namespace App\Utilities\Authentication;
 
 use App\Resources\AuditLogEvent\AuthUserPayload;
 
@@ -10,6 +10,8 @@ final class AuthUser
     public const ADMIN_USER_ROLE_ID = 'admin';
     public const GUEST_USER_ROLE_ID = 'guest';
     public const NORMAL_USER_ROLE_ID = 'user';
+
+    public const EN_LANGUAGE_ID = 'en';
 
     private $userId;
     private $roleId;
