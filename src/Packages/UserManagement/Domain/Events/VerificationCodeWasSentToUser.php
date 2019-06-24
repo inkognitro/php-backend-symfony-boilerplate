@@ -8,6 +8,7 @@ use App\Resources\AuditLogEvent\OccurredAt;
 use App\Resources\AuditLogEvent\Payload;
 use App\Resources\AuditLogEvent\ResourceId;
 use App\Resources\AuditLogEvent\ResourceType;
+use App\Resources\User\EmailAddress;
 use App\Resources\User\User;
 use App\Resources\User\UserId;
 use App\Resources\User\VerificationCode;
@@ -16,13 +17,15 @@ use App\Utilities\AuthUser;
 final class VerificationCodeWasSentToUser extends AuditLogEvent
 {
     public static function occur(
-        VerificationCode $verificationCode,
         UserId $userId,
+        EmailAddress $emailAddress,
+        VerificationCode $verificationCode,
         AuthUser $sender
     ): self {
         $occurredAt = OccurredAt::create();
         $payload = Payload::fromArray([
-            VerificationCode::getKey() => $verificationCode->toString()
+            EmailAddress::getKey() => $emailAddress->toString(),
+            VerificationCode::getKey() => $verificationCode->toString(),
         ]);
         $resourceId = ResourceId::fromString($userId->toString());
         return new self(
@@ -33,6 +36,12 @@ final class VerificationCodeWasSentToUser extends AuditLogEvent
     public function getUserId(): UserId
     {
         return UserId::fromString($this->getResourceId()->toString());
+    }
+
+    public function getEmailAddress(): EmailAddress
+    {
+        $emailAddress = $this->getPayload()->toArray()[EmailAddress::getKey()];
+        return EmailAddress::fromString($emailAddress);
     }
 
     public function getVerificationCode(): VerificationCode
@@ -46,7 +55,7 @@ final class VerificationCodeWasSentToUser extends AuditLogEvent
         return true;
     }
 
-    public  static function getResourceType(): ResourceType
+    public static function getResourceType(): ResourceType
     {
         return ResourceType::fromString(User::class);
     }

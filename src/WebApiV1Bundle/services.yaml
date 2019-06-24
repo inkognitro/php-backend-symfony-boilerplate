@@ -1,0 +1,18 @@
+services:
+    _defaults:
+        autowire: true
+
+    App\WebApiV1Bundle\Response\HttpResponseFactory: ~
+    App\WebApiV1Bundle\Schema\ApiSchema: ~
+
+    App\WebApiV1Bundle\Endpoints\Endpoints:
+        arguments: [!tagged 'app.web_api_v1.endpoint']
+
+    App\WebApiV1Bundle\DocumentationController:
+        public: true
+
+    App\WebApiV1Bundle\RoutingLoader:
+        tags: ['routing.loader']
+
+imports:
+    - { resource: 'Endpoints/endpoints.yaml' }

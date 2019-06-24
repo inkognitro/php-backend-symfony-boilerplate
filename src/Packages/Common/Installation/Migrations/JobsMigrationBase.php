@@ -23,7 +23,8 @@ final class JobsMigrationBase extends Migration
         $table->addColumn('id', Type::GUID);
         $table->addColumn('command', Type::TEXT);
         $table->addColumn('created_at', Type::DATETIME);
-        $table->addColumn('executed_at', Type::DATETIME, ['notnull' => false]);
+        $table->addColumn('execution_started_at', Type::DATETIME, ['notnull' => false]);
+        $table->addColumn('execution_finalized_at', Type::DATETIME, ['notnull' => false]);
         $table->setPrimaryKey(['id']);
     }
 

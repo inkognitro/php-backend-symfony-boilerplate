@@ -2,22 +2,27 @@
 
 namespace App\Packages\UserManagement\Domain;
 
+use App\Packages\Common\Domain\Aggregate;
 use App\Packages\Common\Domain\AuditLog\EventStream;
+use App\Packages\UserManagement\Domain\Events\UserWasCreated;
+use App\Packages\UserManagement\Domain\Events\VerificationCodeWasSentToUser;
 use App\Resources\User\EmailAddress;
 use App\Resources\User\Password;
+use App\Resources\User\User;
 use App\Resources\User\UserId;
 use App\Resources\User\Username;
+use App\Resources\User\VerificationCode;
 use App\Resources\UserRole\RoleId;
 use App\Utilities\AuthUser as AuthUser;
-use App\Packages\Common\Domain\Aggregate;
-use App\Packages\UserManagement\Domain\Events\UserWasCreated;
-use App\Resources\User\User as UserResource;
 
-final class UserAggregate extends Aggregate implements UserResource
+final class UserAggregate extends Aggregate implements User
 {
-    protected function __construct(EventStream $recordedEvents)
+    private $id;
+
+    protected function __construct(UserId $userId, EventStream $recordedEvents)
     {
         parent::__construct($recordedEvents);
+        $this->id = $userId;
     }
 
     public static function create(
@@ -27,21 +32,18 @@ final class UserAggregate extends Aggregate implements UserResource
         Password $password,
         RoleId $roleId,
         AuthUser $creator
-    ): self {
-        $persistedUser = null;
-        $events = [
+    ): self
+    {
+        return new self($userId, new EventStream([
             UserWasCreated::occur($userId, $username, $emailAddress, $password, $roleId, $creator),
-        ];
-        return new self(new EventStream($events));
+        ]));
     }
 
-    //todo
-    /*
-    public function sendVerificationCode(VerificationCode $verificationCode, AuthUser $sender): void
-    {
-        $this->recordedEvents->record(
-            VerificationCodeWasSentToUser::occur($verificationCode, $this->currentUser, $sender)
-        );
+    public function sendEmailAddressVerificationCode( //todo: use in handler
+        EmailAddress $emailAddress,
+        VerificationCode $verificationCode,
+        AuthUser $sender
+    ): void {
+        $this->recordEvent(VerificationCodeWasSentToUser::occur($this->id, $emailAddress, $verificationCode, $sender));
     }
-    */
 }
