@@ -8,23 +8,26 @@ final class EndpointSchema
     private $urlFragments;
     private $openApiData;
     private $responseSchemas;
+    private $authKeyNeeded;
 
     private function __construct(
         RequestMethod $requestMethod,
         UrlFragments $urlFragments,
         array $openApiData,
-        ResponseSchemas $responseSchemas
+        ResponseSchemas $responseSchemas,
+        bool $authKeyNeeded
     )
     {
         $this->requestMethod = $requestMethod;
         $this->urlFragments = $urlFragments;
         $this->openApiData = $openApiData;
         $this->responseSchemas = $responseSchemas;
+        $this->authKeyNeeded = $authKeyNeeded;
     }
 
     public static function create(RequestMethod $requestMethod, UrlFragments $urlFragments): self
     {
-        return new self($requestMethod, $urlFragments, [], new ResponseSchemas([]));
+        return new self($requestMethod, $urlFragments, [], new ResponseSchemas([]), false);
     }
 
     /** @param $tags String[] */
@@ -36,7 +39,8 @@ final class EndpointSchema
             array_merge($this->openApiData, [
                 'tags' => $tags
             ]),
-            $this->responseSchemas
+            $this->responseSchemas,
+            $this->authKeyNeeded
         );
     }
 
@@ -48,7 +52,8 @@ final class EndpointSchema
             array_merge($this->openApiData, [
                 'summary' => $summary
             ]),
-            $this->responseSchemas
+            $this->responseSchemas,
+            $this->authKeyNeeded
         );
     }
 
@@ -60,7 +65,19 @@ final class EndpointSchema
             array_merge($this->openApiData, [
                 'description' => $description
             ]),
-            $this->responseSchemas
+            $this->responseSchemas,
+            $this->authKeyNeeded
+        );
+    }
+
+    public function setAuthKeyNeeded(bool $authKeyNeeded): self
+    {
+        return new self(
+            $this->requestMethod,
+            $this->urlFragments,
+            $this->openApiData,
+            $this->responseSchemas,
+            $authKeyNeeded
         );
     }
 
@@ -70,7 +87,8 @@ final class EndpointSchema
             $this->requestMethod,
             $this->urlFragments,
             $this->openApiData,
-            $this->responseSchemas->add($responseSchema)
+            $this->responseSchemas->add($responseSchema),
+            $this->authKeyNeeded
         );
     }
 
@@ -96,16 +114,20 @@ final class EndpointSchema
 
     public function toOpenApiV2Array(): array
     {
-        return array_merge($this->openApiData, [
+        $data = array_merge($this->openApiData, [
             'produces' => $this->getResponseContentTypes(),
             'responses' => $this->getResponses(),
         ]);
+        if ($this->authKeyNeeded) {
+            $data['security'] = ['ApiKeyAuthentication'];
+        }
+        return $data;
     }
 
     private function getResponses(): array
     {
         $responses = [];
-        foreach($this->responseSchemas->toArray() as $schema) {
+        foreach ($this->responseSchemas->toArray() as $schema) {
             $responses[$schema->getHttpStatusCode()] = $schema->toOpenApiV2Array();
         }
         return $responses;
@@ -114,7 +136,7 @@ final class EndpointSchema
     private function getResponseContentTypes(): array
     {
         $contentTypes = [];
-        foreach($this->responseSchemas->toArray() as $schema) {
+        foreach ($this->responseSchemas->toArray() as $schema) {
             $contentTypes[] = $schema->getContentType();
         }
         return $contentTypes;

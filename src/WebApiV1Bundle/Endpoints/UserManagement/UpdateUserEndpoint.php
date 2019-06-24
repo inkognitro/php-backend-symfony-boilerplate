@@ -11,7 +11,7 @@ use App\WebApiV1Bundle\Schema\UrlFragments;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
-final class CreateUserEndpoint implements Endpoint
+final class UpdateUserEndpoint implements Endpoint
 {
     private $httpResponseFactory;
 
@@ -30,8 +30,8 @@ final class CreateUserEndpoint implements Endpoint
     public static function getSchema(): EndpointSchema
     {
         $urlFragments = UrlFragments::fromStrings(['user']);
-        $endpointSchema = EndpointSchema::create(RequestMethod::post(), $urlFragments);
-        $endpointSchema = $endpointSchema->setSummary('Create a user.');
+        $endpointSchema = EndpointSchema::create(RequestMethod::put(), $urlFragments);
+        $endpointSchema = $endpointSchema->setSummary('Update a user.');
         $endpointSchema = $endpointSchema->setTags(['UserManagement']);
         $endpointSchema = $endpointSchema->setAuthKeyNeeded(true);
         return $endpointSchema;

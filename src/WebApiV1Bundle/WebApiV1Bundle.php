@@ -6,11 +6,6 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 final class WebApiV1Bundle extends Bundle
 {
-    public static function getTitle(): string
-    {
-        return 'Api Documentation';
-    }
-
     public static function getVersion(): string
     {
         return '1.0.0';

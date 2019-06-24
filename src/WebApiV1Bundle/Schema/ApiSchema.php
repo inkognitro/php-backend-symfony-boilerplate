@@ -38,7 +38,7 @@ final class ApiSchema
             'swagger' => '2.0',
             'info' => [
                 'version' => WebApiV1Bundle::getVersion(),
-                'title' => WebApiV1Bundle::getTitle(),
+                'title' => 'API Documentation',
             ],
             'host' => getenv('APP_API_HOST_NAME'),
             'basePath' => WebApiV1Bundle::getBasePath(),

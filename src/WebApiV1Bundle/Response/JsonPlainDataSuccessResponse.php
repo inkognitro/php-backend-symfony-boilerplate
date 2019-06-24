@@ -31,7 +31,7 @@ final class JsonPlainDataSuccessResponse implements JsonResponse
 
     public static function getSchema(): ResponseSchema
     {
-        $description = 'Plain json response';
+        $description = 'Plain JSON response';
         return new ResponseSchema(self::getHttpStatusCode(), ResponseSchema::JSON_CONTENT_TYPE, $description);
     }
 }
