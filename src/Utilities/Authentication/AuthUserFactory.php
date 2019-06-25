@@ -2,51 +2,23 @@
 
 namespace App\Utilities\Authentication;
 
-use Exception;
-use Firebase\JWT\JWT;
+use App\Resources\Language\LanguageId;
+use App\Resources\Role\RoleId;
 
 final class AuthUserFactory
 {
     public function createSystemUser(): AuthUser
     {
         $userId = null;
-        $role = AuthUser::SYSTEM_USER_ROLE_ID;
-        $languageId = AuthUser::EN_LANGUAGE_ID;
-        return new AuthUser($userId, $role, $languageId);
+        $roleId = RoleId::system();
+        $languageId = LanguageId::english();
+        return new AuthUser($userId, $roleId, $languageId);
     }
 
-    public function createFromJWT(string $jwt): AuthUser
-    {
-        $jwtSecret = getenv('APP_AUTH_JWT_SECRET');
-        try {
-            $jwtPayload = JWT::decode($jwt, $jwtSecret, ['HS256']);
-            return $this->createFromJWTPayload((array)$jwtPayload);
-        } catch (Exception $e) {
-            return $this->createGuestUser();
-        }
-    }
-
-    private function createGuestUser(): AuthUser
+    public function createGuestUser(LanguageId $languageId): AuthUser
     {
         $userId = null;
-        $role = AuthUser::GUEST_USER_ROLE_ID;
-        $languageId = AuthUser::EN_LANGUAGE_ID;
+        $role = RoleId::guest();
         return new AuthUser($userId, $role, $languageId);
-    }
-
-    private function createFromUserId(string $userId): AuthUser
-    {
-        $role = AuthUser::NORMAL_USER_ROLE_ID;
-        $languageId = AuthUser::EN_LANGUAGE_ID;
-        return new AuthUser($userId, $role, $languageId);
-    }
-
-    private function createFromJWTPayload(array $jwtPayload): AuthUser
-    {
-        $userId = (!empty($payload['sub']) ? (string)$payload['sub'] : null);
-        if ($userId !== null) {
-            return $this->createFromUserId($userId);
-        }
-        return $this->createGuestUser();
     }
 }

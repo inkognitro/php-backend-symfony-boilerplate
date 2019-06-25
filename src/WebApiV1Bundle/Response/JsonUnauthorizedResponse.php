@@ -7,9 +7,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class JsonUnauthorizedResponse implements JsonResponse
 {
+    private function __construct()
+    {
+    }
+
     public static function getHttpStatusCode(): int
     {
         return Response::HTTP_UNAUTHORIZED;
+    }
+
+    public static function create(): self
+    {
+        return new self();
     }
 
     public function toJson(): string

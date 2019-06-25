@@ -6,7 +6,7 @@ use App\Resources\User\EmailAddress;
 use App\Resources\User\User as UserResource;
 use App\Resources\User\UserId;
 use App\Resources\User\Username;
-use App\Resources\UserRole\RoleId;
+use App\Resources\Role\RoleId;
 
 final class User implements UserResource
 {

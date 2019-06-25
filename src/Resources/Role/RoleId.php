@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Resources\UserRole;
+namespace App\Resources\Role;
 
 use App\Utilities\Validation\Messages\Message;
 use App\Utilities\Validation\Rules\RequiredStringRule;
@@ -12,7 +12,7 @@ final class RoleId implements Attribute
 
     public static function getKey(): string
     {
-        return 'userRole.id';
+        return 'role.id';
     }
 
     /** @param $roleId mixed */
@@ -34,5 +34,30 @@ final class RoleId implements Attribute
     public function toString(): string
     {
         return $this->roleId;
+    }
+
+    public static function system(): self
+    {
+        return new self('system');
+    }
+
+    public static function admin(): self
+    {
+        return new self('admin');
+    }
+
+    public static function guest(): self
+    {
+        return new self('guest');
+    }
+
+    public static function user(): self
+    {
+        return new self('user');
+    }
+
+    public function equals(self $that): bool
+    {
+        return ($this->toString() === $that->toString());
     }
 }

@@ -5,6 +5,7 @@ namespace App\Packages\UserManagement\Installation\Fixtures\Dev;
 use App\Packages\Common\Domain\DidNotReceiveSuccessResponseException;
 use App\Packages\UserManagement\Application\CreateUser;
 use App\Packages\Common\Application\CommandBus;
+use App\Resources\Role\RoleId;
 use App\Utilities\HandlerResponse\Success;
 use App\Packages\Common\Installation\Fixtures\Fixture;
 use App\Utilities\Authentication\AuthUser;
@@ -30,7 +31,7 @@ final class DevUserFixture extends Fixture
                 CreateUser::USERNAME => $row['username'],
                 CreateUser::EMAIL_ADDRESS => $row['username'] . '@test.com',
                 CreateUser::PASSWORD => '1234',
-                CreateUser::ROLE_ID => AuthUser::NORMAL_USER_ROLE_ID,
+                CreateUser::ROLE_ID => RoleId::user()->toString(),
                 CreateUser::SEND_INVITATION => false,
                 CreateUser::CREATOR => $authUser,
             ]);

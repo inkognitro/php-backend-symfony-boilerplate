@@ -13,7 +13,7 @@ use App\Resources\User\EmailAddress;
 use App\Resources\User\Password;
 use App\Resources\User\UserId;
 use App\Resources\User\Username;
-use App\Resources\UserRole\RoleId;
+use App\Resources\Role\RoleId;
 use App\Utilities\HandlerResponse\Response;
 use App\Utilities\HandlerResponse\Success;
 use App\Utilities\HandlerResponse\ValidationErrorResponse;

@@ -12,7 +12,7 @@ use App\Resources\User\User;
 use App\Resources\User\UserId;
 use App\Resources\User\Username;
 use App\Resources\User\VerificationCode;
-use App\Resources\UserRole\RoleId;
+use App\Resources\Role\RoleId;
 use App\Utilities\Authentication\AuthUser as AuthUser;
 
 final class UserAggregate extends Aggregate implements User

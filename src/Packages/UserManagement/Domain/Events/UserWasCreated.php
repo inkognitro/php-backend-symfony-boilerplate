@@ -4,7 +4,7 @@ namespace App\Packages\UserManagement\Domain\Events;
 
 use App\Resources\AuditLogEvent\ResourceType;
 use App\Resources\User\Password;
-use App\Resources\UserRole\RoleId;
+use App\Resources\Role\RoleId;
 use App\Utilities\Authentication\AuthUser as AuthUser;
 use App\Packages\Common\Domain\AuditLog\AuditLogEvent;
 use App\Resources\AuditLogEvent\EventId;

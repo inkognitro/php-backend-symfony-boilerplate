@@ -3,7 +3,6 @@
 namespace App\Tests\Packages;
 
 use App\Utilities\Authentication\AuthUser as AuthUser;
-use App\Packages\Common\Application\Command;
 use App\Packages\Common\Application\CommandBus;
 use App\Tests\TestCase;
 
@@ -20,10 +19,7 @@ abstract class PackageTestCase extends TestCase
 
     protected function createSystemAuthUser(): AuthUser
     {
-        $userId = null;
-        $role = AuthUser::SYSTEM_USER_ROLE_ID;
-        $languageId = 'en';
-        return new AuthUser($userId, $role, $languageId);
+        return $this->serviceAdapter->getAuthUserFactory()->createSystemUser();
     }
 
     protected function getCommandBus(): CommandBus

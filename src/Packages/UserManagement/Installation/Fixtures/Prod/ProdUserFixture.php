@@ -4,6 +4,7 @@ namespace App\Packages\UserManagement\Installation\Fixtures\Prod;
 
 use App\Packages\Common\Domain\DidNotReceiveSuccessResponseException;
 use App\Packages\UserManagement\Application\CreateUser;
+use App\Resources\Role\RoleId;
 use App\Utilities\Authentication\AuthUser as AuthUser;
 use App\Packages\Common\Application\CommandBus;
 use App\Utilities\HandlerResponse\Success;
@@ -53,7 +54,7 @@ final class ProdUserFixture extends Fixture
                 'username' => getenv('APP_ADMIN_USERNAME'),
                 'emailAddress' => getenv('APP_ADMIN_EMAIL'),
                 'password' => getenv('APP_ADMIN_PASSWORD'),
-                'roleId' => AuthUser::ADMIN_USER_ROLE_ID,
+                'roleId' => RoleId::admin()->toString(),
             ]
         ];
     }

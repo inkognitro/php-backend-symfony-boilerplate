@@ -2,6 +2,7 @@
 
 namespace App\Utilities;
 
+use DateInterval;
 use DateTimeImmutable;
 use DateTimeZone;
 
@@ -15,6 +16,11 @@ final class DateTimeFactory
     public static function create(?DateTimeZone $timeZone = null): DateTimeImmutable
     {
         return new DateTimeImmutable('now', self::getTimeZoneToApply($timeZone));
+    }
+
+    public static function addMinutes(DateTimeImmutable $dateTime, int $minutesToAdd): DateTimeImmutable
+    {
+        return $dateTime->add(new DateInterval('PT' . $minutesToAdd . 'M'));
     }
 
     public static function createFromString(string $dateTimeString, ?DateTimeZone $timeZone = null): DateTimeImmutable

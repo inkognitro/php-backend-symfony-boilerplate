@@ -15,7 +15,7 @@ use App\Resources\User\EmailAddress;
 use App\Resources\User\Password;
 use App\Resources\User\UserId;
 use App\Resources\User\Username;
-use App\Resources\UserRole\RoleId;
+use App\Resources\Role\RoleId;
 use App\Utilities\Authentication\AuthUser;
 
 final class UserValidator extends Validator
@@ -102,9 +102,9 @@ final class UserValidator extends Validator
             $this->errors = $this->errors->addMessage(RoleId::getKey(), $errorMessage);
             return;
         }
-        $availableRoleIds = [AuthUser::NORMAL_USER_ROLE_ID];
+        $availableRoleIds = [RoleId::user()->toString()];
         if ($authUser->isAdmin() || $authUser->isSystem()) {
-            $availableRoleIds[] = AuthUser::ADMIN_USER_ROLE_ID;
+            $availableRoleIds[] = RoleId::admin()->toString();
         }
         if (!in_array($roleId, $availableRoleIds)) {
             $this->errors = $this->errors->addMessage(RoleId::getKey(), new CanNotBeChosenMessage());

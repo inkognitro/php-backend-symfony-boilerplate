@@ -25,4 +25,7 @@ services:
         class: App\Packages\Common\Infrastructure\JobQueuing\DbalJobProjection
 
     App\Packages\Common\Domain\JobQueuing\JobExistsByIdQuery:
-        class: App\Packages\Common\Infrastructure\JobQueuing\JobExistsByIdQuery
+        class: App\Packages\Common\Infrastructure\JobQueuing\DbalJobExistsByIdQuery
+
+    App\Packages\Common\Application\Authentication\UserQueryHandler:
+        class: App\Packages\Common\Infrastructure\Authentication\DbalUserQueryHandler

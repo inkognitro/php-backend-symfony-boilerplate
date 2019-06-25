@@ -1,16 +1,16 @@
 <?php declare(strict_types=1);
 
-namespace App\Resources\User;
+namespace App\Resources\Language;
 
 use App\Resources\Attribute;
 
-final class UserId implements Attribute
+final class LanguageId implements Attribute
 {
     private $id;
 
     public static function getKey(): string
     {
-       return 'user.id';
+        return 'language.id';
     }
 
     private function __construct(string $id)
@@ -28,8 +28,18 @@ final class UserId implements Attribute
         return strtolower($this->id);
     }
 
-    public function isEqual(self $userId): bool
+    public static function english(): self
     {
-        return (strcasecmp($userId->toString(), $this->toString()) === 0);
+        return new self('en');
+    }
+
+    public static function german(): self
+    {
+        return new self('de');
+    }
+
+    public function equals(self $that): bool
+    {
+        return (strcasecmp($this->toString(), $that->toString()) === 0);
     }
 }
