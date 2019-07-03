@@ -5,6 +5,8 @@ services:
         tags: ['app.web_api_v1.endpoint', 'controller.service_arguments']
 
     App\WebApiV1Bundle\Endpoints\SpecificationEndpoint: ~
+    App\WebApiV1Bundle\Endpoints\Auth\AuthenticateEndpoint: ~
+
     App\WebApiV1Bundle\Endpoints\UserManagement\CreateUserEndpoint: ~
     App\WebApiV1Bundle\Endpoints\UserManagement\UpdateUserEndpoint: ~
     App\WebApiV1Bundle\Endpoints\UserManagement\DeleteUserEndpoint: ~

@@ -9,13 +9,18 @@ final class EndpointSchema
     private $openApiData;
     private $responseSchemas;
     private $authKeyNeeded;
+    private $showInDocumentation;
+    private $requestBodyParams;
 
+    /** @param $requestBodyParams RequestParameterSchema[] */
     private function __construct(
         RequestMethod $requestMethod,
         UrlFragments $urlFragments,
         array $openApiData,
         ResponseSchemas $responseSchemas,
-        bool $authKeyNeeded
+        bool $authKeyNeeded,
+        bool $showInDocumentation,
+        array $requestBodyParams
     )
     {
         $this->requestMethod = $requestMethod;
@@ -23,73 +28,87 @@ final class EndpointSchema
         $this->openApiData = $openApiData;
         $this->responseSchemas = $responseSchemas;
         $this->authKeyNeeded = $authKeyNeeded;
+        $this->showInDocumentation = $showInDocumentation;
+        $this->requestBodyParams = $requestBodyParams;
     }
 
     public static function create(RequestMethod $requestMethod, UrlFragments $urlFragments): self
     {
-        return new self($requestMethod, $urlFragments, [], new ResponseSchemas([]), false);
+        return new self($requestMethod, $urlFragments, [], new ResponseSchemas([]), false, true, []);
+    }
+
+    private function set(array $data): self
+    {
+        return new self(
+            ($data['requestMethod'] ?? $this->requestMethod),
+            ($data['urlFragments'] ?? $this->urlFragments),
+            ($data['openApiData'] ?? $this->openApiData),
+            ($data['responseSchemas'] ?? $this->responseSchemas),
+            ($data['authKeyNeeded'] ?? $this->authKeyNeeded),
+            ($data['showInDocumentation'] ?? $this->showInDocumentation),
+            ($data['requestBodyParams'] ?? $this->requestBodyParams)
+        );
     }
 
     /** @param $tags String[] */
     public function setTags(array $tags): self
     {
-        return new self(
-            $this->requestMethod,
-            $this->urlFragments,
-            array_merge($this->openApiData, [
+        return self::set([
+            'openApiData' => array_merge($this->openApiData, [
                 'tags' => $tags
             ]),
-            $this->responseSchemas,
-            $this->authKeyNeeded
-        );
+        ]);
     }
 
     public function setSummary(string $summary): self
     {
-        return new self(
-            $this->requestMethod,
-            $this->urlFragments,
-            array_merge($this->openApiData, [
+        return self::set([
+            'openApiData' => array_merge($this->openApiData, [
                 'summary' => $summary
             ]),
-            $this->responseSchemas,
-            $this->authKeyNeeded
-        );
+        ]);
     }
 
     public function setDescription(string $description): self
     {
-        return new self(
-            $this->requestMethod,
-            $this->urlFragments,
-            array_merge($this->openApiData, [
+        return self::set([
+            'openApiData' => array_merge($this->openApiData, [
                 'description' => $description
-            ]),
-            $this->responseSchemas,
-            $this->authKeyNeeded
-        );
+            ])
+        ]);
     }
 
     public function setAuthKeyNeeded(bool $authKeyNeeded): self
     {
-        return new self(
-            $this->requestMethod,
-            $this->urlFragments,
-            $this->openApiData,
-            $this->responseSchemas,
-            $authKeyNeeded
-        );
+        return self::set([
+            'authKeyNeeded' => $authKeyNeeded,
+        ]);
     }
 
     public function addResponseSchema(ResponseSchema $responseSchema): self
     {
-        return new self(
-            $this->requestMethod,
-            $this->urlFragments,
-            $this->openApiData,
-            $this->responseSchemas->add($responseSchema),
-            $this->authKeyNeeded
-        );
+        return self::set([
+            'responseSchemas' => $this->responseSchemas->add($responseSchema),
+        ]);
+    }
+
+    public function setShowInDocumentation(bool $showInDocumentation): self
+    {
+        return self::set([
+            'showInDocumentation' => $showInDocumentation,
+        ]);
+    }
+
+    public function addRequestBodyParam(RequestParameterSchema $requestBodyParam): self
+    {
+        return self::set([
+            'requestBodyParams' => array_merge($this->requestBodyParams, [$requestBodyParam]),
+        ]);
+    }
+
+    public function mustBeShownInDocumentation(): bool
+    {
+        return $this->showInDocumentation;
     }
 
     public function getPath(): string
@@ -112,11 +131,29 @@ final class EndpointSchema
         return strtolower($this->requestMethod->toString());
     }
 
+    private function createOpenApiV2RequestBodyParam(): array
+    {
+        $properties = [];
+        foreach($this->requestBodyParams as $param) {
+            $properties[$param->getName()] = $param->toOpenApiV2Array();
+        }
+        return [
+            'in' => 'body',
+            'name' => 'body',
+            'required' => 'true',
+            'schema' => [
+                'type' => 'object',
+                'properties' => $properties
+            ]
+        ];
+    }
+
     public function toOpenApiV2Array(): array
     {
         $data = array_merge($this->openApiData, [
             'produces' => $this->getResponseContentTypes(),
             'responses' => $this->getResponses(),
+            'parameters' => [$this->createOpenApiV2RequestBodyParam()],
         ]);
         if ($this->authKeyNeeded) {
             $data['security'] = ['ApiKeyAuthentication'];

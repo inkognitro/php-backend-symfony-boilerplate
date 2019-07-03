@@ -26,6 +26,9 @@ final class ApiSchema
         foreach($this->endpoints->toIterable() as $endpoint) {
             /** @var $endpoint Endpoint */
             $endpointSchema = $endpoint::getSchema();
+            if(!$endpointSchema->mustBeShownInDocumentation()) {
+                continue;
+            }
             $fragment = $endpointSchema->toOpenApiV2Array();
             $paths[$endpointSchema->getOpenApiPath()][$endpointSchema->getOpenApiMethod()] = $fragment;
         }

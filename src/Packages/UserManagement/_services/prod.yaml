@@ -2,17 +2,15 @@ services:
     _defaults:
         autowire: true
 
-    App\Packages\UserManagement\Application\CreateUserHandler:
+    App\Packages\UserManagement\Domain\Handlers\CreateUserHandler:
         public: true
-
     App\Packages\UserManagement\Domain\UserRepository: ~
     App\Packages\UserManagement\Domain\UserValidation\UserValidator: ~
-
+    App\Packages\UserManagement\Domain\UserEventDispatcher: ~
+    App\Packages\UserManagement\Domain\UserEventProjection:
+        class: App\Packages\UserManagement\Infrastructure\DbalUserEventProjection
     App\Packages\UserManagement\Domain\UserValidation\UsersWithAnEqualValueQuery:
         class: App\Packages\UserManagement\Infrastructure\DbalUsersWithAnEqualValueQuery
-
-    App\Packages\UserManagement\Domain\UserProjection:
-        class: App\Packages\UserManagement\Infrastructure\DbalUserProjection
 
 imports:
     - { resource: './imports/fixtures.yaml' }

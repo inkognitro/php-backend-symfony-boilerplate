@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Infrastructure\JobQueuing;
+namespace App\Packages\Common\Infrastructure\Authentication;
 
 use App\Packages\Common\Application\Authentication\User;
 use App\Packages\Common\Application\Authentication\UserQuery;
