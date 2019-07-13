@@ -3,9 +3,9 @@
 namespace App\Packages\UserManagement\Infrastructure;
 
 use App\Packages\UserManagement\Domain\User;
-use App\Resources\User\EmailAddress;
-use App\Resources\User\UserId;
-use App\Resources\User\Username;
+use App\Resources\Application\User\Attributes\EmailAddress;
+use App\Resources\Application\User\Attributes\UserId;
+use App\Resources\Application\User\Attributes\Username;
 
 final class DbalUserFactory
 {

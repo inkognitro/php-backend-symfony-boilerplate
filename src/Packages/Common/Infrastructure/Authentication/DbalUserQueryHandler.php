@@ -6,9 +6,9 @@ use App\Packages\Common\Application\Authentication\User;
 use App\Packages\Common\Application\Authentication\UserQuery;
 use App\Packages\Common\Application\Authentication\UserQueryHandler;
 use App\Packages\Common\Infrastructure\DbalConnection;
-use App\Resources\Role\RoleId;
-use App\Resources\User\Password;
-use App\Resources\User\UserId;
+use App\Resources\Application\Role\RoleId;
+use App\Resources\Application\User\Attributes\Password;
+use App\Resources\Application\User\Attributes\UserId;
 
 final class DbalUserQueryHandler implements UserQueryHandler
 {

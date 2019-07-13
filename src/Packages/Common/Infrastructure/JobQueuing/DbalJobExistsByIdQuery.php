@@ -4,7 +4,7 @@ namespace App\Packages\Common\Infrastructure\JobQueuing;
 
 use App\Packages\Common\Infrastructure\DbalConnection;
 use App\Packages\Common\Domain\JobQueuing\JobValidation\JobExistsByIdQuery;
-use App\Resources\QueueJob\QueueJobId;
+use App\Resources\Application\QueueJob\QueueJobId;
 
 final class DbalJobExistsByIdQuery implements JobExistsByIdQuery
 {

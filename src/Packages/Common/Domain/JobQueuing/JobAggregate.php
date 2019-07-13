@@ -5,9 +5,9 @@ namespace App\Packages\Common\Domain\JobQueuing;
 use App\Packages\Common\Domain\Aggregate;
 use App\Packages\Common\Domain\AuditLog\EventStream;
 use App\Packages\Common\Domain\JobQueuing\Events\JobWasCreated;
-use App\Resources\QueueJob\Command;
-use App\Resources\QueueJob\QueueJob;
-use App\Resources\QueueJob\QueueJobId;
+use App\Resources\Application\QueueJob\Command;
+use App\Resources\Application\QueueJob\QueueJob;
+use App\Resources\Application\QueueJob\QueueJobId;
 use App\Utilities\Authentication\AuthUser;
 
 final class JobAggregate extends Aggregate implements QueueJob

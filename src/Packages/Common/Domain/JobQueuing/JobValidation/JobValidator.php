@@ -3,7 +3,7 @@
 namespace App\Packages\Common\Domain\JobQueuing\JobValidation;
 
 use App\Packages\Common\Application\JobQueuing\CreateJob;
-use App\Resources\QueueJob\QueueJobId;
+use App\Resources\Application\QueueJob\QueueJobId;
 use App\Utilities\Validation\Messages\DoesAlreadyExistMessage;
 use App\Utilities\Validation\Rules\RequiredUuidRule;
 use App\Utilities\Validation\Validator;

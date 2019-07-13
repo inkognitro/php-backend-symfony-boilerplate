@@ -2,8 +2,8 @@
 
 namespace App\Utilities\Authentication;
 
-use App\Resources\Language\LanguageId;
-use App\Resources\Role\RoleId;
+use App\Resources\Application\Language\LanguageId;
+use App\Resources\Application\Role\RoleId;
 
 final class AuthUserFactory
 {

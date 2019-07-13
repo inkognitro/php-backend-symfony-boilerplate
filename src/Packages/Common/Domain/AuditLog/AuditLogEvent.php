@@ -2,13 +2,13 @@
 
 namespace App\Packages\Common\Domain\AuditLog;
 
-use App\Resources\AuditLogEvent\AuditLogEvent as AuditLogEventResource;
-use App\Resources\AuditLogEvent\AuthUserPayload;
-use App\Resources\AuditLogEvent\EventId;
-use App\Resources\AuditLogEvent\OccurredAt;
-use App\Resources\AuditLogEvent\Payload;
-use App\Resources\AuditLogEvent\ResourceId;
-use App\Resources\AuditLogEvent\ResourceType;
+use App\Resources\Application\AuditLogEvent\AuditLogEvent as AuditLogEventResource;
+use App\Resources\Application\AuditLogEvent\AuthUserPayload;
+use App\Resources\Application\AuditLogEvent\EventId;
+use App\Resources\Application\AuditLogEvent\OccurredAt;
+use App\Resources\Application\AuditLogEvent\Payload;
+use App\Resources\Application\AuditLogEvent\ResourceId;
+use App\Resources\Application\AuditLogEvent\ResourceType;
 
 abstract class AuditLogEvent implements AuditLogEventResource
 {

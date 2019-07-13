@@ -2,13 +2,12 @@
 
 namespace App\Packages\UserManagement\Domain;
 
-use App\Resources\User\EmailAddress;
-use App\Resources\User\User as UserResource;
-use App\Resources\User\UserId;
-use App\Resources\User\Username;
-use App\Resources\Role\RoleId;
+use App\Resources\Application\User\Attributes\EmailAddress;
+use App\Resources\Application\User\Attributes\UserId;
+use App\Resources\Application\User\Attributes\Username;
+use App\Resources\Application\Role\RoleId;
 
-final class User implements UserResource
+final class User
 {
     private $userId;
     private $username;

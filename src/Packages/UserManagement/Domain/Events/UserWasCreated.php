@@ -2,19 +2,19 @@
 
 namespace App\Packages\UserManagement\Domain\Events;
 
-use App\Resources\AuditLogEvent\ResourceType;
-use App\Resources\User\Password;
-use App\Resources\Role\RoleId;
+use App\Resources\Application\AuditLogEvent\ResourceType;
+use App\Resources\Application\User\Attributes\Password;
+use App\Resources\Application\Role\RoleId;
 use App\Utilities\Authentication\AuthUser as AuthUser;
 use App\Packages\Common\Domain\AuditLog\AuditLogEvent;
-use App\Resources\AuditLogEvent\EventId;
-use App\Resources\AuditLogEvent\OccurredAt;
-use App\Resources\AuditLogEvent\Payload;
-use App\Resources\AuditLogEvent\ResourceId;
-use App\Resources\User\EmailAddress;
-use App\Resources\User\User;
-use App\Resources\User\UserId;
-use App\Resources\User\Username;
+use App\Resources\Application\AuditLogEvent\EventId;
+use App\Resources\Application\AuditLogEvent\OccurredAt;
+use App\Resources\Application\AuditLogEvent\Payload;
+use App\Resources\Application\AuditLogEvent\ResourceId;
+use App\Resources\Application\User\Attributes\EmailAddress;
+use App\Resources\Application\User\Attributes\User;
+use App\Resources\Application\User\Attributes\UserId;
+use App\Resources\Application\User\Attributes\Username;
 
 final class UserWasCreated extends AuditLogEvent
 {

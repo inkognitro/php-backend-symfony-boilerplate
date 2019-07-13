@@ -7,8 +7,8 @@ use App\Packages\Common\Domain\JobQueuing\JobValidation\JobValidator;
 use App\Utilities\HandlerResponse\Response;
 use App\Utilities\HandlerResponse\ValidationErrorResponse;
 use App\Utilities\HandlerResponse\ResourceCreatedResponse;
-use App\Resources\QueueJob\Command;
-use App\Resources\QueueJob\QueueJobId;
+use App\Resources\Application\QueueJob\Command;
+use App\Resources\Application\QueueJob\QueueJobId;
 
 final class CreateJobHandler
 {

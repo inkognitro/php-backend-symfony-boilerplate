@@ -11,11 +11,11 @@ use App\Utilities\Validation\Rules\RequiredUuidRule;
 use App\Utilities\Validation\Rules\RequiredStringRule;
 use App\Utilities\Validation\Validator;
 use App\Packages\UserManagement\Application\CreateUser;
-use App\Resources\User\EmailAddress;
-use App\Resources\User\Password;
-use App\Resources\User\UserId;
-use App\Resources\User\Username;
-use App\Resources\Role\RoleId;
+use App\Resources\Application\User\Attributes\EmailAddress;
+use App\Resources\Application\User\Attributes\Password;
+use App\Resources\Application\User\Attributes\UserId;
+use App\Resources\Application\User\Attributes\Username;
+use App\Resources\Application\Role\RoleId;
 use App\Utilities\Authentication\AuthUser;
 
 final class UserValidator extends Validator

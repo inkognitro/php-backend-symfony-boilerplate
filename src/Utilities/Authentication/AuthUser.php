@@ -2,10 +2,10 @@
 
 namespace App\Utilities\Authentication;
 
-use App\Resources\AuditLogEvent\AuthUserPayload;
-use App\Resources\Language\LanguageId;
-use App\Resources\User\UserId;
-use App\Resources\Role\RoleId;
+use App\Resources\Application\AuditLogEvent\AuthUserPayload;
+use App\Resources\Application\Language\LanguageId;
+use App\Resources\Application\User\Attributes\UserId;
+use App\Resources\Application\Role\RoleId;
 
 final class AuthUser
 {

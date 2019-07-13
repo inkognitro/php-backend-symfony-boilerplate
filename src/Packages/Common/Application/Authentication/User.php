@@ -2,8 +2,8 @@
 
 namespace App\Packages\Common\Application\Authentication;
 
-use App\Resources\Role\RoleId;
-use App\Resources\User\UserId;
+use App\Resources\Application\Role\RoleId;
+use App\Resources\Application\User\Attributes\UserId;
 
 final class User
 {
