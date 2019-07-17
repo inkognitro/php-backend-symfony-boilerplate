@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Resources\Application\QueueJob;
+namespace App\Resources\Application\QueueJob\Attributes;
 
 use App\Resources\Application\Attribute;
 use App\Packages\Common\Application\Command as CommandBusCommand;

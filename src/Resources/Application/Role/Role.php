@@ -1,8 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace App\Resources\Application\Role;
+namespace App\Resources\Application\Role\Attributes;
 
-interface Role
+use App\Resources\Application\Resource;
+
+final class Role implements Resource
 {
 
 }

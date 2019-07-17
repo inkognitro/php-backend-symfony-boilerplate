@@ -7,9 +7,14 @@ final class Users
     private $users;
 
     /** @param $users User[]*/
-    public function __construct(array $users)
+    private function __construct(array $users)
     {
         $this->users;
+    }
+
+    public static function fromUsersArray(array $users): self
+    {
+        return new self($users);
     }
 
     /** @return User[]*/

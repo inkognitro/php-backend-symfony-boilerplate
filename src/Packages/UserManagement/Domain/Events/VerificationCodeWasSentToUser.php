@@ -3,11 +3,11 @@
 namespace App\Packages\UserManagement\Domain\Events;
 
 use App\Packages\Common\Domain\AuditLog\AuditLogEvent;
-use App\Resources\Application\AuditLogEvent\EventId;
-use App\Resources\Application\AuditLogEvent\OccurredAt;
-use App\Resources\Application\AuditLogEvent\Payload;
-use App\Resources\Application\AuditLogEvent\ResourceId;
-use App\Resources\Application\AuditLogEvent\ResourceType;
+use App\Resources\Application\AuditLogEvent\Attributes\EventId;
+use App\Resources\Application\AuditLogEvent\Attributes\OccurredAt;
+use App\Resources\Application\AuditLogEvent\Attributes\Payload;
+use App\Resources\Application\AuditLogEvent\Attributes\ResourceId;
+use App\Resources\Application\AuditLogEvent\Attributes\ResourceType;
 use App\Resources\Application\User\Attributes\EmailAddress;
 use App\Resources\Application\User\Attributes\User;
 use App\Resources\Application\User\Attributes\UserId;

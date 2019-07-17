@@ -17,4 +17,14 @@ final class Conditions
     {
         return $this->conditions;
     }
+
+    public function merge(self $that): self
+    {
+        return new self(array_merge($this->toArray(), $that->toArray()));
+    }
+
+    public function add(Condition $condition): self
+    {
+        return new self(array_merge($this->toArray(), [$condition]));
+    }
 }

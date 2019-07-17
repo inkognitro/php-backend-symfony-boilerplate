@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace App\Resources\Application\AuditLogEvent;
+namespace App\Resources\Application\AuditLogEvent\Attributes;
 
 use App\Resources\Application\PayloadAttribute;
 
-final class AuthUserPayload extends PayloadAttribute
+final class Payload extends PayloadAttribute
 {
     public static function getKey(): string
     {
-        return 'auditLogEvent.authUserPayload';
+        return 'auditLogEvent.payload';
     }
 
     public static function fromArray(array $data): self

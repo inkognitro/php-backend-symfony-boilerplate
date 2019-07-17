@@ -11,7 +11,7 @@ use App\Resources\Application\User\Attributes\Password;
 use App\Resources\Application\User\Attributes\UserId;
 use App\Resources\Application\User\Attributes\Username;
 use App\Resources\Application\User\Attributes\VerificationCode;
-use App\Resources\Application\Role\RoleId;
+use App\Resources\Application\Role\Attributes\RoleId;
 use App\Utilities\Authentication\AuthUser as AuthUser;
 
 final class UserAggregate extends Aggregate

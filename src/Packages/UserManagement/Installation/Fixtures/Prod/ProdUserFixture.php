@@ -4,7 +4,7 @@ namespace App\Packages\UserManagement\Installation\Fixtures\Prod;
 
 use App\Packages\Common\Domain\DidNotReceiveSuccessResponseException;
 use App\Packages\UserManagement\Application\CreateUser;
-use App\Resources\Application\Role\RoleId;
+use App\Resources\Application\Role\Attributes\RoleId;
 use App\Utilities\Authentication\AuthUser as AuthUser;
 use App\Packages\Common\Application\CommandBus;
 use App\Utilities\HandlerResponse\Success;

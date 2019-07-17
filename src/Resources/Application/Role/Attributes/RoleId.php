@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Resources\Application\Role;
+namespace App\Resources\Application\Role\Attributes;
 
 use App\Utilities\Validation\Messages\Message;
 use App\Utilities\Validation\Rules\RequiredStringRule;

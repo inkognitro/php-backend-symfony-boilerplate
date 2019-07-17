@@ -15,4 +15,14 @@ final class AndX implements Condition
     {
         return $this->conditions;
     }
+
+    public function merge(self $that): self
+    {
+        return new self($this->getConditions()->merge($that->getConditions()));
+    }
+
+    public function addCondition(Condition $condition): self
+    {
+        return new self($this->conditions->add($condition));
+    }
 }

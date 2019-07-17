@@ -3,14 +3,14 @@
 namespace App\Packages\Common\Domain\JobQueuing\Events;
 
 use App\Packages\Common\Domain\AuditLog\AuditLogEvent;
-use App\Resources\Application\AuditLogEvent\ResourceType;
-use App\Resources\Application\QueueJob\Command;
-use App\Resources\Application\AuditLogEvent\EventId;
-use App\Resources\Application\AuditLogEvent\OccurredAt;
-use App\Resources\Application\AuditLogEvent\Payload;
-use App\Resources\Application\AuditLogEvent\ResourceId;
+use App\Resources\Application\AuditLogEvent\Attributes\ResourceType;
+use App\Resources\Application\QueueJob\Attributes\Attributes\Command;
+use App\Resources\Application\AuditLogEvent\Attributes\EventId;
+use App\Resources\Application\AuditLogEvent\Attributes\OccurredAt;
+use App\Resources\Application\AuditLogEvent\Attributes\Payload;
+use App\Resources\Application\AuditLogEvent\Attributes\ResourceId;
 use App\Resources\Application\QueueJob\QueueJob;
-use App\Resources\Application\QueueJob\QueueJobId;
+use App\Resources\Application\QueueJob\Attributes\QueueJobId;
 use App\Utilities\Authentication\AuthUser;
 
 final class JobWasCreated extends AuditLogEvent

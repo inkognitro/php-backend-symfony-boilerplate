@@ -5,7 +5,7 @@ namespace App\Packages\UserManagement\Domain;
 use App\Resources\Application\User\Attributes\EmailAddress;
 use App\Resources\Application\User\Attributes\UserId;
 use App\Resources\Application\User\Attributes\Username;
-use App\Resources\Application\Role\RoleId;
+use App\Resources\Application\Role\Attributes\RoleId;
 
 final class User
 {

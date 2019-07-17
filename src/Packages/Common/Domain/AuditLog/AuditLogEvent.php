@@ -2,15 +2,14 @@
 
 namespace App\Packages\Common\Domain\AuditLog;
 
-use App\Resources\Application\AuditLogEvent\AuditLogEvent as AuditLogEventResource;
-use App\Resources\Application\AuditLogEvent\AuthUserPayload;
-use App\Resources\Application\AuditLogEvent\EventId;
-use App\Resources\Application\AuditLogEvent\OccurredAt;
-use App\Resources\Application\AuditLogEvent\Payload;
-use App\Resources\Application\AuditLogEvent\ResourceId;
-use App\Resources\Application\AuditLogEvent\ResourceType;
+use App\Resources\Application\AuditLogEvent\Attributes\AuthUserPayload;
+use App\Resources\Application\AuditLogEvent\Attributes\EventId;
+use App\Resources\Application\AuditLogEvent\Attributes\OccurredAt;
+use App\Resources\Application\AuditLogEvent\Attributes\Payload;
+use App\Resources\Application\AuditLogEvent\Attributes\ResourceId;
+use App\Resources\Application\AuditLogEvent\Attributes\ResourceType;
 
-abstract class AuditLogEvent implements AuditLogEventResource
+abstract class AuditLogEvent
 {
     private $id;
     private $resourceId;

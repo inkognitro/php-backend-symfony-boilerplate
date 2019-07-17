@@ -2,33 +2,19 @@
 
 namespace App\Resources\Application\User;
 
-use App\Utilities\Query\Condition;
+use App\Resources\Application\User\Attributes\VerifiedAt;
+use App\Utilities\Query\AndX;
+use App\Utilities\Query\Conditions;
+use App\Utilities\Query\NotNull;
 use App\Utilities\Query\Query;
 
-final class UsersQuery implements Query
+final class UsersQuery extends Query
 {
-    private $attributes;
-    private $condition;
-
-    private function __construct(array $attributes, Condition $condition)
+    public static function createFromVerifiedUsers(array $attributes): self
     {
-        $this->attributes = $attributes;
-        $this->condition = $condition;
-    }
-
-    public static function createFromActivatedUsers(array $attributes, Condition $condition): self
-    {
-        //todo add condition for active users to condition
-        return new self($attributes, $condition);
-    }
-
-    public function getAttributes(): array
-    {
-        return $this->attributes;
-    }
-
-    public function getCondition(): Condition
-    {
-        return $this->condition;
+        $condition = new AndX(new Conditions([new NotNull(VerifiedAt::class)]));
+        /** @var $query self */
+        $query = self::create($attributes)->andWhere($condition);
+        return $query;
     }
 }

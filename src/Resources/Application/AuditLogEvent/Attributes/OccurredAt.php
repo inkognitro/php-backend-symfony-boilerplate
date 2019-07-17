@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Resources\Application\AuditLogEvent;
+namespace App\Resources\Application\AuditLogEvent\Attributes;
 
 use App\Resources\Application\DateTimeAttribute;
 use App\Utilities\DateTimeFactory;

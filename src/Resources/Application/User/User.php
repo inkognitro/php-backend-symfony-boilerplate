@@ -2,7 +2,10 @@
 
 namespace App\Resources\Application\User;
 
-final class User
+use App\Resources\Application\Resource;
+use App\Resources\Application\User\Attributes\UserId;
+
+final class User implements Resource
 {
     private $id;
 
@@ -11,7 +14,7 @@ final class User
         $this->id;
     }
 
-    public function getId(): UserId
+    public function getId(): ?UserId
     {
         return $this->id;
     }

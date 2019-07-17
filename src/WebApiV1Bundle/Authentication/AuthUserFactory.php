@@ -2,8 +2,8 @@
 
 namespace App\WebApiV1Bundle\Authentication;
 
-use App\Resources\Application\Language\LanguageId;
-use App\Resources\Application\Role\RoleId;
+use App\Resources\Application\Language\Attributes\LanguageId;
+use App\Resources\Application\Role\Attributes\RoleId;
 use App\Resources\Application\User\Attributes\UserId;
 use App\Utilities\Authentication\AuthUser;
 use Exception;
