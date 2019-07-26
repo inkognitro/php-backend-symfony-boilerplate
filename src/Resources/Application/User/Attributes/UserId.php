@@ -8,9 +8,9 @@ final class UserId implements Attribute
 {
     private $id;
 
-    public static function getKey(): string
+    public static function getPayloadKey(): string
     {
-       return 'user.id';
+       return 'id';
     }
 
     private function __construct(string $id)

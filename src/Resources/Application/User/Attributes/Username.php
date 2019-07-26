@@ -8,9 +8,9 @@ final class Username implements Attribute
 {
     private $username;
 
-    public static function getKey(): string
+    public static function getPayloadKey(): string
     {
-        return 'user.username';
+        return 'username';
     }
 
     private function __construct(string $username)

@@ -7,9 +7,9 @@ use App\Resources\Application\DateTimeAttribute;
 
 final class VerificationCodeSentAt extends DateTimeAttribute
 {
-    public static function getKey(): string
+    public static function getPayloadKey(): string
     {
-        return 'user.verificationCodeSentAt';
+        return 'verificationCodeSentAt';
     }
 
     public static function fromString(string $dateTime): self

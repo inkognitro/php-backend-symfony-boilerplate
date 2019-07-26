@@ -8,9 +8,9 @@ final class QueueJobId implements Attribute
 {
     private $id;
 
-    public static function getKey(): string
+    public static function getPayloadKey(): string
     {
-        return 'queueJob.id';
+        return 'id';
     }
 
     private function __construct(string $id)

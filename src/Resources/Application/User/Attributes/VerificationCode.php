@@ -8,28 +8,28 @@ final class VerificationCode implements Attribute
 {
     private $code;
 
-    public static function getKey(): string
+    public static function getPayloadKey(): string
     {
-        return 'user.id';
+        return 'verificationCode';
     }
 
-    private function __construct(string $code)
+    private function __construct(?string $code)
     {
         $this->code = $code;
     }
 
-    public static function fromString(string $code): self
+    public static function fromNullableString(?string $code): self
     {
         return new self($code);
     }
 
-    public function toString(): string
+    public function toNullableString(): ?string
     {
         return $this->code;
     }
 
     public function isSame(self $code): bool
     {
-        return ($code->toString() === $this->toString());
+        return ($code->toNullableString() === $this->toNullableString());
     }
 }

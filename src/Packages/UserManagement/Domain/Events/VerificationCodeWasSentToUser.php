@@ -24,8 +24,8 @@ final class VerificationCodeWasSentToUser extends AuditLogEvent
     ): self {
         $occurredAt = OccurredAt::create();
         $payload = Payload::fromArray([
-            EmailAddress::getKey() => $emailAddress->toString(),
-            VerificationCode::getKey() => $verificationCode->toString(),
+            EmailAddress::getPayloadKey() => $emailAddress->toString(),
+            VerificationCode::getPayloadKey() => $verificationCode->toNullableString(),
         ]);
         $resourceId = ResourceId::fromString($userId->toString());
         return new self(
@@ -40,14 +40,14 @@ final class VerificationCodeWasSentToUser extends AuditLogEvent
 
     public function getEmailAddress(): EmailAddress
     {
-        $emailAddress = $this->getPayload()->toArray()[EmailAddress::getKey()];
+        $emailAddress = $this->getPayload()->toArray()[EmailAddress::getPayloadKey()];
         return EmailAddress::fromString($emailAddress);
     }
 
     public function getVerificationCode(): VerificationCode
     {
-        $verificationCode = $this->getPayload()->toArray()[VerificationCode::getKey()];
-        return VerificationCode::fromString($verificationCode);
+        $verificationCode = $this->getPayload()->toArray()[VerificationCode::getPayloadKey()];
+        return VerificationCode::fromNullableString($verificationCode);
     }
 
     public function mustBeLogged(): bool

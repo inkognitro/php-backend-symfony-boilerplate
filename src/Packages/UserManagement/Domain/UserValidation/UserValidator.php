@@ -46,7 +46,7 @@ final class UserValidator extends Validator
     {
         $error = RequiredUuidRule::findError($userId);
         if ($error !== null) {
-            $this->errors->addMessage(UserId::getKey(), $error);
+            $this->errors->addMessage(UserId::getPayloadKey(), $error);
             return;
         }
     }
@@ -55,21 +55,21 @@ final class UserValidator extends Validator
     {
         $errorMessage = RequiredStringRule::findError($username);
         if ($errorMessage !== null) {
-            $this->errors->addMessage(Username::getKey(), $errorMessage);
+            $this->errors->addMessage(Username::getPayloadKey(), $errorMessage);
             return;
         }
 
         $minLength = 4;
         $errorMessage = MinLengthRule::findError($username, $minLength);
         if ($errorMessage !== null) {
-            $this->errors->addMessage(Username::getKey(), $errorMessage);
+            $this->errors->addMessage(Username::getPayloadKey(), $errorMessage);
             return;
         }
 
         $maxLength = 32;
         $errorMessage = MaxLengthRule::findError($username, $maxLength);
         if ($errorMessage !== null) {
-            $this->errors->addMessage(Username::getKey(), $errorMessage);
+            $this->errors->addMessage(Username::getPayloadKey(), $errorMessage);
         }
     }
 
@@ -77,21 +77,21 @@ final class UserValidator extends Validator
     {
         $errorMessage = RequiredEmailAddressRule::findError($emailAddress);
         if ($errorMessage !== null) {
-            $this->errors = $this->errors->addMessage(EmailAddress::getKey(), $errorMessage);
+            $this->errors = $this->errors->addMessage(EmailAddress::getPayloadKey(), $errorMessage);
             return;
         }
 
         $minLength = 4;
         $errorMessage = MinLengthRule::findError($emailAddress, $minLength);
         if ($errorMessage !== null) {
-            $this->errors = $this->errors->addMessage(Username::getKey(), $errorMessage);
+            $this->errors = $this->errors->addMessage(Username::getPayloadKey(), $errorMessage);
             return;
         }
 
         $maxLength = 191;
         $errorMessage = MaxLengthRule::findError($emailAddress, $maxLength);
         if ($errorMessage !== null) {
-            $this->errors = $this->errors->addMessage(Username::getKey(), $errorMessage);
+            $this->errors = $this->errors->addMessage(Username::getPayloadKey(), $errorMessage);
         }
     }
 
@@ -99,7 +99,7 @@ final class UserValidator extends Validator
     {
         $errorMessage = RoleId::findFormatError($roleId);
         if ($errorMessage !== null) {
-            $this->errors = $this->errors->addMessage(RoleId::getKey(), $errorMessage);
+            $this->errors = $this->errors->addMessage(RoleId::getPayloadKey(), $errorMessage);
             return;
         }
         $availableRoleIds = [RoleId::user()->toString()];
@@ -107,7 +107,7 @@ final class UserValidator extends Validator
             $availableRoleIds[] = RoleId::admin()->toString();
         }
         if (!in_array($roleId, $availableRoleIds)) {
-            $this->errors = $this->errors->addMessage(RoleId::getKey(), new CanNotBeChosenMessage());
+            $this->errors = $this->errors->addMessage(RoleId::getPayloadKey(), new CanNotBeChosenMessage());
         }
     }
 
@@ -115,7 +115,7 @@ final class UserValidator extends Validator
     {
         $errorMessage = Password::findFormatError($password);
         if ($errorMessage !== null) {
-            $this->errors = $this->errors->addMessage(Password::getKey(), $errorMessage);
+            $this->errors = $this->errors->addMessage(Password::getPayloadKey(), $errorMessage);
         }
     }
 
@@ -126,7 +126,7 @@ final class UserValidator extends Validator
         bool $validateForExistingUser
     ): void
     {
-        if ($this->errors->hasOneOfKeys([UserId::getKey(), Username::getKey(), EmailAddress::getKey()])) {
+        if ($this->errors->hasOneOfKeys([UserId::getPayloadKey(), Username::getPayloadKey(), EmailAddress::getPayloadKey()])) {
             return;
         }
         $userIdToUse = UserId::fromString($userId);
@@ -138,13 +138,13 @@ final class UserValidator extends Validator
                 continue;
             }
             if (!$validateForExistingUser && $user->getUserId()->isEqual($userIdToUse)) {
-                $this->errors = $this->errors->addMessage(UserId::getKey(), new DoesAlreadyExistMessage());;
+                $this->errors = $this->errors->addMessage(UserId::getPayloadKey(), new DoesAlreadyExistMessage());;
             }
             if ($user->getUsername()->isEqual($usernameToUse)) {
-                $this->errors = $this->errors->addMessage(Username::getKey(), new DoesAlreadyExistMessage());
+                $this->errors = $this->errors->addMessage(Username::getPayloadKey(), new DoesAlreadyExistMessage());
             }
             if ($user->getEmailAddress()->isEqual($emailAddressToUse)) {
-                $this->errors = $this->errors->addMessage(EmailAddress::getKey(), new DoesAlreadyExistMessage());
+                $this->errors = $this->errors->addMessage(EmailAddress::getPayloadKey(), new DoesAlreadyExistMessage());
             }
         }
     }

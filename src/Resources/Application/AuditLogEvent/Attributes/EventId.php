@@ -9,9 +9,9 @@ final class EventId implements Attribute
 {
     private $id;
 
-    public static function getKey(): string
+    public static function getPayloadKey(): string
     {
-        return 'auditLogEvent.id';
+        return 'id';
     }
 
     public function __construct(string $id)

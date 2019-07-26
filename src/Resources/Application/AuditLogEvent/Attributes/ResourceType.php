@@ -8,9 +8,9 @@ final class ResourceType implements Attribute
 {
     private $id;
 
-    public static function getKey(): string
+    public static function getPayloadKey(): string
     {
-        return 'auditLogEvent.aggregateType';
+        return 'resourceType';
     }
 
     private function __construct(string $id)

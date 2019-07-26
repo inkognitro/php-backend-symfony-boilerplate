@@ -11,9 +11,9 @@ final class Password implements Attribute
 {
     private $passwordHash;
 
-    public static function getKey(): string
+    public static function getPayloadKey(): string
     {
-        return 'user.passwordHash';
+        return 'passwordHash';
     }
 
     /** @param $password mixed */

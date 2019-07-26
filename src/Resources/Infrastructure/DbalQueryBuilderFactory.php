@@ -25,9 +25,9 @@ final class DbalQueryBuilderFactory
         $this->expressionBuilder = $connection->getExpressionBuilder();
     }
 
-    public function addCondition(QueryBuilder $queryBuilder, Condition $condition, array $attributeToFieldMapping): void
+    public function addCondition(QueryBuilder $queryBuilder, Condition $condition, DbalEntitySettings $entitySettings): void
     {
-        $dbalCondition = $this->createDbalCondition($condition, $attributeToFieldMapping);
+        $dbalCondition = $this->createDbalCondition($condition, $entitySettings);
         $queryBuilder->andWhere($dbalCondition->getQueryBuilderCondition());
         $queryBuilder->setParameters(
             $dbalCondition->getParameters()->toQueryBuilderParameters(),
@@ -44,21 +44,21 @@ final class DbalQueryBuilderFactory
         $queryBuilder->setMaxResults($limit);
     }
 
-    public function addOrderBy(QueryBuilder $queryBuilder, OrderBy $orderBy, array $attributeToFieldMapping): void
+    public function addOrderBy(QueryBuilder $queryBuilder, OrderBy $orderBy, DbalEntitySettings $entitySettings): void
     {
         foreach ($orderBy->toArray() as $orderByAttribute) {
-            $field = $attributeToFieldMapping[$orderByAttribute->getAttribute()];
+            $field = $entitySettings->getFieldByAttribute($orderByAttribute->getAttribute());
             $queryBuilder->addOrderBy($field, $orderByAttribute->getOrderDirection());
         }
     }
 
-    private function createDbalCondition(Condition $condition, array $attributeToFieldMapping): DbalCondition
+    private function createDbalCondition(Condition $condition, DbalEntitySettings $entitySettings): DbalCondition
     {
         if ($condition instanceof OrX) {
             $orX = [];
             $orXParameters = new DbalParameters([]);
             foreach ($condition->getConditions()->toArray() as $subCondition) {
-                $subDbalCondition = $this->createDbalCondition($subCondition, $attributeToFieldMapping);
+                $subDbalCondition = $this->createDbalCondition($subCondition, $entitySettings);
                 $orX[] = $subDbalCondition->getQueryBuilderCondition();
                 $orXParameters = $orXParameters->merge($subDbalCondition->getParameters());
             }
@@ -70,7 +70,7 @@ final class DbalQueryBuilderFactory
             $andX = [];
             $andXParameters = new DbalParameters([]);
             foreach ($condition->getConditions()->toArray() as $subCondition) {
-                $subDbalCondition = $this->createDbalCondition($subCondition, $attributeToFieldMapping);
+                $subDbalCondition = $this->createDbalCondition($subCondition, $entitySettings);
                 $andX[] = $subDbalCondition->getQueryBuilderCondition();
                 $andXParameters = $andXParameters->merge($subDbalCondition->getParameters());
             }
@@ -79,28 +79,28 @@ final class DbalQueryBuilderFactory
         }
 
         if ($condition instanceof Like) {
-            $field = $attributeToFieldMapping[$condition->getAttribute()];
+            $field = $entitySettings->getFieldByAttribute($condition->getAttribute());
             $parameter = DbalParameter::create($condition->getValue());
             $sql = $this->expressionBuilder->like($field, ':' . $parameter->getName());
             return new DbalCondition($sql, new DbalParameters([$parameter]));
         }
 
         if ($condition instanceof NotLike) {
-            $field = $attributeToFieldMapping[$condition->getAttribute()];
+            $field = $entitySettings->getFieldByAttribute($condition->getAttribute());
             $parameter = DbalParameter::create($condition->getValue());
             $sql = $this->expressionBuilder->notLike($field, ':' . $parameter->getName());
             return new DbalCondition($sql, new DbalParameters([$parameter]));
         }
 
         if ($condition instanceof Equals) {
-            $field = $attributeToFieldMapping[$condition->getAttribute()];
+            $field = $entitySettings->getFieldByAttribute($condition->getAttribute());
             $parameter = DbalParameter::create($condition->getValue());
             $sql = $this->expressionBuilder->eq($field, ':' . $parameter->getName());
             return new DbalCondition($sql, new DbalParameters([$parameter]));
         }
 
         if ($condition instanceof NotNull) {
-            $field = $attributeToFieldMapping[$condition->getAttribute()];
+            $field = $entitySettings->getFieldByAttribute($condition->getAttribute());
             $sql = $this->expressionBuilder->isNotNull($field);
             return new DbalCondition($sql, new DbalParameters([]));
         }

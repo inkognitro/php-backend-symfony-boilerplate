@@ -6,9 +6,9 @@ use App\Resources\Application\PayloadAttribute;
 
 final class Payload extends PayloadAttribute
 {
-    public static function getKey(): string
+    public static function getPayloadKey(): string
     {
-        return 'auditLogEvent.payload';
+        return 'payload';
     }
 
     public static function fromArray(array $data): self

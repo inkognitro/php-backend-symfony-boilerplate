@@ -10,9 +10,9 @@ final class RoleId implements Attribute
 {
     private $roleId;
 
-    public static function getKey(): string
+    public static function getPayloadKey(): string
     {
-        return 'role.id';
+        return 'id';
     }
 
     /** @param $roleId mixed */

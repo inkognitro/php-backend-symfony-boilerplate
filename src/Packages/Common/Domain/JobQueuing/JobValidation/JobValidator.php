@@ -28,11 +28,11 @@ final class JobValidator extends Validator
     {
         $error = RequiredUuidRule::findError($jobId);
         if ($error !== null) {
-            $this->errors = $this->errors->addMessage(QueueJobId::getKey(), $error);
+            $this->errors = $this->errors->addMessage(QueueJobId::getPayloadKey(), $error);
             return;
         }
         if ($this->jobExistsByIdQuery->execute(QueueJobId::fromString($jobId))) {
-            $this->errors = $this->errors->addMessage(QueueJobId::getKey(), new DoesAlreadyExistMessage());
+            $this->errors = $this->errors->addMessage(QueueJobId::getPayloadKey(), new DoesAlreadyExistMessage());
         }
     }
 }

@@ -7,9 +7,9 @@ use App\Utilities\DateTimeFactory;
 
 final class ExecutedAt extends DateTimeAttribute
 {
-    public static function getKey(): string
+    public static function getPayloadKey(): string
     {
-        return 'queueJob.executedAt';
+        return 'executedAt';
     }
 
     public static function fromString(string $dateTime): self

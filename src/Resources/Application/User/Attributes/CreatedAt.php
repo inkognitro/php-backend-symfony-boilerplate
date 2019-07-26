@@ -7,9 +7,9 @@ use App\Utilities\DateTimeFactory;
 
 final class CreatedAt extends DateTimeAttribute
 {
-    public static function getKey(): string
+    public static function getPayloadKey(): string
     {
-        return 'user.createdAt';
+        return 'createdAt';
     }
 
     public static function fromString(string $dateTime): self

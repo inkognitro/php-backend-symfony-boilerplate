@@ -6,7 +6,7 @@ final class Users
 {
     private $users;
 
-    /** @param $users User[]*/
+    /** @param $users User[] */
     private function __construct(array $users)
     {
         $this->users;
@@ -17,9 +17,17 @@ final class Users
         return new self($users);
     }
 
-    /** @return User[]*/
+    /** @return User[] */
     public function toArray(): array
     {
         return $this->users;
+    }
+
+    public function findFirst(): ?User
+    {
+        if ($this->users[0]) {
+            return $this->users[0];
+        }
+        return null;
     }
 }

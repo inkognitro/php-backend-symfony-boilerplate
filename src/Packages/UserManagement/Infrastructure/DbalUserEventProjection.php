@@ -41,7 +41,7 @@ final class DbalUserEventProjection implements UserEventProjection
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder->insert('user_email_address_verification_codes');
         $queryBuilder->values([
-            'code' => $queryBuilder->createNamedParameter($event->getVerificationCode()->toString()),
+            'code' => $queryBuilder->createNamedParameter($event->getVerificationCode()->toNullableString()),
             'user_id' => $queryBuilder->createNamedParameter($event->getUserId()->toString()),
             'email_address' => $queryBuilder->createNamedParameter($event->getEmailAddress()->toString()),
             'code_sent_at' => $queryBuilder->createNamedParameter($event->getOccurredAt()->toDateTime(), 'datetime'),

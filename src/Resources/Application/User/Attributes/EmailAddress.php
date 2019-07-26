@@ -8,9 +8,9 @@ final class EmailAddress implements Attribute
 {
     private $emailAddress;
 
-    public static function getKey(): string
+    public static function getPayloadKey(): string
     {
-        return 'user.emailAddress';
+        return 'emailAddress';
     }
 
     private function __construct(string $emailAddress)

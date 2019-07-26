@@ -29,11 +29,11 @@ final class UserWasCreated extends AuditLogEvent
         $previousPayload = null;
         $occurredAt = OccurredAt::create();
         $payload = Payload::fromArray([
-            Username::getKey() => $username->toString(),
-            EmailAddress::getKey() => $emailAddress->toString(),
-            Password::getKey() => $password->toHash(),
-            RoleId::getKey() => $roleId->toString(),
-            Password::getKey() => $password->toHash(),
+            Username::getPayloadKey() => $username->toString(),
+            EmailAddress::getPayloadKey() => $emailAddress->toString(),
+            Password::getPayloadKey() => $password->toHash(),
+            RoleId::getPayloadKey() => $roleId->toString(),
+            Password::getPayloadKey() => $password->toHash(),
         ]);
         $resourceId = ResourceId::fromString($userId->toString());
         return new self(EventId::create(), $resourceId, $payload, $creator->toAuditLogEventAuthUserPayload(), $occurredAt);
@@ -51,25 +51,25 @@ final class UserWasCreated extends AuditLogEvent
 
     public function getUsername(): Username
     {
-        $username = $this->getPayload()->toArray()[Username::getKey()];
+        $username = $this->getPayload()->toArray()[Username::getPayloadKey()];
         return Username::fromString($username);
     }
 
     public function getRoleId(): RoleId
     {
-        $roleId = $this->getPayload()->toArray()[RoleId::getKey()];
+        $roleId = $this->getPayload()->toArray()[RoleId::getPayloadKey()];
         return RoleId::fromString($roleId);
     }
 
     public function getEmailAddress(): EmailAddress
     {
-        $username = $this->getPayload()->toArray()[EmailAddress::getKey()];
+        $username = $this->getPayload()->toArray()[EmailAddress::getPayloadKey()];
         return EmailAddress::fromString($username);
     }
 
     public function getPassword(): Password
     {
-        $password = $this->getPayload()->toArray()[Password::getKey()];
+        $password = $this->getPayload()->toArray()[Password::getPayloadKey()];
         return Password::fromString($password);
     }
 

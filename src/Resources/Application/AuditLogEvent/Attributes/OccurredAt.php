@@ -7,9 +7,9 @@ use App\Utilities\DateTimeFactory;
 
 final class OccurredAt extends DateTimeAttribute
 {
-    public static function getKey(): string
+    public static function getPayloadKey(): string
     {
-        return 'auditLogEvent.occurredAt';
+        return 'occurredAt';
     }
 
     public static function create(): self
