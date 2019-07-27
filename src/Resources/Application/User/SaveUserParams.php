@@ -3,7 +3,7 @@
 namespace App\Resources\Application\User;
 
 use App\Resources\Application\Resource;
-use App\Resources\Application\Role\Role;
+use App\Resources\Application\Role\Attributes\RoleId;
 use App\Resources\Application\User\Attributes\CreatedAt;
 use App\Resources\Application\User\Attributes\EmailAddress;
 use App\Resources\Application\User\Attributes\Password;
@@ -14,7 +14,7 @@ use App\Resources\Application\User\Attributes\VerificationCode;
 use App\Resources\Application\User\Attributes\VerificationCodeSentAt;
 use App\Resources\Application\User\Attributes\VerifiedAt;
 
-final class User implements Resource
+final class SaveUserParams implements Resource
 {
     private $id;
     private $emailAddress;
@@ -23,7 +23,7 @@ final class User implements Resource
     private $verificationCode;
     private $verificationCodeSentAt;
     private $verifiedAt;
-    private $role;
+    private $roleId;
     private $createdAt;
     private $updatedAt;
 
@@ -35,7 +35,7 @@ final class User implements Resource
         ?VerificationCode $verificationCode,
         ?VerificationCodeSentAt $verificationCodeSentAt,
         ?VerifiedAt $verifiedAt,
-        ?Role $role,
+        ?RoleId $roleId,
         ?CreatedAt $createdAt,
         ?UpdatedAt $updatedAt
     ) {
@@ -46,7 +46,7 @@ final class User implements Resource
         $this->verificationCode = $verificationCode;
         $this->verificationCodeSentAt = $verificationCodeSentAt;
         $this->verifiedAt = $verifiedAt;
-        $this->role = $role;
+        $this->roleId = $roleId;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
     }

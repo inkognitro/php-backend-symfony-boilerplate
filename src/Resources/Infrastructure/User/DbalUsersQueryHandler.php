@@ -3,8 +3,10 @@
 namespace App\Resources\Infrastructure\User;
 
 use App\Packages\Common\Infrastructure\DbalConnection;
+use App\Resources\Application\User\Attributes\CreatedAt;
 use App\Resources\Application\User\Attributes\EmailAddress;
 use App\Resources\Application\User\Attributes\Password;
+use App\Resources\Application\User\Attributes\UpdatedAt;
 use App\Resources\Application\User\Attributes\UserId;
 use App\Resources\Application\User\Attributes\Username;
 use App\Resources\Application\User\Attributes\VerificationCode;
@@ -35,6 +37,8 @@ final class DbalUsersQueryHandler implements UsersQueryHandler
     public function handle(UsersQuery $query): Users
     {
         $queryBuilder = $this->connection->createQueryBuilder();
+        $queryBuilder->addSelect('id as resourceId');
+
         foreach ($query->getAttributes() as $attribute) {
             $field = $this->userEntitySettings->getFieldByAttribute($attribute);
             $queryBuilder->addSelect($field);
@@ -83,6 +87,12 @@ final class DbalUsersQueryHandler implements UsersQueryHandler
         $field = $this->userEntitySettings->getFieldByAttribute(VerifiedAt::class);
         $verifiedAt = (!array_key_exists($field, $row) ? null : VerifiedAt::fromString($row[$field]));
 
+        $field = $this->userEntitySettings->getFieldByAttribute(CreatedAt::class);
+        $createdAt = (!array_key_exists($field, $row) ? null : CreatedAt::fromString($row[$field]));
+
+        $field = $this->userEntitySettings->getFieldByAttribute(UpdatedAt::class);
+        $updatedAt = (!array_key_exists($field, $row) ? null : UpdatedAt::fromString($row[$field]));
+
         return new User(
             $id,
             $emailAddress,
@@ -90,7 +100,9 @@ final class DbalUsersQueryHandler implements UsersQueryHandler
             $username,
             $verificationCode,
             $verificationCodeSentAt,
-            $verifiedAt
+            $verifiedAt,
+            $createdAt,
+            $updatedAt
         );
     }
 }
