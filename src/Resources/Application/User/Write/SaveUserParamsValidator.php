@@ -1,7 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\UserManagement\Domain\UserValidation;
+namespace App\Packages\Resources\Application\User\Write;
 
+use App\Packages\UserManagement\Domain\UserValidation\UsersWithAnEqualValueQuery;
+use App\Resources\Application\User\UsersQueryHandler;
 use App\Utilities\Validation\Messages\CanNotBeChosenMessage;
 use App\Utilities\Validation\Messages\DoesAlreadyExistMessage;
 use App\Utilities\Validation\Rules\MaxLengthRule;
@@ -9,7 +11,6 @@ use App\Utilities\Validation\Rules\MinLengthRule;
 use App\Utilities\Validation\Rules\RequiredEmailAddressRule;
 use App\Utilities\Validation\Rules\RequiredUuidRule;
 use App\Utilities\Validation\Rules\RequiredStringRule;
-use App\Utilities\Validation\Validator;
 use App\Packages\UserManagement\Application\CreateUser;
 use App\Resources\Application\User\Attributes\EmailAddress;
 use App\Resources\Application\User\Attributes\Password;
@@ -18,14 +19,13 @@ use App\Resources\Application\User\Attributes\Username;
 use App\Resources\Application\Role\Attributes\RoleId;
 use App\Utilities\Authentication\AuthUser;
 
-final class UserValidator extends Validator
+final class SaveUserParamsValidator
 {
     private $usersWithAnEqualValueQuery;
 
-    public function __construct(UsersWithAnEqualValueQuery $usersWithAnEqualValueQuery)
+    public function __construct(UsersQueryHandler $usersQueryHandler)
     {
-        parent::__construct();
-        $this->usersWithAnEqualValueQuery = $usersWithAnEqualValueQuery;
+        $this->usersQueryHandler = $usersQueryHandler;
     }
 
     public function validateCreation(CreateUser $command): void

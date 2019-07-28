@@ -6,15 +6,15 @@ use App\Utilities\Validation\Messages\Message;
 use App\Utilities\Validation\Messages\MustBeAnEmailAddressMessage;
 use App\Utilities\Validation\Messages\MustBeAStringMessage;
 
-final class RequiredEmailAddressRule
+final class RequiredEmailAddressRule implements Rule
 {
     /** @param $emailAddress mixed */
-    public static function findError($emailAddress): ?Message
+    public function findError($emailAddress): ?Message
     {
         if(!is_string($emailAddress)) {
             return new MustBeAStringMessage();
         }
-        if (!filter_var($emailAddress, FILTER_VALIDATE_EMAIL)) {
+        if (!filter_var($emailAddress, FILTER_VALIDATE_EMAIL, [FILTER_FLAG_EMAIL_UNICODE])) {
             return new MustBeAnEmailAddressMessage();
         }
         return null;

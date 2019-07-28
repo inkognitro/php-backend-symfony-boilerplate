@@ -3,6 +3,7 @@
 namespace App\Resources\Application\AuditLogEvent\Attributes;
 
 use App\Resources\Application\Attribute;
+use App\Resources\Application\AttributeTypeId;
 
 final class ResourceId implements Attribute
 {
@@ -11,6 +12,11 @@ final class ResourceId implements Attribute
     public static function getPayloadKey(): string
     {
         return 'resourceId';
+    }
+
+    public static function getTypeId(): AttributeTypeId
+    {
+        return AttributeTypeId::uuid();
     }
 
     private function __construct(string $id)

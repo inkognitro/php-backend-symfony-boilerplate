@@ -2,9 +2,7 @@
 
 namespace App\Resources\Application\User\Attributes;
 
-use App\Utilities\Validation\Messages\Message;
-use App\Utilities\Validation\Rules\MaxLengthRule;
-use App\Utilities\Validation\Rules\MinLengthRule;
+use App\Resources\Application\AttributeTypeId;
 use App\Resources\Application\Attribute;
 
 final class Password implements Attribute
@@ -16,16 +14,9 @@ final class Password implements Attribute
         return 'passwordHash';
     }
 
-    /** @param $password mixed */
-    public static function findFormatError($password): ?Message
+    public static function getTypeId(): AttributeTypeId
     {
-        $minLength = 4;
-        $error = MinLengthRule::findError($password, $minLength);
-        if($error) {
-            return $error;
-        }
-        $maxLength = 40;
-        return MaxLengthRule::findError($password, $maxLength);
+        return AttributeTypeId::text();
     }
 
     private function __construct(string $passwordHash)

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Resources\Application\User;
+namespace App\Resources\Application\User\Write;
 
 use App\Resources\Application\Resource;
 use App\Resources\Application\Role\Attributes\RoleId;

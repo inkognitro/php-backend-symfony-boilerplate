@@ -3,6 +3,7 @@
 namespace App\Resources\Application\User\Attributes;
 
 use App\Resources\Application\Attribute;
+use App\Resources\Application\AttributeTypeId;
 
 final class UserId implements Attribute
 {
@@ -11,6 +12,11 @@ final class UserId implements Attribute
     public static function getPayloadKey(): string
     {
        return 'id';
+    }
+
+    public static function getTypeId(): AttributeTypeId
+    {
+        return AttributeTypeId::uuid();
     }
 
     private function __construct(string $id)

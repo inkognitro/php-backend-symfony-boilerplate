@@ -2,6 +2,7 @@
 
 namespace App\Resources\Application\AuditLogEvent\Attributes;
 
+use App\Resources\Application\AttributeTypeId;
 use App\Resources\Application\PayloadAttribute;
 
 final class Payload extends PayloadAttribute
@@ -9,6 +10,11 @@ final class Payload extends PayloadAttribute
     public static function getPayloadKey(): string
     {
         return 'payload';
+    }
+
+    public static function getTypeId(): AttributeTypeId
+    {
+        return AttributeTypeId::dateTime();
     }
 
     public static function fromArray(array $data): self

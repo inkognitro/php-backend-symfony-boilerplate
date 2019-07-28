@@ -3,6 +3,7 @@
 namespace App\Resources\Application\AuditLogEvent\Attributes;
 
 use App\Resources\Application\Attribute;
+use App\Resources\Application\AttributeTypeId;
 use Ramsey\Uuid\Uuid;
 
 final class EventId implements Attribute
@@ -12,6 +13,11 @@ final class EventId implements Attribute
     public static function getPayloadKey(): string
     {
         return 'id';
+    }
+
+    public static function getTypeId(): AttributeTypeId
+    {
+        return AttributeTypeId::uuid();
     }
 
     public function __construct(string $id)

@@ -15,7 +15,7 @@ final class SuccessResponse implements Success
 
     public static function create(): self
     {
-        $warnings = MessageBag::createEmpty();
+        $warnings = MessageBag::create();
         return new self($warnings);
     }
 

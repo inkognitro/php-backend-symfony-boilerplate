@@ -2,6 +2,7 @@
 
 namespace App\Resources\Application\AuditLogEvent\Attributes;
 
+use App\Resources\Application\AttributeTypeId;
 use App\Resources\Application\DateTimeAttribute;
 use App\Utilities\DateTimeFactory;
 
@@ -10,6 +11,11 @@ final class OccurredAt extends DateTimeAttribute
     public static function getPayloadKey(): string
     {
         return 'occurredAt';
+    }
+
+    public static function getTypeId(): AttributeTypeId
+    {
+        return AttributeTypeId::dateTime();
     }
 
     public static function create(): self

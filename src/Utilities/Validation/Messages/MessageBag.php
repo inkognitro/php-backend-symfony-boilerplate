@@ -11,7 +11,7 @@ final class MessageBag
         $this->messages = $messages;
     }
 
-    public static function createEmpty(): self
+    public static function create(): self
     {
         return new self([]);
     }
@@ -45,9 +45,9 @@ final class MessageBag
         return false;
     }
 
-    public function getCount(): int
+    public function isEmpty(): bool
     {
-        return count($this->messages);
+        return (count($this->messages) === 0);
     }
 
     public function toArray(): array

@@ -4,6 +4,7 @@ namespace App\Resources\Application\QueueJob\Attributes;
 
 use App\Resources\Application\Attribute;
 use App\Packages\Common\Application\Command as CommandBusCommand;
+use App\Resources\Application\AttributeTypeId;
 
 final class Command implements Attribute
 {
@@ -12,6 +13,11 @@ final class Command implements Attribute
     private function __construct(CommandBusCommand $command)
     {
         $this->command = $command;
+    }
+
+    public static function getTypeId(): AttributeTypeId
+    {
+        return AttributeTypeId::eventPayload();
     }
 
     public static function getPayloadKey(): string

@@ -8,7 +8,7 @@ use App\Packages\Common\Domain\DidNotReceiveSuccessResponseException;
 use App\Packages\UserManagement\Application\CreateUser;
 use App\Packages\UserManagement\Application\SendVerificationCodeToUser;
 use App\Packages\UserManagement\Domain\UserEventDispatcher;
-use App\Packages\UserManagement\Domain\UserValidation\UserValidator;
+use App\Packages\Resources\Application\User\Write\SaveUserParamsValidator;
 use App\Resources\Application\User\Attributes\EmailAddress;
 use App\Resources\Application\User\Attributes\Password;
 use App\Resources\Application\User\Attributes\UserId;
@@ -29,7 +29,7 @@ final class CreateUserHandler
     private $commandHandler;
 
     public function __construct(
-        UserValidator $validator,
+        SaveUserParamsValidator $validator,
         UserEventDispatcher $userEventDispatcher,
         AuthUserFactory $authUserFactory,
         CommandHandler $commandHandler

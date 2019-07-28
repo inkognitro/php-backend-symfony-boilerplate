@@ -2,8 +2,7 @@
 
 namespace App\Resources\Application\Role\Attributes;
 
-use App\Utilities\Validation\Messages\Message;
-use App\Utilities\Validation\Rules\RequiredStringRule;
+use App\Resources\Application\AttributeTypeId;
 use App\Resources\Application\Attribute;
 
 final class RoleId implements Attribute
@@ -15,10 +14,9 @@ final class RoleId implements Attribute
         return 'id';
     }
 
-    /** @param $roleId mixed */
-    public static function findFormatError($roleId): ?Message
+    public static function getTypeId(): AttributeTypeId
     {
-        return RequiredStringRule::findError($roleId);
+        return AttributeTypeId::uuid();
     }
 
     private function __construct(string $roleId)
