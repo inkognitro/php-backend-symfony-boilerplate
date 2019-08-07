@@ -2,7 +2,7 @@
 
 namespace App\Packages\JobQueueManagement\Domain\JobValidation;
 
-use App\Packages\Common\Application\Query\QueueJob\Attributes\QueueJobId;
+use App\Packages\JobQueueManagement\Application\ResourceAttributes\Job\QueueJobId;
 
 interface JobExistsByIdQuery
 {

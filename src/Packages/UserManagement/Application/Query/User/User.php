@@ -3,17 +3,16 @@
 namespace App\Packages\UserManagement\Application\Query\User;
 
 use App\Packages\Common\Application\Query\Resource;
-use App\Packages\AccessManagement\Application\Query\AuthUser\Attributes\RoleId;
-use App\Packages\Common\Application\Query\Role\Role;
-use App\Packages\UserManagement\Application\Query\User\Attributes\CreatedAt;
-use App\Packages\UserManagement\Application\Query\User\Attributes\EmailAddress;
-use App\Packages\UserManagement\Application\Query\User\Attributes\Password;
-use App\Packages\UserManagement\Application\Query\User\Attributes\UpdatedAt;
-use App\Packages\UserManagement\Application\Query\User\Attributes\UserId;
-use App\Packages\UserManagement\Application\Query\User\Attributes\Username;
-use App\Packages\UserManagement\Application\Query\User\Attributes\VerificationCode;
-use App\Packages\UserManagement\Application\Query\User\Attributes\VerificationCodeSentAt;
-use App\Packages\UserManagement\Application\Query\User\Attributes\VerifiedAt;
+use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\RoleId;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\CreatedAt;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\EmailAddress;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\Password;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\UpdatedAt;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\UserId;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\Username;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\VerificationCode;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\VerificationCodeSentAt;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\VerifiedAt;
 
 final class User implements Resource
 {

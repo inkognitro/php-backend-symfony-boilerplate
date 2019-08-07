@@ -16,6 +16,11 @@ final class MessageBag
         return new self([]);
     }
 
+    public function merge(self $that): self
+    {
+        return new self(array_merge($this->toArray(), $that->toArray()));
+    }
+
     public function addMessage(string $key, Message $message): self
     {
         return new self(array_merge($this->messages, [

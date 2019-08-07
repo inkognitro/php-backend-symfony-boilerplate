@@ -2,10 +2,9 @@
 
 namespace App\Packages\AccessManagement\Application\Query\AuthUser;
 
-use App\Packages\Common\Application\Query\AuditLogEvent\Attributes\AuthUserPayload;
-use App\Packages\AccessManagement\Application\Query\AuthUser\Attributes\LanguageId;
-use App\Packages\UserManagement\Application\Query\User\Attributes\UserId;
-use App\Packages\AccessManagement\Application\Query\AuthUser\Attributes\RoleId;
+use App\Packages\AccessManagement\Application\Query\ResourceAttributes\AuthUser\LanguageId;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\UserId;
+use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\RoleId;
 
 final class AuthUser
 {
@@ -43,14 +42,5 @@ final class AuthUser
     public function isAdmin(): bool
     {
         return $this->roleId->equals(RoleId::admin());
-    }
-
-    public function toAuditLogEventAuthUserPayload(): AuthUserPayload
-    {
-        return AuthUserPayload::fromArray([
-            'userId' => $this->userId->toString(),
-            'roleId' => $this->roleId->toString(),
-            'languageId' => $this->languageId->toString(),
-        ]);
     }
 }

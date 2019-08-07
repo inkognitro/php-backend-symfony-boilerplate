@@ -5,13 +5,13 @@ namespace App\Packages\AccessManagement\Infrastructure\Query\AuthUser;
 use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUser;
 use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUserByCredentialsQuery;
 use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUserByCredentialsQueryHandler;
-use App\Packages\AccessManagement\Application\Query\AuthUser\Attributes\LanguageId;
-use App\Packages\UserManagement\Application\Query\User\Attributes\Username;
+use App\Packages\AccessManagement\Application\Query\ResourceAttributes\AuthUser\LanguageId;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\Username;
 use App\Packages\UserManagement\Application\Query\User\UsersQuery;
 use App\Packages\UserManagement\Application\Query\User\UsersQueryHandler;
-use App\Packages\AccessManagement\Application\Query\AuthUser\Attributes\RoleId;
-use App\Packages\UserManagement\Application\Query\User\Attributes\Password;
-use App\Packages\UserManagement\Application\Query\User\Attributes\UserId;
+use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\RoleId;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\Password;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\UserId;
 use App\Packages\Common\Application\Query\Like;
 
 final class DbalAuthUserByCredentialsQueryHandler implements AuthUserByCredentialsQueryHandler

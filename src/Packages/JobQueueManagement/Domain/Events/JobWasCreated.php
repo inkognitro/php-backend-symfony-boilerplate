@@ -2,15 +2,16 @@
 
 namespace App\Packages\JobQueueManagement\Domain\Events;
 
+use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\AuthUserPayload;
 use App\Packages\Common\Domain\AuditLog\AuditLogEvent;
-use App\Packages\Common\Application\Query\AuditLogEvent\Attributes\ResourceType;
-use App\Packages\Common\Application\Query\QueueJob\Attributes\Attributes\Command;
-use App\Packages\Common\Application\Query\AuditLogEvent\Attributes\EventId;
-use App\Packages\Common\Application\Query\AuditLogEvent\Attributes\OccurredAt;
-use App\Packages\Common\Application\Query\AuditLogEvent\Attributes\Payload;
-use App\Packages\Common\Application\Query\AuditLogEvent\Attributes\ResourceId;
-use App\Packages\Common\Application\Query\QueueJob\QueueJob;
-use App\Packages\Common\Application\Query\QueueJob\Attributes\QueueJobId;
+use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\ResourceTypeId;
+use App\Packages\JobQueueManagement\Application\Query\Job\Job;
+use App\Packages\JobQueueManagement\Application\ResourceAttributes\Job\Command;
+use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\EventId;
+use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\OccurredAt;
+use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\Payload;
+use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\ResourceId;
+use App\Packages\JobQueueManagement\Application\ResourceAttributes\Job\QueueJobId;
 use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUser;
 
 final class JobWasCreated extends AuditLogEvent
@@ -21,16 +22,16 @@ final class JobWasCreated extends AuditLogEvent
         $occurredAt = OccurredAt::create();
         $resourceId = ResourceId::fromString($jobId->toString());
         $payload = Payload::fromArray([
-            Command::getKey() => $command->toSerializedString()
+            Command::getPayloadKey() => $command->toSerializedString()
         ]);
         return new self(
-            EventId::create(), $resourceId, $payload, $creator->toAuditLogEventAuthUserPayload(), $occurredAt
+            EventId::create(), $resourceId, $payload, AuthUserPayload::fromAuthUser($creator), $occurredAt
         );
     }
 
-    public static function getResourceType(): ResourceType
+    public static function getResourceType(): ResourceTypeId
     {
-        return ResourceType::fromString(QueueJob::class);
+        return ResourceTypeId::fromString(Job::class);
     }
 
     public function getJobId(): QueueJobId
@@ -40,7 +41,7 @@ final class JobWasCreated extends AuditLogEvent
 
     public function getCommand(): Command
     {
-        $commandPayload = $this->getPayload()->toArray()[Command::getKey()];
+        $commandPayload = $this->getPayload()->toArray()[Command::getPayloadKey()];
         return Command::fromSerializedString($commandPayload);
     }
 

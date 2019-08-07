@@ -2,9 +2,9 @@
 
 namespace App\WebApiV1Bundle\Authentication;
 
-use App\Packages\AccessManagement\Application\Query\AuthUser\Attributes\LanguageId;
-use App\Packages\AccessManagement\Application\Query\AuthUser\Attributes\RoleId;
-use App\Packages\UserManagement\Application\Query\User\Attributes\UserId;
+use App\Packages\AccessManagement\Application\Query\ResourceAttributes\AuthUser\LanguageId;
+use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\RoleId;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\UserId;
 use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUser;
 use Exception;
 use Firebase\JWT\JWT;

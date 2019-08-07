@@ -3,25 +3,24 @@
 namespace App\Packages\Common\Utilities\HandlerResponse;
 
 use App\Packages\Common\Utilities\Validation\Messages\MessageBag;
+use App\Packages\Common\Utilities\Validation\ValidationResult;
 
 final class ValidationErrorResponse implements Error
 {
-    private $errors;
-    private $warnings;
+    private $fieldErrors;
 
-    public function __construct(MessageBag $errors, MessageBag $warnings)
+    private function __construct(MessageBag $fieldErrors)
     {
-        $this->errors = $errors;
-        $this->warnings = $warnings;
+        $this->fieldErrors = $fieldErrors;
     }
 
-    public function getWarnings(): MessageBag
+    public static function fromValidationResult(ValidationResult $validationResult): self
     {
-        return $this->warnings;
+        return new self($validationResult->getFieldErrors());
     }
 
-    public function getErrors(): MessageBag
+    public function getFieldErrors(): MessageBag
     {
-        return $this->errors;
+        return $this->fieldErrors;
     }
 }

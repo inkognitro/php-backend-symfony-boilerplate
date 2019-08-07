@@ -7,8 +7,8 @@ use App\Packages\JobQueueManagement\Domain\JobValidation\JobValidator;
 use App\Packages\Common\Utilities\HandlerResponse\Response;
 use App\Packages\Common\Utilities\HandlerResponse\ValidationErrorResponse;
 use App\Packages\Common\Utilities\HandlerResponse\ResourceCreatedResponse;
-use App\Packages\Common\Application\Query\QueueJob\Attributes\Attributes\Command;
-use App\Packages\Common\Application\Query\QueueJob\Attributes\QueueJobId;
+use App\Packages\JobQueueManagement\Application\ResourceAttributes\Job\Attributes\Command;
+use App\Packages\JobQueueManagement\Application\ResourceAttributes\Job\QueueJobId;
 
 final class CreateJobHandler
 {
@@ -33,7 +33,7 @@ final class CreateJobHandler
         $jobAggregate = JobAggregate::create(
             QueueJobId::fromString($command->getJobId()),
             Command::fromCommand($command->getQueueCommand()),
-            $command->getExecutor()
+            $command->getCommandExecutor()
         );
         $this->jobRepository->save($jobAggregate);
         return new ResourceCreatedResponse($this->validator->getWarnings());

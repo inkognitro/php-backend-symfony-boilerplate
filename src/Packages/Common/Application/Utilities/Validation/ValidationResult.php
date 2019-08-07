@@ -14,6 +14,11 @@ final class ValidationResult
         $this->fieldErrors = $fieldErrors;
     }
 
+    public function merge(self $that): self
+    {
+        return new self($this->getFieldErrors()->merge($that->getFieldErrors()));
+    }
+
     public static function create(): self
     {
         return new self(MessageBag::create());
@@ -22,6 +27,11 @@ final class ValidationResult
     public function isValid(): bool
     {
         return $this->fieldErrors->isEmpty();
+    }
+
+    public function getFieldErrors(): MessageBag
+    {
+        return $this->fieldErrors;
     }
 
     public function addFieldErrorMessage(string $key, Message $message): self

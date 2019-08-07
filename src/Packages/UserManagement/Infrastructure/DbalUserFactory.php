@@ -2,10 +2,10 @@
 
 namespace App\Packages\UserManagement\Infrastructure;
 
-use App\Packages\UserManagement\Domain\User;
-use App\Packages\UserManagement\Application\Query\User\Attributes\EmailAddress;
-use App\Packages\UserManagement\Application\Query\User\Attributes\UserId;
-use App\Packages\UserManagement\Application\Query\User\Attributes\Username;
+use App\Packages\UserManagement\Domain\UserParamsValidation\User;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\EmailAddress;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\UserId;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\Username;
 
 final class DbalUserFactory
 {

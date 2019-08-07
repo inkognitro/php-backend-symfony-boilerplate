@@ -2,8 +2,8 @@
 
 namespace App\Packages\UserManagement\Infrastructure;
 
-use App\Packages\UserManagement\Domain\User;
-use App\Packages\UserManagement\Domain\Users;
+use App\Packages\UserManagement\Domain\UserParamsValidation\User;
+use App\Packages\UserManagement\Domain\UserParamsValidation\Users;
 
 final class DbalUsersFactory
 {

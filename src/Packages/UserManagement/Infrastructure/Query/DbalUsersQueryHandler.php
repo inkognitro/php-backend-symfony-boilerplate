@@ -2,19 +2,20 @@
 
 namespace App\Packages\UserManagement\Infrastructure\Query\User;
 
+use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\RoleId;
+use App\Packages\Common\Application\Query\Query;
 use App\Packages\Common\Infrastructure\DbalConnection;
-use App\Packages\UserManagement\Application\Query\User\Attributes\CreatedAt;
-use App\Packages\UserManagement\Application\Query\User\Attributes\EmailAddress;
-use App\Packages\UserManagement\Application\Query\User\Attributes\Password;
-use App\Packages\UserManagement\Application\Query\User\Attributes\UpdatedAt;
-use App\Packages\UserManagement\Application\Query\User\Attributes\UserId;
-use App\Packages\UserManagement\Application\Query\User\Attributes\Username;
-use App\Packages\UserManagement\Application\Query\User\Attributes\VerificationCode;
-use App\Packages\UserManagement\Application\Query\User\Attributes\VerificationCodeSentAt;
-use App\Packages\UserManagement\Application\Query\User\Attributes\VerifiedAt;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\CreatedAt;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\EmailAddress;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\Password;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\UpdatedAt;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\UserId;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\Username;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\VerificationCode;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\VerificationCodeSentAt;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\VerifiedAt;
 use App\Packages\UserManagement\Application\Query\User\User;
 use App\Packages\UserManagement\Application\Query\User\Users;
-use App\Packages\UserManagement\Application\Query\User\UsersQuery;
 use App\Packages\UserManagement\Application\Query\User\UsersQueryHandler;
 use App\Packages\Common\Infrastructure\Query\DbalQueryBuilderFactory;
 
@@ -34,7 +35,7 @@ final class DbalUsersQueryHandler implements UsersQueryHandler
         $this->userEntitySettings = $userEntitySettings;
     }
 
-    public function handle(UsersQuery $query): Users
+    public function handle(Query $query): Users
     {
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder->addSelect('id as resourceId');
@@ -87,6 +88,9 @@ final class DbalUsersQueryHandler implements UsersQueryHandler
         $field = $this->userEntitySettings->getFieldByAttribute(VerifiedAt::class);
         $verifiedAt = (!array_key_exists($field, $row) ? null : VerifiedAt::fromString($row[$field]));
 
+        $field = $this->userEntitySettings->getFieldByAttribute(RoleId::class);
+        $roleId = (!array_key_exists($field, $row) ? null : RoleId::fromString($row[$field]));
+
         $field = $this->userEntitySettings->getFieldByAttribute(CreatedAt::class);
         $createdAt = (!array_key_exists($field, $row) ? null : CreatedAt::fromString($row[$field]));
 
@@ -101,6 +105,7 @@ final class DbalUsersQueryHandler implements UsersQueryHandler
             $verificationCode,
             $verificationCodeSentAt,
             $verifiedAt,
+            $roleId,
             $createdAt,
             $updatedAt
         );

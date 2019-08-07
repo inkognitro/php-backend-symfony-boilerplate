@@ -6,7 +6,7 @@ use App\Packages\Common\Domain\Mailing\Mailer;
 use App\Packages\UserManagement\Application\Command\User\SendVerificationCodeToUser;
 use App\Packages\UserManagement\Domain\UserByIdQuery;
 use App\Packages\UserManagement\Domain\UserEventDispatcher;
-use App\Packages\UserManagement\Application\Query\User\Attributes\UserId;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\UserId;
 use App\Packages\Common\Utilities\HandlerResponse\ResourceNotFoundResponse;
 use App\Packages\Common\Utilities\HandlerResponse\Response;
 use App\Packages\Common\Utilities\HandlerResponse\SuccessResponse;

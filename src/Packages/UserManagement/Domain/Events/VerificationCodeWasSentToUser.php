@@ -2,16 +2,17 @@
 
 namespace App\Packages\UserManagement\Domain\Events;
 
+use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\AuthUserPayload;
 use App\Packages\Common\Domain\AuditLog\AuditLogEvent;
-use App\Packages\Common\Application\Query\AuditLogEvent\Attributes\EventId;
-use App\Packages\Common\Application\Query\AuditLogEvent\Attributes\OccurredAt;
-use App\Packages\Common\Application\Query\AuditLogEvent\Attributes\Payload;
-use App\Packages\Common\Application\Query\AuditLogEvent\Attributes\ResourceId;
-use App\Packages\Common\Application\Query\AuditLogEvent\Attributes\ResourceType;
-use App\Packages\UserManagement\Application\Query\User\Attributes\EmailAddress;
-use App\Packages\UserManagement\Application\Query\User\Attributes\User;
-use App\Packages\UserManagement\Application\Query\User\Attributes\UserId;
-use App\Packages\UserManagement\Application\Query\User\Attributes\VerificationCode;
+use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\EventId;
+use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\OccurredAt;
+use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\Payload;
+use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\ResourceId;
+use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\ResourceTypeId;
+use App\Packages\UserManagement\Application\Query\User\User;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\EmailAddress;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\UserId;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\VerificationCode;
 use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUser;
 
 final class VerificationCodeWasSentToUser extends AuditLogEvent
@@ -29,7 +30,7 @@ final class VerificationCodeWasSentToUser extends AuditLogEvent
         ]);
         $resourceId = ResourceId::fromString($userId->toString());
         return new self(
-            EventId::create(), $resourceId, $payload, $sender->toAuditLogEventAuthUserPayload(), $occurredAt
+            EventId::create(), $resourceId, $payload, AuthUserPayload::fromAuthUser($sender), $occurredAt
         );
     }
 
@@ -55,8 +56,8 @@ final class VerificationCodeWasSentToUser extends AuditLogEvent
         return true;
     }
 
-    public static function getResourceType(): ResourceType
+    public static function getResourceType(): ResourceTypeId
     {
-        return ResourceType::fromString(User::class);
+        return ResourceTypeId::fromString(User::class);
     }
 }

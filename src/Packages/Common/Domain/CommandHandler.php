@@ -17,7 +17,7 @@ final class CommandHandler
 
     public function handle(Command $command): Response
     {
-        $commandHandler = $this->serviceContainer->get($command->getHandlerClass());
+        $commandHandler = $this->serviceContainer->get($command->getCommandHandlerClass());
         return $commandHandler->handle($command);
     }
 }

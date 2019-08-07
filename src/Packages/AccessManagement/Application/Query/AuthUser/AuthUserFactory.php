@@ -2,8 +2,8 @@
 
 namespace App\Packages\AccessManagement\Application\Query\AuthUser;
 
-use App\Packages\AccessManagement\Application\Query\AuthUser\Attributes\LanguageId;
-use App\Packages\AccessManagement\Application\Query\AuthUser\Attributes\RoleId;
+use App\Packages\AccessManagement\Application\Query\ResourceAttributes\AuthUser\LanguageId;
+use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\RoleId;
 
 final class AuthUserFactory
 {

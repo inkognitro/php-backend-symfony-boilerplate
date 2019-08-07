@@ -6,6 +6,6 @@ use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUser;
 
 interface Command
 {
-    public static function getHandlerClass(): string;
-    public function getExecutor(): AuthUser;
+    public static function getCommandHandlerClass(): string;
+    public function getCommandExecutor(): AuthUser;
 }

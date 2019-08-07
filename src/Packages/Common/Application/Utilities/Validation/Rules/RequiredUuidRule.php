@@ -5,6 +5,8 @@ namespace App\Packages\Common\Utilities\Validation\Rules;
 use App\Packages\Common\Utilities\Validation\Messages\Message;
 use App\Packages\Common\Utilities\Validation\Messages\MustBeAStringMessage;
 use App\Packages\Common\Utilities\Validation\Messages\MustBeAUuidMessage;
+use App\Packages\Common\Utilities\Validation\Messages\MustBeLowerCaseMessage;
+use App\Packages\Common\Utilities\Validation\Messages\MustNotBeEmptyMessage;
 use Ramsey\Uuid\Uuid;
 
 final class RequiredUuidRule implements Rule
@@ -12,11 +14,17 @@ final class RequiredUuidRule implements Rule
     /** @param $uuid mixed */
     public static function findError($uuid): ?Message
     {
-        if(!is_string($uuid)) {
+        if (!is_string($uuid)) {
             return new MustBeAStringMessage();
         }
-        if(!Uuid::isValid($uuid)) {
+        if (strlen($uuid) === 0) {
+            return new MustNotBeEmptyMessage();
+        }
+        if (!Uuid::isValid($uuid)) {
             return new MustBeAUuidMessage();
+        }
+        if (preg_match('/[A-F]/', $uuid)) {
+            return new MustBeLowerCaseMessage();
         }
         return null;
     }

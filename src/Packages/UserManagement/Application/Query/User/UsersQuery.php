@@ -2,7 +2,7 @@
 
 namespace App\Packages\UserManagement\Application\Query\User;
 
-use App\Packages\UserManagement\Application\Query\User\Attributes\VerifiedAt;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\VerifiedAt;
 use App\Packages\Common\Application\Query\NotNull;
 use App\Packages\Common\Application\Query\Query;
 

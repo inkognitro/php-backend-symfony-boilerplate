@@ -35,12 +35,12 @@ final class CreateJob implements Command
         return $this->queueCommand;
     }
 
-    public static function getHandlerClass(): string
+    public static function getCommandHandlerClass(): string
     {
         return CreateJobHandler::class;
     }
 
-    public function getExecutor(): AuthUser
+    public function getCommandExecutor(): AuthUser
     {
         return $this->executor;
     }
