@@ -2,24 +2,24 @@
 
 namespace App\Packages\UserManagement\Domain\Handlers;
 
-use App\Packages\Common\Application\JobQueuing\CreateJob;
+use App\Packages\JobQueueManagement\Application\Command\CreateJob;
 use App\Packages\Common\Domain\CommandHandler;
 use App\Packages\Common\Domain\DidNotReceiveSuccessResponseException;
-use App\Packages\UserManagement\Application\CreateUser;
-use App\Packages\UserManagement\Application\SendVerificationCodeToUser;
+use App\Packages\UserManagement\Application\Command\User\CreateUser;
+use App\Packages\UserManagement\Application\Command\User\SendVerificationCodeToUser;
 use App\Packages\UserManagement\Domain\UserEventDispatcher;
-use App\Packages\Resources\Application\User\Write\SaveUserParamsValidator;
-use App\Resources\Application\User\Attributes\EmailAddress;
-use App\Resources\Application\User\Attributes\Password;
-use App\Resources\Application\User\Attributes\UserId;
-use App\Resources\Application\User\Attributes\Username;
-use App\Resources\Application\Application\Role\RoleId;
-use App\Utilities\HandlerResponse\Response;
-use App\Utilities\HandlerResponse\Success;
-use App\Utilities\HandlerResponse\ValidationErrorResponse;
-use App\Utilities\HandlerResponse\ResourceCreatedResponse;
+use App\Packages\Resources\Application\User\Write\UserParamsToSaveValidator;
+use App\Packages\UserManagement\Application\Query\User\Attributes\EmailAddress;
+use App\Packages\UserManagement\Application\Query\User\Attributes\Password;
+use App\Packages\UserManagement\Application\Query\User\Attributes\UserId;
+use App\Packages\UserManagement\Application\Query\User\Attributes\Username;
+use App\Packages\Common\Application\Query\Application\Role\RoleId;
+use App\Packages\Common\Utilities\HandlerResponse\Response;
+use App\Packages\Common\Utilities\HandlerResponse\Success;
+use App\Packages\Common\Utilities\HandlerResponse\ValidationErrorResponse;
+use App\Packages\Common\Utilities\HandlerResponse\ResourceCreatedResponse;
 use App\Packages\UserManagement\Domain\UserAggregate;
-use App\Utilities\Authentication\AuthUserFactory;
+use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUserFactory;
 
 final class CreateUserHandler
 {
@@ -29,7 +29,7 @@ final class CreateUserHandler
     private $commandHandler;
 
     public function __construct(
-        SaveUserParamsValidator $validator,
+        UserParamsToSaveValidator $validator,
         UserEventDispatcher $userEventDispatcher,
         AuthUserFactory $authUserFactory,
         CommandHandler $commandHandler

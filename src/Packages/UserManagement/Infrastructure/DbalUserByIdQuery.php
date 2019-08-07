@@ -4,7 +4,7 @@ namespace App\Packages\UserManagement\Infrastructure;
 
 use App\Packages\UserManagement\Domain\User;
 use App\Packages\UserManagement\Domain\UserByIdQuery;
-use App\Resources\Application\User\Attributes\UserId;
+use App\Packages\UserManagement\Application\Query\User\Attributes\UserId;
 
 final class DbalUserByIdQuery implements UserByIdQuery
 {

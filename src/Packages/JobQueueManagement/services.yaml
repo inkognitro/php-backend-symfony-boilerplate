@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        autowire: true
+
+    App\Packages\JobQueueManagement\Domain\JobProjection:
+        class: App\Packages\JobQueueManagement\Infrastructure\DbalJobProjection
+
+    App\Packages\JobQueueManagement\Domain\JobExistsByIdQuery:
+        class: App\Packages\JobQueueManagement\Infrastructure\DbalJobExistsByIdQuery

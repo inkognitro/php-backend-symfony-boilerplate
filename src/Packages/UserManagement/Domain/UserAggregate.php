@@ -6,13 +6,13 @@ use App\Packages\Common\Domain\Aggregate;
 use App\Packages\Common\Domain\AuditLog\EventStream;
 use App\Packages\UserManagement\Domain\Events\UserWasCreated;
 use App\Packages\UserManagement\Domain\Events\VerificationCodeWasSentToUser;
-use App\Resources\Application\User\Attributes\EmailAddress;
-use App\Resources\Application\User\Attributes\Password;
-use App\Resources\Application\User\Attributes\UserId;
-use App\Resources\Application\User\Attributes\Username;
-use App\Resources\Application\User\Attributes\VerificationCode;
-use App\Resources\Application\Role\Attributes\RoleId;
-use App\Utilities\Authentication\AuthUser as AuthUser;
+use App\Packages\UserManagement\Application\Query\User\Attributes\EmailAddress;
+use App\Packages\UserManagement\Application\Query\User\Attributes\Password;
+use App\Packages\UserManagement\Application\Query\User\Attributes\UserId;
+use App\Packages\UserManagement\Application\Query\User\Attributes\Username;
+use App\Packages\UserManagement\Application\Query\User\Attributes\VerificationCode;
+use App\Packages\AccessManagement\Application\Query\AuthUser\Attributes\RoleId;
+use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUser as AuthUser;
 
 final class UserAggregate extends Aggregate
 {

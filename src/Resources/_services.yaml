@@ -1,6 +1,0 @@
-services:
-    _defaults:
-        autowire: true
-
-    App\Resources\Application\User\UsersQueryHandler:
-        class: App\Resources\Infrastructure\User\DbalUsersQueryHandler

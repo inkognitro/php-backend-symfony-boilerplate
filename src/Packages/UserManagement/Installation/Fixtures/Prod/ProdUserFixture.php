@@ -3,13 +3,13 @@
 namespace App\Packages\UserManagement\Installation\Fixtures\Prod;
 
 use App\Packages\Common\Domain\DidNotReceiveSuccessResponseException;
-use App\Packages\UserManagement\Application\CreateUser;
-use App\Resources\Application\Role\Attributes\RoleId;
-use App\Utilities\Authentication\AuthUser as AuthUser;
-use App\Packages\Common\Application\CommandBus;
-use App\Utilities\HandlerResponse\Success;
+use App\Packages\UserManagement\Application\Command\User\CreateUser;
+use App\Packages\AccessManagement\Application\Query\AuthUser\Attributes\RoleId;
+use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUser as AuthUser;
+use App\Packages\Common\Application\Command\CommandBus;
+use App\Packages\Common\Utilities\HandlerResponse\Success;
 use App\Packages\Common\Installation\Fixtures\Fixture;
-use App\Utilities\Authentication\AuthUserFactory;
+use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUserFactory;
 
 final class ProdUserFixture extends Fixture
 {

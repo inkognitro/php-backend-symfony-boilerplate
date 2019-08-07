@@ -2,8 +2,8 @@
 
 namespace App\Packages\Common\Domain;
 
-use App\Packages\Common\Application\Command;
-use App\Utilities\HandlerResponse\Response;
+use App\Packages\Common\Application\Command\Command;
+use App\Packages\Common\Utilities\HandlerResponse\Response;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 final class CommandHandler

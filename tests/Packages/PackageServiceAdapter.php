@@ -2,8 +2,8 @@
 
 namespace App\Tests\Packages;
 
-use App\Packages\Common\Application\CommandBus;
-use App\Utilities\Authentication\AuthUserFactory;
+use App\Packages\Common\Application\Command\CommandBus;
+use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUserFactory;
 
 final class PackageServiceAdapter
 {

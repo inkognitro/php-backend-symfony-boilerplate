@@ -1,0 +1,8 @@
+services:
+    _defaults:
+        autowire: true
+        tags: ['console.command']
+
+    App\CLI\Migrations\MigrateCommand: ~
+    App\CLI\Migrations\RollbackCommand: ~
+    App\CLI\Migrations\MigrationRespository: ~

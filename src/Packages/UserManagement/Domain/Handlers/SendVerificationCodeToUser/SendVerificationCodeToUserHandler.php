@@ -3,13 +3,13 @@
 namespace App\Packages\UserManagement\Domain\Handlers\SendVerificationCodeToUser;
 
 use App\Packages\Common\Domain\Mailing\Mailer;
-use App\Packages\UserManagement\Application\SendVerificationCodeToUser;
+use App\Packages\UserManagement\Application\Command\User\SendVerificationCodeToUser;
 use App\Packages\UserManagement\Domain\UserByIdQuery;
 use App\Packages\UserManagement\Domain\UserEventDispatcher;
-use App\Resources\Application\User\Attributes\UserId;
-use App\Utilities\HandlerResponse\ResourceNotFoundResponse;
-use App\Utilities\HandlerResponse\Response;
-use App\Utilities\HandlerResponse\SuccessResponse;
+use App\Packages\UserManagement\Application\Query\User\Attributes\UserId;
+use App\Packages\Common\Utilities\HandlerResponse\ResourceNotFoundResponse;
+use App\Packages\Common\Utilities\HandlerResponse\Response;
+use App\Packages\Common\Utilities\HandlerResponse\SuccessResponse;
 
 final class SendVerificationCodeToUserHandler
 {

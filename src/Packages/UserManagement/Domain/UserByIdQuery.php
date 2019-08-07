@@ -2,7 +2,7 @@
 
 namespace App\Packages\UserManagement\Domain;
 
-use App\Resources\Application\User\Attributes\UserId;
+use App\Packages\UserManagement\Application\Query\User\Attributes\UserId;
 
 interface UserByIdQuery
 {

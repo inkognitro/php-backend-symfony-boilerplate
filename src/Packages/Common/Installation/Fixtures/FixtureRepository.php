@@ -2,7 +2,7 @@
 
 namespace App\Packages\Common\Installation\Fixtures;
 
-use App\Utilities\IterableConverter;
+use App\Packages\Common\Utilities\IterableConverter;
 
 final class FixtureRepository
 {

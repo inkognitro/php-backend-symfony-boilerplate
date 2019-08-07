@@ -2,12 +2,12 @@
 
 namespace App\Packages\Common\Domain\AuditLog;
 
-use App\Resources\Application\AuditLogEvent\Attributes\AuthUserPayload;
-use App\Resources\Application\AuditLogEvent\Attributes\EventId;
-use App\Resources\Application\AuditLogEvent\Attributes\OccurredAt;
-use App\Resources\Application\AuditLogEvent\Attributes\Payload;
-use App\Resources\Application\AuditLogEvent\Attributes\ResourceId;
-use App\Resources\Application\AuditLogEvent\Attributes\ResourceType;
+use App\Packages\Common\Application\Query\AuditLogEvent\Attributes\AuthUserPayload;
+use App\Packages\Common\Application\Query\AuditLogEvent\Attributes\EventId;
+use App\Packages\Common\Application\Query\AuditLogEvent\Attributes\OccurredAt;
+use App\Packages\Common\Application\Query\AuditLogEvent\Attributes\Payload;
+use App\Packages\Common\Application\Query\AuditLogEvent\Attributes\ResourceId;
+use App\Packages\Common\Application\Query\AuditLogEvent\Attributes\ResourceType;
 
 abstract class AuditLogEvent
 {

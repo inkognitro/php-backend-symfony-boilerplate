@@ -2,14 +2,13 @@
 
 namespace App\WebApiV1Bundle\Endpoints\Auth;
 
-use App\Packages\Common\Application\Authentication\UserQuery;
-use App\Packages\Common\Application\Authentication\UserQueryHandler;
+use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUserByCredentialsQuery;
+use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUserByCredentialsQueryHandler;
 use App\WebApiV1Bundle\Authentication\JWTFactory;
 use App\WebApiV1Bundle\Endpoints\Endpoint;
 use App\WebApiV1Bundle\Response\HttpResponseFactory;
 use App\WebApiV1Bundle\Response\JsonBadRequestResponse;
 use App\WebApiV1Bundle\Response\JsonSuccessResponse;
-use App\WebApiV1Bundle\Response\JsonUnauthorizedResponse;
 use App\WebApiV1Bundle\Schema\EndpointSchema;
 use App\WebApiV1Bundle\Schema\RequestMethod;
 use App\WebApiV1Bundle\Schema\RequestParameterSchema;
@@ -25,7 +24,7 @@ final class AuthenticateEndpoint implements Endpoint
 
     public function __construct(
         HttpResponseFactory $httpResponseFactory,
-        UserQueryHandler $userQueryHandler,
+        AuthUserByCredentialsQueryHandler $userQueryHandler,
         JWTFactory $JWTFactory
     )
     {
@@ -37,15 +36,15 @@ final class AuthenticateEndpoint implements Endpoint
     public function handle(): HttpResponse
     {
         $request = Request::createFromGlobals();
-        $query = UserQuery::fromCredentials(
+        $query = AuthUserByCredentialsQuery::fromCredentials(
             (string)$request->get('username'),
             (string)$request->get('password')
         );
-        $user = $this->userQueryHandler->handle($query);
-        if ($user === null) {
+        $authUser = $this->userQueryHandler->handle($query);
+        if ($authUser === null) {
             return $this->httpResponseFactory->create(JsonBadRequestResponse::create(), $request);
         }
-        $apiKey = $this->JWTFactory->createFromUser($user);
+        $apiKey = $this->JWTFactory->createFromUser($authUser);
         $apiResponse = JsonSuccessResponse::fromData(['apiKey' => $apiKey]);
         return $this->httpResponseFactory->create($apiResponse, $request);
     }

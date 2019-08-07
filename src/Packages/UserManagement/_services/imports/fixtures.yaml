@@ -1,6 +1,0 @@
-services:
-    _defaults:
-        autowire: true
-        tags: ['app.fixture']
-
-    App\Packages\UserManagement\Installation\Fixtures\Prod\ProdUserFixture: ~

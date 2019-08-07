@@ -12,10 +12,44 @@ final class Migrations
         $this->migrations = $migrations;
     }
 
+    public function merge(self $that): self
+    {
+        return array_merge($this->toArray(), $that->toArray());
+    }
+
     /** @return Migration[] */
     public function toArray(): array
     {
         return $this->migrations;
+    }
+
+    /** @return Migration[] */
+    public function toSortedArray(): array
+    {
+        $sortedMigrations = $this->migrations;
+        usort($sortedMigrations, [$this, 'compareMigrations']);
+        return $sortedMigrations;
+    }
+
+    private function compareMigrations(Migration $a, Migration $b): int
+    {
+        if($a->getBatchNumber() < $b->getBatchNumber()) {
+            return -1;
+        }
+
+        if($a->getBatchNumber() > $b->getBatchNumber()) {
+            return 1;
+        }
+
+        if($a->getBatchSequenceNumber() < $b->getBatchSequenceNumber()) {
+            return -1;
+        }
+
+        if($a->getBatchSequenceNumber() > $b->getBatchSequenceNumber()) {
+            return 1;
+        }
+
+        return 0;
     }
 
     public function findAllWithHigherBatchNumber(int $batchNumber): self

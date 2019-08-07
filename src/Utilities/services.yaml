@@ -1,6 +1,0 @@
-services:
-    _defaults:
-        autowire: true
-
-    App\Utilities\Authentication\AuthUserFactory: ~
-    App\Utilities\DateTimeFactory: ~

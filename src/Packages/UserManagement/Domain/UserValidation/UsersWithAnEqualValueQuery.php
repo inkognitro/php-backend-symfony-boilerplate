@@ -3,9 +3,9 @@
 namespace App\Packages\UserManagement\Domain\UserValidation;
 
 use App\Packages\UserManagement\Domain\Users;
-use App\Resources\Application\User\Attributes\EmailAddress;
-use App\Resources\Application\User\Attributes\UserId;
-use App\Resources\Application\User\Attributes\Username;
+use App\Packages\UserManagement\Application\Query\User\Attributes\EmailAddress;
+use App\Packages\UserManagement\Application\Query\User\Attributes\UserId;
+use App\Packages\UserManagement\Application\Query\User\Attributes\Username;
 
 interface UsersWithAnEqualValueQuery
 {

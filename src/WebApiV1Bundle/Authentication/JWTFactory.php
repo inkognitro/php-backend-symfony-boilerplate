@@ -2,8 +2,8 @@
 
 namespace App\WebApiV1Bundle\Authentication;
 
-use App\Packages\Common\Application\Authentication\User;
-use App\Utilities\DateTimeFactory;
+use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUser;
+use App\Packages\Common\Utilities\DateTimeFactory;
 use Firebase\JWT\JWT;
 
 final class JWTFactory
@@ -15,7 +15,7 @@ final class JWTFactory
         $this->dateTimeFactory = $dateTimeFactory;
     }
 
-    public function createFromUser(User $user): string
+    public function createFromUser(AuthUser $authUser): string
     {
         $jwtSecret = getenv('APP_AUTH_JWT_SECRET');
         $jwtAlgorithm = getenv('APP_AUTH_JWT_ALGORITHM');
@@ -25,9 +25,11 @@ final class JWTFactory
         $jwtPayload = [
             'iat' => $dateTimeIat->getTimestamp(),
             'exp' => $dateTimeExp->getTimestamp(),
-            'sub' => $user->getId()->toString(),
-            'roleId' => $user->getRoleId()->toString(),
+            'roleId' => $authUser->getRoleId()->toString(),
         ];
+        if($authUser->getUserId() !== null) {
+            $jwtPayload['sub'] = $authUser->getUserId()->toString();
+        }
         return JWT::encode($jwtPayload, $jwtSecret, $jwtAlgorithm);
     }
 }

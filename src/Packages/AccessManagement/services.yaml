@@ -1,0 +1,6 @@
+services:
+    _defaults:
+        autowire: true
+
+    App\Packages\AccessManagement\Application\Query\AuthUser\AuthUserByCredentialsQueryHandler:
+        class: App\Packages\AccessManagement\Infrastructure\Query\AuthUser\DbalAuthUserByCredentialsQueryHandler

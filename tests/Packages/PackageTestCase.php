@@ -2,8 +2,8 @@
 
 namespace App\Tests\Packages;
 
-use App\Utilities\Authentication\AuthUser as AuthUser;
-use App\Packages\Common\Application\CommandBus;
+use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUser as AuthUser;
+use App\Packages\Common\Application\Command\CommandBus;
 use App\Tests\TestCase;
 
 abstract class PackageTestCase extends TestCase
