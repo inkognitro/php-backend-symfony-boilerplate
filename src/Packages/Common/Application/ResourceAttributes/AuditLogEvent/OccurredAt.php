@@ -16,4 +16,9 @@ final class OccurredAt extends NullableDateTimeAttribute
     {
         return new self(DateTimeFactory::create());
     }
+
+    public function toDateTime(): \DateTimeImmutable
+    {
+        return $this->nullableDateTime;
+    }
 }

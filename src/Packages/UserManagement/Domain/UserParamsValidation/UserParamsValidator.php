@@ -4,7 +4,6 @@ namespace App\Packages\UserManagement\Application\Command\User;
 
 use App\Packages\Common\Application\Command\Params\Text;
 use App\Packages\Common\Utilities\Validation\Messages\MustNotBeEmptyMessage;
-use App\Packages\UserManagement\Application\Query\User\UsersQueryHandler;
 use App\Packages\Common\Utilities\Validation\Messages\CanNotBeChosenMessage;
 use App\Packages\Common\Utilities\Validation\Messages\DoesAlreadyExistMessage;
 use App\Packages\Common\Utilities\Validation\Rules\RequiredEmailAddressRule;
@@ -17,37 +16,46 @@ use App\Packages\UserManagement\Application\ResourceAttributes\User\Username;
 use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\RoleId;
 use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUser;
 use App\Packages\Common\Utilities\Validation\ValidationResult;
+use App\Packages\UserManagement\Domain\UserParamsValidation\ExistingUsersByValuesQuery;
+use App\Packages\UserManagement\Domain\UserParamsValidation\ExistingUsersByValuesQueryHandler;
 
 final class UserParamsValidator
 {
-    private $usersQueryHandler;
+    private $existingUsersByValuesQueryHandler;
 
-    public function __construct(UsersQueryHandler $usersQueryHandler)
+    public function __construct(ExistingUsersByValuesQueryHandler $existingUsersByValuesQueryHandler)
     {
-        $this->usersQueryHandler = $usersQueryHandler;
+        $this->existingUsersByValuesQueryHandler = $existingUsersByValuesQueryHandler;
     }
 
-    public function validateCreation(UserParams $params): ValidationResult
+    public function validateCreation(UserParams $params, AuthUser $authUser): ValidationResult
     {
-        $this->validateUserId($params->getId());
-
         $isRequired = true;
-        $this->validateUsername($params->getUsername(), $isRequired);
+        $validationResult = $this->validateUserId($params->getId())
+            ->merge($this->validateUsername($params->getUsername(), $isRequired))
+            ->merge($this->validateEmailAddress($params->getEmailAddress(), $isRequired))
+            ->merge($this->validateRoleId($params->getRoleId(), $authUser, $isRequired))
+            ->merge($this->validatePassword($params->getPassword(), $isRequired));
+        $isChange = false;
+        return $validationResult->merge($this->validateExistingUsers($params, $validationResult, $isChange));
+    }
 
-
-        $this->validateEmailAddressFormat($command->getEmailAddress());
-        $this->validateRoleId($command->getRoleId(), $command->getExecutor());
-        $this->validatePassword($command->getPassword());
-        $validateForExistingUser = false;
-        $this->validateExistingUsers(
-            $command->getUserId(), $command->getUsername(), $command->getEmailAddress(), $validateForExistingUser
-        );
+    public function validateChange(UserParams $params, AuthUser $authUser): ValidationResult
+    {
+        $isRequired = false;
+        $validationResult = $this->validateUserId($params->getId())
+            ->merge($this->validateUsername($params->getUsername(), $isRequired))
+            ->merge($this->validateEmailAddress($params->getEmailAddress(), $isRequired))
+            ->merge($this->validateRoleId($params->getRoleId(), $authUser, $isRequired))
+            ->merge($this->validatePassword($params->getPassword(), $isRequired));
+        $isChange = true;
+        return $validationResult->merge($this->validateExistingUsers($params, $validationResult, $isChange));
     }
 
     private function validateUserId(?Text $userId): ValidationResult
     {
         $validationResult = ValidationResult::create();
-        if($userId === null) {
+        if ($userId === null) {
             return $validationResult->addFieldErrorMessage(UserId::class, new MustNotBeEmptyMessage());
         }
         $error = RequiredUuidRule::findError($userId);
@@ -60,10 +68,10 @@ final class UserParamsValidator
     private function validateUsername(?Text $username, bool $isRequired): ValidationResult
     {
         $validationResult = ValidationResult::create();
-        if(!$isRequired && $username === null) {
+        if (!$isRequired && $username === null) {
             return $validationResult;
         }
-        if($username === null) {
+        if ($username === null) {
             return $validationResult->addFieldErrorMessage(Username::class, new MustNotBeEmptyMessage());
         }
         $rule = TextRule::create()->setMinLength(6)->setMaxLength(20)->setAllowedCharsRegex('/[^A-Za-z0-9]/');
@@ -74,79 +82,104 @@ final class UserParamsValidator
         return $validationResult;
     }
 
-    private function validateEmailAddressFormat(string $emailAddress): void
+    private function validateEmailAddress(?Text $emailAddress, bool $isRequired): ValidationResult
     {
-        $errorMessage = RequiredEmailAddressRule::findError($emailAddress);
-        if ($errorMessage !== null) {
-            $this->errors = $this->errors->addMessage(EmailAddress::getPayloadKey(), $errorMessage);
-            return;
+        $validationResult = ValidationResult::create();
+        if (!$isRequired && $emailAddress === null) {
+            return $validationResult;
         }
-
-        $minLength = 4;
-        $errorMessage = MinLengthRule::findError($emailAddress, $minLength);
-        if ($errorMessage !== null) {
-            $this->errors = $this->errors->addMessage(Username::getPayloadKey(), $errorMessage);
-            return;
+        if ($emailAddress === null) {
+            return $validationResult->addFieldErrorMessage(EmailAddress::class, new MustNotBeEmptyMessage());
         }
-
-        $maxLength = 191;
-        $errorMessage = MaxLengthRule::findError($emailAddress, $maxLength);
-        if ($errorMessage !== null) {
-            $this->errors = $this->errors->addMessage(Username::getPayloadKey(), $errorMessage);
+        $rule = new RequiredEmailAddressRule();
+        $error = $rule->findError($emailAddress->toString());
+        if ($error !== null) {
+            return $validationResult->addFieldErrorMessage(EmailAddress::class, $error);
         }
+        $rule = $rule = TextRule::create()->setMinLength(4)->setMaxLength(191);
+        $error = $rule->findError($emailAddress->toString());
+        if ($error !== null) {
+            return $validationResult->addFieldErrorMessage(EmailAddress::class, $error);
+        }
+        return $validationResult;
     }
 
-    private function validateRoleId(string $roleId, AuthUser $authUser): void
+    private function validateRoleId(?Text $roleId, AuthUser $authUser, bool $isRequired): ValidationResult
     {
-        $errorMessage = RoleId::findFormatError($roleId);
-        if ($errorMessage !== null) {
-            $this->errors = $this->errors->addMessage(RoleId::getPayloadKey(), $errorMessage);
-            return;
+        $validationResult = ValidationResult::create();
+        if (!$isRequired && $roleId === null) {
+            return $validationResult;
+        }
+        $rule = TextRule::create();
+        $error = $rule->findError($roleId->toString());
+        if ($error !== null) {
+            return $validationResult->addFieldErrorMessage(RoleId::class, $error);
         }
         $availableRoleIds = [RoleId::user()->toString()];
         if ($authUser->isAdmin() || $authUser->isSystem()) {
             $availableRoleIds[] = RoleId::admin()->toString();
         }
-        if (!in_array($roleId, $availableRoleIds)) {
-            $this->errors = $this->errors->addMessage(RoleId::getPayloadKey(), new CanNotBeChosenMessage());
+        if (!in_array($roleId->toString(), $availableRoleIds)) {
+            return $validationResult->addFieldErrorMessage(RoleId::class, new CanNotBeChosenMessage());
         }
+        return $validationResult;
     }
 
-    private function validatePassword(string $password): void
+    private function validatePassword(?Text $password, bool $isRequired): ValidationResult
     {
-        $errorMessage = Password::findFormatError($password);
-        if ($errorMessage !== null) {
-            $this->errors = $this->errors->addMessage(Password::getPayloadKey(), $errorMessage);
+        $validationResult = ValidationResult::create();
+        if (!$isRequired && $password === null) {
+            return $validationResult;
         }
+        if ($password === null) {
+            return $validationResult->addFieldErrorMessage(Password::class, new MustNotBeEmptyMessage());
+        }
+        $rule = TextRule::create()->setMinLength(6)->setMaxLength(64);
+        $error = $rule->findError($password->toString());
+        if ($error !== null) {
+            return $validationResult->addFieldErrorMessage(Password::class, $error);
+        }
+        return $validationResult;
     }
 
     private function validateExistingUsers(
-        string $userId,
-        string $username,
-        string $emailAddress,
-        bool $validateForExistingUser
-    ): void
+        UserParams $userParams,
+        ValidationResult $validationResult,
+        bool $isChange
+    ): ValidationResult
     {
-        if ($this->errors->hasOneOfKeys([UserId::getPayloadKey(), Username::getPayloadKey(), EmailAddress::getPayloadKey()])) {
-            return;
+        if ($validationResult->getFieldErrors()->hasKey(UserId::class)) {
+            return $validationResult;
         }
-        $userIdToUse = UserId::fromString($userId);
-        $usernameToUse = Username::fromString($username);
-        $emailAddressToUse = EmailAddress::fromString($emailAddress);
-        $users = $this->usersWithAnEqualValueQuery->execute($userIdToUse, $usernameToUse, $emailAddressToUse);
+        if ($validationResult->getFieldErrors()->hasKey(Username::class)) {
+            return $validationResult;
+        }
+        if ($validationResult->getFieldErrors()->hasKey(EmailAddress::class)) {
+            return $validationResult;
+        }
+        $userId = UserId::fromString(($userParams->getId()->toString()));
+        $username = ($userParams->getUsername() === null ? null : Username::fromString(
+            $userParams->getUsername()->toString()
+        ));
+        $emailAddress = ($userParams->getEmailAddress() === null ? null : EmailAddress::fromString(
+            $userParams->getEmailAddress()->toString()
+        ));
+        $query = new ExistingUsersByValuesQuery($userId, $username, $emailAddress);
+        $users = $this->existingUsersByValuesQueryHandler->handle($query);
         foreach ($users->toArray() as $user) {
-            if ($validateForExistingUser && $user->getUserId()->isEqual($userIdToUse)) {
+            if ($isChange && $user->getUserId()->isEqual($user->getUserId())) {
                 continue;
             }
-            if (!$validateForExistingUser && $user->getUserId()->isEqual($userIdToUse)) {
-                $this->errors = $this->errors->addMessage(UserId::getPayloadKey(), new DoesAlreadyExistMessage());;
+            if (!$isChange && $user->getUserId()->isEqual($userId)) {
+                $validationResult = $validationResult->addFieldErrorMessage(UserId::class, new DoesAlreadyExistMessage());
             }
-            if ($user->getUsername()->isEqual($usernameToUse)) {
-                $this->errors = $this->errors->addMessage(Username::getPayloadKey(), new DoesAlreadyExistMessage());
+            if ($user->getUsername()->isEqual($username)) {
+                $validationResult = $validationResult->addFieldErrorMessage(Username::class, new DoesAlreadyExistMessage());
             }
-            if ($user->getEmailAddress()->isEqual($emailAddressToUse)) {
-                $this->errors = $this->errors->addMessage(EmailAddress::getPayloadKey(), new DoesAlreadyExistMessage());
+            if ($user->getEmailAddress()->isEqual($emailAddress)) {
+                $validationResult = $validationResult->addFieldErrorMessage(EmailAddress::class, new DoesAlreadyExistMessage());
             }
         }
+        return $validationResult;
     }
 }

@@ -61,8 +61,18 @@ final class User implements Resource
         return $this->roleId;
     }
 
+    public function getUsername(): ?Username
+    {
+        return $this->username;
+    }
+
     public function getPassword(): ?Password
     {
         return $this->password;
+    }
+
+    public function getEmailAddress(): ?EmailAddress
+    {
+        return $this->emailAddress;
     }
 }

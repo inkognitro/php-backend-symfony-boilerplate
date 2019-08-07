@@ -21,13 +21,13 @@ final class Text
         return $this->text;
     }
 
-    public function hasLineBreaks(): bool
+    public function toTrimmedString(): string
     {
-        return (!!strstr($this->text, PHP_EOL));
+        return trim($this->text);
     }
 
-    public function toLowerCaseString(): string
+    public function toTrimmedLowerCaseString(): string
     {
-        return strtolower($this->text);
+        return strtolower($this->toTrimmedString());
     }
 }

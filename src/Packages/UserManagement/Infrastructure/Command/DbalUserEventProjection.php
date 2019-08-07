@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\UserManagement\Infrastructure;
+namespace App\Packages\UserManagement\Infrastructure\Command;
 
 use App\Packages\Common\Domain\AuditLog\AuditLogEvent;
 use App\Packages\Common\Infrastructure\DbalConnection;

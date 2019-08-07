@@ -12,10 +12,25 @@ final class ExistingUsersByValuesQuery
     private $username;
     private $emailAddress;
 
-    public function __construct(?UserId $userId, ?Username $username, ?EmailAddress $emailAddress)
+    public function __construct(UserId $userId, ?Username $username, ?EmailAddress $emailAddress)
     {
         $this->userId = $userId;
         $this->username = $username;
         $this->emailAddress = $emailAddress;
+    }
+
+    public function getUserId(): UserId
+    {
+        return $this->userId;
+    }
+
+    public function getUsername(): ?Username
+    {
+        return $this->username;
+    }
+
+    public function getEmailAddress(): ?EmailAddress
+    {
+        return $this->emailAddress;
     }
 }
