@@ -27,29 +27,27 @@ final class Migrations
     public function toSortedArray(): array
     {
         $sortedMigrations = $this->migrations;
-        usort($sortedMigrations, [$this, 'compareMigrations']);
+        usort($sortedMigrations, function (Migration $a, Migration $b): int
+        {
+            if($a->getBatchNumber() < $b->getBatchNumber()) {
+                return -1;
+            }
+
+            if($a->getBatchNumber() > $b->getBatchNumber()) {
+                return 1;
+            }
+
+            if($a->getBatchSequenceNumber() < $b->getBatchSequenceNumber()) {
+                return -1;
+            }
+
+            if($a->getBatchSequenceNumber() > $b->getBatchSequenceNumber()) {
+                return 1;
+            }
+
+            return 0;
+        });
         return $sortedMigrations;
-    }
-
-    private function compareMigrations(Migration $a, Migration $b): int
-    {
-        if($a->getBatchNumber() < $b->getBatchNumber()) {
-            return -1;
-        }
-
-        if($a->getBatchNumber() > $b->getBatchNumber()) {
-            return 1;
-        }
-
-        if($a->getBatchSequenceNumber() < $b->getBatchSequenceNumber()) {
-            return -1;
-        }
-
-        if($a->getBatchSequenceNumber() > $b->getBatchSequenceNumber()) {
-            return 1;
-        }
-
-        return 0;
     }
 
     public function findAllWithHigherBatchNumber(int $batchNumber): self

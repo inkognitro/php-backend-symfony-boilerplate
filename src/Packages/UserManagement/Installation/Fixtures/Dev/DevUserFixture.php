@@ -8,7 +8,6 @@ use App\Packages\Common\Application\Command\CommandBus;
 use App\Packages\AccessManagement\Application\Query\AuthUser\Attributes\RoleId;
 use App\Packages\Common\Utilities\HandlerResponse\Success;
 use App\Packages\Common\Installation\Fixtures\Fixture;
-use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUser;
 use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUserFactory;
 
 final class DevUserFixture extends Fixture
