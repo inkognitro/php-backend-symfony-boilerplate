@@ -2,6 +2,7 @@
 
 namespace App\Packages\UserManagement\Installation\Fixtures\Dev;
 
+use App\Packages\Common\Application\Command\Params\Text;
 use App\Packages\Common\Domain\DidNotReceiveSuccessResponseException;
 use App\Packages\UserManagement\Application\Command\User\CreateUser;
 use App\Packages\Common\Application\Command\CommandBus;
@@ -9,6 +10,10 @@ use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\RoleId
 use App\Packages\Common\Application\Utilities\HandlerResponse\Success;
 use App\Packages\Common\Installation\Fixtures\Fixture;
 use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUserFactory;
+use App\Packages\UserManagement\Application\Command\User\UserParams;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\EmailAddress;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\Password;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\Username;
 
 final class DevUserFixture extends Fixture
 {
@@ -26,11 +31,12 @@ final class DevUserFixture extends Fixture
         $authUser = $this->authUserFactory->createSystemUser();
         foreach($this->getRows() as $row) {
             $command = CreateUser::fromArray([
-                CreateUser::USER_ID => $row['id'],
-                CreateUser::USERNAME => $row['username'],
-                CreateUser::EMAIL_ADDRESS => $row['username'] . '@test.com',
-                CreateUser::PASSWORD => '1234',
-                CreateUser::ROLE_ID => RoleId::user()->toString(),
+                CreateUser::USER_PARAMS => UserParams::fromArray([
+                    Username::class => Text::fromString($row['username']),
+                    EmailAddress::class => Text::fromString($row['emailAddress']),
+                    Password::class => Text::fromString($row['password']),
+                    RoleId::class => Text::fromString($row['roleId']),
+                ]),
                 CreateUser::SEND_INVITATION => false,
                 CreateUser::CREATOR => $authUser,
             ]);
@@ -47,6 +53,7 @@ final class DevUserFixture extends Fixture
 
     private function getRows(): array
     {
+        //todo: add some umlauts
         return [
             [
                 'id' => 'b8809427-8dc5-4ff8-88e1-018bcac5ef0f',

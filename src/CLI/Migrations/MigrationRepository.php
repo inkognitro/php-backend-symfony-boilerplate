@@ -26,7 +26,7 @@ final class MigrationRepository
 
     private function findMigrationByClassName(string $className): ?Migration
     {
-        foreach($this->migrations as $migration) {
+        foreach($this->migrations->toArray() as $migration) {
             if(get_class($migration) === $className) {
                 return $migration;
             }
@@ -66,7 +66,7 @@ final class MigrationRepository
     {
         $executedMigrations = $this->findAllExecuted();
         $migrations = [];
-        foreach($this->migrations as $migration) {
+        foreach($this->migrations->toArray() as $migration) {
             if(!$executedMigrations->has($migration)) {
                 $migrations[] = $migration;
             }

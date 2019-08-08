@@ -23,6 +23,11 @@ final class Migrations
         return $this->migrations;
     }
 
+    public function isEmpty(): bool
+    {
+        return (count($this->migrations) === 0);
+    }
+
     /** @return Migration[] */
     public function toSortedArray(): array
     {
@@ -48,6 +53,12 @@ final class Migrations
             return 0;
         });
         return $sortedMigrations;
+    }
+
+    /** @return Migration[] */
+    public function toReverseSortedArray(): array
+    {
+        return array_reverse($this->toSortedArray());
     }
 
     public function findAllWithHigherBatchNumber(int $batchNumber): self

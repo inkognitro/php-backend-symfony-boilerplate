@@ -40,7 +40,7 @@ class RollbackCommand extends Command
         $executedMigrations = $this->repository->findAllExecuted();
         $migrationsToRollback = $this->getMigrationsToRollback($executedMigrations);
 
-        if(count($migrationsToRollback->toSortedArray()) === 0) {
+        if($migrationsToRollback->isEmpty()) {
             echo "Nothing to rollback!" . PHP_EOL;
             return;
         }
@@ -48,7 +48,7 @@ class RollbackCommand extends Command
         $schemaManager = $this->connection->getSchemaManager();
         $fromSchema = $schemaManager->createSchema();
 
-        foreach($migrationsToRollback->toSortedArray() as $migration) {
+        foreach($migrationsToRollback->toReverseSortedArray() as $migration) {
             $toSchema = clone $fromSchema;
 
             $migration->schemaDownBeforeDataRollback($toSchema);
@@ -69,7 +69,7 @@ class RollbackCommand extends Command
 
         $executedMigrations = $this->repository->findAllExecuted();
 
-        if(count($executedMigrations->toSortedArray()) === 0) {
+        if($executedMigrations->isEmpty()) {
             echo 'Rolled successfully back to point zero.' . PHP_EOL;
             return;
         }
@@ -80,21 +80,21 @@ class RollbackCommand extends Command
 
     private function getMigrationsToRollback(Migrations $executedMigrations): Migrations
     {
-        if(count($executedMigrations->toSortedArray()) === 0) {
+        if($executedMigrations->isEmpty()) {
             return new Migrations([]);
         }
 
         $latestExecutedBatchNumber = ($executedMigrations->getHighestBatchNumber());
 
         $migrations = [];
-        foreach($executedMigrations->toSortedArray() as $migration) {
+        foreach($executedMigrations->toArray() as $migration) {
             if($migration->getBatchNumber() !== $latestExecutedBatchNumber) {
                 continue;
             }
             $migrations[] = $migration;
         }
 
-        return new Migrations(array_reverse($migrations));
+        return new Migrations($migrations);
     }
 
     private function removeMigrationExecutedEntry(Migration $migration): void

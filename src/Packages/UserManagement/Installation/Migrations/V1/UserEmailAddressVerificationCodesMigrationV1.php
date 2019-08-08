@@ -8,6 +8,8 @@ use Doctrine\DBAL\Types\Type;
 
 final class UserEmailAddressVerificationCodesMigrationV1 extends Migration
 {
+    private const TABLE_NAME = 'user_email_address_verification_codes';
+
     public function getBatchNumber(): int
     {
         return 1;
@@ -20,7 +22,7 @@ final class UserEmailAddressVerificationCodesMigrationV1 extends Migration
 
     public function schemaUp(Schema $schema): void
     {
-        $table = $schema->createTable('user_email_address_verification_codes');
+        $table = $schema->createTable(self::TABLE_NAME);
         $table->addColumn('user_id', Type::GUID);
         $table->addColumn('email_address', Type::STRING, ['length' => 191]);
         $table->addColumn('code', Type::STRING, ['notnull' => false, 'length' => 32]);
@@ -31,6 +33,6 @@ final class UserEmailAddressVerificationCodesMigrationV1 extends Migration
 
     public function schemaDown(Schema $schema): void
     {
-        $schema->dropTable('user_email_address_verification_codes');
+        $schema->dropTable(self::TABLE_NAME);
     }
 }

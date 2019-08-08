@@ -2,7 +2,12 @@
 
 namespace App\Packages\UserManagement\Application\Command\User;
 
+use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\RoleId;
 use App\Packages\Common\Application\Command\Params\Text;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\EmailAddress;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\Password;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\UserId;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\Username;
 
 final class UserParams
 {
@@ -12,7 +17,7 @@ final class UserParams
     private $username;
     private $roleId;
 
-    public function __construct(
+    private function __construct(
         ?Text $id,
         ?Text $emailAddress,
         ?Text $password,
@@ -24,6 +29,17 @@ final class UserParams
         $this->password = $password;
         $this->username = $username;
         $this->roleId = $roleId;
+    }
+
+    public static function fromArray(array $data): self
+    {
+        return new self(
+            ($data[UserId::class] ?? null),
+            ($data[EmailAddress::class] ?? null),
+            ($data[Password::class] ?? null),
+            ($data[Username::class] ?? null),
+            ($data[RoleId::class] ?? null)
+        );
     }
 
     public function getId(): ?Text

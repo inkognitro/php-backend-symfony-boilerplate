@@ -34,7 +34,7 @@ class MigrateCommand extends Command
     {
         $migrations = $this->getMigrationsToMigrate();
 
-        if (count($migrations->toSortedArray()) === 0) {
+        if ($migrations->isEmpty()) {
             echo "Nothing to migrate!" . PHP_EOL;
             return;
         }
@@ -65,7 +65,6 @@ class MigrateCommand extends Command
     private function getMigrationsToMigrate(): Migrations
     {
         $notExecutedMigrations = $this->repository->findAllNotExecuted();
-
         if (count($notExecutedMigrations->toSortedArray()) === 0) {
             return new Migrations([]);
         }
