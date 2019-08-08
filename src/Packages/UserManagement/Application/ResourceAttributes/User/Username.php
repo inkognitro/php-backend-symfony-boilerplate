@@ -8,11 +8,6 @@ final class Username implements Attribute
 {
     private $username;
 
-    public static function getPayloadKey(): string
-    {
-        return 'username';
-    }
-
     private function __construct(string $username)
     {
         $this->username = $username;

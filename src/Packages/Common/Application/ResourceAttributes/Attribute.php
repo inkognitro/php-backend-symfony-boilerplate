@@ -4,5 +4,5 @@ namespace App\Packages\Common\Application\ResourceAttributes;
 
 interface Attribute
 {
-    public static function getPayloadKey(): string;
+
 }

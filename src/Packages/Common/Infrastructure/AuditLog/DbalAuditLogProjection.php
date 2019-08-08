@@ -20,13 +20,13 @@ final class DbalAuditLogProjection implements AuditLogProjection
         if (!$event->mustBeLogged()) {
             return;
         }
-        $resourceId = $event->getResourceId();
-        $resourceType = $event::getResourceType();
+        $resourceTypeId = $event::findResourceTypeId();
+        $resourceId = $event->findResourceId();
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder->insert('audit_log');
         $queryBuilder->setValue('id', $queryBuilder->createNamedParameter($event->getId()->toString()));
-        $queryBuilder->setValue('event', $queryBuilder->createNamedParameter(get_class($event)));
-        $queryBuilder->setValue('resource_type', $queryBuilder->createNamedParameter($resourceType->toString()));
+        $queryBuilder->setValue('event_type_id', $queryBuilder->createNamedParameter(get_class($event)));
+        $queryBuilder->setValue('resource_type_id', $queryBuilder->createNamedParameter($resourceTypeId->toString()));
         $queryBuilder->setValue('resource_id', $queryBuilder->createNamedParameter($resourceId->toString()));
         $queryBuilder->setValue('payload', $queryBuilder->createNamedParameter($event->getPayload()->toJson()));
         $queryBuilder->setValue('auth_user_payload', $queryBuilder->createNamedParameter($event->getPayload()->toJson()));

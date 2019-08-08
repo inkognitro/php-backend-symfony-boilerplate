@@ -22,8 +22,8 @@ final class AuditLogMigrationV1 extends Migration
         $table = $schema->createTable('audit_log');
         $table->addColumn('id', Type::GUID);
         $table->addColumn('sequence_number', Type::INTEGER, ['autoincrement' => true]);
-        $table->addColumn('event', Type::STRING, ['length' => 128]);
-        $table->addColumn('resource_type', Type::STRING, ['length' => 128, 'notnull' => false]);
+        $table->addColumn('event_type_id', Type::STRING, ['length' => 128]);
+        $table->addColumn('resource_type_id', Type::STRING, ['length' => 128, 'notnull' => false]);
         $table->addColumn('resource_id', Type::GUID, ['notnull' => false]);
         $table->addColumn('payload', Type::TEXT);
         $table->addColumn('auth_user_payload', Type::TEXT);

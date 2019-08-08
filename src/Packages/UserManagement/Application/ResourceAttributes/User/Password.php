@@ -8,11 +8,6 @@ final class Password implements Attribute
 {
     private $passwordHash;
 
-    public static function getPayloadKey(): string
-    {
-        return 'passwordHash';
-    }
-
     private function __construct(string $passwordHash)
     {
         $this->passwordHash = $passwordHash;

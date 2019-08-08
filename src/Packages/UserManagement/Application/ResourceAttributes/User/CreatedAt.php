@@ -6,9 +6,9 @@ use App\Packages\Common\Application\ResourceAttributes\NullableDateTimeAttribute
 
 final class CreatedAt extends NullableDateTimeAttribute
 {
-    public static function getPayloadKey(): string
+    public static function fromDateTime(\DateTimeImmutable $dateTime): self
     {
-        return 'createdAt';
+        return new self($dateTime);
     }
 
     public static function fromString(string $dateTime): self
@@ -16,5 +16,10 @@ final class CreatedAt extends NullableDateTimeAttribute
         /** @var $valueObject CreatedAt */
         $valueObject = self::fromInternalNullableString($dateTime);
         return $valueObject;
+    }
+
+    public function toDateTime(): \DateTimeImmutable
+    {
+        return $this->nullableDateTime;
     }
 }

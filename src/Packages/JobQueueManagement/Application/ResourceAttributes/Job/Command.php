@@ -14,11 +14,6 @@ final class Command implements Attribute
         $this->command = $command;
     }
 
-    public static function getPayloadKey(): string
-    {
-        return 'command';
-    }
-
     public static function fromCommand(CommandBusCommand $command): self
     {
         return new self($command);

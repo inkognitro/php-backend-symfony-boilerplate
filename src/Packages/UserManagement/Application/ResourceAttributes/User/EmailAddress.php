@@ -8,11 +8,6 @@ final class EmailAddress implements Attribute
 {
     private $emailAddress;
 
-    public static function getPayloadKey(): string
-    {
-        return 'emailAddress';
-    }
-
     private function __construct(string $emailAddress)
     {
         $this->emailAddress = $emailAddress;

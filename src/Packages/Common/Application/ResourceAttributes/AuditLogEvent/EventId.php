@@ -9,11 +9,6 @@ final class EventId implements Attribute
 {
     private $id;
 
-    public static function getPayloadKey(): string
-    {
-        return 'id';
-    }
-
     public function __construct(string $id)
     {
         $this->id = $id;

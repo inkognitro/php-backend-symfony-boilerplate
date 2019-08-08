@@ -4,6 +4,7 @@ namespace App\Packages\UserManagement\Application\Query\User;
 
 use App\Packages\Common\Application\Query\Resource;
 use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\RoleId;
+use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\ResourceTypeId;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\CreatedAt;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\EmailAddress;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\Password;
@@ -26,6 +27,11 @@ final class User implements Resource
     private $roleId;
     private $createdAt;
     private $updatedAt;
+
+    public static function getTypeId(): ResourceTypeId
+    {
+        return ResourceTypeId::user();
+    }
 
     public function __construct(
         ?UserId $id,
@@ -51,6 +57,38 @@ final class User implements Resource
         $this->updatedAt = $updatedAt;
     }
 
+    public static function create(): self
+    {
+        return new self(
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        );
+    }
+
+    public function modifyByArray(array $data): self
+    {
+        return new self(
+            ($data[UserId::class] ?? $this->id),
+            ($data[EmailAddress::class] ?? $this->emailAddress),
+            ($data[Password::class] ?? $this->password),
+            ($data[Username::class] ?? $this->username),
+            ($data[VerificationCode::class] ?? $this->verificationCode),
+            ($data[VerificationCodeSentAt::class] ?? $this->verificationCodeSentAt),
+            ($data[VerifiedAt::class] ?? $this->verifiedAt),
+            ($data[RoleId::class] ?? $this->roleId),
+            ($data[CreatedAt::class] ?? $this->createdAt),
+            ($data[UpdatedAt::class] ?? $this->updatedAt)
+        );
+    }
+
     public function getId(): ?UserId
     {
         return $this->id;
@@ -74,5 +112,10 @@ final class User implements Resource
     public function getEmailAddress(): ?EmailAddress
     {
         return $this->emailAddress;
+    }
+
+    public function getCreatedAt(): ?CreatedAt
+    {
+        return $this->createdAt;
     }
 }

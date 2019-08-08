@@ -2,19 +2,14 @@
 
 namespace App\Packages\Common\Utilities\HandlerResponse;
 
-use App\Packages\Common\Utilities\Validation\Messages\MessageBag;
+use App\Packages\Common\Application\Query\Resource;
 
 final class ResourceCreatedResponse implements Success
 {
-    private $warnings;
+    private $resource;
 
-    public function __construct(MessageBag $warnings)
+    public function __construct(Resource $resource)
     {
-        $this->warnings = $warnings;
-    }
-
-    public function getWarnings(): MessageBag
-    {
-        return $this->warnings;
+        $this->resource = $resource;
     }
 }

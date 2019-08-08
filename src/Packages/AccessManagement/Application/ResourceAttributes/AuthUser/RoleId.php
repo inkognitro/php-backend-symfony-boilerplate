@@ -8,11 +8,6 @@ final class RoleId implements Attribute
 {
     private $roleId;
 
-    public static function getPayloadKey(): string
-    {
-        return 'id';
-    }
-
     private function __construct(string $roleId)
     {
         $this->roleId = $roleId;

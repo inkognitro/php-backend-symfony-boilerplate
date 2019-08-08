@@ -8,11 +8,6 @@ final class UserId implements Attribute
 {
     private $id;
 
-    public static function getPayloadKey(): string
-    {
-       return 'id';
-    }
-
     private function __construct(string $id)
     {
         $this->id = $id;

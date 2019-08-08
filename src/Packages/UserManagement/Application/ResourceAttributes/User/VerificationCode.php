@@ -8,11 +8,6 @@ final class VerificationCode implements Attribute
 {
     private $code;
 
-    public static function getPayloadKey(): string
-    {
-        return 'verificationCode';
-    }
-
     private function __construct(?string $code)
     {
         $this->code = $code;

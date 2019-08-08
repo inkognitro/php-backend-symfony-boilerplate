@@ -29,14 +29,14 @@ final class JobWasCreated extends AuditLogEvent
         );
     }
 
-    public static function getResourceType(): ResourceTypeId
+    public static function findResourceTypeId(): ResourceTypeId
     {
         return ResourceTypeId::fromString(Job::class);
     }
 
     public function getJobId(): QueueJobId
     {
-        return QueueJobId::fromString($this->getResourceId()->toString());
+        return QueueJobId::fromString($this->findResourceId()->toString());
     }
 
     public function getCommand(): Command

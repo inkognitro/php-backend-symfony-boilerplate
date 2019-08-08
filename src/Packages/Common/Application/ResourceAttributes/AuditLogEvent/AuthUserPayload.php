@@ -3,13 +3,14 @@
 namespace App\Packages\Common\Application\ResourceAttributes\AuditLogEvent;
 
 use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUser;
-use App\Packages\Common\Application\ResourceAttributes\PayloadAttribute;
 
-final class AuthUserPayload extends PayloadAttribute
+final class AuthUserPayload
 {
-    public static function getPayloadKey(): string
+    private $data;
+
+    private function __construct(array $data)
     {
-        return 'authUser';
+        $this->data = $data;
     }
 
     public static function fromArray(array $data): self
@@ -24,5 +25,10 @@ final class AuthUserPayload extends PayloadAttribute
             'roleId' => $authUser->getRoleId()->toString(),
             'languageId' => $authUser->getLanguageId()->toString(),
         ]);
+    }
+
+    public function toJson(): string
+    {
+        return json_encode($this->data);
     }
 }
