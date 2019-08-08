@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Utilities\Validation;
+namespace App\Packages\Common\Application\Utilities\Validation;
 
-use App\Packages\Common\Utilities\Validation\Messages\Message;
-use App\Packages\Common\Utilities\Validation\Messages\MessageBag;
+use App\Packages\Common\Application\Utilities\Validation\Messages\Message;
+use App\Packages\Common\Application\Utilities\Validation\Messages\MessageBag;
 
 final class ValidationResult
 {

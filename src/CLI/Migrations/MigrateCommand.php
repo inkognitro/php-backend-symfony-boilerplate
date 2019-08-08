@@ -2,7 +2,7 @@
 
 namespace App\CLI\Migrations;
 
-use App\Packages\Common\Utilities\DateTimeFactory;
+use App\Packages\Common\Application\Utilities\DateTimeFactory;
 use App\Packages\Common\Infrastructure\DbalConnection;
 use App\Packages\Common\Installation\Migrations\Migration;
 use App\Packages\Common\Installation\Migrations\Migrations;

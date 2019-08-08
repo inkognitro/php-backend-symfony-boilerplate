@@ -14,7 +14,7 @@ final class Migrations
 
     public function merge(self $that): self
     {
-        return array_merge($this->toArray(), $that->toArray());
+        return new self(array_merge($this->toArray(), $that->toArray()));
     }
 
     /** @return Migration[] */

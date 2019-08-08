@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Utilities\Validation\Rules;
+namespace App\Packages\Common\Application\Utilities\Validation\Rules;
 
-use App\Packages\Common\Utilities\Validation\Messages\Message;
-use App\Packages\Common\Utilities\Validation\Messages\MustBeAnEmailAddressMessage;
-use App\Packages\Common\Utilities\Validation\Messages\MustBeAStringMessage;
-use App\Packages\Common\Utilities\Validation\Messages\MustNotBeEmptyMessage;
+use App\Packages\Common\Application\Utilities\Validation\Messages\Message;
+use App\Packages\Common\Application\Utilities\Validation\Messages\MustBeAnEmailAddressMessage;
+use App\Packages\Common\Application\Utilities\Validation\Messages\MustBeAStringMessage;
+use App\Packages\Common\Application\Utilities\Validation\Messages\MustNotBeEmptyMessage;
 
 final class RequiredEmailAddressRule implements Rule
 {

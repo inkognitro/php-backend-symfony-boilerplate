@@ -2,7 +2,8 @@ services:
     _defaults:
         autowire: true
 
-    App\Packages\Common\Application\CommandBus: ~
+    App\Packages\Common\Application\Utilities\DateTimeFactory: ~
+    App\Packages\Common\Application\Command\CommandBus: ~
     App\Packages\Common\Domain\CommandHandler: ~
     App\Packages\Common\Domain\AuditLog\EventDispatcher: ~
 
@@ -17,3 +18,5 @@ services:
 
     App\Packages\Common\Domain\AuditLog\AuditLogProjection:
         class: App\Packages\Common\Infrastructure\AuditLog\DbalAuditLogProjection
+
+    App\Packages\Common\Infrastructure\Query\DbalQueryBuilderFactory: ~

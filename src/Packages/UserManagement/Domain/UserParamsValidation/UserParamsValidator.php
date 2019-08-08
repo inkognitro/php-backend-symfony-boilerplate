@@ -1,23 +1,22 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\UserManagement\Application\Command\User;
+namespace App\Packages\UserManagement\Domain\UserParamsValidation;
 
 use App\Packages\Common\Application\Command\Params\Text;
-use App\Packages\Common\Utilities\Validation\Messages\MustNotBeEmptyMessage;
-use App\Packages\Common\Utilities\Validation\Messages\CanNotBeChosenMessage;
-use App\Packages\Common\Utilities\Validation\Messages\DoesAlreadyExistMessage;
-use App\Packages\Common\Utilities\Validation\Rules\RequiredEmailAddressRule;
-use App\Packages\Common\Utilities\Validation\Rules\RequiredUuidRule;
-use App\Packages\Common\Utilities\Validation\Rules\TextRule;
+use App\Packages\Common\Application\Utilities\Validation\Messages\MustNotBeEmptyMessage;
+use App\Packages\Common\Application\Utilities\Validation\Messages\CanNotBeChosenMessage;
+use App\Packages\Common\Application\Utilities\Validation\Messages\DoesAlreadyExistMessage;
+use App\Packages\Common\Application\Utilities\Validation\Rules\RequiredEmailAddressRule;
+use App\Packages\Common\Application\Utilities\Validation\Rules\RequiredUuidRule;
+use App\Packages\Common\Application\Utilities\Validation\Rules\TextRule;
+use App\Packages\UserManagement\Application\Command\User\UserParams;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\EmailAddress;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\Password;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\UserId;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\Username;
 use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\RoleId;
 use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUser;
-use App\Packages\Common\Utilities\Validation\ValidationResult;
-use App\Packages\UserManagement\Domain\UserParamsValidation\ExistingUsersByValuesQuery;
-use App\Packages\UserManagement\Domain\UserParamsValidation\ExistingUsersByValuesQueryHandler;
+use App\Packages\Common\Application\Utilities\Validation\ValidationResult;
 
 final class UserParamsValidator
 {

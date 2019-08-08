@@ -3,7 +3,7 @@
 namespace App\Packages\Common\Application\ResourceAttributes\AuditLogEvent;
 
 use App\Packages\Common\Application\ResourceAttributes\NullableDateTimeAttribute;
-use App\Packages\Common\Utilities\DateTimeFactory;
+use App\Packages\Common\Application\Utilities\DateTimeFactory;
 
 final class OccurredAt extends NullableDateTimeAttribute
 {

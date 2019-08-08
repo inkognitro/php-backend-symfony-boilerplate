@@ -1,7 +1,8 @@
 services:
     _defaults:
         autowire: true
+
+    App\CLI\Fixtures\ExecuteCommand:
         tags: ['console.command']
 
-    App\CLI\Fixtures\ExecuteCommand: ~
-
+    App\CLI\Fixtures\FixtureRepository: ~

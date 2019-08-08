@@ -8,6 +8,7 @@ use App\Packages\Common\Application\Query\OrX;
 use App\Packages\UserManagement\Application\Query\User\User;
 use App\Packages\UserManagement\Application\Query\User\Users;
 use App\Packages\UserManagement\Application\Query\User\UsersQuery;
+use App\Packages\UserManagement\Application\Query\User\UsersQueryHandler;
 use App\Packages\UserManagement\Domain\UserParamsValidation\ExistingUsersByValuesQuery;
 use App\Packages\UserManagement\Domain\UserParamsValidation\Users as DomainUsers;
 use App\Packages\UserManagement\Domain\UserParamsValidation\User as DomainUser;
@@ -15,13 +16,12 @@ use App\Packages\UserManagement\Domain\UserParamsValidation\ExistingUsersByValue
 use App\Packages\UserManagement\Application\ResourceAttributes\User\EmailAddress;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\UserId;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\Username;
-use App\Packages\UserManagement\Infrastructure\Query\User\DbalUsersQueryHandler;
 
 final class DbalExistingUsersByValuesQueryHandler implements ExistingUsersByValuesQueryHandler
 {
     private $usersQueryHandler;
 
-    public function __construct(DbalUsersQueryHandler $usersQueryHandler)
+    public function __construct(UsersQueryHandler $usersQueryHandler)
     {
         $this->usersQueryHandler = $usersQueryHandler;
     }

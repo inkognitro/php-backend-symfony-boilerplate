@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\UserManagement\Infrastructure\Query\User;
+namespace App\Packages\UserManagement\Infrastructure\Query;
 
 use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\RoleId;
 use App\Packages\Common\Application\Query\Query;

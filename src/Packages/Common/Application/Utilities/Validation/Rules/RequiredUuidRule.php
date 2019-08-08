@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Utilities\Validation\Rules;
+namespace App\Packages\Common\Application\Utilities\Validation\Rules;
 
-use App\Packages\Common\Utilities\Validation\Messages\Message;
-use App\Packages\Common\Utilities\Validation\Messages\MustBeAStringMessage;
-use App\Packages\Common\Utilities\Validation\Messages\MustBeAUuidMessage;
-use App\Packages\Common\Utilities\Validation\Messages\MustBeLowerCaseMessage;
-use App\Packages\Common\Utilities\Validation\Messages\MustNotBeEmptyMessage;
+use App\Packages\Common\Application\Utilities\Validation\Messages\Message;
+use App\Packages\Common\Application\Utilities\Validation\Messages\MustBeAStringMessage;
+use App\Packages\Common\Application\Utilities\Validation\Messages\MustBeAUuidMessage;
+use App\Packages\Common\Application\Utilities\Validation\Messages\MustBeLowerCaseMessage;
+use App\Packages\Common\Application\Utilities\Validation\Messages\MustNotBeEmptyMessage;
 use Ramsey\Uuid\Uuid;
 
 final class RequiredUuidRule implements Rule

@@ -1,7 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Installation\Migrations;
+namespace App\Packages\Common\Installation\Migrations\V1;
 
+use App\Packages\Common\Installation\Migrations\Migration;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\Type;
 

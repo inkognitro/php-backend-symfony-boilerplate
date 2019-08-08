@@ -4,9 +4,9 @@ namespace App\Packages\JobQueueManagement\Domain\JobValidation;
 
 use App\Packages\JobQueueManagement\Application\Command\CreateJob;
 use App\Packages\JobQueueManagement\Application\ResourceAttributes\Job\QueueJobId;
-use App\Packages\Common\Utilities\Validation\Messages\DoesAlreadyExistMessage;
-use App\Packages\Common\Utilities\Validation\Rules\RequiredUuidRule;
-use App\Packages\Common\Utilities\Validation\Validator;
+use App\Packages\Common\Application\Utilities\Validation\Messages\DoesAlreadyExistMessage;
+use App\Packages\Common\Application\Utilities\Validation\Rules\RequiredUuidRule;
+use App\Packages\Common\Application\Utilities\Validation\Validator;
 
 final class JobValidator extends Validator
 {

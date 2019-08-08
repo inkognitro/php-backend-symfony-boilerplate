@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Utilities\HandlerResponse;
+namespace App\Packages\Common\Application\Utilities\HandlerResponse;
 
-use App\Packages\Common\Utilities\Validation\Messages\MessageBag;
+use App\Packages\Common\Application\Utilities\Validation\Messages\MessageBag;
 
 final class ResourceChangedResponse implements Success
 {

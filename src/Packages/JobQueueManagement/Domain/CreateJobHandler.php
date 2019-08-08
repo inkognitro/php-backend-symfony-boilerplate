@@ -4,9 +4,9 @@ namespace App\Packages\JobQueueManagement\Domain;
 
 use App\Packages\JobQueueManagement\Application\Command\CreateJob;
 use App\Packages\JobQueueManagement\Domain\JobValidation\JobValidator;
-use App\Packages\Common\Utilities\HandlerResponse\Response;
-use App\Packages\Common\Utilities\HandlerResponse\ValidationErrorResponse;
-use App\Packages\Common\Utilities\HandlerResponse\ResourceCreatedResponse;
+use App\Packages\Common\Application\Utilities\HandlerResponse\Response;
+use App\Packages\Common\Application\Utilities\HandlerResponse\ValidationErrorResponse;
+use App\Packages\Common\Application\Utilities\HandlerResponse\ResourceCreatedResponse;
 use App\Packages\JobQueueManagement\Application\ResourceAttributes\Job\Attributes\Command;
 use App\Packages\JobQueueManagement\Application\ResourceAttributes\Job\QueueJobId;
 

@@ -3,8 +3,8 @@
 namespace App\Packages\Common\Application\Command;
 
 use App\Packages\Common\Application\Command\Command;
-use App\Packages\Common\Utilities\HandlerResponse\Response;
-use App\Packages\Common\Utilities\HandlerResponse\Success;
+use App\Packages\Common\Application\Utilities\HandlerResponse\Response;
+use App\Packages\Common\Application\Utilities\HandlerResponse\Success;
 use App\Packages\Common\Domain\CommandHandler;
 use App\Packages\Common\Domain\StateManager;
 use Exception;

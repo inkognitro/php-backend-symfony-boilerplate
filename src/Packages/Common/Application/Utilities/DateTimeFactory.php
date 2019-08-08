@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\Common\Utilities;
+namespace App\Packages\Common\Application\Utilities;
 
 use DateInterval;
 use DateTimeImmutable;

@@ -3,7 +3,7 @@
 namespace App\WebApiV1Bundle\Authentication;
 
 use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUser;
-use App\Packages\Common\Utilities\DateTimeFactory;
+use App\Packages\Common\Application\Utilities\DateTimeFactory;
 use Firebase\JWT\JWT;
 
 final class JWTFactory

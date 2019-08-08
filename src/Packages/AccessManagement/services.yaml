@@ -4,3 +4,5 @@ services:
 
     App\Packages\AccessManagement\Application\Query\AuthUser\AuthUserByCredentialsQueryHandler:
         class: App\Packages\AccessManagement\Infrastructure\Query\AuthUser\DbalAuthUserByCredentialsQueryHandler
+
+    App\Packages\AccessManagement\Application\Query\AuthUser\AuthUserFactory: ~

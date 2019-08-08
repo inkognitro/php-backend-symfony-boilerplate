@@ -3,7 +3,7 @@
 namespace App\Packages\Common\Installation;
 
 use App\Packages\Common\Installation\Fixtures\Fixtures;
-use App\Packages\Common\Installation\Migrations\AuditLogMigrationV1;
+use App\Packages\Common\Installation\Migrations\V1\AuditLogMigrationV1;
 use App\Packages\Common\Installation\Migrations\Migrations;
 use App\Packages\Common\Installation\Migrations\V1\MigrationsMigrationV1;
 

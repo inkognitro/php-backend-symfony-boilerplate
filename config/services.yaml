@@ -1,4 +1,5 @@
 imports:
     - { resource: '../src/Packages/Common/services.yaml' }
+    - { resource: '../src/Packages/AccessManagement/services.yaml' }
     - { resource: '../src/Packages/UserManagement/services.yaml' }
     - { resource: '../src/CLI/services.yaml' }
