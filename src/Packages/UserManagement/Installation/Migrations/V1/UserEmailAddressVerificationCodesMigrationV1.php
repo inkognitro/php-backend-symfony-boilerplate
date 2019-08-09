@@ -33,6 +33,11 @@ final class UserEmailAddressVerificationCodesMigrationV1 extends Migration
 
     public function schemaDown(Schema $schema): void
     {
+        $table = $schema->getTable(self::TABLE_NAME);
+        foreach($table->getForeignKeys() as $foreignKey) {
+            $constraintName = $foreignKey->getName();
+            $table->removeForeignKey($constraintName);
+        }
         $schema->dropTable(self::TABLE_NAME);
     }
 }
