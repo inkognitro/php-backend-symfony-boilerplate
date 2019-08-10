@@ -5,7 +5,7 @@ namespace App\Packages\AccessManagement\Infrastructure\Query\AuthUser;
 use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUser;
 use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUserByCredentialsQuery;
 use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUserByCredentialsQueryHandler;
-use App\Packages\AccessManagement\Application\Query\ResourceAttributes\AuthUser\LanguageId;
+use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\LanguageId;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\Username;
 use App\Packages\UserManagement\Application\Query\User\UsersQuery;
 use App\Packages\UserManagement\Application\Query\User\UsersQueryHandler;

@@ -33,7 +33,6 @@ final class DbalQueryBuilderFactory
             $dbalCondition->getParameters()->toQueryBuilderParameters(),
             $dbalCondition->getParameters()->toQueryBuilderParameterTypes()
         );
-        throw new \LogicException('Condition "' . get_class($condition) . '" not supported!');
     }
 
     public function addPagination(QueryBuilder $queryBuilder, Pagination $pagination): void

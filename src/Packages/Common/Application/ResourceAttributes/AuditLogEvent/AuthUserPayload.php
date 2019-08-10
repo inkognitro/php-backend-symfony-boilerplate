@@ -21,7 +21,7 @@ final class AuthUserPayload
     public static function fromAuthUser(AuthUser $authUser): self
     {
         return new self([
-            'userId' => $authUser->getUserId()->toString(),
+            'userId' => ($authUser->getUserId() === null ? null : $authUser->getUserId()->toString()),
             'roleId' => $authUser->getRoleId()->toString(),
             'languageId' => $authUser->getLanguageId()->toString(),
         ]);

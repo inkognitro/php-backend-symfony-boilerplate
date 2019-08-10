@@ -14,11 +14,11 @@ final class AttributeChange
      */
     public function __construct(string $attributeKey, $previousValue, $value)
     {
-        if(!is_scalar($previousValue)) {
-            throw new \InvalidArgumentException('$previousValue must be a scalar type');
+        if($previousValue !== null && !is_scalar($previousValue)) {
+            throw new \InvalidArgumentException('$previousValue must be NULL or a scalar type');
         }
-        if(!is_scalar($value)) {
-            throw new \InvalidArgumentException('$value must be a scalar type');
+        if($value !== null && !is_scalar($value)) {
+            throw new \InvalidArgumentException('$value must be NULL or a scalar type');
         }
         $this->attributeKey = $attributeKey;
         $this->previousValue = $previousValue;

@@ -45,8 +45,9 @@ final class DbalExistingUsersByValuesQueryHandler implements ExistingUsersByValu
 
     private function createDomainUsersFromUsers(Users $users): DomainUsers
     {
-        return array_map(function(User $user): DomainUser {
+        $users = array_map(function(User $user): DomainUser {
             return new DomainUser($user->getId(), $user->getUsername(), $user->getEmailAddress());
         }, $users->toArray());
+        return new DomainUsers($users);
     }
 }

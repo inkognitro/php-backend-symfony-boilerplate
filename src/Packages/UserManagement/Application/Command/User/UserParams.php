@@ -18,7 +18,7 @@ final class UserParams
     private $roleId;
 
     private function __construct(
-        ?Text $id,
+        Text $id,
         ?Text $emailAddress,
         ?Text $password,
         ?Text $username,
@@ -42,7 +42,7 @@ final class UserParams
         );
     }
 
-    public function getId(): ?Text
+    public function getId(): Text
     {
         return $this->id;
     }

@@ -73,7 +73,10 @@ final class UserParamsValidator
         if ($username === null) {
             return $validationResult->addFieldErrorMessage(Username::class, new MustNotBeEmptyMessage());
         }
-        $rule = TextRule::create()->setMinLength(6)->setMaxLength(20)->setAllowedCharsRegex('/[^A-Za-z0-9]/');
+
+        //todo: invalidate umlauts in usernames!
+
+        $rule = TextRule::create()->setMinLength(6)->setMaxLength(20)->setAllowedCharsRegex('/^[A-Za-z0-9]*$/');
         $error = $rule->findError($username->toString());
         if ($error !== null) {
             return $validationResult->addFieldErrorMessage(Username::class, $error);
@@ -108,6 +111,9 @@ final class UserParamsValidator
         $validationResult = ValidationResult::create();
         if (!$isRequired && $roleId === null) {
             return $validationResult;
+        }
+        if ($roleId === null) {
+            return $validationResult->addFieldErrorMessage(RoleId::class, new MustNotBeEmptyMessage());
         }
         $rule = TextRule::create();
         $error = $rule->findError($roleId->toString());

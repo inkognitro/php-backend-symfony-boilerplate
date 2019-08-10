@@ -28,13 +28,6 @@ final class MessageBag
         ]));
     }
 
-    public function addMessageBag(string $key, self $messageBag): self
-    {
-        return new self(array_merge($this->messages, [
-            $key => $messageBag
-        ]));
-    }
-
     public function hasKey(string $key): bool
     {
         return isset($this->messages[$key]);
@@ -57,23 +50,6 @@ final class MessageBag
 
     public function toArray(): array
     {
-        $array = [];
-        foreach ($this->messages as $key => $value) {
-            if ($value instanceof self && count($value->toArray()) === 0) {
-                continue;
-            }
-            if ($value instanceof self) {
-                $array[$key] = $value->toArray();
-                continue;
-            }
-            if ($value instanceof Message) {
-                $array[$key] = [
-                    'code' => $value->getCode(),
-                    'message' => $value->getMessage(),
-                    'placeholders' => $value->getPlaceholders(),
-                ];
-            }
-        }
-        return $array;
+        return $this->messages;
     }
 }

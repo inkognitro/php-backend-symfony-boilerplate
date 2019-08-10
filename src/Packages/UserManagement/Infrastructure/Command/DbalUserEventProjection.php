@@ -21,6 +21,7 @@ final class DbalUserEventProjection implements UserEventProjection
     {
         if ($event instanceof UserWasCreated) {
             $this->projectUserWasCreated($event);
+            return;
         }
 
         throw new LogicException('event "' . get_class($event) . '" is not supported');

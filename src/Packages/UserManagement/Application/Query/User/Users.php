@@ -9,9 +9,10 @@ final class Users
     /** @param $users User[] */
     private function __construct(array $users)
     {
-        $this->users;
+        $this->users = $users;
     }
 
+    /** @param $users User[] */
     public static function fromUsersArray(array $users): self
     {
         return new self($users);
@@ -25,7 +26,7 @@ final class Users
 
     public function findFirst(): ?User
     {
-        if ($this->users[0]) {
+        if (isset($this->users[0])) {
             return $this->users[0];
         }
         return null;

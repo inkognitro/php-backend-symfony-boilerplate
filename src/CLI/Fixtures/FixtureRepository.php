@@ -22,7 +22,7 @@ final class FixtureRepository
     {
         $userMgmntInstallationManager = new UserManagementInstallationManager();
         $fixtures = $userMgmntInstallationManager->findProdFixtures($this->commandBus, $this->authUserFactory);
-        if (getenv('APP_AUTH_JWT_SECRET') === 'dev') {
+        if (getenv('APP_ENV') === 'dev') {
             $devFixtures = $userMgmntInstallationManager->findDevFixtures($this->commandBus, $this->authUserFactory);
             $fixtures = $fixtures->merge($devFixtures);
         }

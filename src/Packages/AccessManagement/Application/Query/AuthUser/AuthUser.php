@@ -2,7 +2,7 @@
 
 namespace App\Packages\AccessManagement\Application\Query\AuthUser;
 
-use App\Packages\AccessManagement\Application\Query\ResourceAttributes\AuthUser\LanguageId;
+use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\LanguageId;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\UserId;
 use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\RoleId;
 

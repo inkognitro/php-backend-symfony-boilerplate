@@ -13,6 +13,7 @@ use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUserFactory;
 use App\Packages\UserManagement\Application\Command\User\UserParams;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\EmailAddress;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\Password;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\UserId;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\Username;
 
 final class DevUserFixture extends Fixture
@@ -32,10 +33,11 @@ final class DevUserFixture extends Fixture
         foreach($this->getRows() as $row) {
             $command = CreateUser::fromArray([
                 CreateUser::USER_PARAMS => UserParams::fromArray([
+                    UserId::class => Text::fromString($row['id']),
                     Username::class => Text::fromString($row['username']),
-                    EmailAddress::class => Text::fromString($row['emailAddress']),
-                    Password::class => Text::fromString($row['password']),
-                    RoleId::class => Text::fromString($row['roleId']),
+                    EmailAddress::class => Text::fromString($row['username'] . '@foo.com'),
+                    Password::class => Text::fromString('test'),
+                    RoleId::class => Text::fromString(RoleId::user()->toString()),
                 ]),
                 CreateUser::SEND_INVITATION => false,
                 CreateUser::CREATOR => $authUser,
@@ -53,7 +55,6 @@ final class DevUserFixture extends Fixture
 
     private function getRows(): array
     {
-        //todo: add some umlauts
         return [
             [
                 'id' => 'b8809427-8dc5-4ff8-88e1-018bcac5ef0f',
@@ -73,12 +74,11 @@ final class DevUserFixture extends Fixture
             ],
             [
                 'id' => '0d7dfeeb-afdc-4a31-a17e-6dacf4f4d2c2',
-                'username' => 'koebile1n',
+                'username' => 'köbile1n',
             ],
             [
                 'id' => '14e1350f-e576-4923-9c22-80ff9a80b5ba',
-                'username' => 'fraenzi',
-                'emailAddress' => 'fraenzi@dev-fixture.com',
+                'username' => 'fränzi',
             ],
             [
                 'id' => '90bb58da-0a90-43bb-8152-50c4ed53fb33',
@@ -87,7 +87,6 @@ final class DevUserFixture extends Fixture
             [
                 'id' => '1c5b035f-2a91-4b47-a2a2-3b899b356f60',
                 'username' => 'aeaeaaeioukkh',
-                'emailAddress' => 'aeaeaeoeueueueue@dev-fixture.com',
             ],
         ];
     }

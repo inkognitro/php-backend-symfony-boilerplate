@@ -13,6 +13,7 @@ use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUserFactory;
 use App\Packages\UserManagement\Application\Command\User\UserParams;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\EmailAddress;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\Password;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\UserId;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\Username;
 
 final class ProdUserFixture extends Fixture
@@ -32,6 +33,7 @@ final class ProdUserFixture extends Fixture
         foreach($this->getRows() as $row) {
             $command = CreateUser::fromArray([
                 CreateUser::USER_PARAMS => UserParams::fromArray([
+                    UserId::class => Text::fromString($row['id']),
                     Username::class => Text::fromString($row['username']),
                     EmailAddress::class => Text::fromString($row['emailAddress']),
                     Password::class => Text::fromString($row['password']),

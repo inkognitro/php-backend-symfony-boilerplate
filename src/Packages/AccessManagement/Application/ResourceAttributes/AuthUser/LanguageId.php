@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\AccessManagement\Application\Query\ResourceAttributes\AuthUser;
+namespace App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser;
 
 use App\Packages\Common\Application\ResourceAttributes\Attribute;
 

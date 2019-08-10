@@ -44,12 +44,6 @@ final class ResourceChange
      */
     public function addAttributeChangeFromScalars(string $attributeKey, $value, $previousValue = null): self
     {
-        if(!is_scalar($previousValue)) {
-            throw new \InvalidArgumentException('$previousValue must be a scalar type');
-        }
-        if(!is_scalar($value)) {
-            throw new \InvalidArgumentException('$value must be a scalar type');
-        }
         return $this->modifyByArray([
             'attributeChanges' => $this->attributeChanges->add(
                 new AttributeChange($attributeKey, $previousValue, $value)
