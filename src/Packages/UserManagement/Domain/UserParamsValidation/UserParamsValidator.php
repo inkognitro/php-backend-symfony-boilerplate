@@ -73,9 +73,6 @@ final class UserParamsValidator
         if ($username === null) {
             return $validationResult->addFieldErrorMessage(Username::class, new MustNotBeEmptyMessage());
         }
-
-        //todo: invalidate umlauts in usernames!
-
         $rule = TextRule::create()->setMinLength(6)->setMaxLength(20)->setAllowedCharsRegex('/^[A-Za-z0-9]*$/');
         $error = $rule->findError($username->toString());
         if ($error !== null) {
