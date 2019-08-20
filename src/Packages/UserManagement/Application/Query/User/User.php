@@ -118,4 +118,9 @@ final class User implements Resource
     {
         return $this->createdAt;
     }
+
+    public function getVerifiedAt(): ?VerifiedAt
+    {
+        return $this->verifiedAt;
+    }
 }

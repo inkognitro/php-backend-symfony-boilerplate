@@ -53,8 +53,8 @@ final class AuthenticateEndpoint implements Endpoint
     {
         $urlFragments = UrlFragments::fromStrings(['auth', 'authenticate']);
         $endpointSchema = EndpointSchema::create(RequestMethod::post(), $urlFragments);
-        $endpointSchema = $endpointSchema->setSummary('Authenticates a user.');
-        $endpointSchema = $endpointSchema->setTags(['Authentication']);
+        $endpointSchema = $endpointSchema->setSummary('Authenticate a user.');
+        $endpointSchema = $endpointSchema->setTags(['Auth']);
         $endpointSchema = $endpointSchema->addRequestBodyParam(RequestParameterSchema::createString('username')->setRequired());
         $endpointSchema = $endpointSchema->addRequestBodyParam(RequestParameterSchema::createString('password')->setRequired());
         return $endpointSchema;

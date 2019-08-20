@@ -23,7 +23,7 @@ final class CreateUserTest extends UserTestCase
     {
         $command = CreateUser::fromArray([
             CreateUser::USER_PARAMS => UserParams::fromArray($this->createUserParamsArray(self::USER)),
-            CreateUser::SEND_INVITATION => false,
+            CreateUser::USER_MUST_BE_VERIFIED => false,
             CreateUser::CREATOR => $this->createSystemAuthUser(),
         ]);
 
@@ -51,7 +51,7 @@ final class CreateUserTest extends UserTestCase
     {
         $command = CreateUser::fromArray([
             CreateUser::USER_PARAMS => UserParams::fromArray($this->createUserParamsArray($userParams)),
-            CreateUser::SEND_INVITATION => false,
+            CreateUser::USER_MUST_BE_VERIFIED => false,
             CreateUser::CREATOR => $this->createSystemAuthUser(),
         ]);
         $response = $this->getCommandBus()->handle($command);

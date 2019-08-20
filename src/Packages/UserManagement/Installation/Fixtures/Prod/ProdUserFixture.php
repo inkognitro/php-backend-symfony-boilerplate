@@ -39,7 +39,7 @@ final class ProdUserFixture extends Fixture
                     Password::class => Text::fromString($row['password']),
                     RoleId::class => Text::fromString($row['roleId']),
                 ]),
-                CreateUser::SEND_INVITATION => false,
+                CreateUser::USER_MUST_BE_VERIFIED => false,
                 CreateUser::CREATOR => $authUser,
             ]);
             $response = $this->commandBus->handle($command);

@@ -5,6 +5,7 @@ namespace App\Packages\UserManagement\Domain;
 use App\Packages\Common\Domain\Aggregate;
 use App\Packages\Common\Domain\AuditLog\EventStream;
 use App\Packages\UserManagement\Application\Query\User\User;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\VerifiedAt;
 use App\Packages\UserManagement\Domain\Events\UserWasCreated;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\EmailAddress;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\Password;
@@ -31,11 +32,12 @@ final class UserAggregate extends Aggregate
         EmailAddress $emailAddress,
         Password $password,
         RoleId $roleId,
+        VerifiedAt $verifiedAt,
         AuthUser $creator
     ): self
     {
         $storedUser = null;
-        $event = UserWasCreated::occur($userId, $username, $emailAddress, $password, $roleId, $creator);
+        $event = UserWasCreated::occur($userId, $username, $emailAddress, $password, $roleId, $verifiedAt, $creator);
         return new self($storedUser, $event->getUser(), new EventStream([$event]));
     }
 

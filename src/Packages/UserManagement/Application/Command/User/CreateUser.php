@@ -9,17 +9,17 @@ use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUser;
 final class CreateUser implements Command
 {
     public const USER_PARAMS = 'userParams';
-    public const SEND_INVITATION = 'sendInvitation';
+    public const USER_MUST_BE_VERIFIED = 'userMustBeVerified';
     public const CREATOR = 'creator';
 
     private $userParams;
-    private $sendInvitation;
+    private $userMustBeVerified;
     private $creator;
 
-    private function __construct(UserParams $userParams, bool $sendInvitation, AuthUser $creator)
+    private function __construct(UserParams $userParams, bool $userMustBeVerified, AuthUser $creator)
     {
         $this->userParams = $userParams;
-        $this->sendInvitation = $sendInvitation;
+        $this->userMustBeVerified = $userMustBeVerified;
         $this->creator = $creator;
     }
 
@@ -27,7 +27,7 @@ final class CreateUser implements Command
     {
         return new self(
             $data[self::USER_PARAMS],
-            ($data[self::SEND_INVITATION] ?? false),
+            $data[self::USER_MUST_BE_VERIFIED],
             $data[self::CREATOR]
         );
     }
@@ -37,9 +37,9 @@ final class CreateUser implements Command
         return $this->userParams;
     }
 
-    public function sendInvitation(): bool
+    public function userMustBeVerified(): bool
     {
-        return $this->sendInvitation;
+        return $this->userMustBeVerified;
     }
 
     public static function getCommandHandlerClass(): string

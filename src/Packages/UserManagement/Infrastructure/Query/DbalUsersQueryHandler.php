@@ -86,7 +86,7 @@ final class DbalUsersQueryHandler implements UsersQueryHandler
         $verificationCodeSentAt = (!array_key_exists($field, $row) ? null : VerificationCodeSentAt::fromString($row[$field]));
 
         $field = $this->userEntitySettings->getFieldByAttribute(VerifiedAt::class);
-        $verifiedAt = (!array_key_exists($field, $row) ? null : VerifiedAt::fromString($row[$field]));
+        $verifiedAt = (!array_key_exists($field, $row) ? null : VerifiedAt::fromNullableString($row[$field]));
 
         $field = $this->userEntitySettings->getFieldByAttribute(RoleId::class);
         $roleId = (!array_key_exists($field, $row) ? null : RoleId::fromString($row[$field]));

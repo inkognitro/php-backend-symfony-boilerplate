@@ -3,8 +3,10 @@
 namespace App\Packages\UserManagement\Domain\Handlers;
 
 use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\RoleId;
+use App\Packages\Common\Application\Utilities\DateTimeFactory;
 use App\Packages\Common\Domain\CommandHandler;
 use App\Packages\UserManagement\Application\Command\User\CreateUser;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\VerifiedAt;
 use App\Packages\UserManagement\Domain\UserParamsValidation\UserParamsValidator;
 use App\Packages\UserManagement\Domain\UserEventDispatcher;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\EmailAddress;
@@ -51,12 +53,13 @@ final class CreateUserHandler
             EmailAddress::fromString($userParams->getEmailAddress()->toTrimmedString()),
             Password::fromString($userParams->getPassword()->toString()),
             RoleId::fromString($userParams->getRoleId()->toString()),
+            (VerifiedAt::fromNullableDateTime($command->userMustBeVerified() ? null : DateTimeFactory::create())),
             $command->getCommandExecutor()
         );
 
         $this->userEventDispatcher->dispatchEventsFromUserAggregate($userAggregate);
 
-        if ($command->sendInvitation()) {
+        if ($command->userMustBeVerified()) {
             $this->queueSendVerificationCode($command);
         }
 

@@ -18,12 +18,14 @@ use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\ResourceId;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\EmailAddress;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\UserId;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\Username;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\VerifiedAt;
 
 final class UserWasCreated extends AuditLogEvent
 {
     private const USERNAME_KEY = 'username';
     private const EMAIL_ADDRESS_KEY = 'emailAddress';
     private const PASSWORD_HASH_KEY = 'passwordHash';
+    private const VERIFIED_AT = 'verifiedAt';
     private const ROLE_ID_KEY = 'roleId';
 
     public static function occur(
@@ -32,6 +34,7 @@ final class UserWasCreated extends AuditLogEvent
         EmailAddress $emailAddress,
         Password $password,
         RoleId $roleId,
+        VerifiedAt $verifiedAt,
         AuthUser $creator
     ): self {
         $resourceId = ResourceId::fromString($userId->toString());
@@ -41,6 +44,9 @@ final class UserWasCreated extends AuditLogEvent
         $userChange = $userChange->addAttributeChangeFromScalars(self::EMAIL_ADDRESS_KEY, $emailAddress->toString());
         $userChange = $userChange->addAttributeChangeFromScalars(self::PASSWORD_HASH_KEY, $password->toHash());
         $userChange = $userChange->addAttributeChangeFromScalars(self::ROLE_ID_KEY, $roleId->toString());
+        if($verifiedAt->toNullableString() !== null) {
+            $userChange = $userChange->addAttributeChangeFromScalars(self::VERIFIED_AT, $verifiedAt->toNullableString());
+        }
         $payload = Payload::create()->addResourceChange($userChange);
         return new self(EventId::create(), $resourceId, $payload, AuthUserPayload::fromAuthUser($creator), $occurredAt);
     }
@@ -69,6 +75,7 @@ final class UserWasCreated extends AuditLogEvent
             Password::class => $this->getPassword(),
             RoleId::class => $this->getRoleId(),
             CreatedAt::class => CreatedAt::fromDateTime($this->getOccurredAt()->toDateTime()),
+            VerifiedAt::class => $this->getVerifiedAt(),
         ]);
     }
 
@@ -104,5 +111,11 @@ final class UserWasCreated extends AuditLogEvent
     {
         $value = $this->getResourceChange()->findAttributeChange(self::PASSWORD_HASH_KEY)->getValue();
         return Password::fromHash($value);
+    }
+
+    private function getVerifiedAt(): VerifiedAt
+    {
+        $value = $this->getResourceChange()->findAttributeChange(self::VERIFIED_AT)->getValue();
+        return VerifiedAt::fromNullableString($value);
     }
 }

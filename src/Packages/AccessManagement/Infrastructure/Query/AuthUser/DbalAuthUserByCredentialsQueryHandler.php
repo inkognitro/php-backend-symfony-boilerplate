@@ -32,11 +32,9 @@ final class DbalAuthUserByCredentialsQueryHandler implements AuthUserByCredentia
         ]);
         $query = $query->andWhere(new Like(Username::class, $usersByCredentialsQuery->getUsername()));
         $user = $this->usersQueryHandler->handle($query)->findFirst();
-
         if($user === null || !$user->getPassword()->isSame($usersByCredentialsQuery->getPassword())) {
             return null;
         }
-
         $languageId = LanguageId::fromString('en'); //todo: integrate language by api header!
         return new AuthUser($user->getId(), $user->getRoleId(), $languageId);
     }

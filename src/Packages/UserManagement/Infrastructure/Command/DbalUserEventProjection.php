@@ -32,14 +32,20 @@ final class DbalUserEventProjection implements UserEventProjection
         $user = $event->getUser();
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder->insert('users');
-        $queryBuilder->values([
+        $values = [
             'id' => $queryBuilder->createNamedParameter($user->getId()->toString()),
             'username' => $queryBuilder->createNamedParameter($user->getUsername()->toString()),
             'email_address' => $queryBuilder->createNamedParameter($user->getEmailAddress()->toString()),
             'password_hash' => $queryBuilder->createNamedParameter($user->getPassword()->toHash()),
             'role_id' => $queryBuilder->createNamedParameter($user->getRoleId()->toString()),
             'created_at' => $queryBuilder->createNamedParameter($user->getCreatedAt()->toDateTime(), 'datetime'),
-        ]);
+        ];
+        if($user->getVerifiedAt()->toNullableDateTime() !== null) {
+            $values['verified_at'] = $queryBuilder->createNamedParameter(
+                $user->getVerifiedAt()->toNullableDateTime(), 'datetime'
+            );
+        }
+        $queryBuilder->values($values);
         $queryBuilder->execute();
     }
 }

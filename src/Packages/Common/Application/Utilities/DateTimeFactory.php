@@ -8,6 +8,8 @@ use DateTimeZone;
 
 final class DateTimeFactory
 {
+    private const STRING_FORMAT = 'Y-m-d H:i:s';
+
     public static function getTimezoneString(): string
     {
         return 'UTC';
@@ -20,7 +22,12 @@ final class DateTimeFactory
 
     public static function createString(): string
     {
-        return self::create()->format('Y-m-d H:i:s');
+        return self::create()->format(self::STRING_FORMAT);
+    }
+
+    public static function convertToString(DateTimeImmutable $dateTime): string
+    {
+        return $dateTime->format(self::STRING_FORMAT);
     }
 
     public static function addMinutes(DateTimeImmutable $dateTime, int $minutesToAdd): DateTimeImmutable

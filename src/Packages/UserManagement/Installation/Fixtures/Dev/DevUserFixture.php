@@ -36,10 +36,10 @@ final class DevUserFixture extends Fixture
                     UserId::class => Text::fromString($row['id']),
                     Username::class => Text::fromString($row['username']),
                     EmailAddress::class => Text::fromString($row['username'] . '@foo.com'),
-                    Password::class => Text::fromString('test'),
+                    Password::class => Text::fromString('test123'),
                     RoleId::class => Text::fromString(RoleId::user()->toString()),
                 ]),
-                CreateUser::SEND_INVITATION => false,
+                CreateUser::USER_MUST_BE_VERIFIED => false,
                 CreateUser::CREATOR => $authUser,
             ]);
             $response = $this->commandBus->handle($command);
@@ -58,7 +58,7 @@ final class DevUserFixture extends Fixture
         return [
             [
                 'id' => 'b8809427-8dc5-4ff8-88e1-018bcac5ef0f',
-                'username' => 'lexi',
+                'username' => 'lexi666',
             ],
             [
                 'id' => '550ec9bb-e733-44e7-afea-f63f3c6a8f1d',
@@ -74,15 +74,15 @@ final class DevUserFixture extends Fixture
             ],
             [
                 'id' => '0d7dfeeb-afdc-4a31-a17e-6dacf4f4d2c2',
-                'username' => 'köbile1n',
+                'username' => 'koebile1n',
             ],
             [
                 'id' => '14e1350f-e576-4923-9c22-80ff9a80b5ba',
-                'username' => 'fränzi',
+                'username' => 'fraenzi',
             ],
             [
                 'id' => '90bb58da-0a90-43bb-8152-50c4ed53fb33',
-                'username' => 'alexa',
+                'username' => 'alexa90',
             ],
             [
                 'id' => '1c5b035f-2a91-4b47-a2a2-3b899b356f60',

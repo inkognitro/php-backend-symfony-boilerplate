@@ -16,9 +16,17 @@ abstract class NullableDateTimeAttribute implements Attribute
 
     protected static function fromInternalNullableString(?string $dateTime): self
     {
-        if($dateTime === null) {
+        if ($dateTime === null) {
             return new static($dateTime);
         }
         return new static(DateTimeFactory::createFromString($dateTime));
+    }
+
+    protected function toInternalNullableString(): ?string
+    {
+        if ($this->nullableDateTime === null) {
+            return null;
+        }
+        return DateTimeFactory::convertToString($this->nullableDateTime);
     }
 }
