@@ -6,6 +6,7 @@ use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\RoleId
 use App\Packages\UserManagement\Application\ResourceAttributes\User\CreatedAt;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\EmailAddress;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\Password;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\UpdatedAt;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\UserId;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\Username;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\VerificationCode;
@@ -23,6 +24,7 @@ final class DbalUserEntitySettings implements DbalEntitySettings
         VerifiedAt::class => 'verified_at',
         RoleId::class => 'role_id',
         CreatedAt::class => 'created_at',
+        UpdatedAt::class => 'updated_at',
         EmailAddress::class => 'email_address',
         Password::class => 'password_hash',
     ];

@@ -33,8 +33,7 @@ final class DbalAuthUserByCredentialsQueryHandler implements AuthUserByCredentia
         $query = $query->andWhere(new Like(Username::class, $usersByCredentialsQuery->getUsername()));
         $user = $this->usersQueryHandler->handle($query)->findFirst();
 
-        $password = Password::fromString($usersByCredentialsQuery->getPassword());
-        if($user === null || !$user->getPassword()->isSame($password)) {
+        if($user === null || !$user->getPassword()->isSame($usersByCredentialsQuery->getPassword())) {
             return null;
         }
 

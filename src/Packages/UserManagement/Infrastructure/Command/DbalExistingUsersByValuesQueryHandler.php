@@ -29,7 +29,9 @@ final class DbalExistingUsersByValuesQueryHandler implements ExistingUsersByValu
     public function handle(ExistingUsersByValuesQuery $query): DomainUsers
     {
         $usersQuery = UsersQuery::create([
-            UserId::class, Username::class, EmailAddress::class
+            UserId::class,
+            Username::class,
+            EmailAddress::class,
         ]);
         $orX = [new Like(UserId::class, $query->getUserId()->toString())];
         if($query->getEmailAddress() !== null) {

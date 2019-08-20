@@ -57,7 +57,7 @@ final class UserParamsValidator
         if ($userId === null) {
             return $validationResult->addFieldErrorMessage(UserId::class, new MustNotBeEmptyMessage());
         }
-        $error = RequiredUuidRule::findError($userId);
+        $error = RequiredUuidRule::findError($userId->toString());
         if ($error !== null) {
             $validationResult = $validationResult->addFieldErrorMessage(UserId::class, $error);
         }

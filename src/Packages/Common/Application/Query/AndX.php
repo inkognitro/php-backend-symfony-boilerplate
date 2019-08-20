@@ -2,9 +2,6 @@
 
 namespace App\Packages\Common\Application\Query;
 
-use App\Packages\Common\Application\Query\Condition;
-use App\Packages\Common\Application\Query\Conditions;
-
 final class AndX implements Condition
 {
     private $conditions;

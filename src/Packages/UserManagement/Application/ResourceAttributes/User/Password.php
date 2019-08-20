@@ -31,8 +31,8 @@ final class Password implements Attribute
         return $this->passwordHash;
     }
 
-    public function isSame(self $that): bool
+    public function isSame(string $password): bool
     {
-        return hash_equals($this->toHash(), $that->toHash());
+        return password_verify($password, $this->toHash());
     }
 }

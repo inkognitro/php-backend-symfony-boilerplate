@@ -21,6 +21,6 @@ final class Equals implements Condition
 
     public function getValue(): string
     {
-        return $this->attribute;
+        return $this->value;
     }
 }

@@ -2,47 +2,127 @@
 
 namespace App\Tests\Packages\UserManagement;
 
-use App\Packages\Common\Application\Command\Params\Text;
-use App\Packages\Common\Application\Query\Like;
+use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\RoleId;
+use App\Packages\Common\Application\Utilities\Validation\Messages\DoesAlreadyExistMessage;
+use App\Packages\Common\Application\Utilities\Validation\Messages\MustBeAnEmailAddressMessage;
+use App\Packages\Common\Application\Utilities\Validation\Messages\MustBeAUuidMessage;
+use App\Packages\Common\Application\Utilities\Validation\Messages\MustNotBeEmptyMessage;
 use App\Packages\UserManagement\Application\Command\User\CreateUser;
 use App\Packages\UserManagement\Application\Command\User\UserParams;
-use App\Packages\UserManagement\Application\Query\User\UsersQuery;
-use App\Packages\UserManagement\Application\Query\User\UsersQueryHandler;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\EmailAddress;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\Password;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\UserId;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\Username;
-use App\Tests\Packages\PackageTestCase;
 
-final class CreateUserTest extends PackageTestCase
+final class CreateUserTest extends UserTestCase
 {
     public function testCanCreateUser(): void
     {
         $command = CreateUser::fromArray([
-            CreateUser::USER_PARAMS => UserParams::fromArray([
-                UserId::class => Text::fromString('f28e722e-fa50-43c4-b603-58dfc4c39622'),
-                Username::class => Text::fromString('f28e722e'),
-                Password::class => Text::fromString('foo1234'),
-                EmailAddress::class => Text::fromString('f28e722e@bar.com'),
-            ]),
+            CreateUser::USER_PARAMS => UserParams::fromArray($this->createUserParamsArray(self::USER)),
+            CreateUser::SEND_INVITATION => false,
+            CreateUser::CREATOR => $this->createSystemAuthUser(),
+        ]);
+
+        $response = $this->getCommandBus()->handle($command);
+        $this->assertSuccessResponse($response);
+
+        $user = $this->findUser(self::USER[UserId::class], [
+            UserId::class,
+            Username::class,
+            EmailAddress::class,
+            RoleId::class,
+            Password::class,
+        ]);
+
+        self::assertNotNull($user);
+        self::assertEquals($user->getId()->toString(), self::USER[UserId::class]);
+        self::assertEquals($user->getEmailAddress()->toString(), self::USER[EmailAddress::class]);
+        self::assertEquals($user->getUsername()->toString(), self::USER[Username::class]);
+        self::assertEquals($user->getRoleId()->toString(), self::USER[RoleId::class]);
+        self::assertTrue($user->getPassword()->isSame(self::USER[Password::class]));
+    }
+
+    /** @dataProvider canNotCreateUserDataProvider */
+    public function testCanNotCreateUser(array $userParams, array $expectedFieldErrors): void
+    {
+        $command = CreateUser::fromArray([
+            CreateUser::USER_PARAMS => UserParams::fromArray($this->createUserParamsArray($userParams)),
             CreateUser::SEND_INVITATION => false,
             CreateUser::CREATOR => $this->createSystemAuthUser(),
         ]);
         $response = $this->getCommandBus()->handle($command);
-        $this->assertSuccessResponse($response);
-        $this->assertUserData([
-            UserId::class => 'f28e722e-fa50-43c4-b603-58dfc4c39622',
-        ]);
+        $this->assertValidationErrorResponse($response, $expectedFieldErrors);
     }
 
-    private function assertUserData(array $userData): void
+    public function canNotCreateUserDataProvider(): array
     {
-        /** @var $usersQueryHandler UsersQueryHandler */
-        $usersQueryHandler = $this->getContainer()->get(UsersQueryHandler::class);
-        $condition = new Like(UserId::class, $userData[UserId::class]);
-        $query = UsersQuery::create([UserId::class])->andWhere($condition);
-        $users = $usersQueryHandler->handle($query);
-        $user = $users->findFirst();
-        self::assertNotNull($user);
+        $validUserParams = self::USER;
+        return [
+            'empty id' => [
+                'userParams' => array_merge($validUserParams, [
+                    UserId::class => '',
+                ]),
+                'expectedFieldErrors' => [
+                    UserId::class => new MustNotBeEmptyMessage(),
+                ],
+            ],
+            'redundant id' => [
+                'userParams' => array_merge($validUserParams, [
+                    UserId::class => self::EXISTING_USER[UserId::class],
+                ]),
+                'expectedFieldErrors' => [
+                    UserId::class => new DoesAlreadyExistMessage(),
+                ],
+            ],
+            'id is not uuid' => [
+                'userParams' => array_merge($validUserParams, [
+                    UserId::class => 'foo',
+                ]),
+                'expectedFieldErrors' => [
+                    UserId::class => new MustBeAUuidMessage(),
+                ],
+            ],
+            'empty username' => [
+                'userParams' => array_merge($validUserParams, [
+                    Username::class => '',
+                ]),
+                'expectedFieldErrors' => [
+                    Username::class => new MustNotBeEmptyMessage(),
+                ],
+            ],
+            'redundant username' => [
+                'userParams' => array_merge($validUserParams, [
+                    Username::class => self::EXISTING_USER[Username::class],
+                ]),
+                'expectedFieldErrors' => [
+                    Username::class => new DoesAlreadyExistMessage(),
+                ],
+            ],
+            'empty email address' => [
+                'userParams' => array_merge($validUserParams, [
+                    EmailAddress::class => '',
+                ]),
+                'expectedFieldErrors' => [
+                    EmailAddress::class => new MustNotBeEmptyMessage(),
+                ],
+            ],
+            'email address is not a valid email address' => [
+                'userParams' => array_merge($validUserParams, [
+                    EmailAddress::class => 'foo',
+                ]),
+                'expectedFieldErrors' => [
+                    EmailAddress::class => new MustBeAnEmailAddressMessage(),
+                ],
+            ],
+            'redundant email address' => [
+                'userParams' => array_merge($validUserParams, [
+                    EmailAddress::class => self::EXISTING_USER[EmailAddress::class],
+                ]),
+                'expectedFieldErrors' => [
+                    EmailAddress::class => new DoesAlreadyExistMessage(),
+                ],
+            ],
+        ];
     }
 }
