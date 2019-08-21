@@ -3,7 +3,7 @@
 namespace App\Tests\Packages;
 
 use App\Packages\Common\Application\Command\CommandBus;
-use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUserFactory;
+use App\Packages\AccessManagement\Application\Query\AuthUserFactory;
 
 final class PackageServiceAdapter
 {

@@ -5,6 +5,7 @@ services:
     App\WebApiV1Bundle\Response\HttpResponseFactory: ~
     App\WebApiV1Bundle\Schema\ApiSchema: ~
     App\WebApiV1Bundle\Authentication\JWTFactory: ~
+    App\WebApiV1Bundle\Transformers\UserTransformer: ~
 
     App\WebApiV1Bundle\Endpoints\Endpoints:
         arguments: [!tagged 'app.web_api_v1.endpoint']

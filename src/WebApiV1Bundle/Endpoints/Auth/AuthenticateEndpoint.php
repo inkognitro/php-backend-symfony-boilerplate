@@ -2,8 +2,9 @@
 
 namespace App\WebApiV1Bundle\Endpoints\Auth;
 
-use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUserByCredentialsQuery;
-use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUserByCredentialsQueryHandler;
+use App\Packages\AccessManagement\Application\Query\AuthUserInformationByCredentialsQuery;
+use App\Packages\AccessManagement\Application\Query\AuthUserInformationByCredentialsQueryHandler;
+use App\WebApiV1Bundle\ApiRequest;
 use App\WebApiV1Bundle\Authentication\JWTFactory;
 use App\WebApiV1Bundle\Endpoints\Endpoint;
 use App\WebApiV1Bundle\Response\HttpResponseFactory;
@@ -13,39 +14,50 @@ use App\WebApiV1Bundle\Schema\EndpointSchema;
 use App\WebApiV1Bundle\Schema\RequestMethod;
 use App\WebApiV1Bundle\Schema\RequestParameterSchema;
 use App\WebApiV1Bundle\Schema\UrlFragments;
-use Symfony\Component\HttpFoundation\Request;
+use App\WebApiV1Bundle\Transformers\UserTransformer;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
 final class AuthenticateEndpoint implements Endpoint
 {
     private $httpResponseFactory;
-    private $userQueryHandler;
+    private $userInformationByCredentialsQueryHandler;
     private $JWTFactory;
+    private $userTransformer;
 
     public function __construct(
         HttpResponseFactory $httpResponseFactory,
-        AuthUserByCredentialsQueryHandler $userQueryHandler,
-        JWTFactory $JWTFactory
+        AuthUserInformationByCredentialsQueryHandler $userInformationByCredentialsQueryHandler,
+        JWTFactory $JWTFactory,
+        UserTransformer $userTransformer
     )
     {
         $this->httpResponseFactory = $httpResponseFactory;
-        $this->userQueryHandler = $userQueryHandler;
+        $this->userInformationByCredentialsQueryHandler = $userInformationByCredentialsQueryHandler;
         $this->JWTFactory = $JWTFactory;
+        $this->userTransformer = $userTransformer;
     }
 
     public function handle(): HttpResponse
     {
-        $request = Request::createFromGlobals();
-        $query = AuthUserByCredentialsQuery::fromCredentials(
-            (string)$request->get('username'),
-            (string)$request->get('password')
+        $request = ApiRequest::createFromGlobals();
+        $requestData = $request->getContentData();
+
+        //todo: validate requestData structure via schema
+
+        $query = AuthUserInformationByCredentialsQuery::fromCredentials(
+            $requestData['username'],
+            $requestData['password'],
+            $request->getLanguageId()
         );
-        $authUser = $this->userQueryHandler->handle($query);
-        if ($authUser === null) {
+        $authUserInformation = $this->userInformationByCredentialsQueryHandler->handle($query);
+        if ($authUserInformation === null) {
             return $this->httpResponseFactory->create(JsonBadRequestResponse::create(), $request);
         }
-        $apiKey = $this->JWTFactory->createFromUser($authUser);
-        $apiResponse = JsonSuccessResponse::fromData(['apiKey' => $apiKey]);
+        $apiKey = $this->JWTFactory->createFromAuthUser($authUserInformation->getAuthUser());
+        $apiResponse = JsonSuccessResponse::fromData([
+            'apiKey' => $apiKey,
+            'user' => $this->userTransformer->transform($authUserInformation->getUser()),
+        ]);
         return $this->httpResponseFactory->create($apiResponse, $request);
     }
 

@@ -12,7 +12,7 @@ use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\OccurredAt;
 use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\Payload;
 use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\ResourceId;
 use App\Packages\JobQueueManagement\Application\ResourceAttributes\Job\QueueJobId;
-use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUser;
+use App\Packages\AccessManagement\Application\Query\AuthUser;
 
 final class JobWasCreated extends AuditLogEvent
 {

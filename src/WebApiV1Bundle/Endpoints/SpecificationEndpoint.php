@@ -2,13 +2,13 @@
 
 namespace App\WebApiV1Bundle\Endpoints;
 
+use App\WebApiV1Bundle\ApiRequest;
 use App\WebApiV1Bundle\Response\HttpResponseFactory;
 use App\WebApiV1Bundle\Response\JsonPlainDataSuccessResponse;
 use App\WebApiV1Bundle\Schema\ApiSchema;
 use App\WebApiV1Bundle\Schema\EndpointSchema;
 use App\WebApiV1Bundle\Schema\RequestMethod;
 use App\WebApiV1Bundle\Schema\UrlFragments;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
@@ -29,7 +29,7 @@ final class SpecificationEndpoint implements Endpoint
 
     public function handle(): HttpResponse
     {
-        $request = Request::createFromGlobals();
+        $request = ApiRequest::createFromGlobals();
         $schemaData = $this->cache->get(self::OPEN_API_V2_SCHEMA_CACHE_KEY, function (ItemInterface $item) {
             return $this->apiSchema->toOpenApiV2Array();
         });

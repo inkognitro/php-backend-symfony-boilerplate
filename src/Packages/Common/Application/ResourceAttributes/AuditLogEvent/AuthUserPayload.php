@@ -2,7 +2,7 @@
 
 namespace App\Packages\Common\Application\ResourceAttributes\AuditLogEvent;
 
-use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUser;
+use App\Packages\AccessManagement\Application\Query\AuthUser;
 
 final class AuthUserPayload
 {

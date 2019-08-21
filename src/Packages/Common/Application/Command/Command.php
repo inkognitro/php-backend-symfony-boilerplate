@@ -2,7 +2,7 @@
 
 namespace App\Packages\Common\Application\Command;
 
-use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUser;
+use App\Packages\AccessManagement\Application\Query\AuthUser;
 
 interface Command
 {

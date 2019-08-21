@@ -2,7 +2,6 @@
 
 namespace App\Packages\UserManagement\Installation;
 
-use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUserFactory;
 use App\Packages\Common\Application\Command\CommandBus;
 use App\Packages\Common\Installation\Fixtures\Fixtures;
 use App\Packages\Common\Installation\Migrations\Migrations;
@@ -21,17 +20,17 @@ final class InstallationManager
         ]);
     }
 
-    public function findProdFixtures(CommandBus $commandBus, AuthUserFactory $authUserFactory): Fixtures
+    public function findProdFixtures(CommandBus $commandBus): Fixtures
     {
         return new Fixtures([
-            new ProdUserFixture($commandBus, $authUserFactory),
+            new ProdUserFixture($commandBus),
         ]);
     }
 
-    public function findDevFixtures(CommandBus $commandBus, AuthUserFactory $authUserFactory): Fixtures
+    public function findDevFixtures(CommandBus $commandBus): Fixtures
     {
         return new Fixtures([
-            new DevUserFixture($commandBus, $authUserFactory),
+            new DevUserFixture($commandBus),
         ]);
     }
 }

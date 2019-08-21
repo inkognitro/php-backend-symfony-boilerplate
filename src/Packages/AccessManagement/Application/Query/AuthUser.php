@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Packages\AccessManagement\Application\Query\AuthUser;
+namespace App\Packages\AccessManagement\Application\Query;
 
 use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\LanguageId;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\UserId;
@@ -17,6 +17,20 @@ final class AuthUser
         $this->userId = $userId;
         $this->roleId = $roleId;
         $this->languageId = $languageId;
+    }
+
+    public static function anonymous(LanguageId $languageId): self
+    {
+        $userId = null;
+        $role = RoleId::anonymous();
+        return new AuthUser($userId, $role, $languageId);
+    }
+
+    public static function system(LanguageId $languageId): self
+    {
+        $userId = null;
+        $role = RoleId::anonymous();
+        return new AuthUser($userId, $role, $languageId);
     }
 
     public function getUserId(): ?UserId

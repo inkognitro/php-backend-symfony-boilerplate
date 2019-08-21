@@ -2,7 +2,8 @@
 
 namespace App\Tests\Packages;
 
-use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUser;
+use App\Packages\AccessManagement\Application\Query\AuthUser;
+use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\LanguageId;
 use App\Packages\Common\Application\Command\CommandBus;
 use App\Packages\Common\Application\Utilities\HandlerResponse\Response;
 use App\Packages\Common\Application\Utilities\HandlerResponse\Success;
@@ -22,7 +23,7 @@ abstract class PackageTestCase extends TestCase
 
     protected function createSystemAuthUser(): AuthUser
     {
-        return $this->serviceAdapter->getAuthUserFactory()->createSystemUser();
+        return AuthUser::system(LanguageId::english());
     }
 
     protected function getCommandBus(): CommandBus

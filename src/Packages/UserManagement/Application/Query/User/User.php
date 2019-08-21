@@ -89,6 +89,22 @@ final class User implements Resource
         );
     }
 
+    public function limitToAttributes(array $attributes): self
+    {
+        return new self(
+            (in_array(UserId::class, $attributes) ? $this->id : null),
+            (in_array(EmailAddress::class, $attributes) ? $this->emailAddress : null),
+            (in_array(Password::class, $attributes) ? $this->password : null),
+            (in_array(Username::class, $attributes) ? $this->username : null),
+            (in_array(VerificationCode::class, $attributes) ? $this->verificationCode : null),
+            (in_array(VerificationCodeSentAt::class, $attributes) ? $this->verificationCodeSentAt : null),
+            (in_array(VerifiedAt::class, $attributes) ? $this->verifiedAt : null),
+            (in_array(RoleId::class, $attributes) ? $this->roleId : null),
+            (in_array(CreatedAt::class, $attributes) ? $this->createdAt : null),
+            (in_array(UpdatedAt::class, $attributes) ? $this->updatedAt : null)
+        );
+    }
+
     public function getId(): ?UserId
     {
         return $this->id;

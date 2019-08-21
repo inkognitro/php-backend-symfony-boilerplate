@@ -2,6 +2,8 @@
 
 namespace App\Packages\UserManagement\Installation\Fixtures\Dev;
 
+use App\Packages\AccessManagement\Application\Query\AuthUser;
+use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\LanguageId;
 use App\Packages\Common\Application\Command\Params\Text;
 use App\Packages\Common\Domain\DidNotReceiveSuccessResponseException;
 use App\Packages\UserManagement\Application\Command\User\CreateUser;
@@ -9,7 +11,7 @@ use App\Packages\Common\Application\Command\CommandBus;
 use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\RoleId;
 use App\Packages\Common\Application\Utilities\HandlerResponse\Success;
 use App\Packages\Common\Installation\Fixtures\Fixture;
-use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUserFactory;
+use App\Packages\AccessManagement\Application\Query\AuthUserFactory;
 use App\Packages\UserManagement\Application\Command\User\UserParams;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\EmailAddress;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\Password;
@@ -19,17 +21,15 @@ use App\Packages\UserManagement\Application\ResourceAttributes\User\Username;
 final class DevUserFixture extends Fixture
 {
     private $commandBus;
-    private $authUserFactory;
 
-    public function __construct(CommandBus $commandBus, AuthUserFactory $authUserFactory)
+    public function __construct(CommandBus $commandBus)
     {
         $this->commandBus = $commandBus;
-        $this->authUserFactory = $authUserFactory;
     }
 
     public function execute(): void
     {
-        $authUser = $this->authUserFactory->createSystemUser();
+        $authUser = AuthUser::system(LanguageId::english());
         foreach($this->getRows() as $row) {
             $command = CreateUser::fromArray([
                 CreateUser::USER_PARAMS => UserParams::fromArray([

@@ -12,7 +12,7 @@ use App\Packages\UserManagement\Application\ResourceAttributes\User\Password;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\UserId;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\Username;
 use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\RoleId;
-use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUser;
+use App\Packages\AccessManagement\Application\Query\AuthUser;
 
 final class UserAggregate extends Aggregate
 {

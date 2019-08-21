@@ -33,9 +33,9 @@ final class RoleId implements Attribute
         return new self('admin');
     }
 
-    public static function guest(): self
+    public static function anonymous(): self
     {
-        return new self('guest');
+        return new self('anonymous');
     }
 
     public static function user(): self

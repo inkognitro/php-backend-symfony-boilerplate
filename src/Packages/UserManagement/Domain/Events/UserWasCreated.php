@@ -9,7 +9,7 @@ use App\Packages\UserManagement\Application\Query\User\User;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\CreatedAt;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\Password;
 use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\RoleId;
-use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUser;
+use App\Packages\AccessManagement\Application\Query\AuthUser;
 use App\Packages\Common\Domain\AuditLog\AuditLogEvent;
 use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\EventId;
 use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\OccurredAt;

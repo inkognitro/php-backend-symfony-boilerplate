@@ -4,7 +4,7 @@ namespace App\Packages\UserManagement\Application\Command\User;
 
 use App\Packages\Common\Application\Command\Command;
 use App\Packages\UserManagement\Domain\Handlers\SendVerificationCodeToUser\SendVerificationCodeToUserHandler;
-use App\Packages\AccessManagement\Application\Query\AuthUser\AuthUser;
+use App\Packages\AccessManagement\Application\Query\AuthUser;
 
 final class SendVerificationCodeToUser implements Command
 {
