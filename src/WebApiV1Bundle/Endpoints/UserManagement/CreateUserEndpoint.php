@@ -33,7 +33,7 @@ final class CreateUserEndpoint implements Endpoint
         $endpointSchema = EndpointSchema::create(RequestMethod::post(), $urlFragments);
         $endpointSchema = $endpointSchema->setSummary('Create a user.');
         $endpointSchema = $endpointSchema->setDescription('By creating a user via this endpoint, an email with an activation link is being triggered.');
-        $endpointSchema = $endpointSchema->setTags(['UserManagement']);
+        $endpointSchema = $endpointSchema->setTags(['User']);
         $endpointSchema = $endpointSchema->setAuthKeyNeeded(true);
         return $endpointSchema;
     }

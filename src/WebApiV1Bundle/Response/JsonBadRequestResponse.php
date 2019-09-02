@@ -46,6 +46,6 @@ final class JsonBadRequestResponse implements JsonResponse
     public static function getSchema(): ResponseSchema
     {
         $description = 'Bad request response';
-        return new ResponseSchema(self::getHttpStatusCode(), ResponseSchema::JSON_CONTENT_TYPE, $description);
+        return ResponseSchema::create(self::getHttpStatusCode(), ResponseSchema::JSON_CONTENT_TYPE, $description);
     }
 }

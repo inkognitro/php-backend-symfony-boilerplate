@@ -102,6 +102,14 @@ final class CreateUserTest extends UserTestCase
                     Username::class => new DoesAlreadyExistMessage(),
                 ],
             ],
+            'redundant uppercase username' => [
+                'userParams' => array_merge($validUserParams, [
+                    Username::class => strtoupper(self::EXISTING_USER[Username::class]),
+                ]),
+                'expectedFieldErrors' => [
+                    Username::class => new DoesAlreadyExistMessage(),
+                ],
+            ],
             'username is shorter than 6 chars' => [
                 'userParams' => array_merge($validUserParams, [
                     Username::class => 'foo',

@@ -45,6 +45,6 @@ final class JsonSuccessResponse implements JsonResponse
     public static function getSchema(): ResponseSchema
     {
         $description = 'Success response';
-        return new ResponseSchema(self::getHttpStatusCode(), ResponseSchema::JSON_CONTENT_TYPE, $description);
+        return ResponseSchema::create(self::getHttpStatusCode(), ResponseSchema::JSON_CONTENT_TYPE, $description);
     }
 }

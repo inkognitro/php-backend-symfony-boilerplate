@@ -13,6 +13,8 @@ use App\WebApiV1Bundle\Response\JsonSuccessResponse;
 use App\WebApiV1Bundle\Schema\EndpointSchema;
 use App\WebApiV1Bundle\Schema\RequestMethod;
 use App\WebApiV1Bundle\Schema\RequestParameterSchema;
+use App\WebApiV1Bundle\Schema\ResponseParameter\ObjectResponseParameterSchema;
+use App\WebApiV1Bundle\Schema\ResponseParameter\StringResponseParameterSchema;
 use App\WebApiV1Bundle\Schema\UrlFragments;
 use App\WebApiV1Bundle\Transformers\UserTransformer;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
@@ -69,6 +71,14 @@ final class AuthenticateEndpoint implements Endpoint
         $endpointSchema = $endpointSchema->setTags(['Auth']);
         $endpointSchema = $endpointSchema->addRequestBodyParam(RequestParameterSchema::createString('username')->setRequired());
         $endpointSchema = $endpointSchema->addRequestBodyParam(RequestParameterSchema::createString('password')->setRequired());
+        $isRequired = true;
+        $endpointSchema = $endpointSchema->addResponseSchema(
+            JsonSuccessResponse::getSchema()->setResponseParameters(
+                ObjectResponseParameterSchema::create()
+                    ->addProperty('token', StringResponseParameterSchema::create(), $isRequired)
+                    ->addProperty('user', UserTransformer::getReferenceModel()->toResponseParameter(), $isRequired) //todo make reference to model
+            )
+        );
         return $endpointSchema;
     }
 }

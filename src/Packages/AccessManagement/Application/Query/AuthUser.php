@@ -29,7 +29,7 @@ final class AuthUser
     public static function system(LanguageId $languageId): self
     {
         $userId = null;
-        $role = RoleId::anonymous();
+        $role = RoleId::system();
         return new AuthUser($userId, $role, $languageId);
     }
 

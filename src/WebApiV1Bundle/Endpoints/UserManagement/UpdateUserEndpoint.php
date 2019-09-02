@@ -32,7 +32,7 @@ final class UpdateUserEndpoint implements Endpoint
         $urlFragments = UrlFragments::fromStrings(['user']);
         $endpointSchema = EndpointSchema::create(RequestMethod::put(), $urlFragments);
         $endpointSchema = $endpointSchema->setSummary('Update a user.');
-        $endpointSchema = $endpointSchema->setTags(['UserManagement']);
+        $endpointSchema = $endpointSchema->setTags(['User']);
         $endpointSchema = $endpointSchema->setAuthKeyNeeded(true);
         return $endpointSchema;
     }

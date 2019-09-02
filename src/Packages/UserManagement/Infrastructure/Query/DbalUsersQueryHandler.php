@@ -52,9 +52,6 @@ final class DbalUsersQueryHandler implements UsersQueryHandler
             $this->queryBuilderFactory->addPagination($queryBuilder, $query->getPagination());
         }
         $this->queryBuilderFactory->addOrderBy($queryBuilder, $query->getOrderBy(), $this->userEntitySettings);
-
-        die($queryBuilder->getSQL() . print_r($queryBuilder->getParameters(), true)); //todo: make db case sensitive!!! SECURITY!!!!!
-
         $rows = $queryBuilder->execute()->fetchAll();
         return $this->createUsersFromRows($rows);
     }

@@ -29,6 +29,6 @@ final class JsonUnauthorizedResponse implements JsonResponse
     public static function getSchema(): ResponseSchema
     {
         $description = 'Unauthorized response';
-        return new ResponseSchema(self::getHttpStatusCode(), ResponseSchema::JSON_CONTENT_TYPE, $description);
+        return ResponseSchema::create(self::getHttpStatusCode(), ResponseSchema::JSON_CONTENT_TYPE, $description);
     }
 }

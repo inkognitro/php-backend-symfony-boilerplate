@@ -32,7 +32,7 @@ final class DeleteUserEndpoint implements Endpoint
         $urlFragments = UrlFragments::fromStrings(['user']);
         $endpointSchema = EndpointSchema::create(RequestMethod::delete(), $urlFragments);
         $endpointSchema = $endpointSchema->setSummary('Delete a user.');
-        $endpointSchema = $endpointSchema->setTags(['UserManagement']);
+        $endpointSchema = $endpointSchema->setTags(['User']);
         $endpointSchema = $endpointSchema->setAuthKeyNeeded(true);
         return $endpointSchema;
     }
