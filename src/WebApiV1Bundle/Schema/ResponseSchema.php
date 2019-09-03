@@ -2,7 +2,7 @@
 
 namespace App\WebApiV1Bundle\Schema;
 
-use App\WebApiV1Bundle\Schema\ResponseParameter\ResponseParameter;
+use App\WebApiV1Bundle\Schema\Parameter\ParameterSchema;
 
 final class ResponseSchema
 {
@@ -13,7 +13,7 @@ final class ResponseSchema
     private $description;
     private $responseParameter;
 
-    private function __construct(int $httpStatusCode, string $contentType, string $description, ?ResponseParameter $responseParameter)
+    private function __construct(int $httpStatusCode, string $contentType, string $description, ?ParameterSchema $responseParameter)
     {
         $this->httpStatusCode = $httpStatusCode;
         $this->contentType = $contentType;
@@ -36,7 +36,7 @@ final class ResponseSchema
         return $this->contentType;
     }
 
-    public function setResponseParameters(ResponseParameter $responseParameter): self
+    public function setResponseParameters(ParameterSchema $responseParameter): self
     {
         return $this->modifyByArray(['responseParameter' => $responseParameter]);
     }
@@ -47,7 +47,7 @@ final class ResponseSchema
             'description' => $this->description,
         ];
         if($this->responseParameter) {
-            $data['schema'] = $this->responseParameter->toOpenApiV2Array();
+            $data['schema'] = $this->responseParameter->toResponseParameterOpenApiV2Array();
         }
         return $data;
     }

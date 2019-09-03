@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\WebApiV1Bundle\Schema\ResponseParameter;
+namespace App\WebApiV1Bundle\Schema\Parameter;
 
-final class StringResponseParameterSchema implements ResponseParameter
+final class StringParameterSchema implements ParameterSchema
 {
     private const UUID_FORMAT = 'uuid';
 
@@ -42,7 +42,17 @@ final class StringResponseParameterSchema implements ResponseParameter
         ]);
     }
 
-    public function toOpenApiV2Array(): array
+    public function toRequestParameterOpenApiV2Array(): array
+    {
+        return $this->toOpenApiV2Array();
+    }
+
+    public function toResponseParameterOpenApiV2Array(): array
+    {
+        return $this->toOpenApiV2Array();
+    }
+
+    private function toOpenApiV2Array(): array
     {
         $data = [
             'type' => 'string',

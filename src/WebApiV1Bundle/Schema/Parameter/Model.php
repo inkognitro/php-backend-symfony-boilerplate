@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\WebApiV1Bundle\Schema\ResponseParameter;
+namespace App\WebApiV1Bundle\Schema\Parameter;
 
 final class Model
 {
@@ -8,7 +8,7 @@ final class Model
     private $referenceId;
     private $parameter;
 
-    public function __construct(string $name, string $referenceId, ResponseParameter $parameter)
+    public function __construct(string $name, string $referenceId, ObjectParameterSchema $parameter)
     {
         $this->name = $name;
         $this->referenceId = $referenceId;
@@ -25,7 +25,7 @@ final class Model
         return $this->referenceId;
     }
 
-    public function toResponseParameter(): ResponseParameter
+    public function getObjectParameter(): ParameterSchema
     {
         return $this->parameter;
     }

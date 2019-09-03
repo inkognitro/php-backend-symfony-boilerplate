@@ -13,8 +13,8 @@ use App\WebApiV1Bundle\Response\JsonSuccessResponse;
 use App\WebApiV1Bundle\Schema\EndpointSchema;
 use App\WebApiV1Bundle\Schema\RequestMethod;
 use App\WebApiV1Bundle\Schema\RequestParameterSchema;
-use App\WebApiV1Bundle\Schema\ResponseParameter\ObjectResponseParameterSchema;
-use App\WebApiV1Bundle\Schema\ResponseParameter\StringResponseParameterSchema;
+use App\WebApiV1Bundle\Schema\Parameter\ObjectParameterSchema;
+use App\WebApiV1Bundle\Schema\Parameter\StringParameterSchema;
 use App\WebApiV1Bundle\Schema\UrlFragments;
 use App\WebApiV1Bundle\Transformers\UserTransformer;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
@@ -31,8 +31,7 @@ final class AuthenticateEndpoint implements Endpoint
         AuthUserInformationByCredentialsQueryHandler $userInformationByCredentialsQueryHandler,
         JWTFactory $JWTFactory,
         UserTransformer $userTransformer
-    )
-    {
+    ) {
         $this->httpResponseFactory = $httpResponseFactory;
         $this->userInformationByCredentialsQueryHandler = $userInformationByCredentialsQueryHandler;
         $this->JWTFactory = $JWTFactory;
@@ -45,7 +44,6 @@ final class AuthenticateEndpoint implements Endpoint
         $requestData = $request->getContentData();
 
         //todo: validate requestData structure via schema
-
         $query = AuthUserInformationByCredentialsQuery::fromCredentials(
             $requestData['username'],
             $requestData['password'],
@@ -74,9 +72,9 @@ final class AuthenticateEndpoint implements Endpoint
         $isRequired = true;
         $endpointSchema = $endpointSchema->addResponseSchema(
             JsonSuccessResponse::getSchema()->setResponseParameters(
-                ObjectResponseParameterSchema::create()
-                    ->addProperty('token', StringResponseParameterSchema::create(), $isRequired)
-                    ->addProperty('user', UserTransformer::getReferenceModel()->toResponseParameter(), $isRequired) //todo make reference to model
+                ObjectParameterSchema::create()
+                    ->addProperty('token', StringParameterSchema::create(), $isRequired)
+                    ->addProperty('user', UserTransformer::getReferenceModel()->getObjectParameter(), $isRequired) //todo make reference to model
             )
         );
         return $endpointSchema;

@@ -3,9 +3,9 @@
 namespace App\WebApiV1Bundle\Transformers;
 
 use App\Packages\UserManagement\Application\Query\User\User;
-use App\WebApiV1Bundle\Schema\ResponseParameter\Model;
-use App\WebApiV1Bundle\Schema\ResponseParameter\ObjectResponseParameterSchema;
-use App\WebApiV1Bundle\Schema\ResponseParameter\StringResponseParameterSchema;
+use App\WebApiV1Bundle\Schema\Parameter\Model;
+use App\WebApiV1Bundle\Schema\Parameter\ObjectParameterSchema;
+use App\WebApiV1Bundle\Schema\Parameter\StringParameterSchema;
 
 final class UserTransformer
 {
@@ -29,11 +29,11 @@ final class UserTransformer
 
     public static function getReferenceModel(): Model
     {
-        $parameter = ObjectResponseParameterSchema::create()
-            ->addProperty('id', StringResponseParameterSchema::create()->setUuidFormat(), true)
-            ->addProperty('roleId', StringResponseParameterSchema::create()->setExample('user'), true)
-            ->addProperty('username', StringResponseParameterSchema::create()->setExample('hubba'), true)
-            ->addProperty('emailAddress', StringResponseParameterSchema::create()->setExample('hubba@example.com'), true);
+        $parameter = ObjectParameterSchema::create()
+            ->addProperty('id', StringParameterSchema::create()->setUuidFormat(), true)
+            ->addProperty('roleId', StringParameterSchema::create()->setExample('user'), true)
+            ->addProperty('username', StringParameterSchema::create()->setExample('hubba'), true)
+            ->addProperty('emailAddress', StringParameterSchema::create()->setExample('hubba@example.com'), true);
         return new Model('User', 'user', $parameter);
     }
 }
