@@ -8,7 +8,7 @@ use App\WebApiV1Bundle\ApiRequest;
 use App\WebApiV1Bundle\Authentication\JWTFactory;
 use App\WebApiV1Bundle\Endpoints\Endpoint;
 use App\WebApiV1Bundle\Response\HttpResponseFactory;
-use App\WebApiV1Bundle\Response\JsonBadApiUsageResponse;
+use App\WebApiV1Bundle\Response\JsonBadRequestParamsResponse;
 use App\WebApiV1Bundle\Response\JsonBadRequestResponse;
 use App\WebApiV1Bundle\Response\JsonSuccessResponse;
 use App\WebApiV1Bundle\Schema\EndpointSchema;
@@ -46,9 +46,9 @@ final class AuthenticateEndpoint implements Endpoint
     public function handle(): HttpResponse
     {
         $request = ApiRequest::createFromGlobals();
-        $badApiUsageResponse = $this->findBadApiUsageResponse($request);
-        if($badApiUsageResponse !== null) {
-            return $this->httpResponseFactory->create($badApiUsageResponse, $request);
+        $badRequestParamsResponse = $this->findBadRequestParamsResponse($request);
+        if($badRequestParamsResponse !== null) {
+            return $this->httpResponseFactory->create($badRequestParamsResponse, $request);
         }
         $requestData = $request->getContentData();
         $query = AuthUserInformationByCredentialsQuery::fromCredentials(
@@ -68,7 +68,7 @@ final class AuthenticateEndpoint implements Endpoint
         return $this->httpResponseFactory->create($apiResponse, $request);
     }
 
-    private function findBadApiUsageResponse(ApiRequest $request): ?JsonBadApiUsageResponse
+    private function findBadRequestParamsResponse(ApiRequest $request): ?JsonBadRequestParamsResponse
     {
         $contentData = $request->getContentData();
         $errors = (array)$this->parameterValidator->validate(
@@ -78,7 +78,7 @@ final class AuthenticateEndpoint implements Endpoint
         if(count($errors) === 0) {
             return null;
         }
-        return JsonBadApiUsageResponse::create()->addErrors($errors);
+        return JsonBadRequestParamsResponse::create()->addErrors($errors);
     }
 
     public static function getSchema(): EndpointSchema
@@ -100,7 +100,7 @@ final class AuthenticateEndpoint implements Endpoint
                     ->addProperty('user', UserTransformer::getReferenceModel()->getObjectParameter(), $isRequired)
             )
         );
-        $endpointSchema = $endpointSchema->addResponseSchema(JsonBadApiUsageResponse::getSchema());
+        $endpointSchema = $endpointSchema->addResponseSchema(JsonBadRequestParamsResponse::getSchema());
         return $endpointSchema;
     }
 }

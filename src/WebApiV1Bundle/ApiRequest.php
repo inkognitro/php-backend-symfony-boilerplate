@@ -4,10 +4,6 @@ namespace App\WebApiV1Bundle;
 
 use App\Packages\AccessManagement\Application\Query\AuthUser;
 use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\LanguageId;
-use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\RoleId;
-use App\Packages\UserManagement\Application\ResourceAttributes\User\UserId;
-use Exception;
-use Firebase\JWT\JWT;
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 
 final class ApiRequest
@@ -35,31 +31,15 @@ final class ApiRequest
         return $this->httpFoundationRequest;
     }
 
+    public function getJWT(): ApiJWT
+    {
+        return ApiJWT::fromString((string)$this->httpFoundationRequest->headers->get('X-API-KEY'));
+    }
+
     public function getAuthUser(): AuthUser
     {
         $languageId = $this->getLanguageId();
-        $jwt = (string)$this->httpFoundationRequest->headers->get('X-API-KEY');
-        $jwtSecret = getenv('APP_AUTH_JWT_SECRET');
-        $jwtAlgorithm = getenv('APP_AUTH_JWT_ALGORITHM');
-        try {
-            $jwtPayload = JWT::decode($jwt, $jwtSecret, [$jwtAlgorithm]);
-            return $this->createAuthUserFromJWTPayload((array)$jwtPayload, $languageId);
-        } catch (Exception $e) {
-            return AuthUser::anonymous($languageId);
-        }
-    }
-
-    private function createAuthUserFromJWTPayload(array $jwtPayload, LanguageId $languageId): AuthUser
-    {
-        if (
-            (isset($jwtPayload['sub']) && !is_string($jwtPayload['sub']))
-            || !isset($jwtPayload['roleId']) || !is_string($jwtPayload['roleId'])
-        ) {
-            return AuthUser::anonymous($languageId);
-        }
-        $userId = (!empty($jwtPayload['sub']) ? UserId::fromString((string)$jwtPayload['sub']) : null);
-        $roleId = RoleId::fromString($jwtPayload['roleId']);
-        return new AuthUser($userId, $roleId, $languageId);
+        return $this->getJWT()->createAuthUser($languageId);
     }
 
     public function getLanguageId(): LanguageId

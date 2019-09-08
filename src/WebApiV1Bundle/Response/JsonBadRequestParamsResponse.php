@@ -5,7 +5,7 @@ namespace App\WebApiV1Bundle\Response;
 use App\WebApiV1Bundle\Schema\ResponseSchema;
 use Symfony\Component\HttpFoundation\Response;
 
-final class JsonBadApiUsageResponse implements JsonResponse
+final class JsonBadRequestParamsResponse implements JsonResponse
 {
     private $errors;
 

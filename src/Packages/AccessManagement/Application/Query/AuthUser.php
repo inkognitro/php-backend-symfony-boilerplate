@@ -57,4 +57,9 @@ final class AuthUser
     {
         return $this->roleId->equals(RoleId::admin());
     }
+
+    public function isAnonymous(): bool
+    {
+        return $this->roleId->equals(RoleId::anonymous());
+    }
 }
