@@ -5,6 +5,7 @@ services:
     App\WebApiV1Bundle\Response\HttpResponseFactory: ~
     App\WebApiV1Bundle\Schema\ApiSchema: ~
     App\WebApiV1Bundle\Authentication\JWTFactory: ~
+    App\WebApiV1Bundle\Schema\Parameter\ParameterValidator: ~
     App\WebApiV1Bundle\Transformers\UserTransformer: ~
 
     App\WebApiV1Bundle\Endpoints\Endpoints:

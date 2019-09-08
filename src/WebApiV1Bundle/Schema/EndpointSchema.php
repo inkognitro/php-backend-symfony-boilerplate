@@ -2,6 +2,8 @@
 
 namespace App\WebApiV1Bundle\Schema;
 
+use App\WebApiV1Bundle\Schema\Parameter\ObjectParameterSchema;
+
 final class EndpointSchema
 {
     private $requestMethod;
@@ -12,7 +14,6 @@ final class EndpointSchema
     private $showInDocumentation;
     private $requestBodyParams;
 
-    /** @param $requestBodyParams RequestParameterSchema[] */
     private function __construct(
         RequestMethod $requestMethod,
         UrlFragments $urlFragments,
@@ -20,9 +21,8 @@ final class EndpointSchema
         ResponseSchemas $responseSchemas,
         bool $authKeyNeeded,
         bool $showInDocumentation,
-        array $requestBodyParams
-    )
-    {
+        ObjectParameterSchema $requestBodyParams
+    ) {
         $this->requestMethod = $requestMethod;
         $this->urlFragments = $urlFragments;
         $this->openApiData = $openApiData;
@@ -34,7 +34,12 @@ final class EndpointSchema
 
     public static function create(RequestMethod $requestMethod, UrlFragments $urlFragments): self
     {
-        return new self($requestMethod, $urlFragments, [], new ResponseSchemas([]), false, true, []);
+        return new self($requestMethod, $urlFragments, [], new ResponseSchemas([]), false, true, ObjectParameterSchema::create());
+    }
+
+    public function getRequestBodyParameterSchema(): ObjectParameterSchema
+    {
+        return $this->requestBodyParams;
     }
 
     private function set(array $data): self
@@ -99,10 +104,10 @@ final class EndpointSchema
         ]);
     }
 
-    public function addRequestBodyParam(RequestParameterSchema $requestBodyParam): self
+    public function setRequestBodyParams(ObjectParameterSchema $requestBodyParams): self
     {
         return self::set([
-            'requestBodyParams' => array_merge($this->requestBodyParams, [$requestBodyParam]),
+            'requestBodyParams' => $requestBodyParams,
         ]);
     }
 
@@ -133,18 +138,11 @@ final class EndpointSchema
 
     private function createOpenApiV2RequestBodyParam(): array
     {
-        $properties = [];
-        foreach($this->requestBodyParams as $param) {
-            $properties[$param->getName()] = $param->toOpenApiV2Array();
-        }
         return [
             'in' => 'body',
             'name' => 'body',
             'required' => 'true',
-            'schema' => [
-                'type' => 'object',
-                'properties' => $properties
-            ]
+            'schema' => $this->requestBodyParams->toRequestParameterOpenApiV2Array()
         ];
     }
 
