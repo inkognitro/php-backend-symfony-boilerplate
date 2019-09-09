@@ -2,8 +2,8 @@
 
 namespace App\WebApiV1Bundle\Endpoints\Auth;
 
-use App\Packages\AccessManagement\Application\Query\AuthUserInformationByCredentialsQuery;
-use App\Packages\AccessManagement\Application\Query\AuthUserInformationByCredentialsQueryHandler;
+use App\Packages\AccessManagement\Application\Query\LoginInformationByUserCredentialsQuery;
+use App\Packages\AccessManagement\Application\Query\LoginInformationByUserCredentialsQueryHandler;
 use App\WebApiV1Bundle\ApiRequest;
 use App\WebApiV1Bundle\Authentication\JWTFactory;
 use App\WebApiV1Bundle\Endpoints\Endpoint;
@@ -31,7 +31,7 @@ final class AuthenticateEndpoint implements Endpoint
     public function __construct(
         HttpResponseFactory $httpResponseFactory,
         ParameterValidator $parameterValidator,
-        AuthUserInformationByCredentialsQueryHandler $userInformationByCredentialsQueryHandler,
+        LoginInformationByUserCredentialsQueryHandler $userInformationByCredentialsQueryHandler,
         JWTFactory $JWTFactory,
         UserTransformer $userTransformer
     )
@@ -51,7 +51,7 @@ final class AuthenticateEndpoint implements Endpoint
             return $this->httpResponseFactory->create($badRequestParamsResponse, $request);
         }
         $requestData = $request->getContentData();
-        $query = AuthUserInformationByCredentialsQuery::fromCredentials(
+        $query = LoginInformationByUserCredentialsQuery::fromCredentials(
             $requestData['username'],
             $requestData['password'],
             $request->getLanguageId()
@@ -60,9 +60,10 @@ final class AuthenticateEndpoint implements Endpoint
         if ($authUserInformation === null) {
             return $this->httpResponseFactory->create(JsonBadRequestResponse::create(), $request);
         }
-        $apiKey = $this->JWTFactory->createFromAuthUser($authUserInformation->getAuthUser());
+        $token = $this->JWTFactory->createFromAuthUser($authUserInformation->getAuthUser());
+        $request->setAuthTokenHeader($token->toString());
         $apiResponse = JsonSuccessResponse::fromData([
-            'apiKey' => $apiKey,
+            'token' => $token->toString(),
             'user' => $this->userTransformer->transform($authUserInformation->getUser()),
         ]);
         return $this->httpResponseFactory->create($apiResponse, $request);

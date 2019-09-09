@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 final class ApiRequest
 {
     private $httpFoundationRequest;
+    private const TOKEN_HEADER_KEY = 'X-API-KEY';
 
     private function __construct(HttpFoundationRequest $httpFoundationRequest)
     {
@@ -33,7 +34,12 @@ final class ApiRequest
 
     public function getJWT(): ApiJWT
     {
-        return ApiJWT::fromString((string)$this->httpFoundationRequest->headers->get('X-API-KEY'));
+        return ApiJWT::fromString((string)$this->httpFoundationRequest->headers->get(self::TOKEN_HEADER_KEY));
+    }
+
+    public function setAuthTokenHeader(string $token): void //todo: check possible immutability
+    {
+        $this->httpFoundationRequest->headers->set(self::TOKEN_HEADER_KEY, $token);
     }
 
     public function getAuthUser(): AuthUser

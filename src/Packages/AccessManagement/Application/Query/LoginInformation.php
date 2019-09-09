@@ -4,7 +4,7 @@ namespace App\Packages\AccessManagement\Application\Query;
 
 use App\Packages\UserManagement\Application\Query\User\User;
 
-final class AuthUserInformation
+final class LoginInformation
 {
     private $user;
     private $authUser;

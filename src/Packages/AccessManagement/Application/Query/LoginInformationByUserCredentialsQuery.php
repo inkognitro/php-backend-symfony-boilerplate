@@ -4,7 +4,7 @@ namespace App\Packages\AccessManagement\Application\Query;
 
 use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\LanguageId;
 
-final class AuthUserInformationByCredentialsQuery
+final class LoginInformationByUserCredentialsQuery
 {
     private $username;
     private $password;

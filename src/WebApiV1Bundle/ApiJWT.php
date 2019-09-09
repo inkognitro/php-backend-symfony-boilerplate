@@ -5,7 +5,9 @@ namespace App\WebApiV1Bundle;
 use App\Packages\AccessManagement\Application\Query\AuthUser;
 use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\LanguageId;
 use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\RoleId;
+use App\Packages\Common\Application\Utilities\DateTimeFactory;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\UserId;
+use DateTimeImmutable;
 use Firebase\JWT\JWT;
 use Exception;
 
@@ -48,9 +50,28 @@ final class ApiJWT
         }
     }
 
+    private function findCreationDate(): ?DateTimeImmutable
+    {
+        $payload = $this->getValidPayload();
+        if (!isset($payload['iat']) || !is_int($payload['iat'])) {
+            return null;
+        }
+        return DateTimeFactory::createFromTimestamp($payload['iat']);
+    }
+
     public function canBeRefreshed(): bool
     {
-        $refreshTimeToLiveInMinutes = getenv('APP_AUTH_JWT_REFRESH_TTL_IN_MINUTES'); //todo check refresh token status!!
-        return false;
+        $creationDate = $this->findCreationDate();
+        if ($creationDate === null) {
+            return false;
+        }
+        $refreshTimeToLiveInMinutes = (int)getenv('APP_AUTH_JWT_REFRESH_TTL_IN_MINUTES');
+        $dateToLive = DateTimeFactory::addMinutes($creationDate, $refreshTimeToLiveInMinutes);
+        return ($dateToLive > $creationDate);
+    }
+
+    public function toString(): string
+    {
+        return $this->jwt;
     }
 }

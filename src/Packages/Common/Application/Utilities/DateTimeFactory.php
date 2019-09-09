@@ -30,9 +30,14 @@ final class DateTimeFactory
         return $dateTime->format(self::STRING_FORMAT);
     }
 
-    public static function addMinutes(DateTimeImmutable $dateTime, int $minutesToAdd): DateTimeImmutable //todo: check usage for jwt refresh check or remove
+    public static function addMinutes(DateTimeImmutable $dateTime, int $minutesToAdd): DateTimeImmutable
     {
         return $dateTime->add(new DateInterval('PT' . $minutesToAdd . 'M'));
+    }
+
+    public static function createFromTimestamp(int $unixTimestamp): DateTimeImmutable
+    {
+        return self::create()->setTimestamp($unixTimestamp);
     }
 
     public static function createFromString(string $dateTimeString, ?DateTimeZone $timeZone = null): DateTimeImmutable
