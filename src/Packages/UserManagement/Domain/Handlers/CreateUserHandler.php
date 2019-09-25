@@ -6,6 +6,7 @@ use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\RoleId
 use App\Packages\Common\Application\Utilities\DateTimeFactory;
 use App\Packages\Common\Domain\CommandHandler;
 use App\Packages\UserManagement\Application\Command\User\CreateUser;
+use App\Packages\UserManagement\Application\Query\User\User;
 use App\Packages\UserManagement\Application\ResourceAttributes\User\VerifiedAt;
 use App\Packages\UserManagement\Domain\UserParamsValidation\UserParamsValidator;
 use App\Packages\UserManagement\Domain\UserEventDispatcher;
@@ -48,12 +49,7 @@ final class CreateUserHandler
         }
 
         $userAggregate = UserAggregate::create(
-            UserId::fromString($userParams->getId()->toTrimmedLowerCaseString()),
-            Username::fromString($userParams->getUsername()->toTrimmedString()),
-            EmailAddress::fromString($userParams->getEmailAddress()->toTrimmedString()),
-            Password::fromString($userParams->getPassword()->toString()),
-            RoleId::fromString($userParams->getRoleId()->toString()),
-            (VerifiedAt::fromNullableDateTime($command->userMustBeVerified() ? null : DateTimeFactory::create())),
+            $this->createUserFromCommand($command),
             $command->getCommandExecutor()
         );
 
@@ -66,6 +62,19 @@ final class CreateUserHandler
         /** @var $resource Resource */
         $resource = $userAggregate->toUser();
         return new ResourceCreatedResponse($resource);
+    }
+
+    private function createUserFromCommand(CreateUser $command): User
+    {
+        $userParams = $command->getUserParams();
+        return User::create()->modifyByArray([
+            UserId::class => UserId::fromString($userParams->getId()->toTrimmedLowerCaseString()),
+            Username::class => Username::fromString($userParams->getUsername()->toTrimmedString()),
+            EmailAddress::class => EmailAddress::fromString($userParams->getEmailAddress()->toTrimmedString()),
+            Password::class => Password::fromString($userParams->getPassword()->toString()),
+            RoleId::class => RoleId::fromString($userParams->getRoleId()->toString()),
+            VerifiedAt::class => (VerifiedAt::fromNullableDateTime($command->userMustBeVerified() ? null : DateTimeFactory::create()))
+        ]);
     }
 
     private function queueSendVerificationCode(CreateUser $command): void

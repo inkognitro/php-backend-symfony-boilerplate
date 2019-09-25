@@ -22,33 +22,36 @@ use App\Packages\UserManagement\Application\ResourceAttributes\User\VerifiedAt;
 
 final class UserWasCreated extends AuditLogEvent
 {
+    private const ID_KEY = 'id';
     private const USERNAME_KEY = 'username';
     private const EMAIL_ADDRESS_KEY = 'emailAddress';
     private const PASSWORD_HASH_KEY = 'passwordHash';
     private const VERIFIED_AT = 'verifiedAt';
     private const ROLE_ID_KEY = 'roleId';
 
-    public static function occur(
-        UserId $userId,
-        Username $username,
-        EmailAddress $emailAddress,
-        Password $password,
-        RoleId $roleId,
-        VerifiedAt $verifiedAt,
-        AuthUser $creator
-    ): self {
-        $resourceId = ResourceId::fromString($userId->toString());
+    public static function occur(User $user, AuthUser $creator): self
+    {
+        $resourceId = ResourceId::fromString($user->getId()->toString());
         $occurredAt = OccurredAt::create();
-        $userChange = Payload\ResourceChange::create(ResourceTypeId::user(), $resourceId);
-        $userChange = $userChange->addAttributeChangeFromScalars(self::USERNAME_KEY, $username->toString());
-        $userChange = $userChange->addAttributeChangeFromScalars(self::EMAIL_ADDRESS_KEY, $emailAddress->toString());
-        $userChange = $userChange->addAttributeChangeFromScalars(self::PASSWORD_HASH_KEY, $password->toHash());
-        $userChange = $userChange->addAttributeChangeFromScalars(self::ROLE_ID_KEY, $roleId->toString());
-        if($verifiedAt->toNullableString() !== null) {
-            $userChange = $userChange->addAttributeChangeFromScalars(self::VERIFIED_AT, $verifiedAt->toNullableString());
-        }
-        $payload = Payload::create()->addResourceChange($userChange);
-        return new self(EventId::create(), $resourceId, $payload, AuthUserPayload::fromAuthUser($creator), $occurredAt);
+        return new self(
+            EventId::create(),
+            $resourceId,
+            self::createPayloadFromUser($user),
+            AuthUserPayload::fromAuthUser($creator),
+            $occurredAt
+        );
+    }
+
+    private static function createPayloadFromUser(User $user): Payload
+    {
+        return Payload::fromArray([
+            self::ID_KEY => $user->getId()->toString(),
+            self::USERNAME_KEY => $user->getUsername()->toString(),
+            self::EMAIL_ADDRESS_KEY => $user->getEmailAddress()->toString(),
+            self::PASSWORD_HASH_KEY => $user->getPassword()->toHash(),
+            self::ROLE_ID_KEY => $user->getRoleId()->toString(),
+            self::VERIFIED_AT => $user->getVerifiedAt()->toNullableString(),
+        ]);
     }
 
     public static function getEventTypeId(): ?EventTypeId
@@ -68,54 +71,15 @@ final class UserWasCreated extends AuditLogEvent
 
     public function getUser(): User
     {
+        $payloadData = $this->getPayload()->toArray();
         return User::create()->modifyByArray([
-            UserId::class => $this->getUserId(),
-            Username::class => $this->getUsername(),
-            EmailAddress::class => $this->getEmailAddress(),
-            Password::class => $this->getPassword(),
-            RoleId::class => $this->getRoleId(),
+            UserId::class => UserId::fromString($payloadData[self::ID_KEY]),
+            Username::class => Username::fromString($payloadData[self::USERNAME_KEY]),
+            EmailAddress::class => EmailAddress::fromString($payloadData[self::EMAIL_ADDRESS_KEY]),
+            Password::class => Password::fromHash($payloadData[self::PASSWORD_HASH_KEY]),
+            RoleId::class => RoleId::fromString($payloadData[self::ROLE_ID_KEY]),
             CreatedAt::class => CreatedAt::fromDateTime($this->getOccurredAt()->toDateTime()),
-            VerifiedAt::class => $this->getVerifiedAt(),
+            VerifiedAt::class => VerifiedAt::fromNullableString($payloadData[self::VERIFIED_AT]),
         ]);
-    }
-
-    private function getUserId(): UserId
-    {
-        return UserId::fromString($this->findResourceId()->toString());
-    }
-
-    private function getResourceChange(): Payload\ResourceChange
-    {
-        return $this->getPayload()->findResourceChange(self::findResourceTypeId(), $this->findResourceId());
-    }
-
-    private function getUsername(): Username
-    {
-        $value = $this->getResourceChange()->findAttributeChange(self::USERNAME_KEY)->getValue();
-        return Username::fromString($value);
-    }
-
-    private function getRoleId(): RoleId
-    {
-        $value = $this->getResourceChange()->findAttributeChange(self::ROLE_ID_KEY)->getValue();
-        return RoleId::fromString($value);
-    }
-
-    private function getEmailAddress(): EmailAddress
-    {
-        $value = $this->getResourceChange()->findAttributeChange(self::EMAIL_ADDRESS_KEY)->getValue();
-        return EmailAddress::fromString($value);
-    }
-
-    private function getPassword(): Password
-    {
-        $value = $this->getResourceChange()->findAttributeChange(self::PASSWORD_HASH_KEY)->getValue();
-        return Password::fromHash($value);
-    }
-
-    private function getVerifiedAt(): VerifiedAt
-    {
-        $value = $this->getResourceChange()->findAttributeChange(self::VERIFIED_AT)->getValue();
-        return VerifiedAt::fromNullableString($value);
     }
 }

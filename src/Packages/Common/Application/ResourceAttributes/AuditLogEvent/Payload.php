@@ -2,59 +2,23 @@
 
 namespace App\Packages\Common\Application\ResourceAttributes\AuditLogEvent;
 
-use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\Payload\ResourceChange;
-use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\Payload\ResourceChanges;
-
 final class Payload
 {
-    private $specificData;
-    private $resourceChanges;
+    private $data;
 
-    private function __construct(ResourceChanges $resourceChanges, array $specificData)
+    private function __construct(array $data)
     {
-        $this->resourceChanges = $resourceChanges;
-        $this->specificData = $specificData;
+        $this->data = $data;
     }
 
-    public static function create(): self
+    public function toArray(): array
     {
-        return new self(ResourceChanges::create(), []);
+        return $this->data;
     }
 
-    public function addResourceChange(ResourceChange $resourceChange): self
+    public static function fromArray(array $data): self
     {
-        return $this->modifyByArray([
-            'resourceChanges' => $this->resourceChanges->add($resourceChange)
-        ]);
-    }
-
-    public function findResourceChange(ResourceTypeId $resourceTypeId, ResourceId $resourceId): ?ResourceChange
-    {
-        return $this->resourceChanges->find($resourceTypeId, $resourceId);
-    }
-
-    private function modifyByArray(array $data): self
-    {
-        return new self(
-            ($data['resourceChanges'] ?? $this->resourceChanges),
-            ($data['specificData'] ?? $this->specificData)
-        );
-    }
-
-    private function toArray(): array
-    {
-        return [
-            'resourceChanges' => $this->resourceChanges->toPayloadArray(),
-            'specificData' => $this->specificData,
-        ];
-    }
-
-    private static function fromArray(array $data): self
-    {
-        return new self(
-            ResourceChanges::fromPayloadArray($data['resourceChanges']),
-            $data['specificData']
-        );
+        return new self($data);
     }
 
     public function toJson(): string

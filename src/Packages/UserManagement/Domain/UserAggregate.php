@@ -5,13 +5,7 @@ namespace App\Packages\UserManagement\Domain;
 use App\Packages\Common\Domain\Aggregate;
 use App\Packages\Common\Domain\AuditLog\EventStream;
 use App\Packages\UserManagement\Application\Query\User\User;
-use App\Packages\UserManagement\Application\ResourceAttributes\User\VerifiedAt;
 use App\Packages\UserManagement\Domain\Events\UserWasCreated;
-use App\Packages\UserManagement\Application\ResourceAttributes\User\EmailAddress;
-use App\Packages\UserManagement\Application\ResourceAttributes\User\Password;
-use App\Packages\UserManagement\Application\ResourceAttributes\User\UserId;
-use App\Packages\UserManagement\Application\ResourceAttributes\User\Username;
-use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\RoleId;
 use App\Packages\AccessManagement\Application\Query\AuthUser;
 
 final class UserAggregate extends Aggregate
@@ -26,18 +20,10 @@ final class UserAggregate extends Aggregate
         $this->user = $user;
     }
 
-    public static function create(
-        UserId $userId,
-        Username $username,
-        EmailAddress $emailAddress,
-        Password $password,
-        RoleId $roleId,
-        VerifiedAt $verifiedAt,
-        AuthUser $creator
-    ): self
+    public static function create(User $user, AuthUser $creator): self
     {
         $storedUser = null;
-        $event = UserWasCreated::occur($userId, $username, $emailAddress, $password, $roleId, $verifiedAt, $creator);
+        $event = UserWasCreated::occur($user, $creator);
         return new self($storedUser, $event->getUser(), new EventStream([$event]));
     }
 
