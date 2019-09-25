@@ -8,6 +8,7 @@ use App\WebApiV1Bundle\ApiRequest;
 use App\WebApiV1Bundle\Authentication\JWTFactory;
 use App\WebApiV1Bundle\Endpoints\Endpoint;
 use App\WebApiV1Bundle\Response\HttpResponseFactory;
+use App\WebApiV1Bundle\Response\JsonBadRequestParamsResponse;
 use App\WebApiV1Bundle\Response\JsonSuccessResponse;
 use App\WebApiV1Bundle\Response\JsonUnauthorizedResponse;
 use App\WebApiV1Bundle\Schema\EndpointSchema;
@@ -40,18 +41,12 @@ final class RefreshJwtEndpoint implements Endpoint
     public function handle(): HttpResponse
     {
         $request = ApiRequest::createFromGlobals();
-        $currentAuthUser = $request->getAuthUser();
-        if($currentAuthUser->isAnonymous()) {
-            return $this->createUnauthorizedResponse($request);
-        }
         $jwt = $request->getJWT();
-        if(!$jwt->canBeRefreshed()) {
+        $userId = $jwt->findUserId();
+        if($userId === null || !$jwt->canBeRefreshed()) {
             return $this->createUnauthorizedResponse($request);
         }
-        $query = LoginInformationByUserIdQuery::create(
-            $currentAuthUser->getUserId()->toString(),
-            $request->getLanguageId()
-        );
+        $query = LoginInformationByUserIdQuery::create($userId, $request->getLanguageId());
         $authUserInformation = $this->userInformationByUserIdQueryHandler->handle($query);
         if($authUserInformation === null) {
             return $this->createUnauthorizedResponse($request);
@@ -77,16 +72,20 @@ final class RefreshJwtEndpoint implements Endpoint
         $endpointSchema = EndpointSchema::create(RequestMethod::post(), $urlFragments);
         $endpointSchema = $endpointSchema->setSummary('Refreshes the auth token for a user.');
         $endpointSchema = $endpointSchema->setTags(['Auth']);
-        $isRequired = true;
         $endpointSchema = $endpointSchema->setAuthKeyNeeded(true);
+        $endpointSchema = $endpointSchema->setRequestBodyParams(
+            ObjectParameterSchema::create()
+                ->addProperty(ApiRequest::AUTH_TOKEN_PARAM_NAME, StringParameterSchema::create(), false)
+        );
         $endpointSchema = $endpointSchema->addResponseSchema(
             JsonSuccessResponse::getSchema()->setResponseParameters(
                 ObjectParameterSchema::create()
-                    ->addProperty('token', StringParameterSchema::create(), $isRequired)
-                    ->addProperty('user', UserTransformer::getReferenceModel()->getObjectParameter(), $isRequired)
+                    ->addProperty('token', StringParameterSchema::create(), true)
+                    ->addProperty('user', UserTransformer::getReferenceModel()->getObjectParameter(), true)
             )
         );
         $endpointSchema = $endpointSchema->addResponseSchema(JsonUnauthorizedResponse::getSchema());
+        $endpointSchema = $endpointSchema->addResponseSchema(JsonBadRequestParamsResponse::getSchema());
         return $endpointSchema;
     }
 }

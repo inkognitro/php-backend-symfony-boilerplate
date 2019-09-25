@@ -27,19 +27,54 @@ final class ApiJWT
 
     public function createAuthUser(LanguageId $languageId): AuthUser
     {
-        $jwtPayload = $this->getValidPayload();
-        if (
-            (isset($jwtPayload['sub']) && !is_string($jwtPayload['sub']))
-            || !isset($jwtPayload['roleId']) || !is_string($jwtPayload['roleId'])
-        ) {
+        $jwtPayload = $this->getPayload();
+        if (!$this->isValidNotExpired($jwtPayload)) {
             return AuthUser::anonymous($languageId);
         }
-        $userId = (!empty($jwtPayload['sub']) ? UserId::fromString((string)$jwtPayload['sub']) : null);
-        $roleId = RoleId::fromString($jwtPayload['roleId']);
-        return new AuthUser($userId, $roleId, $languageId);
+        $userId = $this->findUserId();
+        $roleId = $this->findRoleId();
+        return new AuthUser(UserId::fromString($userId), RoleId::fromString($roleId), $languageId);
     }
 
-    private function getValidPayload(): array
+    private function isValidNotExpired(array $jwtPayload): bool
+    {
+        if (!$this->isRequiredPayload($jwtPayload)) {
+            return false;
+        }
+        $authTimeToLiveInMinutes = (int)getenv('APP_AUTH_JWT_TTL_IN_MINUTES');
+        $dateToLive = DateTimeFactory::addMinutes($this->findCreationDate(), $authTimeToLiveInMinutes);
+        $now = DateTimeFactory::create();
+        return ($dateToLive > $now);
+    }
+
+    public function findUserId(): ?string
+    {
+        $payload = $this->getPayload();
+        if(!isset($payload['sub'])) {
+            return null;
+        }
+        return $payload['sub'];
+    }
+
+    private function findRoleId(): ?string
+    {
+        $payload = $this->getPayload();
+        if(!isset($payload['roleId'])) {
+            return null;
+        }
+        return $payload['roleId'];
+    }
+
+    private function isRequiredPayload(array $jwtPayload): bool
+    {
+        return (
+            isset($jwtPayload['sub']) && is_string($jwtPayload['sub'])
+            && isset($jwtPayload['roleId']) && is_string($jwtPayload['roleId'])
+            && isset($jwtPayload['iat']) && is_int($jwtPayload['iat'])
+        );
+    }
+
+    private function getPayload(): array
     {
         $jwtSecret = getenv('APP_AUTH_JWT_SECRET');
         $jwtAlgorithm = getenv('APP_AUTH_JWT_ALGORITHM');
@@ -52,7 +87,7 @@ final class ApiJWT
 
     private function findCreationDate(): ?DateTimeImmutable
     {
-        $payload = $this->getValidPayload();
+        $payload = $this->getPayload();
         if (!isset($payload['iat']) || !is_int($payload['iat'])) {
             return null;
         }
@@ -67,7 +102,8 @@ final class ApiJWT
         }
         $refreshTimeToLiveInMinutes = (int)getenv('APP_AUTH_JWT_REFRESH_TTL_IN_MINUTES');
         $dateToLive = DateTimeFactory::addMinutes($creationDate, $refreshTimeToLiveInMinutes);
-        return ($dateToLive > $creationDate);
+        $now = DateTimeFactory::create();
+        return ($dateToLive > $now);
     }
 
     public function toString(): string
