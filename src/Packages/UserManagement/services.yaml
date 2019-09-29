@@ -4,7 +4,6 @@ services:
 
     App\Packages\UserManagement\Application\Query\User\UsersQueryHandler:
         class: App\Packages\UserManagement\Infrastructure\Query\DbalUsersQueryHandler
-        public: true
 
     App\Packages\UserManagement\Domain\Handlers\CreateUserHandler:
         public: true

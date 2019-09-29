@@ -8,17 +8,27 @@ use App\Packages\Common\Application\Command\CommandBus;
 use App\Packages\Common\Application\Utilities\HandlerResponse\Response;
 use App\Packages\Common\Application\Utilities\HandlerResponse\Success;
 use App\Packages\Common\Application\Utilities\HandlerResponse\ValidationErrorResponse;
-use App\Tests\TestCase;
+use App\Packages\UserManagement\Application\Query\User\UsersQueryHandler;
+use App\Tests\TestManager;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-abstract class PackageTestCase extends TestCase
+abstract class PackageTestCase extends KernelTestCase
 {
-    /** @var PackageServiceAdapter */
-    private $serviceAdapter;
+    /** @var $testManager TestManager */
+    private $testManager;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->serviceAdapter = $this->getContainer()->get(PackageServiceAdapter::class);
+        static::bootKernel();
+        $this->testManager = self::$kernel->getContainer()->get(TestManager::class);
+        $this->testManager->setUp();
+    }
+
+    protected function tearDown()
+    {
+        $this->testManager->tearDown();
+        parent::tearDown();
     }
 
     protected function createSystemAuthUser(): AuthUser
@@ -28,7 +38,12 @@ abstract class PackageTestCase extends TestCase
 
     protected function getCommandBus(): CommandBus
     {
-        return $this->serviceAdapter->getCommandBus();
+        return $this->testManager->getCommandBus();
+    }
+
+    protected function getUsersQueryHandler(): UsersQueryHandler
+    {
+        return $this->testManager->getUsersQueryHandler();
     }
 
     protected function assertSuccessResponse(Response $response): void
