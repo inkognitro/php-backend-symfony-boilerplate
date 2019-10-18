@@ -26,6 +26,9 @@ final class ApiSchema
         foreach($this->endpoints->toIterable() as $endpoint) {
             /** @var $endpoint Endpoint */
             $endpointSchema = $endpoint::getSchema();
+            if(!$endpointSchema->mustBeShownInDocumentation()) {
+                continue;
+            }
             $fragment = $endpointSchema->toOpenApiV2Array();
             $paths[$endpointSchema->getOpenApiPath()][$endpointSchema->getOpenApiMethod()] = $fragment;
         }
@@ -39,6 +42,7 @@ final class ApiSchema
             'info' => [
                 'version' => WebApiV1Bundle::getVersion(),
                 'title' => 'API Documentation',
+                'description' => 'This API is in UTC timezone. This means all request and response parameters as well as given unix timestamps, for instance the JWT iat, are given and taken in UTC time. So time conversion always need to be done in frontend apps.',
             ],
             'host' => getenv('APP_API_HOST_NAME'),
             'basePath' => WebApiV1Bundle::getBasePath(),

@@ -20,6 +20,6 @@ final class JsonNotFoundResponse implements JsonResponse
     public static function getSchema(): ResponseSchema
     {
         $description = 'Not found response';
-        return new ResponseSchema(self::getHttpStatusCode(), ResponseSchema::JSON_CONTENT_TYPE, $description);
+        return ResponseSchema::create(self::getHttpStatusCode(), ResponseSchema::JSON_CONTENT_TYPE, $description);
     }
 }

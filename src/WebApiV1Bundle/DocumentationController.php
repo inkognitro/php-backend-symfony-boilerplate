@@ -5,7 +5,6 @@ namespace App\WebApiV1Bundle;
 use App\WebApiV1Bundle\Endpoints\SpecificationEndpoint;
 use App\WebApiV1Bundle\Response\HtmlResponse;
 use App\WebApiV1Bundle\Response\HttpResponseFactory;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -27,7 +26,7 @@ final class DocumentationController
 
     public function show(): HttpResponse
     {
-        $request = Request::createFromGlobals();
+        $request = ApiRequest::createFromGlobals();
         $documentationHtml = $this->cache->get(self::DOCUMENTATION_HTML_CACHE_KEY, function (ItemInterface $item) {
             return $this->getDocumentationHtml();
         });

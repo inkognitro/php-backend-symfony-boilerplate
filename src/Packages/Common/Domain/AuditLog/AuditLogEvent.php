@@ -2,15 +2,15 @@
 
 namespace App\Packages\Common\Domain\AuditLog;
 
-use App\Resources\AuditLogEvent\AuditLogEvent as AuditLogEventResource;
-use App\Resources\AuditLogEvent\AuthUserPayload;
-use App\Resources\AuditLogEvent\EventId;
-use App\Resources\AuditLogEvent\OccurredAt;
-use App\Resources\AuditLogEvent\Payload;
-use App\Resources\AuditLogEvent\ResourceId;
-use App\Resources\AuditLogEvent\ResourceType;
+use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\AuthUserPayload;
+use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\EventId;
+use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\EventTypeId;
+use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\OccurredAt;
+use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\Payload;
+use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\ResourceId;
+use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\ResourceTypeId;
 
-abstract class AuditLogEvent implements AuditLogEventResource
+abstract class AuditLogEvent
 {
     private $id;
     private $resourceId;
@@ -19,11 +19,12 @@ abstract class AuditLogEvent implements AuditLogEventResource
     private $occurredAt;
 
     public abstract function mustBeLogged(): bool;
-    public abstract static function getResourceType(): ResourceType;
+    public abstract static function findResourceTypeId(): ?ResourceTypeId;
+    public abstract static function getEventTypeId(): ?EventTypeId;
 
     protected function __construct(
         EventId $id,
-        ResourceId $resourceId,
+        ?ResourceId $resourceId,
         Payload $payload,
         AuthUserPayload $authUserPayload,
         OccurredAt $occurredAt
@@ -41,7 +42,7 @@ abstract class AuditLogEvent implements AuditLogEventResource
         return $this->id;
     }
 
-    public function getResourceId(): ResourceId
+    public function findResourceId(): ?ResourceId
     {
         return $this->resourceId;
     }

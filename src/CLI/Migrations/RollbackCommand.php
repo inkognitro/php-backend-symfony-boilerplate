@@ -4,9 +4,8 @@ namespace App\CLI\Migrations;
 
 use App\Packages\Common\Infrastructure\DbalConnection;
 use App\Packages\Common\Installation\Migrations\Migration;
-use App\Packages\Common\Installation\Migrations\MigrationRepository;
 use App\Packages\Common\Installation\Migrations\Migrations;
-use App\Packages\Common\Installation\Migrations\MigrationsMigrationBase;
+use App\Packages\Common\Installation\Migrations\V1\MigrationsMigrationV1;
 use Doctrine\DBAL\Schema\Schema;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -41,7 +40,7 @@ class RollbackCommand extends Command
         $executedMigrations = $this->repository->findAllExecuted();
         $migrationsToRollback = $this->getMigrationsToRollback($executedMigrations);
 
-        if(count($migrationsToRollback->toArray()) === 0) {
+        if($migrationsToRollback->isEmpty()) {
             echo "Nothing to rollback!" . PHP_EOL;
             return;
         }
@@ -49,7 +48,7 @@ class RollbackCommand extends Command
         $schemaManager = $this->connection->getSchemaManager();
         $fromSchema = $schemaManager->createSchema();
 
-        foreach($migrationsToRollback->toArray() as $migration) {
+        foreach($migrationsToRollback->toReverseSortedArray() as $migration) {
             $toSchema = clone $fromSchema;
 
             $migration->schemaDownBeforeDataRollback($toSchema);
@@ -61,7 +60,7 @@ class RollbackCommand extends Command
             $migration->schemaDown($toSchema);
             $this->executeSchemaUpdate($fromSchema, $toSchema);
 
-            if(!$migration instanceof MigrationsMigrationBase) {
+            if(!$migration instanceof MigrationsMigrationV1) {
                 $this->removeMigrationExecutedEntry($migration);
             }
 
@@ -70,7 +69,7 @@ class RollbackCommand extends Command
 
         $executedMigrations = $this->repository->findAllExecuted();
 
-        if(count($executedMigrations->toArray()) === 0) {
+        if($executedMigrations->isEmpty()) {
             echo 'Rolled successfully back to point zero.' . PHP_EOL;
             return;
         }
@@ -81,7 +80,7 @@ class RollbackCommand extends Command
 
     private function getMigrationsToRollback(Migrations $executedMigrations): Migrations
     {
-        if(count($executedMigrations->toArray()) === 0) {
+        if($executedMigrations->isEmpty()) {
             return new Migrations([]);
         }
 
@@ -95,7 +94,7 @@ class RollbackCommand extends Command
             $migrations[] = $migration;
         }
 
-        return new Migrations(array_reverse($migrations));
+        return new Migrations($migrations);
     }
 
     private function removeMigrationExecutedEntry(Migration $migration): void

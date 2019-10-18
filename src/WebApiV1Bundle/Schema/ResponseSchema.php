@@ -2,6 +2,8 @@
 
 namespace App\WebApiV1Bundle\Schema;
 
+use App\WebApiV1Bundle\Schema\Parameter\ParameterSchema;
+
 final class ResponseSchema
 {
     public const JSON_CONTENT_TYPE = 'application/json';
@@ -9,12 +11,19 @@ final class ResponseSchema
     private $httpStatusCode;
     private $contentType;
     private $description;
+    private $responseParameter;
 
-    public function __construct(int $httpStatusCode, string $contentType, string $description)
+    private function __construct(int $httpStatusCode, string $contentType, string $description, ?ParameterSchema $responseParameter)
     {
         $this->httpStatusCode = $httpStatusCode;
         $this->contentType = $contentType;
         $this->description = $description;
+        $this->responseParameter = $responseParameter;
+    }
+
+    public static function create(int $httpStatusCode, string $contentType, string $description): self
+    {
+        return new self($httpStatusCode, $contentType, $description, null);
     }
 
     public function getHttpStatusCode(): int
@@ -27,10 +36,29 @@ final class ResponseSchema
         return $this->contentType;
     }
 
+    public function setResponseParameters(ParameterSchema $responseParameter): self
+    {
+        return $this->modifyByArray(['responseParameter' => $responseParameter]);
+    }
+
     public function toOpenApiV2Array(): array
     {
-        return [
+        $data = [
             'description' => $this->description,
         ];
+        if($this->responseParameter) {
+            $data['schema'] = $this->responseParameter->toResponseParameterOpenApiV2Array();
+        }
+        return $data;
+    }
+
+    private function modifyByArray(array $data): self
+    {
+        return new self(
+            ($data['httpStatusCode'] ?? $this->httpStatusCode),
+            ($data['contentType'] ?? $this->contentType),
+            ($data['description'] ?? $this->description),
+            ($data['responseParameter'] ?? $this->responseParameter)
+        );
     }
 }

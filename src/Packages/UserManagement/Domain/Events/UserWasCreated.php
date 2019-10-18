@@ -2,79 +2,84 @@
 
 namespace App\Packages\UserManagement\Domain\Events;
 
-use App\Resources\AuditLogEvent\ResourceType;
-use App\Resources\User\Password;
-use App\Resources\UserRole\RoleId;
-use App\Utilities\AuthUser as AuthUser;
+use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\AuthUserPayload;
+use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\EventTypeId;
+use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\ResourceTypeId;
+use App\Packages\UserManagement\Application\Query\User\User;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\CreatedAt;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\Password;
+use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\RoleId;
+use App\Packages\AccessManagement\Application\Query\AuthUser;
 use App\Packages\Common\Domain\AuditLog\AuditLogEvent;
-use App\Resources\AuditLogEvent\EventId;
-use App\Resources\AuditLogEvent\OccurredAt;
-use App\Resources\AuditLogEvent\Payload;
-use App\Resources\AuditLogEvent\ResourceId;
-use App\Resources\User\EmailAddress;
-use App\Resources\User\User;
-use App\Resources\User\UserId;
-use App\Resources\User\Username;
+use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\EventId;
+use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\OccurredAt;
+use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\Payload;
+use App\Packages\Common\Application\ResourceAttributes\AuditLogEvent\ResourceId;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\EmailAddress;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\UserId;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\Username;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\VerifiedAt;
 
 final class UserWasCreated extends AuditLogEvent
 {
-    public static function occur(
-        UserId $userId,
-        Username $username,
-        EmailAddress $emailAddress,
-        Password $password,
-        RoleId $roleId,
-        AuthUser $creator
-    ): self {
-        $previousPayload = null;
+    private const ID_KEY = 'id';
+    private const USERNAME_KEY = 'username';
+    private const EMAIL_ADDRESS_KEY = 'emailAddress';
+    private const PASSWORD_HASH_KEY = 'passwordHash';
+    private const VERIFIED_AT = 'verifiedAt';
+    private const ROLE_ID_KEY = 'roleId';
+
+    public static function occur(User $user, AuthUser $creator): self
+    {
+        $resourceId = ResourceId::fromString($user->getId()->toString());
         $occurredAt = OccurredAt::create();
-        $payload = Payload::fromArray([
-            Username::getKey() => $username->toString(),
-            EmailAddress::getKey() => $emailAddress->toString(),
-            Password::getKey() => $password->toHash(),
-            RoleId::getKey() => $roleId->toString(),
-            Password::getKey() => $password->toHash(),
+        return new self(
+            EventId::create(),
+            $resourceId,
+            self::createPayloadFromUser($user),
+            AuthUserPayload::fromAuthUser($creator),
+            $occurredAt
+        );
+    }
+
+    private static function createPayloadFromUser(User $user): Payload
+    {
+        return Payload::fromArray([
+            self::ID_KEY => $user->getId()->toString(),
+            self::USERNAME_KEY => $user->getUsername()->toString(),
+            self::EMAIL_ADDRESS_KEY => $user->getEmailAddress()->toString(),
+            self::PASSWORD_HASH_KEY => $user->getPassword()->toHash(),
+            self::ROLE_ID_KEY => $user->getRoleId()->toString(),
+            self::VERIFIED_AT => $user->getVerifiedAt()->toNullableString(),
         ]);
-        $resourceId = ResourceId::fromString($userId->toString());
-        return new self(EventId::create(), $resourceId, $payload, $creator->toAuditLogEventAuthUserPayload(), $occurredAt);
     }
 
-    public static function getResourceType(): ResourceType
+    public static function getEventTypeId(): ?EventTypeId
     {
-        return ResourceType::fromString(User::class);
+        return EventTypeId::create(UserWasCreated::class);
     }
 
-    public function getUserId(): UserId
+    public static function findResourceTypeId(): ?ResourceTypeId
     {
-        return UserId::fromString($this->getResourceId()->toString());
-    }
-
-    public function getUsername(): Username
-    {
-        $username = $this->getPayload()->toArray()[Username::getKey()];
-        return Username::fromString($username);
-    }
-
-    public function getRoleId(): RoleId
-    {
-        $roleId = $this->getPayload()->toArray()[RoleId::getKey()];
-        return RoleId::fromString($roleId);
-    }
-
-    public function getEmailAddress(): EmailAddress
-    {
-        $username = $this->getPayload()->toArray()[EmailAddress::getKey()];
-        return EmailAddress::fromString($username);
-    }
-
-    public function getPassword(): Password
-    {
-        $password = $this->getPayload()->toArray()[Password::getKey()];
-        return Password::fromString($password);
+        return User::getTypeId();
     }
 
     public function mustBeLogged(): bool
     {
         return true;
+    }
+
+    public function getUser(): User
+    {
+        $payloadData = $this->getPayload()->toArray();
+        return User::create()->modifyByArray([
+            UserId::class => UserId::fromString($payloadData[self::ID_KEY]),
+            Username::class => Username::fromString($payloadData[self::USERNAME_KEY]),
+            EmailAddress::class => EmailAddress::fromString($payloadData[self::EMAIL_ADDRESS_KEY]),
+            Password::class => Password::fromHash($payloadData[self::PASSWORD_HASH_KEY]),
+            RoleId::class => RoleId::fromString($payloadData[self::ROLE_ID_KEY]),
+            CreatedAt::class => CreatedAt::fromDateTime($this->getOccurredAt()->toDateTime()),
+            VerifiedAt::class => VerifiedAt::fromNullableString($payloadData[self::VERIFIED_AT]),
+        ]);
     }
 }

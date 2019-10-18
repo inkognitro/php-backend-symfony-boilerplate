@@ -2,12 +2,12 @@
 
 namespace App\WebApiV1Bundle\Response;
 
-use Symfony\Component\HttpFoundation\Request;
+use App\WebApiV1Bundle\ApiRequest;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
 final class HttpResponseFactory
 {
-    public function create(Response $response, Request $request): HttpResponse
+    public function create(Response $response, ApiRequest $request): HttpResponse
     {
         if ($response instanceof JsonResponse) {
             $httpResponse = new HttpResponse();
@@ -28,9 +28,9 @@ final class HttpResponseFactory
         throw new ResponseNotSupportedException('Response class "' . get_class($response) . '" is not supported!');
     }
 
-    private function prepareHttpResponse(HttpResponse $httpResponse, Response $response, Request $request): HttpResponse
+    private function prepareHttpResponse(HttpResponse $httpResponse, Response $response, ApiRequest $request): HttpResponse
     {
-        $httpResponse->prepare($request);
+        $httpResponse->prepare($request->toHttpFoundationRequest());
         $httpResponse->setStatusCode($response->getHttpStatusCode());
         $httpResponse->setCharset('UTF-8');
         return $httpResponse;

@@ -7,9 +7,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class JsonUnauthorizedResponse implements JsonResponse
 {
+    private function __construct()
+    {
+    }
+
     public static function getHttpStatusCode(): int
     {
         return Response::HTTP_UNAUTHORIZED;
+    }
+
+    public static function create(): self
+    {
+        return new self();
     }
 
     public function toJson(): string
@@ -20,6 +29,6 @@ final class JsonUnauthorizedResponse implements JsonResponse
     public static function getSchema(): ResponseSchema
     {
         $description = 'Unauthorized response';
-        return new ResponseSchema(self::getHttpStatusCode(), ResponseSchema::JSON_CONTENT_TYPE, $description);
+        return ResponseSchema::create(self::getHttpStatusCode(), ResponseSchema::JSON_CONTENT_TYPE, $description);
     }
 }

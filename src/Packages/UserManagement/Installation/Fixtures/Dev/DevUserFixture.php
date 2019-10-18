@@ -2,36 +2,44 @@
 
 namespace App\Packages\UserManagement\Installation\Fixtures\Dev;
 
+use App\Packages\AccessManagement\Application\Query\AuthUser;
+use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\LanguageId;
+use App\Packages\Common\Application\Command\Params\Text;
 use App\Packages\Common\Domain\DidNotReceiveSuccessResponseException;
-use App\Packages\UserManagement\Application\CreateUser;
-use App\Packages\Common\Application\CommandBus;
-use App\Utilities\HandlerResponse\Success;
+use App\Packages\UserManagement\Application\Command\User\CreateUser;
+use App\Packages\Common\Application\Command\CommandBus;
+use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\RoleId;
+use App\Packages\Common\Application\Utilities\HandlerResponse\Success;
 use App\Packages\Common\Installation\Fixtures\Fixture;
-use App\Utilities\AuthUser;
-use App\Utilities\AuthUserFactory;
+use App\Packages\AccessManagement\Application\Query\AuthUserFactory;
+use App\Packages\UserManagement\Application\Command\User\UserParams;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\EmailAddress;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\Password;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\UserId;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\Username;
 
 final class DevUserFixture extends Fixture
 {
     private $commandBus;
-    private $authUserFactory;
 
-    public function __construct(CommandBus $commandBus, AuthUserFactory $authUserFactory)
+    public function __construct(CommandBus $commandBus)
     {
         $this->commandBus = $commandBus;
-        $this->authUserFactory = $authUserFactory;
     }
 
     public function execute(): void
     {
-        $authUser = $this->authUserFactory->createSystemUser();
+        $authUser = AuthUser::system(LanguageId::english());
         foreach($this->getRows() as $row) {
             $command = CreateUser::fromArray([
-                CreateUser::USER_ID => $row['id'],
-                CreateUser::USERNAME => $row['username'],
-                CreateUser::EMAIL_ADDRESS => $row['username'] . '@test.com',
-                CreateUser::PASSWORD => '1234',
-                CreateUser::ROLE_ID => AuthUser::NORMAL_USER_ROLE_ID,
-                CreateUser::SEND_INVITATION => false,
+                CreateUser::USER_PARAMS => UserParams::fromArray([
+                    UserId::class => Text::fromString($row['id']),
+                    Username::class => Text::fromString($row['username']),
+                    EmailAddress::class => Text::fromString($row['username'] . '@foo.com'),
+                    Password::class => Text::fromString('test123'),
+                    RoleId::class => Text::fromString(RoleId::user()->toString()),
+                ]),
+                CreateUser::USER_MUST_BE_VERIFIED => false,
                 CreateUser::CREATOR => $authUser,
             ]);
             $response = $this->commandBus->handle($command);
@@ -50,7 +58,7 @@ final class DevUserFixture extends Fixture
         return [
             [
                 'id' => 'b8809427-8dc5-4ff8-88e1-018bcac5ef0f',
-                'username' => 'lexi',
+                'username' => 'lexi666',
             ],
             [
                 'id' => '550ec9bb-e733-44e7-afea-f63f3c6a8f1d',
@@ -71,16 +79,14 @@ final class DevUserFixture extends Fixture
             [
                 'id' => '14e1350f-e576-4923-9c22-80ff9a80b5ba',
                 'username' => 'fraenzi',
-                'emailAddress' => 'fraenzi@dev-fixture.com',
             ],
             [
                 'id' => '90bb58da-0a90-43bb-8152-50c4ed53fb33',
-                'username' => 'alexa',
+                'username' => 'alexa90',
             ],
             [
                 'id' => '1c5b035f-2a91-4b47-a2a2-3b899b356f60',
                 'username' => 'aeaeaaeioukkh',
-                'emailAddress' => 'aeaeaeoeueueueue@dev-fixture.com',
             ],
         ];
     }

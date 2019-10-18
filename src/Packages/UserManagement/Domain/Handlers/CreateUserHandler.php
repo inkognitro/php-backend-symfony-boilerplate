@@ -2,40 +2,39 @@
 
 namespace App\Packages\UserManagement\Domain\Handlers;
 
-use App\Packages\Common\Application\JobQueuing\CreateJob;
+use App\Packages\AccessManagement\Application\ResourceAttributes\AuthUser\RoleId;
+use App\Packages\Common\Application\Utilities\DateTimeFactory;
 use App\Packages\Common\Domain\CommandHandler;
-use App\Packages\Common\Domain\DidNotReceiveSuccessResponseException;
-use App\Packages\UserManagement\Application\CreateUser;
-use App\Packages\UserManagement\Application\SendVerificationCodeToUser;
+use App\Packages\UserManagement\Application\Command\User\CreateUser;
+use App\Packages\UserManagement\Application\Query\User\User;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\VerifiedAt;
+use App\Packages\UserManagement\Domain\UserParamsValidation\UserParamsValidator;
 use App\Packages\UserManagement\Domain\UserEventDispatcher;
-use App\Packages\UserManagement\Domain\UserValidation\UserValidator;
-use App\Resources\User\EmailAddress;
-use App\Resources\User\Password;
-use App\Resources\User\UserId;
-use App\Resources\User\Username;
-use App\Resources\UserRole\RoleId;
-use App\Utilities\HandlerResponse\Response;
-use App\Utilities\HandlerResponse\Success;
-use App\Utilities\HandlerResponse\ValidationErrorResponse;
-use App\Utilities\HandlerResponse\ResourceCreatedResponse;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\EmailAddress;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\Password;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\UserId;
+use App\Packages\UserManagement\Application\ResourceAttributes\User\Username;
+use App\Packages\Common\Application\Utilities\HandlerResponse\Response;
+use App\Packages\Common\Application\Utilities\HandlerResponse\ValidationErrorResponse;
+use App\Packages\Common\Application\Utilities\HandlerResponse\ResourceCreatedResponse;
 use App\Packages\UserManagement\Domain\UserAggregate;
-use App\Utilities\AuthUserFactory;
+use App\Packages\AccessManagement\Application\Query\AuthUserFactory;
 
 final class CreateUserHandler
 {
-    private $validator;
+    private $userParamsValidator;
     private $userEventDispatcher;
     private $authUserFactory;
     private $commandHandler;
 
     public function __construct(
-        UserValidator $validator,
+        UserParamsValidator $userParamsValidator,
         UserEventDispatcher $userEventDispatcher,
         AuthUserFactory $authUserFactory,
         CommandHandler $commandHandler
     )
     {
-        $this->validator = $validator;
+        $this->userParamsValidator = $userParamsValidator;
         $this->userEventDispatcher = $userEventDispatcher;
         $this->authUserFactory = $authUserFactory;
         $this->commandHandler = $commandHandler;
@@ -43,30 +42,46 @@ final class CreateUserHandler
 
     public function handle(CreateUser $command): Response
     {
-        $this->validator->validateCreation($command);
-        if ($this->validator->hasErrors()) {
-            return new ValidationErrorResponse(
-                $this->validator->getErrors(),
-                $this->validator->getWarnings()
-            );
+        $userParams = $command->getUserParams();
+        $validationResult = $this->userParamsValidator->validateCreation($userParams, $command->getCommandExecutor());
+        if (!$validationResult->isValid()) {
+            return ValidationErrorResponse::fromValidationResult($validationResult);
         }
+
         $userAggregate = UserAggregate::create(
-            UserId::fromString($command->getUserId()),
-            Username::fromString($command->getUsername()),
-            EmailAddress::fromString($command->getEmailAddress()),
-            Password::fromString($command->getPassword()),
-            RoleId::fromString($command->getRoleId()),
-            $command->getExecutor()
+            $this->createUserFromCommand($command),
+            $command->getCommandExecutor()
         );
+
         $this->userEventDispatcher->dispatchEventsFromUserAggregate($userAggregate);
-        if ($command->sendInvitation()) {
+
+        if ($command->userMustBeVerified()) {
             $this->queueSendVerificationCode($command);
         }
-        return new ResourceCreatedResponse($this->validator->getWarnings());
+
+        /** @var $resource Resource */
+        $resource = $userAggregate->toUser();
+        return new ResourceCreatedResponse($resource);
+    }
+
+    private function createUserFromCommand(CreateUser $command): User
+    {
+        $userParams = $command->getUserParams();
+        return User::create()->modifyByArray([
+            UserId::class => UserId::fromString($userParams->getId()->toTrimmedLowerCaseString()),
+            Username::class => Username::fromString($userParams->getUsername()->toTrimmedString()),
+            EmailAddress::class => EmailAddress::fromString($userParams->getEmailAddress()->toTrimmedString()),
+            Password::class => Password::fromString($userParams->getPassword()->toString()),
+            RoleId::class => RoleId::fromString($userParams->getRoleId()->toString()),
+            VerifiedAt::class => (VerifiedAt::fromNullableDateTime($command->userMustBeVerified() ? null : DateTimeFactory::create()))
+        ]);
     }
 
     private function queueSendVerificationCode(CreateUser $command): void
     {
+        //todo
+
+        /*
         $systemAuthUser = $this->authUserFactory->createSystemUser();
         $commandToQueue = SendVerificationCodeToUser::create($command->getUserId(), $command->getEmailAddress(), $systemAuthUser);
         $createJobCommand = CreateJob::create($commandToQueue, $systemAuthUser);
@@ -76,5 +91,6 @@ final class CreateUserHandler
                 'Could not create job: ' . print_r($response, true)
             );
         }
+        */
     }
 }

@@ -2,13 +2,13 @@
 
 namespace App\WebApiV1Bundle\Endpoints\UserManagement;
 
+use App\WebApiV1Bundle\ApiRequest;
 use App\WebApiV1Bundle\Endpoints\Endpoint;
 use App\WebApiV1Bundle\Response\HttpResponseFactory;
 use App\WebApiV1Bundle\Response\JsonSuccessResponse;
 use App\WebApiV1Bundle\Schema\EndpointSchema;
 use App\WebApiV1Bundle\Schema\RequestMethod;
 use App\WebApiV1Bundle\Schema\UrlFragments;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
 final class UpdateUserEndpoint implements Endpoint
@@ -22,7 +22,7 @@ final class UpdateUserEndpoint implements Endpoint
 
     public function handle(): HttpResponse
     {
-        $request = Request::createFromGlobals();
+        $request = ApiRequest::createFromGlobals();
         $apiResponse = JsonSuccessResponse::fromData([]);
         return $this->httpResponseFactory->create($apiResponse, $request);
     }
@@ -32,7 +32,7 @@ final class UpdateUserEndpoint implements Endpoint
         $urlFragments = UrlFragments::fromStrings(['user']);
         $endpointSchema = EndpointSchema::create(RequestMethod::put(), $urlFragments);
         $endpointSchema = $endpointSchema->setSummary('Update a user.');
-        $endpointSchema = $endpointSchema->setTags(['UserManagement']);
+        $endpointSchema = $endpointSchema->setTags(['User']);
         $endpointSchema = $endpointSchema->setAuthKeyNeeded(true);
         return $endpointSchema;
     }

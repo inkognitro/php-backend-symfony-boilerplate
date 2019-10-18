@@ -3,5 +3,5 @@ services:
         autowire: true
         public: true
 
-    App\Tests\ServiceAdapter: ~
-    App\Tests\Packages\PackageServiceAdapter: ~
+    App\Tests\TestManager:
+        shared: false

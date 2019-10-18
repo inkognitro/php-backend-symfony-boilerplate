@@ -1,0 +1,22 @@
+services:
+    _defaults:
+        autowire: true
+
+    App\Packages\Common\Application\Utilities\DateTimeFactory: ~
+    App\Packages\Common\Application\Command\CommandBus: ~
+    App\Packages\Common\Domain\CommandHandler: ~
+    App\Packages\Common\Domain\AuditLog\EventDispatcher: ~
+
+    App\Packages\Common\Domain\StateManager:
+        class: App\Packages\Common\Infrastructure\DbalStateManager
+
+    App\Packages\Common\Infrastructure\DbalConnection:
+        alias: 'doctrine.dbal.default_connection'
+
+    App\Packages\Common\Domain\Mailing\Mailer:
+        class: App\Packages\Common\Infrastructure\Mailing\SwiftMailerBridge
+
+    App\Packages\Common\Domain\AuditLog\AuditLogProjection:
+        class: App\Packages\Common\Infrastructure\AuditLog\DbalAuditLogProjection
+
+    App\Packages\Common\Infrastructure\Query\DbalQueryBuilderFactory: ~

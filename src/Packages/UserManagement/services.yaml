@@ -1,0 +1,20 @@
+services:
+    _defaults:
+        autowire: true
+
+    App\Packages\UserManagement\Application\Query\User\UsersQueryHandler:
+        class: App\Packages\UserManagement\Infrastructure\Query\DbalUsersQueryHandler
+
+    App\Packages\UserManagement\Domain\Handlers\CreateUserHandler:
+        public: true
+
+    App\Packages\UserManagement\Domain\UserParamsValidation\ExistingUsersByValuesQueryHandler:
+        class: App\Packages\UserManagement\Infrastructure\Command\DbalExistingUsersByValuesQueryHandler
+
+    App\Packages\UserManagement\Domain\UserParamsValidation\UserParamsValidator: ~
+    App\Packages\UserManagement\Domain\UserEventDispatcher: ~
+
+    App\Packages\UserManagement\Domain\UserEventProjection:
+        class: App\Packages\UserManagement\Infrastructure\Command\DbalUserEventProjection
+
+    App\Packages\UserManagement\Infrastructure\Query\DbalUserEntitySettings: ~

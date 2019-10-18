@@ -10,7 +10,7 @@ final class JsonBadRequestResponse implements JsonResponse
     private $errors;
     private $warnings;
 
-    public function __construct(array $errors, array $warnings)
+    private function __construct(array $errors, array $warnings)
     {
         $this->errors = $errors;
         $this->warnings = $warnings;
@@ -19,6 +19,11 @@ final class JsonBadRequestResponse implements JsonResponse
     public static function getHttpStatusCode(): int
     {
         return Response::HTTP_BAD_REQUEST;
+    }
+
+    public static function create(): self
+    {
+        return new self([], []);
     }
 
     public function toJson(): string
@@ -41,6 +46,6 @@ final class JsonBadRequestResponse implements JsonResponse
     public static function getSchema(): ResponseSchema
     {
         $description = 'Bad request response';
-        return new ResponseSchema(self::getHttpStatusCode(), ResponseSchema::JSON_CONTENT_TYPE, $description);
+        return ResponseSchema::create(self::getHttpStatusCode(), ResponseSchema::JSON_CONTENT_TYPE, $description);
     }
 }

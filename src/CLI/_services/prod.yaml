@@ -1,7 +1,0 @@
-services:
-    _defaults:
-        autowire: true
-        tags: ['console.command']
-
-    App\CLI\Fixtures\ExecuteCommand: ~
-

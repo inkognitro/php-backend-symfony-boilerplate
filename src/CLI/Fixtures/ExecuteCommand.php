@@ -2,7 +2,7 @@
 
 namespace App\CLI\Fixtures;
 
-use App\Packages\Common\Installation\Fixtures\FixtureRepository;
+use App\CLI\Fixtures\FixtureRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,18 +21,19 @@ class ExecuteCommand extends Command
     {
         $this->setName('app:fixtures:execute');
         $this->setDescription('Executes the package fixtures.');
-        $this->setHelp('This command allows you to execute all fixtures in a the environment.');
+        $this->setHelp('This command allows you to execute the fixtures of the installed packages.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $fixtures = $this->repository->findAll();
 
-        if(count($fixtures->toArray()) === 0) {
+        if($fixtures->isEmpty()) {
             echo "No fixture available!";
+            return;
         }
 
-        foreach($fixtures->toArray() as $fixture) {
+        foreach($fixtures->toSortedArray() as $fixture) {
             $fixture->execute();
         }
 

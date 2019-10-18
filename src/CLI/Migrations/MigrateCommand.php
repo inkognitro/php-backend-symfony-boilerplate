@@ -2,10 +2,9 @@
 
 namespace App\CLI\Migrations;
 
-use App\Utilities\DateTimeFactory;
+use App\Packages\Common\Application\Utilities\DateTimeFactory;
 use App\Packages\Common\Infrastructure\DbalConnection;
 use App\Packages\Common\Installation\Migrations\Migration;
-use App\Packages\Common\Installation\Migrations\MigrationRepository;
 use App\Packages\Common\Installation\Migrations\Migrations;
 use Doctrine\DBAL\Schema\Schema;
 use Symfony\Component\Console\Command\Command;
@@ -35,7 +34,7 @@ class MigrateCommand extends Command
     {
         $migrations = $this->getMigrationsToMigrate();
 
-        if (count($migrations->toArray()) === 0) {
+        if ($migrations->isEmpty()) {
             echo "Nothing to migrate!" . PHP_EOL;
             return;
         }
@@ -43,7 +42,7 @@ class MigrateCommand extends Command
         $schemaManager = $this->connection->getSchemaManager();
         $fromSchema = $schemaManager->createSchema();
 
-        foreach ($migrations->toArray() as $migration) {
+        foreach ($migrations->toSortedArray() as $migration) {
             $toSchema = clone $fromSchema;
 
             $migration->schemaUp($toSchema);
@@ -59,15 +58,14 @@ class MigrateCommand extends Command
             echo 'Migrated: ' . get_class($migration) . PHP_EOL;
         }
 
-        $batchNumber = $migrations->toArray()[0]->getBatchNumber();
+        $batchNumber = $migrations->toSortedArray()[0]->getBatchNumber();
         echo "Migrated successfully to batch {$batchNumber}." . PHP_EOL;
     }
 
     private function getMigrationsToMigrate(): Migrations
     {
         $notExecutedMigrations = $this->repository->findAllNotExecuted();
-
-        if (count($notExecutedMigrations->toArray()) === 0) {
+        if (count($notExecutedMigrations->toSortedArray()) === 0) {
             return new Migrations([]);
         }
 
@@ -75,14 +73,14 @@ class MigrateCommand extends Command
         $latestBatchNumber = ($executedMigrations->getHighestBatchNumber());
 
         $nextBatchesMigrations = $notExecutedMigrations->findAllWithHigherBatchNumber($latestBatchNumber);
-        if (count($nextBatchesMigrations->toArray()) === 0) {
+        if (count($nextBatchesMigrations->toSortedArray()) === 0) {
             return new Migrations([]);
         }
 
         $batchNumber = $nextBatchesMigrations->getLowestBatchNumber();
 
         $migrations = [];
-        foreach ($nextBatchesMigrations->toArray() as $migration) {
+        foreach ($nextBatchesMigrations->toSortedArray() as $migration) {
             if ($migration->getBatchNumber() !== $batchNumber) {
                 continue;
             }
