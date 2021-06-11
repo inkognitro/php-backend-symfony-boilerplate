@@ -1,2 +1,2 @@
 # php-backend-boilerplate (WIP)
-Probably never being bug fixed, because for APIs I prefer programming languages not template engines..
+Backend boilerplate in PHP, realized with Symfony 4.2. WIP and probably never being bug fixed, because I switched to golang for APIs.
